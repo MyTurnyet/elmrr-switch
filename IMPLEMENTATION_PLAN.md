@@ -136,6 +136,7 @@ elmrr-switch/
 5. **Industry View**: Industry status and management
 
 ### Testing Strategy
+- All code files will be fully tested before moving onto writing new code files
 - Unit tests for data models and utilities
 - Integration tests for API endpoints
 - Component tests for React components
