@@ -94,292 +94,321 @@
   ],
   "industries": [
     {
-      "_id": "weyerhaeuser-everett",
       "name": "Weyerhaeuser",
       "stationId": "everett-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "canadian-forest-products",
       "name": "Canadian Forest Products",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "vancouver-yard",
       "name": "Vancouver Yard",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
       "isOnLayout": true
     },
     {
-      "_id": "walla-walla-yard",
       "name": "Walla Walla Yard",
       "stationId": "walla-walla-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
       "isOnLayout": true
     },
     {
-      "_id": "portland-yard",
       "name": "Portland Yard",
       "stationId": "portland-or",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
       "isOnLayout": true
     },
     {
-      "_id": "chicago-yard",
       "name": "Chicago Yard",
       "stationId": "chicago-il",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
       "isOnLayout": true
     },
     {
-      "_id": "industrial-park",
       "name": "Industrial Park",
       "stationId": "spokane-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "printers",
       "name": "Printers",
       "stationId": "echo-lake-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "car-shop",
       "name": "Car Shop",
       "stationId": "high-bridge-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "weyerhaeuser-beaverton",
       "name": "Weyerhaeuser",
       "stationId": "beaverton-or",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "pacific-elevators",
       "name": "Pacific Elevators",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "united-grain-growers",
       "name": "United Grain Growers",
       "stationId": "edmonton-ab",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "grain-elevator",
       "name": "Grain Elevator",
       "stationId": "walla-walla-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "lumber-mill",
       "name": "Lumber Mill",
       "stationId": "cascade-id",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "maltby-brewery",
       "name": "Maltby Brewery",
       "stationId": "echo-lake-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "united-recycling",
       "name": "United Recycling",
       "stationId": "echo-lake-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "food-distribution",
       "name": "Food Distribution",
       "stationId": "seattle-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "inland-aggregates",
       "name": "Inland Aggregates",
       "stationId": "saskatoon-sk",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "us-plywood-corp",
       "name": "U.S. Plywood Corp",
       "stationId": "seattle-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "interbay-yard",
       "name": "Interbay Yard",
       "stationId": "seattle-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
       "isOnLayout": true
     },
     {
-      "_id": "boise-cascade",
       "name": "Boise Cascade",
       "stationId": "cascade-id",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "federated-co-operative",
       "name": "Federated Co-Operative",
       "stationId": "saskatoon-sk",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "alberta-wheat-pool",
       "name": "Alberta Wheat Pool",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "pioneer-grain",
       "name": "Pioneer Grain",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "spokane-yard",
       "name": "Spokane Yard",
       "stationId": "spokane-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
       "isOnLayout": true
     },
     {
-      "_id": "paper-mill",
       "name": "Paper Mill",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "high-bridge-yard",
       "name": "High Bridge Yard",
       "stationId": "high-bridge-wa",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
       "isOnLayout": true
     },
     {
-      "_id": "chicago-station",
       "name": "Chicago Station",
       "stationId": "chicago-il",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     },
     {
-      "_id": "portland-station",
       "name": "Portland Station",
       "stationId": "portland-or",
       "goodsReceived": [],
       "goodsToShip": [],
-      "preferredCarTypes": ["all"],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
       "isOnLayout": true
     }
@@ -389,201 +418,201 @@
       "reportingMarks": "GSVR",
       "reportingNumber": "459003",
       "carType": "FB",
-      "description": "Flatcar BlhHd",
       "color": "RED",
       "homeYard": "portland-yard",
       "currentIndustry": "portland-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar BlhHd"
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "317642",
       "carType": "FB",
-      "description": "Flatcar BlhHd",
       "color": "RED",
       "homeYard": "vancouver-yard",
       "currentIndustry": "vancouver-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar BlhHd"
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "317137",
       "carType": "FB",
-      "description": "Flatcar BlhHd",
       "color": "RED",
       "homeYard": "vancouver-yard",
       "currentIndustry": "vancouver-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar BlhHd"
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "317438",
       "carType": "FB",
-      "description": "Flatcar BlhHd",
       "color": "RED",
       "homeYard": "vancouver-yard",
       "currentIndustry": "vancouver-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar BlhHd"
     },
     {
       "reportingMarks": "GSVR",
       "reportingNumber": "459003",
       "carType": "FB",
-      "description": "Flatcar BlhHd",
       "color": "RED",
       "homeYard": "portland-yard",
       "currentIndustry": "portland-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar BlhHd"
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "318088",
       "carType": "FBC",
-      "description": "Flatcar",
       "color": "RED",
       "homeYard": "vancouver-yard",
       "currentIndustry": "vancouver-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar"
     },
     {
       "reportingMarks": "BCIT",
       "reportingNumber": "873091",
       "carType": "FBC",
-      "description": "Flatcar",
       "color": "GREEN",
       "homeYard": "vancouver-yard",
       "currentIndustry": "vancouver-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar"
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "318005",
       "carType": "FBC",
-      "description": "Flatcar",
       "color": "RED",
       "homeYard": "vancouver-yard",
       "currentIndustry": "vancouver-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar"
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "559519",
       "carType": "FBC",
-      "description": "Flatcar",
       "color": "BROWN",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar"
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "559557",
       "carType": "FBC",
-      "description": "Flatcar",
       "color": "BROWN",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar"
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "559511",
       "carType": "FBC",
-      "description": "Flatcar",
       "color": "BROWN",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar"
     },
     {
       "reportingMarks": "BCIT",
       "reportingNumber": "873096",
       "carType": "FBC",
-      "description": "Flatcar",
       "color": "GREEN",
       "homeYard": "vancouver-yard",
       "currentIndustry": "vancouver-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar"
     },
     {
       "reportingMarks": "ACL",
       "reportingNumber": "79104",
       "carType": "FD",
-      "description": "FlatCar",
       "color": "BLACK",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "FlatCar"
     },
     {
       "reportingMarks": "TCAX",
       "reportingNumber": "70061",
       "carType": "FBC",
-      "description": "Flatcar",
       "color": "GRAY",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar"
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "317128",
       "carType": "FB",
-      "description": "Flatcar BlhHd",
       "color": "RED",
       "homeYard": "vancouver-yard",
       "currentIndustry": "vancouver-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Flatcar BlhHd"
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "667992",
       "carType": "GHC",
-      "description": "Coal Hopper",
       "color": "SILVER",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Coal Hopper"
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "668476",
       "carType": "GHC",
-      "description": "Coal Hopper",
       "color": "SILVER",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Coal Hopper"
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "668446",
       "carType": "GHC",
-      "description": "Coal Hopper",
       "color": "SILVER",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Coal Hopper"
     },
     {
       "reportingMarks": "BN",
       "reportingNumber": "569449",
       "carType": "GS",
-      "description": "Gondola",
       "color": "GREEN",
       "homeYard": "portland-yard",
       "currentIndustry": "portland-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Gondola"
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "541310",
       "carType": "GTS",
-      "description": "Woodchip Car",
       "color": "GREEN",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true
+      "isInService": true,
+      "notes": "Woodchip Car"
     }
   ]
 }

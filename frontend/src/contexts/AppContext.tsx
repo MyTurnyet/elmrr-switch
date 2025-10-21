@@ -30,7 +30,9 @@ type AppAction =
   | { type: 'SET_AAR_TYPES'; payload: AarType[] }
   | { type: 'SET_BLOCKS'; payload: Block[] }
   | { type: 'SET_TRACKS'; payload: Track[] }
+  | { type: 'ADD_CAR'; payload: RollingStock }
   | { type: 'UPDATE_CAR'; payload: RollingStock }
+  | { type: 'DELETE_CAR'; payload: string }
   | { type: 'ADD_INDUSTRY'; payload: Industry }
   | { type: 'UPDATE_INDUSTRY'; payload: Industry }
   | { type: 'DELETE_INDUSTRY'; payload: string };
@@ -72,10 +74,22 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
       return { ...state, blocks: action.payload };
     case 'SET_TRACKS':
       return { ...state, tracks: action.payload };
+    case 'ADD_CAR':
+      return {
+        ...state,
+        cars: [...state.cars, action.payload]
+      };
     case 'UPDATE_CAR':
       return {
         ...state,
-        cars: state.cars.map(car => car.id === action.payload.id ? action.payload : car)
+        cars: state.cars.map(car =>
+          (car.id || car._id) === (action.payload.id || action.payload._id) ? action.payload : car
+        )
+      };
+    case 'DELETE_CAR':
+      return {
+        ...state,
+        cars: state.cars.filter(car => (car.id || car._id) !== action.payload)
       };
     case 'ADD_INDUSTRY':
       return {
@@ -189,6 +203,22 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, [fetchData]);
 
+  // Create car
+  const createCar = useCallback(async (data: Partial<RollingStock>): Promise<RollingStock> => {
+    try {
+      const response = await apiCall('/cars', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+
+      dispatch({ type: 'ADD_CAR', payload: response.data });
+      return response.data;
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to create car' });
+      throw error;
+    }
+  }, []);
+
   // Update car
   const updateCar = useCallback(async (id: string, data: Partial<RollingStock>) => {
     try {
@@ -200,6 +230,20 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       dispatch({ type: 'UPDATE_CAR', payload: response.data });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update car' });
+      throw error;
+    }
+  }, []);
+
+  // Delete car
+  const deleteCar = useCallback(async (id: string) => {
+    try {
+      await apiCall(`/cars/${id}`, {
+        method: 'DELETE',
+      });
+
+      dispatch({ type: 'DELETE_CAR', payload: id });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to delete car' });
       throw error;
     }
   }, []);
@@ -268,7 +312,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     ...state,
     fetchData,
     importData,
+    createCar,
     updateCar,
+    deleteCar,
     moveCar,
     createIndustry,
     updateIndustry,

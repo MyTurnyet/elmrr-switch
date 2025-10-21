@@ -62,7 +62,9 @@ const CarManagement: React.FC = () => {
     loading,
     error,
     fetchData,
+    createCar,
     updateCar,
+    deleteCar,
   } = useApp();
 
   const [filters, setFilters] = useState<CarFilters>({
@@ -76,6 +78,8 @@ const CarManagement: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<'view' | 'edit' | 'add'>('view');
   const [formData, setFormData] = useState<CarFormData | null>(null);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [carToDelete, setCarToDelete] = useState<RollingStock | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -203,7 +207,7 @@ const CarManagement: React.FC = () => {
           </IconButton>
           <IconButton
             size="small"
-            onClick={() => handleDeleteCar(params.row.id || params.row._id)}
+            onClick={() => handleDeleteClick(params.row as RollingStock)}
             title="Delete Car"
             color="error"
           >
@@ -251,12 +255,27 @@ const CarManagement: React.FC = () => {
     setDialogOpen(true);
   };
 
-  const handleDeleteCar = async (carId: string) => {
-    if (window.confirm('Are you sure you want to delete this car?')) {
-      // TODO: Implement delete functionality when backend endpoint is ready
-      console.log('Delete car:', carId);
-      alert('Delete functionality will be implemented with backend endpoint');
+  const handleDeleteClick = (car: RollingStock) => {
+    setCarToDelete(car);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!carToDelete) return;
+
+    try {
+      await deleteCar(carToDelete.id || carToDelete._id || '');
+      setDeleteConfirmOpen(false);
+      setCarToDelete(null);
+    } catch (error) {
+      console.error('Failed to delete car:', error);
+      alert(error instanceof Error ? error.message : 'Failed to delete car');
     }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteConfirmOpen(false);
+    setCarToDelete(null);
   };
 
   const handleSaveCar = async () => {
@@ -273,9 +292,9 @@ const CarManagement: React.FC = () => {
         await updateCar(carId, formData);
         alert('Car updated successfully!');
       } else if (dialogMode === 'add') {
-        // TODO: Implement add car when backend endpoint is ready
-        console.log('Add new car:', formData);
-        alert('Add functionality will be implemented with backend endpoint');
+        // Create new car
+        await createCar(formData);
+        alert('Car created successfully!');
       }
       setDialogOpen(false);
       await fetchData(); // Refresh data
@@ -570,6 +589,29 @@ const CarManagement: React.FC = () => {
             disabled={!formData?.reportingMarks || !formData?.reportingNumber}
           >
             {dialogMode === 'add' ? 'Add' : 'Save'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteConfirmOpen}
+        onClose={handleCancelDelete}
+        maxWidth="sm"
+      >
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            Are you sure you want to delete <strong>{carToDelete?.reportingMarks} {carToDelete?.reportingNumber}</strong>?
+          </Alert>
+          <Typography variant="body2" color="text.secondary">
+            This action cannot be undone. All data associated with this car will be permanently removed.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete}>Cancel</Button>
+          <Button variant="contained" color="error" onClick={handleConfirmDelete}>
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
