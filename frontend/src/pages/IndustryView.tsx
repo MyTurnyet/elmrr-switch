@@ -40,6 +40,8 @@ import {
   LocalShipping,
   CheckCircle,
   Warning,
+  Delete,
+  Visibility,
 } from '@mui/icons-material';
 import { DataGrid, type GridColDef, type GridRowsProp } from '@mui/x-data-grid';
 import { useApp } from '../contexts/AppContext';
@@ -63,6 +65,9 @@ const IndustryView: React.FC = () => {
     loading,
     error,
     fetchData,
+    createIndustry,
+    updateIndustry,
+    deleteIndustry,
   } = useApp();
 
   const [filters, setFilters] = useState<IndustryFilters>({
@@ -74,6 +79,20 @@ const IndustryView: React.FC = () => {
 
   const [selectedIndustry, setSelectedIndustry] = useState<Industry | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [formDialogOpen, setFormDialogOpen] = useState(false);
+  const [formMode, setFormMode] = useState<'add' | 'edit'>('add');
+  const [formData, setFormData] = useState<Partial<Industry>>({
+    name: '',
+    stationId: '',
+    goodsReceived: [],
+    goodsToShip: [],
+    preferredCarTypes: [],
+    isYard: false,
+    isOnLayout: true,
+  });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [industryToDelete, setIndustryToDelete] = useState<Industry | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -228,16 +247,33 @@ const IndustryView: React.FC = () => {
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 150,
       sortable: false,
       renderCell: (params) => (
-        <IconButton
-          size="small"
-          onClick={() => handleViewIndustry(params.row as Industry)}
-          title="View Details"
-        >
-          <Edit fontSize="small" />
-        </IconButton>
+        <Box display="flex" gap={0.5}>
+          <IconButton
+            size="small"
+            onClick={() => handleViewIndustry(params.row as Industry)}
+            title="View Details"
+          >
+            <Visibility fontSize="small" />
+          </IconButton>
+          <IconButton
+            size="small"
+            onClick={() => handleEditIndustry(params.row as Industry)}
+            title="Edit Industry"
+          >
+            <Edit fontSize="small" />
+          </IconButton>
+          <IconButton
+            size="small"
+            color="error"
+            onClick={() => handleDeleteClick(params.row as Industry)}
+            title="Delete Industry"
+          >
+            <Delete fontSize="small" />
+          </IconButton>
+        </Box>
       ),
     },
   ];
@@ -255,6 +291,98 @@ const IndustryView: React.FC = () => {
   const handleCloseDialog = () => {
     setDialogOpen(false);
     setSelectedIndustry(null);
+  };
+
+  const handleAddIndustry = () => {
+    setFormMode('add');
+    setFormData({
+      name: '',
+      stationId: '',
+      goodsReceived: [],
+      goodsToShip: [],
+      preferredCarTypes: [],
+      isYard: false,
+      isOnLayout: true,
+    });
+    setFormErrors({});
+    setFormDialogOpen(true);
+  };
+
+  const handleEditIndustry = (industry: Industry) => {
+    setFormMode('edit');
+    setFormData({
+      ...industry,
+    });
+    setFormErrors({});
+    setFormDialogOpen(true);
+  };
+
+  const handleCloseFormDialog = () => {
+    setFormDialogOpen(false);
+    setFormData({
+      name: '',
+      stationId: '',
+      goodsReceived: [],
+      goodsToShip: [],
+      preferredCarTypes: [],
+      isYard: false,
+      isOnLayout: true,
+    });
+    setFormErrors({});
+  };
+
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+
+    if (!formData.name?.trim()) {
+      errors.name = 'Industry name is required';
+    }
+
+    if (!formData.stationId) {
+      errors.stationId = 'Station is required';
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSaveIndustry = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      if (formMode === 'add') {
+        await createIndustry(formData);
+      } else if (formMode === 'edit' && (formData.id || formData._id)) {
+        await updateIndustry(formData.id || formData._id || '', formData);
+      }
+      handleCloseFormDialog();
+    } catch (error) {
+      console.error('Failed to save industry:', error);
+    }
+  };
+
+  const handleDeleteClick = (industry: Industry) => {
+    setIndustryToDelete(industry);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!industryToDelete) return;
+
+    try {
+      await deleteIndustry(industryToDelete.id || industryToDelete._id || '');
+      setDeleteConfirmOpen(false);
+      setIndustryToDelete(null);
+    } catch (error) {
+      console.error('Failed to delete industry:', error);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteConfirmOpen(false);
+    setIndustryToDelete(null);
   };
 
   // Get goods names for display
@@ -305,7 +433,7 @@ const IndustryView: React.FC = () => {
         <Button
           variant="contained"
           startIcon={<Add />}
-          onClick={() => alert('Add Industry functionality pending backend endpoint')}
+          onClick={handleAddIndustry}
         >
           Add Industry
         </Button>
@@ -597,11 +725,199 @@ const IndustryView: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Close</Button>
-          <Button
-            variant="contained"
-            onClick={() => alert('Edit functionality pending backend endpoint')}
-          >
-            Edit
+        </DialogActions>
+      </Dialog>
+
+      {/* Industry Form Dialog (Add/Edit) */}
+      <Dialog
+        open={formDialogOpen}
+        onClose={handleCloseFormDialog}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>
+          {formMode === 'add' ? 'Add New Industry' : 'Edit Industry'}
+        </DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ pt: 2 }}>
+            <TextField
+              fullWidth
+              label="Industry Name"
+              value={formData.name || ''}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              error={!!formErrors.name}
+              helperText={formErrors.name}
+              required
+            />
+
+            <FormControl fullWidth required error={!!formErrors.stationId}>
+              <InputLabel>Station</InputLabel>
+              <Select
+                value={formData.stationId || ''}
+                label="Station"
+                onChange={(e) => setFormData({ ...formData, stationId: e.target.value })}
+              >
+                {stations.map((station) => (
+                  <MenuItem key={station.id || station._id} value={station.id || station._id}>
+                    {station.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              {formErrors.stationId && (
+                <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
+                  {formErrors.stationId}
+                </Typography>
+              )}
+            </FormControl>
+
+            <Box display="flex" gap={2}>
+              <FormControl fullWidth>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography>Industry Type:</Typography>
+                  <Chip
+                    label="Yard"
+                    color={formData.isYard ? 'primary' : 'default'}
+                    onClick={() => setFormData({ ...formData, isYard: true })}
+                    variant={formData.isYard ? 'filled' : 'outlined'}
+                  />
+                  <Chip
+                    label="Industry"
+                    color={!formData.isYard ? 'primary' : 'default'}
+                    onClick={() => setFormData({ ...formData, isYard: false })}
+                    variant={!formData.isYard ? 'filled' : 'outlined'}
+                  />
+                </Stack>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography>Location:</Typography>
+                  <Chip
+                    label="On Layout"
+                    color={formData.isOnLayout ? 'success' : 'default'}
+                    onClick={() => setFormData({ ...formData, isOnLayout: true })}
+                    variant={formData.isOnLayout ? 'filled' : 'outlined'}
+                  />
+                  <Chip
+                    label="Off Layout"
+                    color={!formData.isOnLayout ? 'warning' : 'default'}
+                    onClick={() => setFormData({ ...formData, isOnLayout: false })}
+                    variant={!formData.isOnLayout ? 'filled' : 'outlined'}
+                  />
+                </Stack>
+              </FormControl>
+            </Box>
+
+            <FormControl fullWidth>
+              <InputLabel>Goods Received</InputLabel>
+              <Select
+                multiple
+                value={formData.goodsReceived || []}
+                label="Goods Received"
+                onChange={(e) => setFormData({ ...formData, goodsReceived: e.target.value as string[] })}
+                renderValue={(selected) => (
+                  <Box display="flex" flexWrap="wrap" gap={0.5}>
+                    {(selected as string[]).map((value) => (
+                      <Chip
+                        key={value}
+                        label={goods.find(g => (g.id || g._id) === value)?.name || value}
+                        size="small"
+                      />
+                    ))}
+                  </Box>
+                )}
+              >
+                {goods.map((good) => (
+                  <MenuItem key={good.id || good._id} value={good.id || good._id}>
+                    {good.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel>Goods to Ship</InputLabel>
+              <Select
+                multiple
+                value={formData.goodsToShip || []}
+                label="Goods to Ship"
+                onChange={(e) => setFormData({ ...formData, goodsToShip: e.target.value as string[] })}
+                renderValue={(selected) => (
+                  <Box display="flex" flexWrap="wrap" gap={0.5}>
+                    {(selected as string[]).map((value) => (
+                      <Chip
+                        key={value}
+                        label={goods.find(g => (g.id || g._id) === value)?.name || value}
+                        size="small"
+                      />
+                    ))}
+                  </Box>
+                )}
+              >
+                {goods.map((good) => (
+                  <MenuItem key={good.id || good._id} value={good.id || good._id}>
+                    {good.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel>Preferred Car Types</InputLabel>
+              <Select
+                multiple
+                value={formData.preferredCarTypes || []}
+                label="Preferred Car Types"
+                onChange={(e) => setFormData({ ...formData, preferredCarTypes: e.target.value as string[] })}
+                renderValue={(selected) => (
+                  <Box display="flex" flexWrap="wrap" gap={0.5}>
+                    {(selected as string[]).map((value) => (
+                      <Chip
+                        key={value}
+                        label={aarTypes.find(t => (t.id || t._id) === value)?.name || value}
+                        size="small"
+                      />
+                    ))}
+                  </Box>
+                )}
+              >
+                <MenuItem value="all">All Car Types</MenuItem>
+                {aarTypes.map((type) => (
+                  <MenuItem key={type.id || type._id} value={type.id || type._id}>
+                    {type.name} ({type.initial})
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseFormDialog}>Cancel</Button>
+          <Button variant="contained" onClick={handleSaveIndustry}>
+            {formMode === 'add' ? 'Create' : 'Save'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteConfirmOpen}
+        onClose={handleCancelDelete}
+        maxWidth="sm"
+      >
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            Are you sure you want to delete <strong>{industryToDelete?.name}</strong>?
+          </Alert>
+          <Typography variant="body2" color="text.secondary">
+            This action cannot be undone. All data associated with this industry will be permanently removed.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete}>Cancel</Button>
+          <Button variant="contained" color="error" onClick={handleConfirmDelete}>
+            Delete
           </Button>
         </DialogActions>
       </Dialog>

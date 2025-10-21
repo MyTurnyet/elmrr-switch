@@ -31,7 +31,9 @@ type AppAction =
   | { type: 'SET_BLOCKS'; payload: Block[] }
   | { type: 'SET_TRACKS'; payload: Track[] }
   | { type: 'UPDATE_CAR'; payload: RollingStock }
-  | { type: 'UPDATE_INDUSTRY'; payload: Industry };
+  | { type: 'ADD_INDUSTRY'; payload: Industry }
+  | { type: 'UPDATE_INDUSTRY'; payload: Industry }
+  | { type: 'DELETE_INDUSTRY'; payload: string };
 
 // Initial state
 const initialState: AppState = {
@@ -75,12 +77,22 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         cars: state.cars.map(car => car.id === action.payload.id ? action.payload : car)
       };
+    case 'ADD_INDUSTRY':
+      return {
+        ...state,
+        industries: [...state.industries, action.payload]
+      };
     case 'UPDATE_INDUSTRY':
       return {
         ...state,
-        industries: state.industries.map(industry => 
-          industry.id === action.payload.id ? action.payload : industry
+        industries: state.industries.map(industry =>
+          (industry.id || industry._id) === (action.payload.id || action.payload._id) ? action.payload : industry
         )
+      };
+    case 'DELETE_INDUSTRY':
+      return {
+        ...state,
+        industries: state.industries.filter(industry => (industry.id || industry._id) !== action.payload)
       };
     default:
       return state;
@@ -207,6 +219,22 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, []);
 
+  // Create industry
+  const createIndustry = useCallback(async (data: Partial<Industry>): Promise<Industry> => {
+    try {
+      const response = await apiCall('/industries', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+
+      dispatch({ type: 'ADD_INDUSTRY', payload: response.data });
+      return response.data;
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to create industry' });
+      throw error;
+    }
+  }, []);
+
   // Update industry
   const updateIndustry = useCallback(async (id: string, data: Partial<Industry>) => {
     try {
@@ -222,13 +250,29 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, []);
 
+  // Delete industry
+  const deleteIndustry = useCallback(async (id: string) => {
+    try {
+      await apiCall(`/industries/${id}`, {
+        method: 'DELETE',
+      });
+
+      dispatch({ type: 'DELETE_INDUSTRY', payload: id });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to delete industry' });
+      throw error;
+    }
+  }, []);
+
   const contextValue: AppContextType = {
     ...state,
     fetchData,
     importData,
     updateCar,
     moveCar,
+    createIndustry,
     updateIndustry,
+    deleteIndustry,
   };
 
   return (
