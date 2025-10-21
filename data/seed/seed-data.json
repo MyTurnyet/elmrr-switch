@@ -419,200 +419,2280 @@
       "reportingNumber": "459003",
       "carType": "FB",
       "color": "RED",
-      "homeYard": "portland-yard",
-      "currentIndustry": "portland-yard",
-      "isInService": true,
-      "notes": "Flatcar BlhHd"
+      "notes": "Flatcar BlhHd",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "317642",
       "carType": "FB",
       "color": "RED",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true,
-      "notes": "Flatcar BlhHd"
+      "notes": "Flatcar BlhHd",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "317137",
       "carType": "FB",
       "color": "RED",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true,
-      "notes": "Flatcar BlhHd"
+      "notes": "Flatcar BlhHd",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "317438",
       "carType": "FB",
       "color": "RED",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true,
-      "notes": "Flatcar BlhHd"
+      "notes": "Flatcar BlhHd",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "GSVR",
       "reportingNumber": "459003",
       "carType": "FB",
       "color": "RED",
-      "homeYard": "portland-yard",
-      "currentIndustry": "portland-yard",
-      "isInService": true,
-      "notes": "Flatcar BlhHd"
+      "notes": "Flatcar BlhHd",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "318088",
       "carType": "FBC",
       "color": "RED",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true,
-      "notes": "Flatcar"
+      "notes": "Flatcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BCIT",
       "reportingNumber": "873091",
       "carType": "FBC",
       "color": "GREEN",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true,
-      "notes": "Flatcar"
+      "notes": "Flatcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "318005",
       "carType": "FBC",
       "color": "RED",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true,
-      "notes": "Flatcar"
+      "notes": "Flatcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "559519",
       "carType": "FBC",
       "color": "BROWN",
-      "homeYard": "spokane-yard",
-      "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "Flatcar"
+      "notes": "Flatcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "559557",
       "carType": "FBC",
       "color": "BROWN",
-      "homeYard": "spokane-yard",
-      "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "Flatcar"
+      "notes": "Flatcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "559511",
       "carType": "FBC",
       "color": "BROWN",
-      "homeYard": "spokane-yard",
-      "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "Flatcar"
+      "notes": "Flatcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BCIT",
       "reportingNumber": "873096",
       "carType": "FBC",
       "color": "GREEN",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true,
-      "notes": "Flatcar"
+      "notes": "Flatcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "ACL",
       "reportingNumber": "79104",
       "carType": "FD",
       "color": "BLACK",
-      "homeYard": "spokane-yard",
-      "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "FlatCar"
+      "notes": "FlatCar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "TCAX",
       "reportingNumber": "70061",
       "carType": "FBC",
       "color": "GRAY",
-      "homeYard": "spokane-yard",
-      "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "Flatcar"
+      "notes": "Flatcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "CP",
       "reportingNumber": "317128",
       "carType": "FB",
       "color": "RED",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true,
-      "notes": "Flatcar BlhHd"
+      "notes": "Flatcar BlhHd",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "667992",
       "carType": "GHC",
       "color": "SILVER",
-      "homeYard": "spokane-yard",
-      "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "Coal Hopper"
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "668476",
       "carType": "GHC",
       "color": "SILVER",
-      "homeYard": "spokane-yard",
-      "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "Coal Hopper"
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "668446",
       "carType": "GHC",
       "color": "SILVER",
-      "homeYard": "spokane-yard",
-      "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "Coal Hopper"
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BN",
       "reportingNumber": "569449",
       "carType": "GS",
       "color": "GREEN",
-      "homeYard": "portland-yard",
-      "currentIndustry": "portland-yard",
-      "isInService": true,
-      "notes": "Gondola"
+      "notes": "Gondola",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
     },
     {
       "reportingMarks": "BNSF",
       "reportingNumber": "541310",
       "carType": "GTS",
       "color": "GREEN",
+      "notes": "Woodchip Car",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "668752",
+      "carType": "GHC",
+      "color": "SILVER",
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "541331",
+      "carType": "GTS",
+      "color": "GREEN",
+      "notes": "Woodchip Car",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "541427",
+      "carType": "GTS",
+      "color": "BROWN",
+      "notes": "Woodchip Car",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BCOL",
+      "reportingNumber": "9077",
+      "carType": "GS",
+      "color": "GREEN",
+      "notes": "Gondola",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "668729",
+      "carType": "GHC",
+      "color": "SILVER",
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "541427",
+      "carType": "GTS",
+      "color": "BROWN",
+      "notes": "Woodchip Car",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "541427",
+      "carType": "GTS",
+      "color": "BROWN",
+      "notes": "Woodchip Car",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GPMX",
+      "reportingNumber": "10022",
+      "carType": "GTS",
+      "color": "BLUE",
+      "notes": "Woodchip Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GPMX",
+      "reportingNumber": "10035",
+      "carType": "GTS",
+      "color": "BLUE",
+      "notes": "Woodchip Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GPMX",
+      "reportingNumber": "10040",
+      "carType": "GTS",
+      "color": "BLUE",
+      "notes": "Woodchip Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GPMX",
+      "reportingNumber": "10008",
+      "carType": "GTS",
+      "color": "BLUE",
+      "notes": "Woodchip Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GPMX",
+      "reportingNumber": "10035",
+      "carType": "GTS",
+      "color": "BLUE",
+      "notes": "Woodchip Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "407495",
+      "carType": "HM",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "PCC",
+      "reportingNumber": "1000",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "668763",
+      "carType": "GHC",
+      "color": "SILVER",
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "668463",
+      "carType": "GHC",
+      "color": "SILVER",
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "668613",
+      "carType": "GHC",
+      "color": "SILVER",
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CBRW",
+      "reportingNumber": "1001",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "668595",
+      "carType": "GHC",
+      "color": "SILVER",
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BLMR",
+      "reportingNumber": "1002",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BLMR",
+      "reportingNumber": "1018",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ADMX",
+      "reportingNumber": "50051",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ADMX",
+      "reportingNumber": "50070",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ACFX",
+      "reportingNumber": "51110",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
       "homeYard": "spokane-yard",
       "currentIndustry": "spokane-yard",
-      "isInService": true,
-      "notes": "Woodchip Car"
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BLMR",
+      "reportingNumber": "1005",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "668524",
+      "carType": "GHC",
+      "color": "SILVER",
+      "notes": "Coal Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ACFX",
+      "reportingNumber": "51134",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "PCC",
+      "reportingNumber": "2011",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ACFX",
+      "reportingNumber": "51491",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "70047",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "70056",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BLMR",
+      "reportingNumber": "1007",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CBRW",
+      "reportingNumber": "1009",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "70059",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BLMR",
+      "reportingNumber": "1004",
+      "carType": "HT",
+      "color": "YELLOW",
+      "notes": "Hopper",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "101067",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "101073",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "101067",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "101073",
+      "carType": "HT",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "119145",
+      "carType": "HT",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "406696",
+      "carType": "HT",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "420001",
+      "carType": "HT",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "422265",
+      "carType": "HT",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "459608",
+      "carType": "HT",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "459637",
+      "carType": "HT",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "459828",
+      "carType": "HT",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "406685",
+      "carType": "HT",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "606333",
+      "carType": "HTC",
+      "color": "RED",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "422323",
+      "carType": "HT",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628004",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "420123",
+      "carType": "HT",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "458633",
+      "carType": "HT",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "424964",
+      "carType": "HT",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "458710",
+      "carType": "HT",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CNWX",
+      "reportingNumber": "100251",
+      "carType": "HTC",
+      "color": "ORANGE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "602128",
+      "carType": "HTC",
+      "color": "ORANGE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "606818",
+      "carType": "HTC",
+      "color": "RED",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "385468",
+      "carType": "HTC",
+      "color": "GRAY",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "602285",
+      "carType": "HTC",
+      "color": "ORANGE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "600205",
+      "carType": "HTC",
+      "color": "ORANGE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CNWX",
+      "reportingNumber": "109952",
+      "carType": "HTC",
+      "color": "RED",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CNWX",
+      "reportingNumber": "100268",
+      "carType": "HTC",
+      "color": "ORANGE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "385321",
+      "carType": "HTC",
+      "color": "GRAY",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "382737",
+      "carType": "HTC",
+      "color": "GRAY",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CNWX",
+      "reportingNumber": "100456",
+      "carType": "HTC",
+      "color": "ORANGE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "388954",
+      "carType": "HTC",
+      "color": "GRAY",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "384978",
+      "carType": "HTC",
+      "color": "GRAY",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "459540",
+      "carType": "HT",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CNWX",
+      "reportingNumber": "110065",
+      "carType": "HTC",
+      "color": "RED",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "606525",
+      "carType": "HTC",
+      "color": "RED",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "606617",
+      "carType": "HTC",
+      "color": "RED",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "606420",
+      "carType": "HTC",
+      "color": "RED",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CPWX",
+      "reportingNumber": "606704",
+      "carType": "HTC",
+      "color": "RED",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "385193",
+      "carType": "HTC",
+      "color": "GRAY",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628468",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALNX",
+      "reportingNumber": "396033",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628204",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SKPX",
+      "reportingNumber": "625385",
+      "carType": "HTC",
+      "color": "ORANGE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SKPX",
+      "reportingNumber": "397425",
+      "carType": "HTC",
+      "color": "ORANGE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628513",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628315",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628036",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ACFX",
+      "reportingNumber": "19421",
+      "carType": "TA",
+      "color": "BLACK",
+      "notes": "Tank Car",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628122",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ACFX",
+      "reportingNumber": "86471",
+      "carType": "TA",
+      "color": "WHITE",
+      "notes": "Tank Car",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ADMX",
+      "reportingNumber": "29866",
+      "carType": "TA",
+      "color": "BLACK",
+      "notes": "Tank Car",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628172",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALNX",
+      "reportingNumber": "396012",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ACFX",
+      "reportingNumber": "19421",
+      "carType": "TA",
+      "color": "BLACK",
+      "notes": "Tank Car",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "875000",
+      "carType": "TA",
+      "color": "BLACK",
+      "notes": "Tank Car",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "875000",
+      "carType": "TA",
+      "color": "BLACK",
+      "notes": "Tank Car",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "HCPX",
+      "reportingNumber": "1254",
+      "carType": "TA",
+      "color": "ORANGE",
+      "notes": "Tank Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SHPX",
+      "reportingNumber": "17040",
+      "carType": "TA",
+      "color": "WHITE",
+      "notes": "Tank Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SHPX",
+      "reportingNumber": "240300",
+      "carType": "TA",
+      "color": "BLACK",
+      "notes": "Tank Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "167060",
+      "carType": "XM",
+      "color": "YELLOW",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ALPX",
+      "reportingNumber": "628257",
+      "carType": "HTC",
+      "color": "BLUE",
+      "notes": "Hopper - Cylndr",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "16729",
+      "carType": "XM",
+      "color": "YELLOW",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SHPX",
+      "reportingNumber": "240300",
+      "carType": "TA",
+      "color": "BLACK",
+      "notes": "Tank Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "16752",
+      "carType": "XM",
+      "color": "YELLOW",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "16731",
+      "carType": "XM",
+      "color": "YELLOW",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GTW",
+      "reportingNumber": "384606",
+      "carType": "XM",
+      "color": "BLUE",
+      "notes": "Boxcar",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "MRL",
+      "reportingNumber": "25044",
+      "carType": "XM",
+      "color": "BLUE",
+      "notes": "Boxcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "18988",
+      "carType": "XM",
+      "color": "WHITE",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "760656",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "MRL",
+      "reportingNumber": "25011",
+      "carType": "XM",
+      "color": "BLUE",
+      "notes": "Boxcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "760659",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "760651",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "215137",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "215136",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218105",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218104",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GVSR",
+      "reportingNumber": "767161",
+      "carType": "XM",
+      "color": "BLUE",
+      "notes": "Boxcar",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218106",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "DWC",
+      "reportingNumber": "403638",
+      "carType": "XM",
+      "color": "BROWN",
+      "notes": "Boxcar",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "USLX",
+      "reportingNumber": "474",
+      "carType": "XM",
+      "color": "ORANGE",
+      "notes": "Boxcar",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218107",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218109",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GTW",
+      "reportingNumber": "384606",
+      "carType": "XM",
+      "color": "BLUE",
+      "notes": "Boxcar",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218111",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218114",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218108",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218110",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218112",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218103",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "760666",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "SOO",
+      "reportingNumber": "18979",
+      "carType": "XM",
+      "color": "WHITE",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "DWC",
+      "reportingNumber": "403624",
+      "carType": "XM",
+      "color": "BROWN",
+      "notes": "Boxcar",
+      "homeYard": "chicago-yard",
+      "currentIndustry": "chicago-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "218113",
+      "carType": "XMO",
+      "color": "RED",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "760653",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "760663",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "760667",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "215140",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "215131",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "215120",
+      "carType": "XMO",
+      "color": "BROWN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287091",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287088",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287090",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287297",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287198",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CDAC",
+      "reportingNumber": "1034",
+      "carType": "XMO",
+      "color": "WHITE",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CDAC",
+      "reportingNumber": "1022",
+      "carType": "XMO",
+      "color": "WHITE",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CDAC",
+      "reportingNumber": "1019",
+      "carType": "XMO",
+      "color": "WHITE",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287299",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287187",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287010",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "287092",
+      "carType": "XMO",
+      "color": "GREEN",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CDAC",
+      "reportingNumber": "1020",
+      "carType": "XMO",
+      "color": "WHITE",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CDAC",
+      "reportingNumber": "1030",
+      "carType": "XMO",
+      "color": "WHITE",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "747413",
+      "carType": "XPB",
+      "color": "GREEN",
+      "notes": "Boxcar - Beer",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ATSF",
+      "reportingNumber": "625326",
+      "carType": "XPB",
+      "color": "GREEN",
+      "notes": "Boxcar - Beer",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "747406",
+      "carType": "XPB",
+      "color": "GREEN",
+      "notes": "Boxcar - Beer",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CDAC",
+      "reportingNumber": "1027",
+      "carType": "XMO",
+      "color": "WHITE",
+      "notes": "Boxcar - Hi-Cube",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "74741",
+      "carType": "XPB",
+      "color": "GREEN",
+      "notes": "Boxcar - Beer",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "MD&W",
+      "reportingNumber": "3054",
+      "carType": "XPT",
+      "color": "WHITE",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "MD&W",
+      "reportingNumber": "3050",
+      "carType": "XPT",
+      "color": "WHITE",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ATSF",
+      "reportingNumber": "625344",
+      "carType": "XPB",
+      "color": "GREEN",
+      "notes": "Boxcar - Beer",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "PLYX",
+      "reportingNumber": "1410",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "PLYX",
+      "reportingNumber": "1650",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "LUNX",
+      "reportingNumber": "4473",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "LUNX",
+      "reportingNumber": "4476",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "LUNX",
+      "reportingNumber": "4476",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "LUNX",
+      "reportingNumber": "4479",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "MD&W",
+      "reportingNumber": "3014",
+      "carType": "XPT",
+      "color": "WHITE",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "LUNX",
+      "reportingNumber": "4474",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "LUNX",
+      "reportingNumber": "4471",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "MD&W",
+      "reportingNumber": "3039",
+      "carType": "XPT",
+      "color": "WHITE",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "spokane-yard",
+      "currentIndustry": "spokane-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CFPX",
+      "reportingNumber": "4573",
+      "carType": "XPT",
+      "color": "RED",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CFPX",
+      "reportingNumber": "4564",
+      "carType": "XPT",
+      "color": "RED",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BCIT",
+      "reportingNumber": "800119",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "625018",
+      "carType": "FBC",
+      "color": "GREEN",
+      "notes": "Flatcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BCIT",
+      "reportingNumber": "800116",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "DRGW",
+      "reportingNumber": "10099",
+      "carType": "HM",
+      "color": "GRAY",
+      "notes": "Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BCIT",
+      "reportingNumber": "800100",
+      "carType": "XPT",
+      "color": "GREEN",
+      "notes": "Boxcar - Thrall",
+      "homeYard": "interbay-yard",
+      "currentIndustry": "interbay-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GTW",
+      "reportingNumber": "315060",
+      "carType": "HM",
+      "color": "WHITE",
+      "notes": "Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "406680",
+      "carType": "HM",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "406692",
+      "carType": "HM",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "407463",
+      "carType": "HM",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "407451",
+      "carType": "HM",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BCIT",
+      "reportingNumber": "873059",
+      "carType": "FBC",
+      "color": "GREEN",
+      "notes": "Flatcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "407472",
+      "carType": "HM",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "407489",
+      "carType": "HM",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "458585",
+      "carType": "HM",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "625029",
+      "carType": "FBC",
+      "color": "GREEN",
+      "notes": "Flatcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "407484",
+      "carType": "HM",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BNSF",
+      "reportingNumber": "422597",
+      "carType": "HT",
+      "color": "BROWN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "HCPX",
+      "reportingNumber": "1264",
+      "carType": "TA",
+      "color": "ORANGE",
+      "notes": "Tank Car",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ATSF",
+      "reportingNumber": "51580",
+      "carType": "XM",
+      "color": "BROWN",
+      "notes": "Boxcar",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BCIT",
+      "reportingNumber": "8004",
+      "carType": "XM",
+      "color": "GREEN",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ATSF",
+      "reportingNumber": "51585",
+      "carType": "XM",
+      "color": "BROWN",
+      "notes": "Boxcar",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BCOL",
+      "reportingNumber": "9150",
+      "carType": "GS",
+      "color": "GREEN",
+      "notes": "Gondola",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "GN",
+      "reportingNumber": "72839",
+      "carType": "GS",
+      "color": "RED",
+      "notes": "Gondola",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "458659",
+      "carType": "HM",
+      "color": "GREEN",
+      "notes": "Hopper",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CN",
+      "reportingNumber": "283032",
+      "carType": "XM",
+      "color": "WHITE",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BN",
+      "reportingNumber": "625055",
+      "carType": "FBC",
+      "color": "GREEN",
+      "notes": "Flatcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "BCAX",
+      "reportingNumber": "5",
+      "carType": "HM",
+      "color": "YELLOW",
+      "notes": "2-Bay Hopper",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CNA",
+      "reportingNumber": "405014",
+      "carType": "XM",
+      "color": "BROWN",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CN",
+      "reportingNumber": "413002",
+      "carType": "XM",
+      "color": "BROWN",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CN",
+      "reportingNumber": "550235",
+      "carType": "XM",
+      "color": "BROWN",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CNA",
+      "reportingNumber": "405020",
+      "carType": "XM",
+      "color": "BROWN",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "55947",
+      "carType": "XM",
+      "color": "RED",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "84697",
+      "carType": "XM",
+      "color": "GREEN",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "84991",
+      "carType": "XM",
+      "color": "GREEN",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "CP",
+      "reportingNumber": "204050",
+      "carType": "XM",
+      "color": "RED",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "MRL",
+      "reportingNumber": "25022",
+      "carType": "XM",
+      "color": "BLUE",
+      "notes": "Boxcar",
+      "homeYard": "portland-yard",
+      "currentIndustry": "portland-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "RCPX",
+      "reportingNumber": "106",
+      "carType": "XM",
+      "color": "WHITE",
+      "notes": "Boxcar",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ATSF",
+      "reportingNumber": "625337",
+      "carType": "XPB",
+      "color": "GREEN",
+      "notes": "Boxcar - Beer",
+      "homeYard": "vancouver-yard",
+      "currentIndustry": "vancouver-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "USLX",
+      "reportingNumber": "10392",
+      "carType": "XM",
+      "color": "GREEN",
+      "notes": "Boxcar",
+      "homeYard": "high-bridge-yard",
+      "currentIndustry": "high-bridge-yard",
+      "isInService": true
+    },
+    {
+      "reportingMarks": "ONT",
+      "reportingNumber": "7409",
+      "carType": "XM",
+      "color": "BLUE",
+      "notes": "Boxcar",
+      "homeYard": "walla-walla-yard",
+      "currentIndustry": "walla-walla-yard",
+      "isInService": true
     }
   ]
 }
