@@ -12,7 +12,6 @@ import {
   ListItemText,
   Divider,
   TextField,
-  Grid,
   Chip,
 } from '@mui/material';
 import {
@@ -261,10 +260,10 @@ const DataImport: React.FC = () => {
               </CardContent>
             </Card>
           )}
-        </Grid>
+        </Box>
 
         {/* Instructions */}
-        <Grid item xs={12} md={4}>
+        <Box>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -311,13 +310,13 @@ const DataImport: React.FC = () => {
                 Data Format:
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                The JSON should contain objects with arrays for each data type. 
+                The JSON should contain objects with arrays for each data type.
                 Click "Load Sample" to see the expected format.
               </Typography>
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 };
