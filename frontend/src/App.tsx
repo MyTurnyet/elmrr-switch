@@ -6,6 +6,7 @@ import { AppProvider } from './contexts/AppContext';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import CarManagement from './pages/CarManagement';
+import IndustryView from './pages/IndustryView';
 import DataImport from './pages/DataImport';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/cars" element={<CarManagement />} />
-              {/* TODO: Add IndustryView route when page is implemented */}
+              <Route path="/industries" element={<IndustryView />} />
               <Route path="/import" element={<DataImport />} />
             </Routes>
           </Layout>

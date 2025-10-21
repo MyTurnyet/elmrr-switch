@@ -1,0 +1,3878 @@
+[
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7ce"
+    },
+    "roadName": "GSVR",
+    "roadNumber": 459003,
+    "aarType": "FB",
+    "description": "Flatcar BlhHd",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7cf"
+    },
+    "roadName": "CP",
+    "roadNumber": 317642,
+    "aarType": "FB",
+    "description": "Flatcar BlhHd",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d0"
+    },
+    "roadName": "CP",
+    "roadNumber": 317137,
+    "aarType": "FB",
+    "description": "Flatcar BlhHd",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d1"
+    },
+    "roadName": "CP",
+    "roadNumber": 317438,
+    "aarType": "FB",
+    "description": "Flatcar BlhHd",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d2"
+    },
+    "roadName": "GSVR",
+    "roadNumber": 459003,
+    "aarType": "FB",
+    "description": "Flatcar BlhHd",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d3"
+    },
+    "roadName": "CP",
+    "roadNumber": 318088,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "RED",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d4"
+    },
+    "roadName": "BCIT",
+    "roadNumber": 873091,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "GREEN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d5"
+    },
+    "roadName": "CP",
+    "roadNumber": 318005,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "RED",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d6"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 559519,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "BROWN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d7"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 559557,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "BROWN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d8"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 559511,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "BROWN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7d9"
+    },
+    "roadName": "BCIT",
+    "roadNumber": 873096,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "GREEN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7da"
+    },
+    "roadName": "ACL",
+    "roadNumber": 79104,
+    "aarType": "FD",
+    "description": "FlatCar",
+    "color": "BLACK",
+    "note": "Depressed Center",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7db"
+    },
+    "roadName": "TCAX",
+    "roadNumber": 70061,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "GRAY",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7dc"
+    },
+    "roadName": "CP",
+    "roadNumber": 317128,
+    "aarType": "FB",
+    "description": "Flatcar BlhHd",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7dd"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 667992,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7de"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668476,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7df"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668446,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e0"
+    },
+    "roadName": "BN",
+    "roadNumber": 569449,
+    "aarType": "GS",
+    "description": "Gondola",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e1"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 541310,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e2"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668752,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e3"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 541331,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e4"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 541427,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e5"
+    },
+    "roadName": "BCOL",
+    "roadNumber": 9077,
+    "aarType": "GS",
+    "description": "Gondola",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e6"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668729,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e7"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 541427,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e8"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 541427,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7e9"
+    },
+    "roadName": "GPMX",
+    "roadNumber": 10022,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7ea"
+    },
+    "roadName": "GPMX",
+    "roadNumber": 10035,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7eb"
+    },
+    "roadName": "GPMX",
+    "roadNumber": 10040,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7ec"
+    },
+    "roadName": "GPMX",
+    "roadNumber": 10008,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7ed"
+    },
+    "roadName": "GPMX",
+    "roadNumber": 10035,
+    "aarType": "GTS",
+    "description": "Woodchip Car",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7ee"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 407495,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7ef"
+    },
+    "roadName": "PCC",
+    "roadNumber": 1000,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f0"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668763,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f1"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668463,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f2"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668613,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f3"
+    },
+    "roadName": "CBRW",
+    "roadNumber": 1001,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f4"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668595,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f5"
+    },
+    "roadName": "BLMR",
+    "roadNumber": 1002,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f6"
+    },
+    "roadName": "BLMR",
+    "roadNumber": 1018,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f7"
+    },
+    "roadName": "ADMX",
+    "roadNumber": 50051,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f8"
+    },
+    "roadName": "ADMX",
+    "roadNumber": 50070,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7f9"
+    },
+    "roadName": "ACFX",
+    "roadNumber": 51110,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "Corn Products",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7fa"
+    },
+    "roadName": "BLMR",
+    "roadNumber": 1005,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7fb"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 668524,
+    "aarType": "GHC",
+    "description": "Coal Hopper",
+    "color": "SILVER",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7fc"
+    },
+    "roadName": "ACFX",
+    "roadNumber": 51134,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "Corn Products",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7fd"
+    },
+    "roadName": "PCC",
+    "roadNumber": 2011,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7fe"
+    },
+    "roadName": "ACFX",
+    "roadNumber": 51491,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "Cerestar",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a7ff"
+    },
+    "roadName": "SOO",
+    "roadNumber": 70047,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a800"
+    },
+    "roadName": "SOO",
+    "roadNumber": 70056,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a801"
+    },
+    "roadName": "BLMR",
+    "roadNumber": 1007,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a802"
+    },
+    "roadName": "CBRW",
+    "roadNumber": 1009,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a803"
+    },
+    "roadName": "SOO",
+    "roadNumber": 70059,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a804"
+    },
+    "roadName": "BLMR",
+    "roadNumber": 1004,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a805"
+    },
+    "roadName": "SOO",
+    "roadNumber": 101067,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a806"
+    },
+    "roadName": "SOO",
+    "roadNumber": 101073,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a807"
+    },
+    "roadName": "SOO",
+    "roadNumber": 101067,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a808"
+    },
+    "roadName": "SOO",
+    "roadNumber": 101073,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a809"
+    },
+    "roadName": "SOO",
+    "roadNumber": 119145,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a80a"
+    },
+    "roadName": "BN",
+    "roadNumber": 406696,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a80b"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 420001,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a80c"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 422265,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a80d"
+    },
+    "roadName": "BN",
+    "roadNumber": 459608,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a80e"
+    },
+    "roadName": "BN",
+    "roadNumber": 459637,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a80f"
+    },
+    "roadName": "BN",
+    "roadNumber": 459828,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a810"
+    },
+    "roadName": "BN",
+    "roadNumber": 406685,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a811"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 606333,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a812"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 422323,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a813"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628004,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a814"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 420123,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a815"
+    },
+    "roadName": "BN",
+    "roadNumber": 458633,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a816"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 424964,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a817"
+    },
+    "roadName": "BN",
+    "roadNumber": 458710,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a818"
+    },
+    "roadName": "CNWX",
+    "roadNumber": 100251,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a819"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 602128,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a81a"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 606818,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a81b"
+    },
+    "roadName": "CP",
+    "roadNumber": 385468,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "GRAY",
+    "note": "Black Lettering",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57a"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a81c"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 602285,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a81d"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 600205,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a81e"
+    },
+    "roadName": "CNWX",
+    "roadNumber": 109952,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a81f"
+    },
+    "roadName": "CNWX",
+    "roadNumber": 100268,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a820"
+    },
+    "roadName": "CP",
+    "roadNumber": 385321,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "GRAY",
+    "note": "Black Lettering",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57a"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a821"
+    },
+    "roadName": "CP",
+    "roadNumber": 382737,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "GRAY",
+    "note": "Black Lettering",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57a"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a822"
+    },
+    "roadName": "CNWX",
+    "roadNumber": 100456,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a823"
+    },
+    "roadName": "CP",
+    "roadNumber": 388954,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "GRAY",
+    "note": "Black Lettering",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57a"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a824"
+    },
+    "roadName": "CP",
+    "roadNumber": 384978,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "GRAY",
+    "note": "CPRail Beaver",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57a"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a825"
+    },
+    "roadName": "BN",
+    "roadNumber": 459540,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a826"
+    },
+    "roadName": "CNWX",
+    "roadNumber": 110065,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a827"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 606525,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57b"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a828"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 606617,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57b"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a829"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 606420,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57b"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a82a"
+    },
+    "roadName": "CPWX",
+    "roadNumber": 606704,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57b"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a82b"
+    },
+    "roadName": "CP",
+    "roadNumber": 385193,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "GRAY",
+    "note": "Black Lettering",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57a"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a82c"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628468,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a82d"
+    },
+    "roadName": "ALNX",
+    "roadNumber": 396033,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a82e"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628204,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a82f"
+    },
+    "roadName": "SKPX",
+    "roadNumber": 625385,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57b"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a830"
+    },
+    "roadName": "SKPX",
+    "roadNumber": 397425,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57b"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a831"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628513,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a832"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628315,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a833"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628036,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a834"
+    },
+    "roadName": "ACFX",
+    "roadNumber": 19421,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "BLACK",
+    "note": "Olin Mathieson",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a835"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628122,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a836"
+    },
+    "roadName": "ACFX",
+    "roadNumber": 86471,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a837"
+    },
+    "roadName": "ADMX",
+    "roadNumber": 29866,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "BLACK",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a838"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628172,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a839"
+    },
+    "roadName": "ALNX",
+    "roadNumber": 396012,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a83a"
+    },
+    "roadName": "ACFX",
+    "roadNumber": 19421,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "BLACK",
+    "note": "Olin Mathieson",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a83b"
+    },
+    "roadName": "BN",
+    "roadNumber": 875000,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "BLACK",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a83c"
+    },
+    "roadName": "BN",
+    "roadNumber": 875000,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "BLACK",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a83d"
+    },
+    "roadName": "HCPX",
+    "roadNumber": 1254,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "ORANGE",
+    "note": "hooker chemicals",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a83e"
+    },
+    "roadName": "SHPX",
+    "roadNumber": 17040,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a83f"
+    },
+    "roadName": "SHPX",
+    "roadNumber": 240300,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "BLACK",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a840"
+    },
+    "roadName": "CP",
+    "roadNumber": 167060,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a841"
+    },
+    "roadName": "ALPX",
+    "roadNumber": 628257,
+    "aarType": "HTC",
+    "description": "Hopper - Cylndr",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a842"
+    },
+    "roadName": "CP",
+    "roadNumber": 16729,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a843"
+    },
+    "roadName": "SHPX",
+    "roadNumber": 240300,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "BLACK",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a844"
+    },
+    "roadName": "CP",
+    "roadNumber": 16752,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a845"
+    },
+    "roadName": "CP",
+    "roadNumber": 16731,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a846"
+    },
+    "roadName": "GTW",
+    "roadNumber": 384606,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bbcd3fef4c138fd2a9d77"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a847"
+    },
+    "roadName": "MRL",
+    "roadNumber": 25044,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a848"
+    },
+    "roadName": "SOO",
+    "roadNumber": 18988,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a849"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 760656,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a84a"
+    },
+    "roadName": "MRL",
+    "roadNumber": 25011,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a84b"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 760659,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a84c"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 760651,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a84d"
+    },
+    "roadName": "CP",
+    "roadNumber": 215137,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a84e"
+    },
+    "roadName": "CP",
+    "roadNumber": 215136,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a84f"
+    },
+    "roadName": "CP",
+    "roadNumber": 218105,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a850"
+    },
+    "roadName": "CP",
+    "roadNumber": 218104,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a851"
+    },
+    "roadName": "GVSR",
+    "roadNumber": 767161,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a852"
+    },
+    "roadName": "CP",
+    "roadNumber": 218106,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a853"
+    },
+    "roadName": "DWC",
+    "roadNumber": 403638,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bbcd3fef4c138fd2a9d77"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a854"
+    },
+    "roadName": "USLX",
+    "roadNumber": 474,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "ORANGE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a855"
+    },
+    "roadName": "CP",
+    "roadNumber": 218107,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a856"
+    },
+    "roadName": "CP",
+    "roadNumber": 218109,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a857"
+    },
+    "roadName": "GTW",
+    "roadNumber": 384606,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bbcd3fef4c138fd2a9d77"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a858"
+    },
+    "roadName": "CP",
+    "roadNumber": 218111,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a859"
+    },
+    "roadName": "CP",
+    "roadNumber": 218114,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a85a"
+    },
+    "roadName": "CP",
+    "roadNumber": 218108,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a85b"
+    },
+    "roadName": "CP",
+    "roadNumber": 218110,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a85c"
+    },
+    "roadName": "CP",
+    "roadNumber": 218112,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a85d"
+    },
+    "roadName": "CP",
+    "roadNumber": 218103,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a85e"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 760666,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a85f"
+    },
+    "roadName": "SOO",
+    "roadNumber": 18979,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a860"
+    },
+    "roadName": "DWC",
+    "roadNumber": 403624,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bbcd3fef4c138fd2a9d77"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a861"
+    },
+    "roadName": "CP",
+    "roadNumber": 218113,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a862"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 760653,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a863"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 760663,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a864"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 760667,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a865"
+    },
+    "roadName": "CP",
+    "roadNumber": 215140,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a866"
+    },
+    "roadName": "CP",
+    "roadNumber": 215131,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a867"
+    },
+    "roadName": "CP",
+    "roadNumber": 215120,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a868"
+    },
+    "roadName": "BN",
+    "roadNumber": 287091,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a869"
+    },
+    "roadName": "BN",
+    "roadNumber": 287088,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a86a"
+    },
+    "roadName": "BN",
+    "roadNumber": 287090,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a86b"
+    },
+    "roadName": "BN",
+    "roadNumber": 287297,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a86c"
+    },
+    "roadName": "BN",
+    "roadNumber": 287198,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a86d"
+    },
+    "roadName": "CDAC",
+    "roadNumber": 1034,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "WHITE",
+    "note": "CanAm shield",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a86e"
+    },
+    "roadName": "CDAC",
+    "roadNumber": 1022,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "WHITE",
+    "note": "CanAm shield",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a86f"
+    },
+    "roadName": "CDAC",
+    "roadNumber": 1019,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "WHITE",
+    "note": "CanAm shield",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a870"
+    },
+    "roadName": "BN",
+    "roadNumber": 287299,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a871"
+    },
+    "roadName": "BN",
+    "roadNumber": 287187,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a872"
+    },
+    "roadName": "BN",
+    "roadNumber": 287010,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a873"
+    },
+    "roadName": "BN",
+    "roadNumber": 287092,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a874"
+    },
+    "roadName": "CDAC",
+    "roadNumber": 1020,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "WHITE",
+    "note": "CanAm shield",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a875"
+    },
+    "roadName": "CDAC",
+    "roadNumber": 1030,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "WHITE",
+    "note": "CanAm shield",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a876"
+    },
+    "roadName": "BN",
+    "roadNumber": 747413,
+    "aarType": "XPB",
+    "description": "Boxcar - Beer",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a877"
+    },
+    "roadName": "ATSF",
+    "roadNumber": 625326,
+    "aarType": "XPB",
+    "description": "Boxcar - Beer",
+    "color": "GREEN",
+    "note": "Shock Control",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a878"
+    },
+    "roadName": "BN",
+    "roadNumber": 747406,
+    "aarType": "XPB",
+    "description": "Boxcar - Beer",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a879"
+    },
+    "roadName": "CDAC",
+    "roadNumber": 1027,
+    "aarType": "XMO",
+    "description": "Boxcar - Hi-Cube",
+    "color": "WHITE",
+    "note": "CanAm shield",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a87a"
+    },
+    "roadName": "BN",
+    "roadNumber": 74741,
+    "aarType": "XPB",
+    "description": "Boxcar - Beer",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a87b"
+    },
+    "roadName": "MD&W",
+    "roadNumber": 3054,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "WHITE",
+    "note": "Boise Cascade",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57e"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a87c"
+    },
+    "roadName": "MD&W",
+    "roadNumber": 3050,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "WHITE",
+    "note": "Boise Cascade",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57e"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a87d"
+    },
+    "roadName": "ATSF",
+    "roadNumber": 625344,
+    "aarType": "XPB",
+    "description": "Boxcar - Beer",
+    "color": "GREEN",
+    "note": "Shock Control",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a87e"
+    },
+    "roadName": "PLYX",
+    "roadNumber": 1410,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "U.S. Plywood",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57f"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a87f"
+    },
+    "roadName": "PLYX",
+    "roadNumber": 1650,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "U.S. Plywood",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57f"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a880"
+    },
+    "roadName": "LUNX",
+    "roadNumber": 4473,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "Weyerhaeuser",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da580"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a881"
+    },
+    "roadName": "LUNX",
+    "roadNumber": 4476,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "Weyerhaeuser",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da580"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a882"
+    },
+    "roadName": "LUNX",
+    "roadNumber": 4476,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "Weyerhaeuser",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da580"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a883"
+    },
+    "roadName": "LUNX",
+    "roadNumber": 4479,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "Weyerhaeuser",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da581"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a884"
+    },
+    "roadName": "MD&W",
+    "roadNumber": 3014,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "WHITE",
+    "note": "Boise Cascade",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57e"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a885"
+    },
+    "roadName": "LUNX",
+    "roadNumber": 4474,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "Weyerhaeuser",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da581"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a886"
+    },
+    "roadName": "LUNX",
+    "roadNumber": 4471,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "Weyerhaeuser",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da581"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a887"
+    },
+    "roadName": "MD&W",
+    "roadNumber": 3039,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "WHITE",
+    "note": "Boise Cascade",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57e"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a888"
+    },
+    "roadName": "CFPX",
+    "roadNumber": 4573,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a889"
+    },
+    "roadName": "CFPX",
+    "roadNumber": 4564,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a88a"
+    },
+    "roadName": "BCIT",
+    "roadNumber": 800119,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a88b"
+    },
+    "roadName": "BN",
+    "roadNumber": 625018,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "GREEN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a88c"
+    },
+    "roadName": "BCIT",
+    "roadNumber": 800116,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a88d"
+    },
+    "roadName": "DRGW",
+    "roadNumber": 10099,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GRAY",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a88e"
+    },
+    "roadName": "BCIT",
+    "roadNumber": 800100,
+    "aarType": "XPT",
+    "description": "Boxcar - Thrall",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da57d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a88f"
+    },
+    "roadName": "GTW",
+    "roadNumber": 315060,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a890"
+    },
+    "roadName": "BN",
+    "roadNumber": 406680,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a891"
+    },
+    "roadName": "BN",
+    "roadNumber": 406692,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a892"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 407463,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a893"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 407451,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a894"
+    },
+    "roadName": "BCIT",
+    "roadNumber": 873059,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "GREEN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a895"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 407472,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a896"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 407489,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a897"
+    },
+    "roadName": "BN",
+    "roadNumber": 458585,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a898"
+    },
+    "roadName": "BN",
+    "roadNumber": 625029,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "GREEN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a899"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 407484,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a89a"
+    },
+    "roadName": "BNSF",
+    "roadNumber": 422597,
+    "aarType": "HT",
+    "description": "Hopper",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a89b"
+    },
+    "roadName": "HCPX",
+    "roadNumber": 1264,
+    "aarType": "TA",
+    "description": "Tank Car",
+    "color": "ORANGE",
+    "note": "hooker chemicals",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a89c"
+    },
+    "roadName": "ATSF",
+    "roadNumber": 51580,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a89d"
+    },
+    "roadName": "BCIT",
+    "roadNumber": 8004,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a89e"
+    },
+    "roadName": "ATSF",
+    "roadNumber": 51585,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a89f"
+    },
+    "roadName": "BCOL",
+    "roadNumber": 9150,
+    "aarType": "GS",
+    "description": "Gondola",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a0"
+    },
+    "roadName": "GN",
+    "roadNumber": 72839,
+    "aarType": "GS",
+    "description": "Gondola",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a1"
+    },
+    "roadName": "BN",
+    "roadNumber": 458659,
+    "aarType": "HM",
+    "description": "Hopper",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a2"
+    },
+    "roadName": "CN",
+    "roadNumber": 283032,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a3"
+    },
+    "roadName": "BN",
+    "roadNumber": 625055,
+    "aarType": "FBC",
+    "description": "Flatcar",
+    "color": "GREEN",
+    "note": "Center Beam",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a4"
+    },
+    "roadName": "BCAX",
+    "roadNumber": 5,
+    "aarType": "HM",
+    "description": "2-Bay Hopper",
+    "color": "YELLOW",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a5"
+    },
+    "roadName": "CNA",
+    "roadNumber": 405014,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a6"
+    },
+    "roadName": "CN",
+    "roadNumber": 413002,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a7"
+    },
+    "roadName": "CN",
+    "roadNumber": 550235,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a8"
+    },
+    "roadName": "CNA",
+    "roadNumber": 405020,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BROWN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8a9"
+    },
+    "roadName": "CP",
+    "roadNumber": 55947,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8aa"
+    },
+    "roadName": "CP",
+    "roadNumber": 84697,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8ab"
+    },
+    "roadName": "CP",
+    "roadNumber": 84991,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8ac"
+    },
+    "roadName": "CP",
+    "roadNumber": 204050,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "RED",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8ad"
+    },
+    "roadName": "MRL",
+    "roadNumber": 25022,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8ae"
+    },
+    "roadName": "RCPX",
+    "roadNumber": 106,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "WHITE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8af"
+    },
+    "roadName": "ATSF",
+    "roadNumber": 625337,
+    "aarType": "XPB",
+    "description": "Boxcar - Beer",
+    "color": "GREEN",
+    "note": "Shock Control",
+    "homeYard": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8b0"
+    },
+    "roadName": "USLX",
+    "roadNumber": 10392,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "GREEN",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66b28debce7ee5ec8f96a8b1"
+    },
+    "roadName": "ONT",
+    "roadNumber": 7409,
+    "aarType": "XM",
+    "description": "Boxcar",
+    "color": "BLUE",
+    "note": "",
+    "homeYard": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  }
+]

@@ -1,0 +1,202 @@
+[
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da585"
+    },
+    "stationName": "Edmonton, AB",
+    "block": "NORTH",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da587"
+    },
+    "stationName": "Seattle, WA",
+    "block": "SEA",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da588"
+    },
+    "stationName": "Saskatoon, SK",
+    "block": "NORTH",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da58b"
+    },
+    "stationName": "Beaverton, OR",
+    "block": "SOUTH",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da58c"
+    },
+    "stationName": "Everett, WA",
+    "block": "SEA",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da58e"
+    },
+    "stationName": "High Bridge, WA",
+    "block": "ECHO",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da583"
+    },
+    "stationName": "Spokane, WA",
+    "block": "EAST",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da584"
+    },
+    "stationName": "Walla Walla, WA",
+    "block": "EAST",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da586"
+    },
+    "stationName": "Vancouver, BC",
+    "block": "NORTH",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da58d"
+    },
+    "stationName": "Echo Lake, WA",
+    "block": "ECHO",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da582"
+    },
+    "stationName": "Portland, OR",
+    "block": "SOUTH",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da589"
+    },
+    "stationName": "Chicago, IL",
+    "block": "EAST",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b21d08584acfaf5da58a"
+    },
+    "stationName": "Cascade, ID",
+    "block": "EAST",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679c14f2fef4c138fd2a9d7f"
+    },
+    "stationName": "Interbay Yard",
+    "block": "SEA",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679c1524fef4c138fd2a9d80"
+    },
+    "stationName": "Vancouver Yard",
+    "block": "NORTH",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679c153efef4c138fd2a9d81"
+    },
+    "stationName": "Walla Walla Yard",
+    "block": "EAST",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679c1553fef4c138fd2a9d82"
+    },
+    "stationName": "Spokane Yard",
+    "block": "EAST",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679c1570fef4c138fd2a9d83"
+    },
+    "stationName": "Portland Yard",
+    "block": "SOUTH",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679c1582fef4c138fd2a9d84"
+    },
+    "stationName": "Chicago Yard",
+    "block": "EAST",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679c1b8ffef4c138fd2a9d87"
+    },
+    "stationName": "High Bridge Yard",
+    "block": "ECHO",
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  }
+]

@@ -1,0 +1,749 @@
+[
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da581"
+    },
+    "name": "Weyerhaeuser",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9f9e6da5d86ace37386c3"
+        },
+        "name": "shipping",
+        "maxCars": {
+          "$numberInt": "3"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da58c"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da57d"
+    },
+    "name": "Canadian Forest Products",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fc5f44650ec53d47edd0"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da586"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da573"
+    },
+    "name": "Vancouver Yard",
+    "industryType": "YARD",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fc79bf79fe0804ede429"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "679c1524fef4c138fd2a9d80"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da575"
+    },
+    "name": "Walla Walla Yard",
+    "industryType": "YARD",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fc82740760470ac3fca5"
+        },
+        "name": "YARD",
+        "maxCars": {
+          "$numberInt": "100"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "679c153efef4c138fd2a9d81"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679bb21dfef4c138fd2a9d76"
+    },
+    "name": "Portland Yard",
+    "industryType": "YARD",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fc90107439724e678d58"
+        },
+        "name": "YARD",
+        "maxCars": {
+          "$numberInt": "100"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "679c1570fef4c138fd2a9d83"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679bbcd3fef4c138fd2a9d77"
+    },
+    "name": "Chicago Yard",
+    "industryType": "YARD",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fc9ab401dd695ead43ec"
+        },
+        "name": "YARD",
+        "maxCars": {
+          "$numberInt": "100"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "679c1582fef4c138fd2a9d84"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5cd"
+    },
+    "name": "Industrial Park",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fc9fe8e22c40520a8ed3"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da583"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5d1"
+    },
+    "name": "Printers",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fca8c0741227c8fe2fbe"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da58d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5d3"
+    },
+    "name": "Car Shop",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fcb1b44924db47bf2cfe"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da58e"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da580"
+    },
+    "name": "Weyerhaeuser",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd4983f54b1555299d03"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da58b"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da57a"
+    },
+    "name": "Pacific Elevators",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fcb8031f76b3b457691b"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da586"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da577"
+    },
+    "name": "United Grain Growers",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fcbece0811d502b8133d"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da585"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5ce"
+    },
+    "name": "Grain Elevator",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fcc462b2ef341f3ecf0c"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da584"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5cf"
+    },
+    "name": "Lumber Mill",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fccb66f297fb284fb415"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da58a"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },{
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5d0"
+    },
+    "name": "Maltby Brewery",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fcd19153eda4960566d3"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da58d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5d2"
+    },
+    "name": "United Recycling",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fcd837e39c419dd21e9b"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da58d"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },{
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5d4"
+    },
+    "name": "Food Distribution",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fce28ed860d297b67bce"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da587"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797c1f308584acfaf5da615"
+    },
+    "name": "Inland Aggregates",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fce8051659c536f1b9b2"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da588"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },{
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da57f"
+    },
+    "name": "U.S. Plywood Corp",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9ff2c2c038841483bc1b2"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da587"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "name": "Interbay Yard",
+    "industryType": "YARD",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fcf6e12deb5f59afcd1c"
+        },
+        "name": "YARD",
+        "maxCars": {
+          "$numberInt": "100"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "679c14f2fef4c138fd2a9d7f"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da57e"
+    },
+    "name": "Boise Cascade",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fcfc66415f35aee1abc1"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da58a"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da57b"
+    },
+    "name": "Federated Co-Operative",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd03a68d22a7f44c6918"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da588"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da579"
+    },
+    "name": "Alberta Wheat Pool",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd082b98406c902e33e0"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da586"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da576"
+    },
+    "name": "Pioneer Grain",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd082b98406c902e33e0"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da586"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b1f308584acfaf5da574"
+    },
+    "name": "Spokane Yard",
+    "industryType": "YARD",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd1472d2246f367cae9d"
+        },
+        "name": "YARD",
+        "maxCars": {
+          "$numberInt": "100"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "679c1553fef4c138fd2a9d82"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5d5"
+    },
+    "name": "Paper Mill",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd1e83b826d040b038d9"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da586"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679c1c14fef4c138fd2a9d88"
+    },
+    "name": "High Bridge Yard",
+    "industryType": "YARD",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd237f9b4e32a0ab2646"
+        },
+        "name": "YARD",
+        "maxCars": {
+          "$numberInt": "100"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "679c1b8ffef4c138fd2a9d87"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6797b81308584acfaf5da5d6"
+    },
+    "name": "Paper Mill",
+    "industryType": "FREIGHT",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd296da2c0a23c5e0a57"
+        },
+        "name": "Shipping/Receiving",
+        "maxCars": {
+          "$numberInt": "1"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da586"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "67aa7c456c68b04bb3ea41c1"
+    },
+    "name": "Chicago Station",
+    "industryType": "PASSENGER",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd2f86d31c5068cea9b7"
+        },
+        "name": "Platform 1",
+        "maxCars": {
+          "$numberInt": "4"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da589"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "67aa7c786c68b04bb3ea41c2"
+    },
+    "name": "Portland Station",
+    "industryType": "PASSENGER",
+    "tracks": [
+      {
+        "_id": {
+          "$oid": "67d9fd355f7ec2dec425cba8"
+        },
+        "name": "Platform 1",
+        "maxCars": {
+          "$numberInt": "4"
+        },
+        "placedCars": []
+      }
+    ],
+    "locationId": {
+      "$oid": "6797b21d08584acfaf5da582"
+    },
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  }
+]

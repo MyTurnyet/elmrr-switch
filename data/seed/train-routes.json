@@ -1,0 +1,76 @@
+[
+  {
+    "_id": {
+      "$oid": "679bcb43fef4c138fd2a9d7c"
+    },
+    "name": "West Coaster North",
+    "routeNumber": "WC 202",
+    "routeType": "MIXED",
+    "originatingYardId": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "terminatingYardId": {
+      "$oid": "6797b1f308584acfaf5da578"
+    },
+    "stations": [
+      {
+        "$oid": "679c1570fef4c138fd2a9d83"
+      },
+      {
+        "$oid": "6797b21d08584acfaf5da582"
+      },
+      {
+        "$oid": "679c14f2fef4c138fd2a9d7f"
+      },
+      {
+        "$oid": "6797b21d08584acfaf5da587"
+      },
+      {
+        "$oid": "6797b21d08584acfaf5da58c"
+      },
+      {
+        "$oid": "6797b21d08584acfaf5da586"
+      },
+      {
+        "$oid": "679c1524fef4c138fd2a9d80"
+      }
+    ],
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "679bcb06fef4c138fd2a9d7a"
+    },
+    "name": "Echo Lake Turn",
+    "routeNumber": "EL 103",
+    "routeType": "PASSENGER",
+    "originatingYardId": {
+      "$oid": "679c1c14fef4c138fd2a9d88"
+    },
+    "terminatingYardId": {
+      "$oid": "679c1c14fef4c138fd2a9d88"
+    },
+    "stations": [
+      {
+        "$oid": "679c14f2fef4c138fd2a9d7f"
+      },
+      {
+        "$oid": "6797b21d08584acfaf5da587"
+      },
+      {
+        "$oid": "679c1b8ffef4c138fd2a9d87"
+      },
+      {
+        "$oid": "6797b21d08584acfaf5da58d"
+      },
+      {
+        "$oid": "6797b21d08584acfaf5da58e"
+      }
+    ],
+    "ownerId": {
+      "$oid": "67a16098ddb4f57ea701040d"
+    }
+  }
+]
