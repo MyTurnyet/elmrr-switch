@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer, useCallback, ReactNode } from 'react';
-import { AppContextType, RollingStock, Locomotive, Industry, Station, Goods, AarType, Block, Track, ImportResult } from '../types';
+import React, { createContext, useContext, useReducer, useCallback, type ReactNode } from 'react';
+import type { AppContextType, RollingStock, Locomotive, Industry, Station, Goods, AarType, Block, Track, ImportResult } from '../types';
 
 // API base URL
 const API_BASE_URL = 'http://localhost:3001/api';

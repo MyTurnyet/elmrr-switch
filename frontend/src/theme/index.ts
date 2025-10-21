@@ -120,23 +120,8 @@ export const theme = createTheme({
         },
       },
     },
-    MuiDataGrid: {
-      styleOverrides: {
-        root: {
-          border: 'none',
-          '& .MuiDataGrid-cell': {
-            borderBottom: '1px solid #e0e0e0',
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            backgroundColor: '#f5f5f5',
-            borderBottom: '2px solid #e0e0e0',
-          },
-          '& .MuiDataGrid-row:hover': {
-            backgroundColor: '#f8f9fa',
-          },
-        },
-      },
-    },
+    // Note: MuiDataGrid theme customization is applied via sx prop in component
+    // due to TypeScript limitations with @mui/x-data-grid theme extensions
     MuiDrawer: {
       styleOverrides: {
         paper: {

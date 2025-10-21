@@ -5,6 +5,7 @@ import theme from './theme';
 import { AppProvider } from './contexts/AppContext';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
+import CarManagement from './pages/CarManagement';
 import DataImport from './pages/DataImport';
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              {/* TODO: Add CarManagement and IndustryView routes when pages are implemented */}
+              <Route path="/cars" element={<CarManagement />} />
+              {/* TODO: Add IndustryView route when page is implemented */}
               <Route path="/import" element={<DataImport />} />
             </Routes>
           </Layout>

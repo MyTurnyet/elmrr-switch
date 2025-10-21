@@ -22,10 +22,18 @@ import {
   Warning,
 } from '@mui/icons-material';
 import { useApp } from '../contexts/AppContext';
+import type { ImportResult } from '../types';
+
+// Local state type for import results
+interface LocalImportResult {
+  success: boolean;
+  error?: string;
+  data?: ImportResult;
+}
 
 const DataImport: React.FC = () => {
   const { importData, loading } = useApp();
-  const [importResult, setImportResult] = useState<any>(null);
+  const [importResult, setImportResult] = useState<LocalImportResult | null>(null);
   const [jsonInput, setJsonInput] = useState('');
   const [file, setFile] = useState<File | null>(null);
 
@@ -62,10 +70,16 @@ const DataImport: React.FC = () => {
         success: true,
         data: result,
       });
-    } catch (error) {
+    } catch (err: unknown) {
+      let errorMessage = 'Import failed';
+      if (err instanceof Error) {
+        errorMessage = (err as Error).message;
+      } else if (typeof err === 'string') {
+        errorMessage = err;
+      }
       setImportResult({
         success: false,
-        error: error instanceof Error ? error.message : 'Import failed',
+        error: errorMessage,
       });
     }
   };

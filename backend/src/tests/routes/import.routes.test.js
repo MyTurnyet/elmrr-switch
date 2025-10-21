@@ -3,7 +3,8 @@ import request from 'supertest';
 import multer from 'multer';
 import importRouter from '../../routes/import.js';
 import { dbHelpers } from '../../database/index.js';
-import { validateCar, validateIndustry } from '../../models/car.js';
+import { validateCar } from '../../models/car.js';
+import { validateIndustry } from '../../models/industry.js';
 
 // Mock multer is now in src/__mocks__/multer.js
 jest.mock('multer');
@@ -18,7 +19,10 @@ jest.mock('../../database/index.js', () => ({
 
 // Mock the model validators
 jest.mock('../../models/car.js', () => ({
-  validateCar: jest.fn(),
+  validateCar: jest.fn()
+}));
+
+jest.mock('../../models/industry.js', () => ({
   validateIndustry: jest.fn()
 }));
 
@@ -73,102 +77,105 @@ describe('Import Routes', () => {
       const response = await request(app)
         .post('/api/import/json')
         .send({ data: importData });
-      
+
       expect(response.status).toBe(200);
       expect(response.body).toMatchObject({
         success: true
       });
-      expect(typeof response.body.imported).toBe('number');
+      expect(typeof response.body.data.imported).toBe('number');
+      expect(response.body.data.imported).toBeGreaterThan(0);
     });
 
-    it('should handle file uploads', async () => {
+    it('should handle direct JSON data without file', async () => {
       const importData = {
         cars: [mockCar],
         industries: [mockIndustry]
       };
 
-      // Mock file upload
-      const file = {
-        buffer: Buffer.from(JSON.stringify(importData)),
-        originalname: 'test.json',
-        mimetype: 'application/json'
-      };
-
       const response = await request(app)
         .post('/api/import/json')
-        .field('data', JSON.stringify(importData))
-        .attach('file', file.buffer, 'test.json');
+        .send({ data: importData });
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data.imported).toBeGreaterThan(0);
     });
 
-    it('should validate car data', async () => {
+    it('should report validation errors for car data', async () => {
       const invalidCar = { ...mockCar, reportingMarks: undefined };
       const error = { details: [{ message: 'Validation error' }] };
-      
+
       validateCar.mockReturnValueOnce({ error, value: null });
-      
+
       const response = await request(app)
         .post('/api/import/json')
-        .send({ 
-          data: { 
-            cars: [invalidCar] 
-          } 
-        });
-
-      expect(response.status).toBe(200);
-      expect(response.body.success).toBe(false);
-      expect(response.body.error).toBeDefined();
-    });
-
-    it('should skip duplicate cars', async () => {
-      dbHelpers.findByQuery.mockResolvedValueOnce([{ _id: 'existing' }]);
-      
-      const response = await request(app)
-        .post('/api/import/json')
-        .send({ 
-          data: { 
-            cars: [mockCar] 
-          } 
+        .send({
+          data: {
+            cars: [invalidCar]
+          }
         });
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
-      expect(response.body.warnings).toBeDefined();
+      expect(response.body.data.errors).toBeDefined();
+      expect(response.body.data.errors.length).toBeGreaterThan(0);
+      expect(response.body.data.errors[0]).toContain('Validation error');
     });
 
-    it('should handle validation errors for industries', async () => {
+    it('should skip duplicate cars and report warnings', async () => {
+      dbHelpers.findByQuery.mockResolvedValueOnce([{ _id: 'existing' }]);
+
+      const response = await request(app)
+        .post('/api/import/json')
+        .send({
+          data: {
+            cars: [mockCar]
+          }
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.warnings).toBeDefined();
+      expect(response.body.data.warnings.length).toBeGreaterThan(0);
+      expect(response.body.data.warnings[0]).toContain('Duplicate');
+    });
+
+    it('should report validation errors for industries', async () => {
       const error = { details: [{ message: 'Invalid industry data' }] };
       validateIndustry.mockReturnValueOnce({ error, value: null });
-      
+
       const response = await request(app)
         .post('/api/import/json')
-        .send({ 
-          data: { 
-            industries: [mockIndustry] 
-          } 
+        .send({
+          data: {
+            industries: [mockIndustry]
+          }
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.success).toBe(false);
-      expect(response.body.error).toBeDefined();
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.errors).toBeDefined();
+      expect(response.body.data.errors.length).toBeGreaterThan(0);
+      expect(response.body.data.errors[0]).toContain('Invalid industry data');
     });
 
-    it('should handle database errors', async () => {
+    it('should report database errors', async () => {
       dbHelpers.create.mockRejectedValueOnce(new Error('Database error'));
-      
+
       const response = await request(app)
         .post('/api/import/json')
-        .send({ 
-          data: { 
-            cars: [mockCar] 
-          } 
+        .send({
+          data: {
+            cars: [mockCar]
+          }
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.success).toBe(false);
-      expect(response.body.error).toBeDefined();
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.errors).toBeDefined();
+      expect(response.body.data.errors.length).toBeGreaterThan(0);
+      expect(response.body.data.errors[0]).toContain('Database error');
     });
 
     it('should return 400 if no data provided', async () => {

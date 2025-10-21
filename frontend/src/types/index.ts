@@ -1,7 +1,8 @@
 // Core data model interfaces for Model Railroad Layout Tracking System
 
 export interface Block {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
   yardId?: string;
   capacity: number;
@@ -9,7 +10,8 @@ export interface Block {
 }
 
 export interface Station {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
   block: string;
   type: 'station' | 'yard' | 'industry';
@@ -17,7 +19,8 @@ export interface Station {
 }
 
 export interface Industry {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
   stationId: string;
   goodsReceived: string[]; // Array of goods IDs
@@ -28,7 +31,8 @@ export interface Industry {
 }
 
 export interface Track {
-  id: string;
+  id?: string;
+  _id?: string;
   industryId: string;
   capacity: number;
   currentCars: string[]; // Array of car IDs
@@ -36,7 +40,8 @@ export interface Track {
 }
 
 export interface Goods {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
   compatibleCarTypes: string[]; // Array of AAR type IDs
   loadingTime: number; // In operating sessions
@@ -44,7 +49,8 @@ export interface Goods {
 }
 
 export interface Locomotive {
-  id: string;
+  id?: string;
+  _id?: string;
   reportingMarks: string;
   reportingNumber: string;
   type: string;
@@ -56,14 +62,16 @@ export interface Locomotive {
 }
 
 export interface AarType {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
   initial: string;
   description?: string;
 }
 
 export interface RollingStock {
-  id: string;
+  id?: string; // Frontend convenience field
+  _id?: string; // NeDB database ID
   reportingMarks: string;
   reportingNumber: string;
   carType: string; // AAR Type ID
