@@ -2,7 +2,6 @@
 
 A comprehensive web-based application for managing model railroad operations, tracking rolling stock, and generating switch lists. Built with modern web technologies for desktop and mobile use.
 
-[![CI](https://github.com/MyTurnyet/elmrr-switch/actions/workflows/ci.yml/badge.svg)](https://github.com/MyTurnyet/elmrr-switch/actions/workflows/ci.yml)
 [![Phase 1 Complete](https://img.shields.io/badge/Phase%201-Complete-success)](docs/IMPLEMENTATION_PLAN.md)
 [![Tests](https://img.shields.io/badge/tests-102%20passing-success)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)]()
