@@ -213,29 +213,30 @@ Build route template system as foundation for train operations
 - [x] Created comprehensive unit tests (23 tests, all passing)
 - [x] Test coverage: required fields, optional fields, constraints, updates, edge cases
 
-**2. Route API Endpoints**
-- [ ] Create `backend/src/routes/routes.js` with standard CRUD operations:
-  - GET /api/routes - List all routes
+**2. Route API Endpoints** ✅ COMPLETED
+- [x] Create `backend/src/routes/routes.js` with standard CRUD operations:
+  - GET /api/routes - List all routes with filtering (originYard, terminationYard, search)
   - GET /api/routes/:id - Get single route by ID
   - POST /api/routes - Create new route (with validation)
   - PUT /api/routes/:id - Update route
   - DELETE /api/routes/:id - Delete route
-- [ ] Register routes in `backend/src/server.js`
-- [ ] Add validation middleware to check:
-  - Unique route names
+- [x] Register routes in `backend/src/server.js`
+- [x] Add validation middleware to check:
+  - Unique route names (enforced on create and update)
   - Origin/termination yards exist and are yards (isYard=true)
   - Station sequence references valid stations
+- [x] Comprehensive error messages and proper HTTP status codes
 
-**3. Backend Testing**
-- [ ] Create `backend/src/tests/routes/trainroutes.routes.test.js`
-  - Test GET all routes
-  - Test GET single route by ID
-  - Test POST create route with valid data
-  - Test POST validation failures (invalid yards, missing required fields)
-  - Test PUT update route
-  - Test DELETE route
+**3. Backend Testing** ✅ COMPLETED
+- [x] Create `backend/src/tests/routes/routes.routes.test.js` (33 tests, 598 lines)
+  - Test GET all routes (8 tests: basic, filters, search, errors)
+  - Test GET single route by ID (3 tests)
+  - Test POST create route with valid data (10 tests: success, validation, yard checks)
+  - Test POST validation failures (invalid yards, missing required fields, duplicates)
+  - Test PUT update route (9 tests: success, validation, yard checks, duplicates)
+  - Test DELETE route (3 tests)
   - Test duplicate route name validation
-  - Ensure all tests pass (maintain 100% backend test coverage)
+  - All 158 tests passing (125 existing + 33 new)
 
 **4. Import/Export Support**
 - [ ] Update `backend/src/routes/import.js` to include routes collection
