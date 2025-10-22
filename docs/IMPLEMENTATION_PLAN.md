@@ -317,14 +317,15 @@ Build route template system as foundation for train operations
   - Save/Cancel buttons (save disabled until required fields valid)
   - Opens in Add or Edit mode with proper state management
 
-**10. Route Detail View Dialog**
-- [ ] Create route detail dialog (read-only):
+**10. Route Detail View Dialog** ✅ COMPLETED
+- [x] Create route detail dialog (read-only):
   - Display route name and description
-  - Show origin → destination with visual arrow
-  - Display full station sequence with order numbers
-  - Show total distance estimate (if applicable)
-  - List any trains currently using this route (future: Phase 2.2)
-  - Close button
+  - Show origin → destination with visual arrow (TripOrigin and Flag icons)
+  - Display full station sequence with order numbers (numbered "Stop #N" chips)
+  - Show route summary with stop count and direct route badge
+  - Close button + "Edit Route" button for quick transition to edit mode
+  - Total distance estimate deferred (no distance data in current model)
+  - List trains using route deferred to Phase 2.2 (Train Operations)
 
 **11. Delete Confirmation**
 - [ ] Implement delete route confirmation dialog:
