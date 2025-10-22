@@ -2613,5 +2613,31 @@
       "currentIndustry": "walla-walla-yard",
       "isInService": true
     }
+  ],
+  "routes": [
+    {
+      "_id": "vancouver-to-portland-local",
+      "name": "Vancouver to Portland Local",
+      "description": "Local freight service between Vancouver BC and Portland OR, serving intermediate stations",
+      "originYard": "vancouver-yard",
+      "terminationYard": "portland-yard",
+      "stationSequence": ["seattle-wa", "everett-wa", "beaverton-or"]
+    },
+    {
+      "_id": "spokane-chicago-express",
+      "name": "Spokane-Chicago Express",
+      "description": "Direct yard-to-yard transfer between Spokane and Chicago with no intermediate stops",
+      "originYard": "spokane-yard",
+      "terminationYard": "chicago-yard",
+      "stationSequence": []
+    },
+    {
+      "_id": "pacific-northwest-mainline",
+      "name": "Pacific Northwest Mainline",
+      "description": "Main line service from Seattle through mountain passes to eastern destinations",
+      "originYard": "interbay-yard",
+      "terminationYard": "walla-walla-yard",
+      "stationSequence": ["everett-wa", "high-bridge-wa", "echo-lake-wa", "spokane-wa", "cascade-id"]
+    }
   ]
 }
