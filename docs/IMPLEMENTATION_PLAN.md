@@ -203,13 +203,15 @@ Build route template system as foundation for train operations
 
 #### Backend Implementation
 
-**1. Route Model & Validation**
-- [ ] Create `backend/src/models/route.js` with Joi schema
+**1. Route Model & Validation** ✅ COMPLETED
+- [x] Create `backend/src/models/route.js` with Joi schema
   - Required: name, originYard, terminationYard
   - Optional: description, stationSequence (can be empty array)
   - Add _id as optional field for seed data support
   - Validation: originYard and terminationYard must reference valid yard industries
   - Validation: stationSequence items must reference valid station IDs
+- [x] Created comprehensive unit tests (23 tests, all passing)
+- [x] Test coverage: required fields, optional fields, constraints, updates, edge cases
 
 **2. Route API Endpoints**
 - [ ] Create `backend/src/routes/routes.js` with standard CRUD operations:
@@ -225,7 +227,7 @@ Build route template system as foundation for train operations
   - Station sequence references valid stations
 
 **3. Backend Testing**
-- [ ] Create `backend/src/tests/routes/routes.routes.test.js`
+- [ ] Create `backend/src/tests/routes/trainroutes.routes.test.js`
   - Test GET all routes
   - Test GET single route by ID
   - Test POST create route with valid data
