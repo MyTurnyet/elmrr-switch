@@ -24,13 +24,11 @@ jobs:
 
       - name: Install backend dependencies
         working-directory: ./backend
-        run: |
-          npm ci
-          ls -la node_modules/.bin/jest || echo "Jest not found in node_modules/.bin"
+        run: npm ci
 
       - name: Run backend tests
         working-directory: ./backend
-        run: npm test
+        run: npx jest --ci --coverage
 
       - name: Upload backend test results
         if: always()
@@ -57,13 +55,11 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: ./frontend
-        run: |
-          npm ci
-          ls -la node_modules/.bin/eslint || echo "ESLint not found in node_modules/.bin"
+        run: npm ci
 
       - name: Run ESLint
         working-directory: ./frontend
-        run: npm run lint
+        run: npx eslint .
         continue-on-error: true
 
       - name: Build frontend
