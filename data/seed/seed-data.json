@@ -484,16 +484,6 @@
       "isInService": true
     },
     {
-      "reportingMarks": "GSVR",
-      "reportingNumber": "459003",
-      "carType": "FB",
-      "color": "RED",
-      "notes": "Flatcar BlhHd",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true
-    },
-    {
       "reportingMarks": "CP",
       "reportingNumber": "318088",
       "carType": "FBC",
@@ -694,26 +684,6 @@
       "isInService": true
     },
     {
-      "reportingMarks": "BNSF",
-      "reportingNumber": "541427",
-      "carType": "GTS",
-      "color": "BROWN",
-      "notes": "Woodchip Car",
-      "homeYard": "portland-yard",
-      "currentIndustry": "portland-yard",
-      "isInService": true
-    },
-    {
-      "reportingMarks": "BNSF",
-      "reportingNumber": "541427",
-      "carType": "GTS",
-      "color": "BROWN",
-      "notes": "Woodchip Car",
-      "homeYard": "portland-yard",
-      "currentIndustry": "portland-yard",
-      "isInService": true
-    },
-    {
       "reportingMarks": "GPMX",
       "reportingNumber": "10022",
       "carType": "GTS",
@@ -746,16 +716,6 @@
     {
       "reportingMarks": "GPMX",
       "reportingNumber": "10008",
-      "carType": "GTS",
-      "color": "BLUE",
-      "notes": "Woodchip Car",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true
-    },
-    {
-      "reportingMarks": "GPMX",
-      "reportingNumber": "10035",
       "carType": "GTS",
       "color": "BLUE",
       "notes": "Woodchip Car",
@@ -991,26 +951,6 @@
       "notes": "Hopper",
       "homeYard": "chicago-yard",
       "currentIndustry": "chicago-yard",
-      "isInService": true
-    },
-    {
-      "reportingMarks": "SOO",
-      "reportingNumber": "101067",
-      "carType": "HT",
-      "color": "WHITE",
-      "notes": "Hopper",
-      "homeYard": "interbay-yard",
-      "currentIndustry": "interbay-yard",
-      "isInService": true
-    },
-    {
-      "reportingMarks": "SOO",
-      "reportingNumber": "101073",
-      "carType": "HT",
-      "color": "WHITE",
-      "notes": "Hopper",
-      "homeYard": "interbay-yard",
-      "currentIndustry": "interbay-yard",
       "isInService": true
     },
     {
@@ -1524,26 +1464,6 @@
       "isInService": true
     },
     {
-      "reportingMarks": "ACFX",
-      "reportingNumber": "19421",
-      "carType": "TA",
-      "color": "BLACK",
-      "notes": "Tank Car",
-      "homeYard": "high-bridge-yard",
-      "currentIndustry": "high-bridge-yard",
-      "isInService": true
-    },
-    {
-      "reportingMarks": "BN",
-      "reportingNumber": "875000",
-      "carType": "TA",
-      "color": "BLACK",
-      "notes": "Tank Car",
-      "homeYard": "high-bridge-yard",
-      "currentIndustry": "high-bridge-yard",
-      "isInService": true
-    },
-    {
       "reportingMarks": "BN",
       "reportingNumber": "875000",
       "carType": "TA",
@@ -1611,16 +1531,6 @@
       "notes": "Boxcar",
       "homeYard": "walla-walla-yard",
       "currentIndustry": "walla-walla-yard",
-      "isInService": true
-    },
-    {
-      "reportingMarks": "SHPX",
-      "reportingNumber": "240300",
-      "carType": "TA",
-      "color": "BLACK",
-      "notes": "Tank Car",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
       "isInService": true
     },
     {
@@ -1811,16 +1721,6 @@
       "notes": "Boxcar - Hi-Cube",
       "homeYard": "walla-walla-yard",
       "currentIndustry": "walla-walla-yard",
-      "isInService": true
-    },
-    {
-      "reportingMarks": "GTW",
-      "reportingNumber": "384606",
-      "carType": "XM",
-      "color": "BLUE",
-      "notes": "Boxcar",
-      "homeYard": "chicago-yard",
-      "currentIndustry": "chicago-yard",
       "isInService": true
     },
     {
@@ -2226,16 +2126,6 @@
     {
       "reportingMarks": "LUNX",
       "reportingNumber": "4473",
-      "carType": "XPT",
-      "color": "GREEN",
-      "notes": "Boxcar - Thrall",
-      "homeYard": "vancouver-yard",
-      "currentIndustry": "vancouver-yard",
-      "isInService": true
-    },
-    {
-      "reportingMarks": "LUNX",
-      "reportingNumber": "4476",
       "carType": "XPT",
       "color": "GREEN",
       "notes": "Boxcar - Thrall",
