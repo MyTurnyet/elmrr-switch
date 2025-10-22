@@ -12,7 +12,8 @@ export interface Block {
 export interface Station {
   id?: string;
   _id?: string;
-  name: string;
+  stationName: string; // Backend uses 'stationName', not 'name'
+  name?: string; // Legacy field for compatibility
   block: string;
   type: 'station' | 'yard' | 'industry';
   description?: string;

@@ -274,7 +274,7 @@ const RouteManagement: React.FC = () => {
   // Get station name by ID
   const getStationName = (stationId: string): string => {
     const station = stations.find(s => (s.id || s._id) === stationId);
-    return station ? station.name : 'Unknown';
+    return station ? station.stationName : 'Unknown';
   };
 
   const handleViewRoute = (route: Route) => {
