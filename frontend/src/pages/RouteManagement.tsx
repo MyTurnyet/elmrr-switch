@@ -90,6 +90,10 @@ const RouteManagement: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [availableStation, setAvailableStation] = useState<string>('');
 
+  // Detail dialog state
+  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [viewRoute, setViewRoute] = useState<Route | null>(null);
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -274,9 +278,13 @@ const RouteManagement: React.FC = () => {
   };
 
   const handleViewRoute = (route: Route) => {
-    // TODO: Step 10 - Implement view route dialog
-    console.log('View route:', route);
-    alert('View route dialog coming in Step 10!');
+    setViewRoute(route);
+    setDetailDialogOpen(true);
+  };
+
+  const handleCloseDetailDialog = () => {
+    setDetailDialogOpen(false);
+    setViewRoute(null);
   };
 
   const handleEditRoute = (route: Route) => {
@@ -771,6 +779,163 @@ const RouteManagement: React.FC = () => {
             disabled={!formData.name.trim() || !formData.originYard || !formData.terminationYard}
           >
             {formMode === 'add' ? 'Create Route' : 'Save Changes'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Route Detail View Dialog */}
+      <Dialog
+        open={detailDialogOpen}
+        onClose={handleCloseDetailDialog}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>
+          <Box display="flex" alignItems="center" gap={1}>
+            <RouteIcon color="primary" />
+            <Typography variant="h6">Route Details</Typography>
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          {viewRoute && (
+            <Stack spacing={3} sx={{ pt: 2 }}>
+              {/* Route Name */}
+              <Box>
+                <Typography variant="overline" color="text.secondary">
+                  Route Name
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                  {viewRoute.name}
+                </Typography>
+              </Box>
+
+              {/* Description */}
+              {viewRoute.description && (
+                <Box>
+                  <Typography variant="overline" color="text.secondary">
+                    Description
+                  </Typography>
+                  <Typography variant="body1">
+                    {viewRoute.description}
+                  </Typography>
+                </Box>
+              )}
+
+              <Divider />
+
+              {/* Origin and Termination Yards */}
+              <Box>
+                <Typography variant="overline" color="text.secondary" gutterBottom>
+                  Route Path
+                </Typography>
+                <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <TripOrigin color="primary" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Origin
+                      </Typography>
+                      <Typography variant="body1" fontWeight={500}>
+                        {getIndustryName(viewRoute.originYard)}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Typography variant="h6" color="text.secondary">
+                    →
+                  </Typography>
+
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <Flag color="primary" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Destination
+                      </Typography>
+                      <Typography variant="body1" fontWeight={500}>
+                        {getIndustryName(viewRoute.terminationYard)}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+
+              <Divider />
+
+              {/* Station Sequence */}
+              <Box>
+                <Typography variant="overline" color="text.secondary" gutterBottom>
+                  Station Sequence
+                </Typography>
+                {viewRoute.stationSequence.length > 0 ? (
+                  <Card variant="outlined">
+                    <List dense>
+                      {viewRoute.stationSequence.map((stationId, index) => (
+                        <React.Fragment key={`${stationId}-${index}`}>
+                          {index > 0 && <Divider />}
+                          <ListItem>
+                            <ListItemText
+                              primary={
+                                <Box display="flex" alignItems="center" gap={1.5}>
+                                  <Chip
+                                    label={`Stop #${index + 1}`}
+                                    size="small"
+                                    color="primary"
+                                    variant="outlined"
+                                  />
+                                  <Typography variant="body1">
+                                    {getStationName(stationId)}
+                                  </Typography>
+                                </Box>
+                              }
+                            />
+                          </ListItem>
+                        </React.Fragment>
+                      ))}
+                    </List>
+                  </Card>
+                ) : (
+                  <Alert severity="info" icon={<RouteIcon />}>
+                    Direct yard-to-yard route with no intermediate stops
+                  </Alert>
+                )}
+              </Box>
+
+              {/* Route Summary */}
+              <Box>
+                <Typography variant="overline" color="text.secondary" gutterBottom>
+                  Route Summary
+                </Typography>
+                <Box display="flex" gap={1} flexWrap="wrap">
+                  <Chip
+                    label={`${viewRoute.stationSequence.length} ${viewRoute.stationSequence.length === 1 ? 'Stop' : 'Stops'}`}
+                    color="primary"
+                    variant="outlined"
+                  />
+                  {viewRoute.stationSequence.length === 0 && (
+                    <Chip
+                      label="Direct Route"
+                      color="secondary"
+                      variant="outlined"
+                    />
+                  )}
+                </Box>
+              </Box>
+            </Stack>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDetailDialog}>Close</Button>
+          <Button
+            variant="contained"
+            startIcon={<Edit />}
+            onClick={() => {
+              if (viewRoute) {
+                handleCloseDetailDialog();
+                handleEditRoute(viewRoute);
+              }
+            }}
+          >
+            Edit Route
           </Button>
         </DialogActions>
       </Dialog>
