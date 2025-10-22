@@ -32,7 +32,65 @@ router.post('/json', upload.single('file'), async (req, res) => {
       warnings: []
     };
 
-    // Import cars
+    // Import in dependency order:
+    // 1. Reference data (blocks, stations, goods, aarTypes)
+    // 2. Industries (depend on stations)
+    // 3. Tracks (depend on industries)
+    // 4. Rolling stock (cars, locomotives - depend on industries)
+
+    // Step 1: Import reference data first
+    const referenceTypes = ['blocks', 'stations', 'goods', 'aarTypes'];
+
+    for (const entityType of referenceTypes) {
+      if (data[entityType] && Array.isArray(data[entityType])) {
+        for (const [index, entityData] of data[entityType].entries()) {
+          try {
+            // Preserve _id if provided in seed data
+            await dbHelpers.create(entityType, entityData);
+            results.imported++;
+          } catch (err) {
+            results.errors.push(`${entityType} ${index + 1}: ${err.message}`);
+          }
+        }
+      }
+    }
+
+    // Step 2: Import industries (which reference stations)
+    if (data.industries && Array.isArray(data.industries)) {
+      for (const [index, industryData] of data.industries.entries()) {
+        try {
+          const { error, value } = validateIndustry(industryData);
+          if (error) {
+            results.errors.push(`Industry ${index + 1}: ${error.details[0].message}`);
+            continue;
+          }
+
+          // Preserve _id if provided in seed data
+          await dbHelpers.create('industries', value);
+          results.imported++;
+        } catch (err) {
+          results.errors.push(`Industry ${index + 1}: ${err.message}`);
+        }
+      }
+    }
+
+    // Step 3: Import tracks (which reference industries)
+    const trackTypes = ['tracks'];
+
+    for (const entityType of trackTypes) {
+      if (data[entityType] && Array.isArray(data[entityType])) {
+        for (const [index, entityData] of data[entityType].entries()) {
+          try {
+            await dbHelpers.create(entityType, entityData);
+            results.imported++;
+          } catch (err) {
+            results.errors.push(`${entityType} ${index + 1}: ${err.message}`);
+          }
+        }
+      }
+    }
+
+    // Step 4: Import rolling stock (cars and locomotives - depend on industries)
     if (data.cars && Array.isArray(data.cars)) {
       for (const [index, carData] of data.cars.entries()) {
         try {
@@ -58,7 +116,7 @@ router.post('/json', upload.single('file'), async (req, res) => {
             sessionsAtCurrentLocation: value.sessionsAtCurrentLocation || 0,
             lastMoved: value.lastMoved ? new Date(value.lastMoved) : new Date()
           });
-          
+
           results.imported++;
         } catch (err) {
           results.errors.push(`Car ${index + 1}: ${err.message}`);
@@ -66,28 +124,10 @@ router.post('/json', upload.single('file'), async (req, res) => {
       }
     }
 
-    // Import industries
-    if (data.industries && Array.isArray(data.industries)) {
-      for (const [index, industryData] of data.industries.entries()) {
-        try {
-          const { error, value } = validateIndustry(industryData);
-          if (error) {
-            results.errors.push(`Industry ${index + 1}: ${error.details[0].message}`);
-            continue;
-          }
+    // Import locomotives
+    const locomotiveTypes = ['locomotives'];
 
-          await dbHelpers.create('industries', value);
-          results.imported++;
-        } catch (err) {
-          results.errors.push(`Industry ${index + 1}: ${err.message}`);
-        }
-      }
-    }
-
-    // Import other entities (stations, goods, aarTypes, etc.)
-    const entityTypes = ['stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'locomotives'];
-    
-    for (const entityType of entityTypes) {
+    for (const entityType of locomotiveTypes) {
       if (data[entityType] && Array.isArray(data[entityType])) {
         for (const [index, entityData] of data[entityType].entries()) {
           try {

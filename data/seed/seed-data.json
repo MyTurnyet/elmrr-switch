@@ -94,6 +94,7 @@
   ],
   "industries": [
     {
+      "_id": "everett-weyerhaeuser",
       "name": "Weyerhaeuser",
       "stationId": "everett-wa",
       "goodsReceived": [],
@@ -105,6 +106,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "vancouver-canadian-forest-products",
       "name": "Canadian Forest Products",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
@@ -116,6 +118,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "vancouver-yard",
       "name": "Vancouver Yard",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
@@ -127,6 +130,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "walla-walla-yard",
       "name": "Walla Walla Yard",
       "stationId": "walla-walla-wa",
       "goodsReceived": [],
@@ -138,6 +142,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "portland-yard",
       "name": "Portland Yard",
       "stationId": "portland-or",
       "goodsReceived": [],
@@ -149,6 +154,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "chicago-yard",
       "name": "Chicago Yard",
       "stationId": "chicago-il",
       "goodsReceived": [],
@@ -160,6 +166,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "spokane-industrial-park",
       "name": "Industrial Park",
       "stationId": "spokane-wa",
       "goodsReceived": [],
@@ -171,6 +178,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "echo-printers",
       "name": "Printers",
       "stationId": "echo-lake-wa",
       "goodsReceived": [],
@@ -182,6 +190,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "high-car-shop",
       "name": "Car Shop",
       "stationId": "high-bridge-wa",
       "goodsReceived": [],
@@ -193,6 +202,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "beaverton-weyerhaeuser",
       "name": "Weyerhaeuser",
       "stationId": "beaverton-or",
       "goodsReceived": [],
@@ -204,6 +214,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "vancouver-pacific-elevators",
       "name": "Pacific Elevators",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
@@ -215,6 +226,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "edmonton-united-grain-growers",
       "name": "United Grain Growers",
       "stationId": "edmonton-ab",
       "goodsReceived": [],
@@ -226,6 +238,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "walla-grain-elevator",
       "name": "Grain Elevator",
       "stationId": "walla-walla-wa",
       "goodsReceived": [],
@@ -237,6 +250,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "cascade-lumber-mill",
       "name": "Lumber Mill",
       "stationId": "cascade-id",
       "goodsReceived": [],
@@ -248,6 +262,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "echo-maltby-brewery",
       "name": "Maltby Brewery",
       "stationId": "echo-lake-wa",
       "goodsReceived": [],
@@ -259,6 +274,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "echo-united-recycling",
       "name": "United Recycling",
       "stationId": "echo-lake-wa",
       "goodsReceived": [],
@@ -270,6 +286,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "seattle-food-distribution",
       "name": "Food Distribution",
       "stationId": "seattle-wa",
       "goodsReceived": [],
@@ -281,6 +298,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "saskatoon-inland-aggregates",
       "name": "Inland Aggregates",
       "stationId": "saskatoon-sk",
       "goodsReceived": [],
@@ -292,6 +310,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "seattle-us-plywood-corp",
       "name": "U.S. Plywood Corp",
       "stationId": "seattle-wa",
       "goodsReceived": [],
@@ -303,6 +322,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "interbay-yard",
       "name": "Interbay Yard",
       "stationId": "seattle-wa",
       "goodsReceived": [],
@@ -314,6 +334,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "boise-cascade",
       "name": "Boise Cascade",
       "stationId": "cascade-id",
       "goodsReceived": [],
@@ -325,6 +346,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "saskatoon-federated-co-operative",
       "name": "Federated Co-Operative",
       "stationId": "saskatoon-sk",
       "goodsReceived": [],
@@ -336,6 +358,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "vancouver-alberta-wheat-pool",
       "name": "Alberta Wheat Pool",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
@@ -347,6 +370,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "vancouver-pioneer-grain",
       "name": "Pioneer Grain",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
@@ -358,6 +382,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "spokane-yard",
       "name": "Spokane Yard",
       "stationId": "spokane-wa",
       "goodsReceived": [],
@@ -369,6 +394,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "vancouver-paper-mill",
       "name": "Paper Mill",
       "stationId": "vancouver-bc",
       "goodsReceived": [],
@@ -380,6 +406,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "high-bridge-yard",
       "name": "High Bridge Yard",
       "stationId": "high-bridge-wa",
       "goodsReceived": [],
@@ -391,6 +418,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "chicago-station",
       "name": "Chicago Station",
       "stationId": "chicago-il",
       "goodsReceived": [],
@@ -402,6 +430,7 @@
       "isOnLayout": true
     },
     {
+      "_id": "portland-station",
       "name": "Portland Station",
       "stationId": "portland-or",
       "goodsReceived": [],
