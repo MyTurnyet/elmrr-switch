@@ -250,13 +250,15 @@ Build route template system as foundation for train operations
 - [x] Add routes to clear operation (POST /api/import/clear)
 - [x] Added 7 comprehensive import tests (all 165 tests passing)
 
-**5. Seed Data**
-- [ ] Create 2-3 example routes in `data/seed/seed-data.json`:
-  - Example 1: Local route (yard → 2-3 stations → yard)
-  - Example 2: Direct yard-to-yard transfer (empty stationSequence)
-  - Example 3: Mainline route (yard → 4+ stations → yard)
-- [ ] Use human-readable _id values (e.g., "vancouver-to-portland-local")
-- [ ] Validate all route references (yards and stations exist in seed data)
+**5. Seed Data** ✅ COMPLETED
+- [x] Create 3 example routes in `data/seed/seed-data.json`:
+  - Example 1: Vancouver to Portland Local (3 stations: seattle-wa, everett-wa, beaverton-or)
+  - Example 2: Spokane-Chicago Express (direct yard-to-yard, empty stationSequence)
+  - Example 3: Pacific Northwest Mainline (5 stations: everett-wa, high-bridge-wa, echo-lake-wa, spokane-wa, cascade-id)
+- [x] Use human-readable _id values (vancouver-to-portland-local, spokane-chicago-express, pacific-northwest-mainline)
+- [x] Validate all route references (all 6 yards and 8 stations verified to exist)
+- [x] Tested import successfully: 262 records (13 stations + 29 industries + 217 cars + 3 routes)
+- [x] All routes accessible via GET /api/routes with custom _id fields preserved
 
 #### Frontend Implementation
 
