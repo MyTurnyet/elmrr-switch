@@ -203,6 +203,34 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, [fetchData]);
 
+  // Clear database
+  const clearDatabase = useCallback(async (): Promise<void> => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    dispatch({ type: 'SET_ERROR', payload: null });
+
+    try {
+      await apiCall('/import/clear', {
+        method: 'POST',
+      });
+
+      // Clear local state after successful clear
+      dispatch({ type: 'SET_CARS', payload: [] });
+      dispatch({ type: 'SET_LOCOMOTIVES', payload: [] });
+      dispatch({ type: 'SET_INDUSTRIES', payload: [] });
+      dispatch({ type: 'SET_STATIONS', payload: [] });
+      dispatch({ type: 'SET_GOODS', payload: [] });
+      dispatch({ type: 'SET_AAR_TYPES', payload: [] });
+      dispatch({ type: 'SET_BLOCKS', payload: [] });
+      dispatch({ type: 'SET_TRACKS', payload: [] });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to clear database';
+      dispatch({ type: 'SET_ERROR', payload: errorMessage });
+      throw error;
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  }, []);
+
   // Create car
   const createCar = useCallback(async (data: Partial<RollingStock>): Promise<RollingStock> => {
     try {
@@ -312,6 +340,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     ...state,
     fetchData,
     importData,
+    clearDatabase,
     createCar,
     updateCar,
     deleteCar,

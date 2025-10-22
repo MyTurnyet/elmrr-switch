@@ -198,6 +198,7 @@ export interface AppContextType {
   // Actions
   fetchData: () => Promise<void>;
   importData: (data: any) => Promise<ImportResult>;
+  clearDatabase: () => Promise<void>;
   createCar: (data: Partial<RollingStock>) => Promise<RollingStock>;
   updateCar: (id: string, data: Partial<RollingStock>) => Promise<void>;
   deleteCar: (id: string) => Promise<void>;

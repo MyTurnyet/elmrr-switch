@@ -13,6 +13,11 @@ import {
   Divider,
   TextField,
   Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 import {
   CloudUpload,
@@ -20,6 +25,7 @@ import {
   CheckCircle,
   Error,
   Warning,
+  DeleteForever,
 } from '@mui/icons-material';
 import { useApp } from '../contexts/AppContext';
 import type { ImportResult } from '../types';
@@ -32,10 +38,11 @@ interface LocalImportResult {
 }
 
 const DataImport: React.FC = () => {
-  const { importData, loading } = useApp();
+  const { importData, clearDatabase, loading } = useApp();
   const [importResult, setImportResult] = useState<LocalImportResult | null>(null);
   const [jsonInput, setJsonInput] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [clearDialogOpen, setClearDialogOpen] = useState(false);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -90,6 +97,33 @@ const DataImport: React.FC = () => {
     setImportResult(null);
   };
 
+  const handleClearDatabase = async () => {
+    try {
+      await clearDatabase();
+      setImportResult({
+        success: true,
+        data: {
+          imported: 0,
+          errors: [],
+          warnings: [],
+        },
+      });
+      setClearDialogOpen(false);
+    } catch (err) {
+      let errorMessage = 'Failed to clear database';
+      if (err instanceof Error) {
+        errorMessage = (err as Error).message;
+      } else if (typeof err === 'string') {
+        errorMessage = err;
+      }
+      setImportResult({
+        success: false,
+        error: errorMessage,
+      });
+      setClearDialogOpen(false);
+    }
+  };
+
   const sampleData = {
     cars: [
       {
@@ -125,15 +159,26 @@ const DataImport: React.FC = () => {
 
   return (
     <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Data Import
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h4" component="h1">
+          Data Import
+        </Typography>
+        <Button
+          variant="outlined"
+          color="error"
+          startIcon={<DeleteForever />}
+          onClick={() => setClearDialogOpen(true)}
+          disabled={loading}
+        >
+          Clear Database
+        </Button>
+      </Box>
 
-      <Box 
-        sx={{ 
-          display: 'grid', 
+      <Box
+        sx={{
+          display: 'grid',
           gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' },
-          gap: 3 
+          gap: 3
         }}
       >
         {/* Import Section */}
@@ -331,6 +376,54 @@ const DataImport: React.FC = () => {
           </Card>
         </Box>
       </Box>
+
+      {/* Clear Database Confirmation Dialog */}
+      <Dialog
+        open={clearDialogOpen}
+        onClose={() => setClearDialogOpen(false)}
+        aria-labelledby="clear-dialog-title"
+        aria-describedby="clear-dialog-description"
+      >
+        <DialogTitle id="clear-dialog-title">
+          Clear Database?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="clear-dialog-description">
+            This will permanently delete all data from the database, including:
+            <List dense>
+              <ListItem sx={{ py: 0 }}>
+                <ListItemText primary="• All cars and locomotives" />
+              </ListItem>
+              <ListItem sx={{ py: 0 }}>
+                <ListItemText primary="• All industries and stations" />
+              </ListItem>
+              <ListItem sx={{ py: 0 }}>
+                <ListItemText primary="• All goods, blocks, and tracks" />
+              </ListItem>
+              <ListItem sx={{ py: 0 }}>
+                <ListItemText primary="• All AAR types" />
+              </ListItem>
+            </List>
+            <Alert severity="warning" sx={{ mt: 2 }}>
+              <strong>This action cannot be undone!</strong>
+            </Alert>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setClearDialogOpen(false)} disabled={loading}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleClearDatabase}
+            color="error"
+            variant="contained"
+            disabled={loading}
+            startIcon={<DeleteForever />}
+          >
+            Clear All Data
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
