@@ -96,7 +96,8 @@ export interface Train {
 }
 
 export interface Route {
-  id: string;
+  id?: string; // Frontend convenience field
+  _id?: string; // NeDB database ID
   name: string;
   description?: string;
   stationSequence: string[]; // Ordered array of station IDs
@@ -190,11 +191,12 @@ export interface AppContextType {
   aarTypes: AarType[];
   blocks: Block[];
   tracks: Track[];
-  
+  routes: Route[];
+
   // UI State
   loading: boolean;
   error: string | null;
-  
+
   // Actions
   fetchData: () => Promise<void>;
   importData: (data: any) => Promise<ImportResult>;
@@ -206,4 +208,7 @@ export interface AppContextType {
   createIndustry: (data: Partial<Industry>) => Promise<Industry>;
   updateIndustry: (id: string, data: Partial<Industry>) => Promise<void>;
   deleteIndustry: (id: string) => Promise<void>;
+  createRoute: (data: Partial<Route>) => Promise<Route>;
+  updateRoute: (id: string, data: Partial<Route>) => Promise<void>;
+  deleteRoute: (id: string) => Promise<void>;
 }
