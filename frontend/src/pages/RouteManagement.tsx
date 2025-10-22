@@ -15,6 +15,15 @@ import {
   FormControl,
   InputLabel,
   Select,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Stack,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
 } from '@mui/material';
 import {
   Add,
@@ -26,6 +35,9 @@ import {
   Visibility,
   TripOrigin,
   Flag,
+  ArrowUpward,
+  ArrowDownward,
+  Close,
 } from '@mui/icons-material';
 import { DataGrid, type GridColDef, type GridRowsProp } from '@mui/x-data-grid';
 import { useApp } from '../contexts/AppContext';
@@ -38,13 +50,24 @@ interface RouteFilters {
   stationCount: string; // 'all' | 'direct' | '1-3' | '4+'
 }
 
+interface RouteFormData {
+  name: string;
+  description: string;
+  originYard: string;
+  terminationYard: string;
+  stationSequence: string[];
+}
+
 const RouteManagement: React.FC = () => {
   const {
     routes,
     industries,
+    stations,
     loading,
     error,
     fetchData,
+    createRoute,
+    updateRoute,
   } = useApp();
 
   const [filters, setFilters] = useState<RouteFilters>({
@@ -53,6 +76,19 @@ const RouteManagement: React.FC = () => {
     terminationYard: 'all',
     stationCount: 'all',
   });
+
+  const [formDialogOpen, setFormDialogOpen] = useState(false);
+  const [formMode, setFormMode] = useState<'add' | 'edit'>('add');
+  const [selectedRoute, setSelectedRoute] = useState<Route | null>(null);
+  const [formData, setFormData] = useState<RouteFormData>({
+    name: '',
+    description: '',
+    originYard: '',
+    terminationYard: '',
+    stationSequence: [],
+  });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [availableStation, setAvailableStation] = useState<string>('');
 
   useEffect(() => {
     fetchData();
@@ -231,6 +267,12 @@ const RouteManagement: React.FC = () => {
     id: route.id || route._id,
   }));
 
+  // Get station name by ID
+  const getStationName = (stationId: string): string => {
+    const station = stations.find(s => (s.id || s._id) === stationId);
+    return station ? station.name : 'Unknown';
+  };
+
   const handleViewRoute = (route: Route) => {
     // TODO: Step 10 - Implement view route dialog
     console.log('View route:', route);
@@ -238,14 +280,138 @@ const RouteManagement: React.FC = () => {
   };
 
   const handleEditRoute = (route: Route) => {
-    // TODO: Step 9 - Implement edit route dialog
-    console.log('Edit route:', route);
-    alert('Edit route dialog coming in Step 9!');
+    setFormMode('edit');
+    setSelectedRoute(route);
+    setFormData({
+      name: route.name,
+      description: route.description || '',
+      originYard: route.originYard,
+      terminationYard: route.terminationYard,
+      stationSequence: [...route.stationSequence],
+    });
+    setFormErrors({});
+    setAvailableStation('');
+    setFormDialogOpen(true);
   };
 
   const handleAddRoute = () => {
-    // TODO: Step 9 - Implement add route dialog
-    alert('Add route dialog coming in Step 9!');
+    setFormMode('add');
+    setSelectedRoute(null);
+    setFormData({
+      name: '',
+      description: '',
+      originYard: yards[0]?.id || yards[0]?._id || '',
+      terminationYard: yards[0]?.id || yards[0]?._id || '',
+      stationSequence: [],
+    });
+    setFormErrors({});
+    setAvailableStation('');
+    setFormDialogOpen(true);
+  };
+
+  const handleCloseFormDialog = () => {
+    setFormDialogOpen(false);
+    setFormData({
+      name: '',
+      description: '',
+      originYard: '',
+      terminationYard: '',
+      stationSequence: [],
+    });
+    setFormErrors({});
+    setAvailableStation('');
+    setSelectedRoute(null);
+  };
+
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      errors.name = 'Route name is required';
+    } else if (formData.name.length > 100) {
+      errors.name = 'Route name must be 100 characters or less';
+    }
+
+    if (formData.description && formData.description.length > 500) {
+      errors.description = 'Description must be 500 characters or less';
+    }
+
+    if (!formData.originYard) {
+      errors.originYard = 'Origin yard is required';
+    }
+
+    if (!formData.terminationYard) {
+      errors.terminationYard = 'Termination yard is required';
+    }
+
+    if (formData.originYard === formData.terminationYard) {
+      errors.terminationYard = 'Termination yard must be different from origin yard';
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSaveRoute = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      if (formMode === 'add') {
+        await createRoute(formData);
+      } else if (formMode === 'edit' && selectedRoute) {
+        const routeId = selectedRoute.id || selectedRoute._id;
+        if (!routeId) {
+          alert('Cannot update route: missing ID');
+          return;
+        }
+        await updateRoute(routeId, formData);
+      }
+      handleCloseFormDialog();
+    } catch (error) {
+      console.error('Failed to save route:', error);
+      alert(error instanceof Error ? error.message : 'Failed to save route');
+    }
+  };
+
+  const handleAddStation = () => {
+    if (!availableStation) return;
+
+    // Check if station is already in sequence
+    if (formData.stationSequence.includes(availableStation)) {
+      alert('This station is already in the route sequence');
+      return;
+    }
+
+    setFormData({
+      ...formData,
+      stationSequence: [...formData.stationSequence, availableStation],
+    });
+    setAvailableStation('');
+  };
+
+  const handleRemoveStation = (index: number) => {
+    setFormData({
+      ...formData,
+      stationSequence: formData.stationSequence.filter((_, i) => i !== index),
+    });
+  };
+
+  const handleMoveStationUp = (index: number) => {
+    if (index === 0) return;
+
+    const newSequence = [...formData.stationSequence];
+    [newSequence[index - 1], newSequence[index]] = [newSequence[index], newSequence[index - 1]];
+    setFormData({ ...formData, stationSequence: newSequence });
+  };
+
+  const handleMoveStationDown = (index: number) => {
+    if (index === formData.stationSequence.length - 1) return;
+
+    const newSequence = [...formData.stationSequence];
+    [newSequence[index], newSequence[index + 1]] = [newSequence[index + 1], newSequence[index]];
+    setFormData({ ...formData, stationSequence: newSequence });
   };
 
   const handleDeleteClick = (route: Route) => {
@@ -402,6 +568,212 @@ const RouteManagement: React.FC = () => {
           />
         </Box>
       </Card>
+
+      {/* Add/Edit Route Dialog */}
+      <Dialog
+        open={formDialogOpen}
+        onClose={handleCloseFormDialog}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>
+          {formMode === 'add' ? 'Add New Route' : 'Edit Route'}
+        </DialogTitle>
+        <DialogContent>
+          <Stack spacing={3} sx={{ pt: 2 }}>
+            {/* Route Name */}
+            <TextField
+              fullWidth
+              label="Route Name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              error={!!formErrors.name}
+              helperText={formErrors.name}
+              required
+              inputProps={{ maxLength: 100 }}
+            />
+
+            {/* Description */}
+            <TextField
+              fullWidth
+              multiline
+              rows={2}
+              label="Description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              error={!!formErrors.description}
+              helperText={formErrors.description}
+              inputProps={{ maxLength: 500 }}
+            />
+
+            {/* Origin and Termination Yards */}
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                gap: 2,
+              }}
+            >
+              <FormControl fullWidth required error={!!formErrors.originYard}>
+                <InputLabel>Origin Yard</InputLabel>
+                <Select
+                  value={formData.originYard}
+                  label="Origin Yard"
+                  onChange={(e) => setFormData({ ...formData, originYard: e.target.value })}
+                >
+                  {yards.map((yard) => (
+                    <MenuItem key={yard.id || yard._id} value={yard.id || yard._id}>
+                      {yard.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {formErrors.originYard && (
+                  <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
+                    {formErrors.originYard}
+                  </Typography>
+                )}
+              </FormControl>
+
+              <FormControl fullWidth required error={!!formErrors.terminationYard}>
+                <InputLabel>Termination Yard</InputLabel>
+                <Select
+                  value={formData.terminationYard}
+                  label="Termination Yard"
+                  onChange={(e) => setFormData({ ...formData, terminationYard: e.target.value })}
+                >
+                  {yards.map((yard) => (
+                    <MenuItem key={yard.id || yard._id} value={yard.id || yard._id}>
+                      {yard.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {formErrors.terminationYard && (
+                  <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.5 }}>
+                    {formErrors.terminationYard}
+                  </Typography>
+                )}
+              </FormControl>
+            </Box>
+
+            <Divider />
+
+            {/* Station Sequence Builder */}
+            <Box>
+              <Typography variant="h6" gutterBottom>
+                Station Sequence
+              </Typography>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Add stations in the order the route will visit them. Leave empty for direct yard-to-yard transfers.
+              </Typography>
+
+              {/* Add Station Controls */}
+              <Box display="flex" gap={1} mt={2} mb={2}>
+                <FormControl fullWidth size="small">
+                  <InputLabel>Available Stations</InputLabel>
+                  <Select
+                    value={availableStation}
+                    label="Available Stations"
+                    onChange={(e) => setAvailableStation(e.target.value)}
+                  >
+                    <MenuItem value="">
+                      <em>Select a station</em>
+                    </MenuItem>
+                    {stations.map((station) => (
+                      <MenuItem key={station.id || station._id} value={station.id || station._id}>
+                        {station.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <Button
+                  variant="contained"
+                  onClick={handleAddStation}
+                  disabled={!availableStation}
+                  sx={{ minWidth: '120px' }}
+                >
+                  Add Station
+                </Button>
+              </Box>
+
+              {/* Current Station Sequence */}
+              {formData.stationSequence.length > 0 ? (
+                <Card variant="outlined">
+                  <List dense>
+                    {formData.stationSequence.map((stationId, index) => (
+                      <React.Fragment key={`${stationId}-${index}`}>
+                        {index > 0 && <Divider />}
+                        <ListItem
+                          secondaryAction={
+                            <Box display="flex" gap={0.5}>
+                              <IconButton
+                                edge="end"
+                                size="small"
+                                onClick={() => handleMoveStationUp(index)}
+                                disabled={index === 0}
+                                title="Move Up"
+                              >
+                                <ArrowUpward fontSize="small" />
+                              </IconButton>
+                              <IconButton
+                                edge="end"
+                                size="small"
+                                onClick={() => handleMoveStationDown(index)}
+                                disabled={index === formData.stationSequence.length - 1}
+                                title="Move Down"
+                              >
+                                <ArrowDownward fontSize="small" />
+                              </IconButton>
+                              <IconButton
+                                edge="end"
+                                size="small"
+                                color="error"
+                                onClick={() => handleRemoveStation(index)}
+                                title="Remove"
+                              >
+                                <Close fontSize="small" />
+                              </IconButton>
+                            </Box>
+                          }
+                        >
+                          <ListItemText
+                            primary={
+                              <Box display="flex" alignItems="center" gap={1}>
+                                <Chip
+                                  label={`#${index + 1}`}
+                                  size="small"
+                                  color="primary"
+                                  variant="outlined"
+                                />
+                                <Typography variant="body2">
+                                  {getStationName(stationId)}
+                                </Typography>
+                              </Box>
+                            }
+                          />
+                        </ListItem>
+                      </React.Fragment>
+                    ))}
+                  </List>
+                </Card>
+              ) : (
+                <Alert severity="info" sx={{ mt: 1 }}>
+                  No stations added yet. This will be a direct yard-to-yard route.
+                </Alert>
+              )}
+            </Box>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseFormDialog}>Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={handleSaveRoute}
+            disabled={!formData.name.trim() || !formData.originYard || !formData.terminationYard}
+          >
+            {formMode === 'add' ? 'Create Route' : 'Save Changes'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
