@@ -7,6 +7,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import CarManagement from './pages/CarManagement';
 import IndustryView from './pages/IndustryView';
+import RouteManagement from './pages/RouteManagement';
 import DataImport from './pages/DataImport';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/cars" element={<CarManagement />} />
               <Route path="/industries" element={<IndustryView />} />
+              <Route path="/routes" element={<RouteManagement />} />
               <Route path="/import" element={<DataImport />} />
             </Routes>
           </Layout>
