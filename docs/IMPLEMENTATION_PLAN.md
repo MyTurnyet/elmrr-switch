@@ -333,11 +333,16 @@ Build route template system as foundation for train operations
   - Confirm/Cancel buttons
   - Error handling if delete fails
 
-**12. Navigation & Routing**
-- [ ] Update `frontend/src/App.tsx`:
-  - Add route: /routes → RouteManagement component
+**12. Navigation & Routing** ✅ COMPLETED
+- [x] Update `frontend/src/App.tsx`:
+  - Add route: /routes → RouteManagement component (completed in Step 7)
   - Add to navigation menu with train/route icon
   - Update active navigation highlighting
+- [x] Updated `frontend/src/components/Layout.tsx`:
+  - Added RouteIcon to Material-UI imports
+  - Added Routes menu item between Industries and Data Import
+  - Active highlighting works automatically via location.pathname
+  - Mobile-responsive drawer behavior
 
 **13. Dashboard Integration**
 - [ ] Update `frontend/src/pages/Dashboard.tsx`:
@@ -388,13 +393,15 @@ Build route template system as foundation for train operations
 - [x] Backend routes API fully functional with CRUD operations
 - [x] All backend tests passing (including new route tests) - 165 tests passing
 - [x] Route management UI complete with DataGrid interface
-- [ ] Add/Edit/Delete functionality working (placeholders in Step 7, full implementation in Steps 9-11)
-- [ ] Station sequence builder functional with reordering (Step 9)
+- [x] Add/Edit functionality working - completed in Step 9 with form dialog
+- [ ] Delete functionality working (Step 11 - pending)
+- [x] Station sequence builder functional with reordering (Step 9)
 - [x] Advanced filtering (search, origin, destination, station count) - completed with Step 7
 - [x] Seed data includes 2-3 example routes - 3 routes in seed-data.json
-- [ ] Dashboard shows route statistics (Step 13)
+- [x] Routes accessible from navigation menu - completed in Step 12
+- [ ] Dashboard shows route statistics (Step 13 - pending)
 - [x] Responsive design working on all screen sizes
-- [x] No TypeScript errors in frontend build - 1,023 KB bundle
+- [x] No TypeScript errors in frontend build - 1,029 KB bundle
 - [x] Clean, professional UI following Material-UI patterns
 
 **Estimated Effort**: 8-12 hours
