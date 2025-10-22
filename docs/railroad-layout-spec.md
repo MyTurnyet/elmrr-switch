@@ -122,8 +122,11 @@
 
 ### 4.3 Data Management
 - Import/export JSON data
+- Clear database functionality with confirmation dialog
 - Backup/restore functionality
 - Data validation on import
+- Support for custom _id fields to preserve human-readable identifiers
+- Proper import order respecting data dependencies (stations → industries → cars)
 
 ## 5. Technical Specifications
 
@@ -142,15 +145,19 @@
 
 ### 5.3 Data Storage
 - NeDB collections:
-  - cars
+  - cars (with custom _id support for imports)
   - locomotives
-  - industries
+  - industries (with custom _id support for imports)
   - stations
   - goods
   - aarTypes
+  - blocks
+  - tracks
   - trains
   - routes
   - operatingSessions
+- Custom _id fields preserved when provided in import data
+- Human-readable IDs for industries (e.g., "vancouver-yard", "walla-walla-yard")
 
 ### 5.4 Testing
 - Unit testing
@@ -170,10 +177,14 @@
 
 ## 6. Implementation Phases
 
-### Phase 1: Core Functionality
+### Phase 1: Core Functionality ✅ COMPLETE
 - Basic data model implementation
-- NeDB setup and data import
-- Simple UI for car and industry management
+- NeDB setup with proper import ordering
+- Data import with validation and custom _id support
+- Clear database functionality
+- Full CRUD UI for car and industry management
+- Dashboard with stats and quick actions
+- Responsive Material-UI interface
 
 ### Phase 2: Operations
 - Switch list generation

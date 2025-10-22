@@ -48,7 +48,10 @@
 - [x] Create file upload interface for JSON data
 - [x] Implement data validation and error reporting
 - [x] Add progress indicators for import operations
-- [ ] Create data preview before import confirmation
+- [x] Clear Database functionality with confirmation dialog
+- [x] Fix import order to respect data dependencies (stations → industries → cars)
+- [x] Support for custom _id fields in seed data (preserves human-readable IDs)
+- [ ] Create data preview before import confirmation (deferred)
 
 ### 6. Dashboard Implementation
 - [x] Landing page with layout overview
@@ -141,7 +144,7 @@ elmrr-switch/
 ├── frontend/                 # React SPA
 │   ├── src/
 │   │   ├── components/      # Reusable UI components (✓ Layout.tsx exists)
-│   │   ├── pages/          # Main application pages (✓ Dashboard, DataImport exist)
+│   │   ├── pages/          # Main application pages (✓ Dashboard, DataImport, CarManagement, IndustryView)
 │   │   ├── contexts/       # React Context providers (✓ AppContext.tsx exists)
 │   │   ├── types/          # TypeScript interfaces (✓ index.ts exists)
 │   │   ├── services/       # API service functions (✓ api.ts exists)
@@ -151,14 +154,15 @@ elmrr-switch/
 │   └── package.json
 ├── backend/                 # Node.js API server
 │   ├── src/
-│   │   ├── routes/         # API route handlers (✓ All routes implemented)
-│   │   ├── models/         # Data models and validation (✓ Joi schemas exist)
+│   │   ├── routes/         # API route handlers (✓ All routes implemented including import)
+│   │   ├── models/         # Data models and validation (✓ Joi schemas with _id support)
 │   │   ├── services/       # Business logic (✗ Directory empty - not needed yet)
 │   │   ├── middleware/     # Express middleware (✗ Directory empty - not needed yet)
-│   │   └── database/       # NeDB configuration (✓ index.js exists)
+│   │   ├── database/       # NeDB configuration (✓ index.js exists)
+│   │   └── tests/          # Jest test suite (✓ 102 tests passing)
 │   └── package.json
 ├── data/                   # Seed data and exports
-│   ├── seed/              # JSON seed files (✗ Empty - needs sample data)
+│   ├── seed/              # JSON seed files (✓ seed-data.json: 217 cars, 29 industries, 13 stations)
 │   └── backups/           # Database backups (✗ Empty)
 └── docs/                  # Documentation (✓ spec and plan exist)
 ```
@@ -212,15 +216,28 @@ elmrr-switch/
 ## Known Issues & Current Status
 
 ### Build Status
-- ✅ Frontend compiles successfully with no TypeScript errors
+- ✅ Frontend compiles successfully with no TypeScript errors (1,016 KB bundle)
 - ✅ Backend tests pass (102/102)
 - ✅ All strict mode type issues resolved
 - ✅ DataGrid ID compatibility fixed (id/_id dual support)
+- ✅ Import system fixed with proper dependency ordering
+- ✅ Car location display issue resolved (was showing "Unknown", now shows correct yards)
 
-### Pending Backend Endpoints
-**All Phase 1 CRUD endpoints are now complete!** ✅
+### Data Import System Status
+**All import functionality working correctly!** ✅
+- ✅ Import order fixed to respect dependencies (stations → industries → cars)
+- ✅ Custom _id field support added to validation schemas (industry.js, car.js)
+- ✅ Seed data contains proper _id fields for all industries
+- ✅ NeDB preserves custom _id values when provided
+- ✅ Clear Database functionality with confirmation dialog
+- ✅ 217 unique cars in seed data (duplicates removed)
+- ✅ All car homeYard and currentIndustry references valid
+
+### Completed Backend Endpoints
+**All Phase 1 CRUD endpoints are complete!** ✅
 - All car endpoints implemented (GET, POST, PUT, DELETE, move)
 - All industry endpoints implemented (GET, POST, PUT, DELETE)
+- Import/export endpoints (POST /api/import/json, POST /api/import/clear, GET /api/import/export)
 
 ### Missing Components
 - Reusable components: FilterPanel, ConfirmDialog
@@ -241,7 +258,7 @@ elmrr-switch/
 
 ### Frontend Status
 - ✅ Dashboard complete with stats and quick actions
-- ✅ DataImport complete with validation and error handling
+- ✅ DataImport complete with validation, error handling, and Clear Database button
 - ✅ CarManagement complete with full CRUD implementation:
   - DataGrid with add/edit/delete actions per row
   - Add car form dialog with validation
@@ -272,6 +289,11 @@ elmrr-switch/
 - Document API endpoints for future reference
 
 ---
-*Last Updated: 2025-10-21T21:50:00-07:00*
-*Status: Phase 1 - ✅ COMPLETE - All UI pages with full CRUD implemented*
-*Next: Add remaining backend CRUD endpoints (POST/DELETE for cars only), then begin Phase 2*
+*Last Updated: 2025-10-22T08:15:00-07:00*
+*Status: Phase 1 - ✅ COMPLETE - All functionality working including data import fixes*
+*Recent Updates:*
+- *Fixed import system: proper dependency ordering and _id field support*
+- *Resolved "Unknown" location display issue for all cars*
+- *Added Clear Database functionality with confirmation dialog*
+- *Seed data validated and cleaned (217 cars, 29 industries with proper IDs)*
+*Next: Begin Phase 2 (Train operations, switch list generation, routes)*
