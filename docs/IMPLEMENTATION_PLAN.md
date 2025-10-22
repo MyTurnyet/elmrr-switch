@@ -238,12 +238,17 @@ Build route template system as foundation for train operations
   - Test duplicate route name validation
   - All 158 tests passing (125 existing + 33 new)
 
-**4. Import/Export Support**
-- [ ] Update `backend/src/routes/import.js` to include routes collection
-  - Add routes to import sequence (after stations, before trains)
-  - Support custom _id fields for routes
-  - Validate route references during import
-- [ ] Add routes to export functionality
+**4. Import/Export Support** ✅ COMPLETED
+- [x] Update `backend/src/routes/import.js` to include routes collection
+  - Add routes to import sequence (Step 4: after tracks, before rolling stock)
+  - Support custom _id fields for routes (preserved during import)
+  - Validate route references during import:
+    - Origin/termination yards must exist and be yards (isYard=true)
+    - All stations in sequence must exist
+    - Duplicate route names generate warnings (non-blocking)
+- [x] Add routes to export functionality (routes included in GET /api/import/export)
+- [x] Add routes to clear operation (POST /api/import/clear)
+- [x] Added 7 comprehensive import tests (all 165 tests passing)
 
 **5. Seed Data**
 - [ ] Create 2-3 example routes in `data/seed/seed-data.json`:
