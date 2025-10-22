@@ -18,6 +18,7 @@ import {
   DirectionsCar,
   Train,
   Factory,
+  Route as RouteIcon,
   TrendingUp,
   Warning,
   CheckCircle,
@@ -26,7 +27,7 @@ import { useApp } from '../contexts/AppContext';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
-  const { cars, locomotives, industries, loading, error, fetchData } = useApp();
+  const { cars, locomotives, industries, routes, loading, error, fetchData } = useApp();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,6 +63,7 @@ const Dashboard: React.FC = () => {
     { label: 'Import Data', path: '/import', color: 'primary' as const },
     { label: 'Manage Cars', path: '/cars', color: 'secondary' as const },
     { label: 'View Industries', path: '/industries', color: 'success' as const },
+    { label: 'Manage Routes', path: '/routes', color: 'info' as const },
   ];
 
   return (
@@ -150,19 +152,19 @@ const Dashboard: React.FC = () => {
             <Box display="flex" alignItems="center" justifyContent="space-between">
               <Box>
                 <Typography color="textSecondary" gutterBottom variant="body2">
-                  System Status
+                  Routes
                 </Typography>
-                <Typography variant="h6" component="h2" color="success.main">
-                  Online
+                <Typography variant="h4" component="h2">
+                  {routes.length}
                 </Typography>
-                <Chip 
-                  label="Ready" 
-                  size="small" 
-                  color="success"
+                <Chip
+                  label="Configured"
+                  size="small"
+                  color={routes.length > 0 ? 'success' : 'default'}
                   sx={{ mt: 1 }}
                 />
               </Box>
-              <CheckCircle color="success" sx={{ fontSize: 40 }} />
+              <RouteIcon color="primary" sx={{ fontSize: 40 }} />
             </Box>
           </CardContent>
         </Card>
