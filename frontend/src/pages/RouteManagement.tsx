@@ -68,6 +68,7 @@ const RouteManagement: React.FC = () => {
     fetchData,
     createRoute,
     updateRoute,
+    deleteRoute,
   } = useApp();
 
   const [filters, setFilters] = useState<RouteFilters>({
@@ -93,6 +94,10 @@ const RouteManagement: React.FC = () => {
   // Detail dialog state
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [viewRoute, setViewRoute] = useState<Route | null>(null);
+
+  // Delete confirmation dialog state
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [routeToDelete, setRouteToDelete] = useState<Route | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -423,9 +428,31 @@ const RouteManagement: React.FC = () => {
   };
 
   const handleDeleteClick = (route: Route) => {
-    // TODO: Step 11 - Implement delete confirmation
-    console.log('Delete route:', route);
-    alert('Delete confirmation dialog coming in Step 11!');
+    setRouteToDelete(route);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setRouteToDelete(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!routeToDelete) return;
+
+    try {
+      const routeId = routeToDelete.id || routeToDelete._id;
+      if (!routeId) {
+        alert('Cannot delete route: missing ID');
+        return;
+      }
+
+      await deleteRoute(routeId);
+      handleCloseDeleteDialog();
+    } catch (error) {
+      console.error('Failed to delete route:', error);
+      alert(error instanceof Error ? error.message : 'Failed to delete route');
+    }
   };
 
   if (loading) {
@@ -936,6 +963,81 @@ const RouteManagement: React.FC = () => {
             }}
           >
             Edit Route
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleCloseDeleteDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          <Box display="flex" alignItems="center" gap={1}>
+            <Delete color="error" />
+            <Typography variant="h6">Delete Route</Typography>
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          {routeToDelete && (
+            <Stack spacing={2} sx={{ pt: 1 }}>
+              <Alert severity="warning">
+                Are you sure you want to delete this route? This action cannot be undone.
+              </Alert>
+
+              <Box>
+                <Typography variant="overline" color="text.secondary">
+                  Route Name
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                  {routeToDelete.name}
+                </Typography>
+              </Box>
+
+              {routeToDelete.description && (
+                <Box>
+                  <Typography variant="overline" color="text.secondary">
+                    Description
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {routeToDelete.description}
+                  </Typography>
+                </Box>
+              )}
+
+              <Box>
+                <Typography variant="overline" color="text.secondary">
+                  Route Path
+                </Typography>
+                <Typography variant="body2">
+                  {getIndustryName(routeToDelete.originYard)} → {getIndustryName(routeToDelete.terminationYard)}
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography variant="overline" color="text.secondary">
+                  Stations
+                </Typography>
+                <Typography variant="body2">
+                  {routeToDelete.stationSequence.length === 0
+                    ? 'Direct route (no stops)'
+                    : `${routeToDelete.stationSequence.length} stop${routeToDelete.stationSequence.length !== 1 ? 's' : ''}`}
+                </Typography>
+              </Box>
+            </Stack>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<Delete />}
+            onClick={handleConfirmDelete}
+          >
+            Delete Route
           </Button>
         </DialogActions>
       </Dialog>
