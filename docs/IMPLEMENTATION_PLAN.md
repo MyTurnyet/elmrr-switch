@@ -327,12 +327,14 @@ Build route template system as foundation for train operations
   - Total distance estimate deferred (no distance data in current model)
   - List trains using route deferred to Phase 2.2 (Train Operations)
 
-**11. Delete Confirmation**
-- [ ] Implement delete route confirmation dialog:
-  - Warning message with route name
-  - Check if route is in use by active trains (future check)
-  - Confirm/Cancel buttons
-  - Error handling if delete fails
+**11. Delete Confirmation** ✅ COMPLETED
+- [x] Implement delete route confirmation dialog:
+  - Warning message with route name and full route details
+  - Route information display (name, description, path, station count)
+  - Warning alert: "This action cannot be undone"
+  - Confirm/Cancel buttons (red "Delete Route" button + "Cancel")
+  - Comprehensive error handling with user-friendly alerts
+  - Check if route is in use by active trains deferred to Phase 2.2
 
 **12. Navigation & Routing** ✅ COMPLETED
 - [x] Update `frontend/src/App.tsx`:
@@ -395,14 +397,14 @@ Build route template system as foundation for train operations
 - [x] All backend tests passing (including new route tests) - 165 tests passing
 - [x] Route management UI complete with DataGrid interface
 - [x] Add/Edit functionality working - completed in Step 9 with form dialog
-- [ ] Delete functionality working (Step 11 - pending)
+- [x] Delete functionality working - completed in Step 11 with confirmation dialog
 - [x] Station sequence builder functional with reordering (Step 9)
 - [x] Advanced filtering (search, origin, destination, station count) - completed with Step 7
 - [x] Seed data includes 2-3 example routes - 3 routes in seed-data.json
 - [x] Routes accessible from navigation menu - completed in Step 12
 - [ ] Dashboard shows route statistics (Step 13 - pending)
 - [x] Responsive design working on all screen sizes
-- [x] No TypeScript errors in frontend build - 1,029 KB bundle
+- [x] No TypeScript errors in frontend build - 1,033 KB bundle
 - [x] Clean, professional UI following Material-UI patterns
 
 **Estimated Effort**: 8-12 hours
