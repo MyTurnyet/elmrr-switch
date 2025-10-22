@@ -188,13 +188,205 @@ elmrr-switch/
 - Production: Static hosting (frontend) + Node.js hosting (backend)
 - Database: File-based NeDB for simplicity
 
-## Future Phases (Post-Phase 1)
+## Phase 2: Operations and Route Management
 
-### Phase 2: Operations
+### Phase 2.1: Routes Management (Foundation)
+Build route template system as foundation for train operations
+
+**Goal**: Create CRUD interface for managing route templates that define ordered station sequences between yards
+
+**Route Data Model** (already defined in types):
+- ID, name, description
+- originYard (Industry ID where isYard=true)
+- terminationYard (Industry ID where isYard=true)
+- stationSequence (ordered array of Station IDs)
+
+#### Backend Implementation
+
+**1. Route Model & Validation**
+- [ ] Create `backend/src/models/route.js` with Joi schema
+  - Required: name, originYard, terminationYard
+  - Optional: description, stationSequence (can be empty array)
+  - Add _id as optional field for seed data support
+  - Validation: originYard and terminationYard must reference valid yard industries
+  - Validation: stationSequence items must reference valid station IDs
+
+**2. Route API Endpoints**
+- [ ] Create `backend/src/routes/routes.js` with standard CRUD operations:
+  - GET /api/routes - List all routes
+  - GET /api/routes/:id - Get single route by ID
+  - POST /api/routes - Create new route (with validation)
+  - PUT /api/routes/:id - Update route
+  - DELETE /api/routes/:id - Delete route
+- [ ] Register routes in `backend/src/server.js`
+- [ ] Add validation middleware to check:
+  - Unique route names
+  - Origin/termination yards exist and are yards (isYard=true)
+  - Station sequence references valid stations
+
+**3. Backend Testing**
+- [ ] Create `backend/src/tests/routes/routes.routes.test.js`
+  - Test GET all routes
+  - Test GET single route by ID
+  - Test POST create route with valid data
+  - Test POST validation failures (invalid yards, missing required fields)
+  - Test PUT update route
+  - Test DELETE route
+  - Test duplicate route name validation
+  - Ensure all tests pass (maintain 100% backend test coverage)
+
+**4. Import/Export Support**
+- [ ] Update `backend/src/routes/import.js` to include routes collection
+  - Add routes to import sequence (after stations, before trains)
+  - Support custom _id fields for routes
+  - Validate route references during import
+- [ ] Add routes to export functionality
+
+**5. Seed Data**
+- [ ] Create 2-3 example routes in `data/seed/seed-data.json`:
+  - Example 1: Local route (yard → 2-3 stations → yard)
+  - Example 2: Direct yard-to-yard transfer (empty stationSequence)
+  - Example 3: Mainline route (yard → 4+ stations → yard)
+- [ ] Use human-readable _id values (e.g., "vancouver-to-portland-local")
+- [ ] Validate all route references (yards and stations exist in seed data)
+
+#### Frontend Implementation
+
+**6. Route Context Integration**
+- [ ] Update `frontend/src/contexts/AppContext.tsx`:
+  - Add routes: Route[] to state
+  - Add fetchRoutes() method
+  - Add createRoute(data: Partial<Route>) method
+  - Add updateRoute(id: string, data: Partial<Route>) method
+  - Add deleteRoute(id: string) method
+  - Add routes to initial data fetch in fetchData()
+  - Add ADD_ROUTE, UPDATE_ROUTE, DELETE_ROUTE reducer actions
+
+**7. Route Management UI**
+- [ ] Create `frontend/src/pages/RouteManagement.tsx` (~600-800 lines):
+  - DataGrid with route list (pagination: 10/25/50/100 rows)
+  - Columns: Name, Description, Origin Yard, Destination Yard, # Stations, Actions
+  - Actions column: View/Edit/Delete buttons per row
+  - Add Route button in toolbar
+  - Real-time stats summary (total routes, avg stations per route)
+
+**8. Filtering & Search**
+- [ ] Implement advanced filtering in RouteManagement:
+  - Search by route name (debounced)
+  - Filter by origin yard (dropdown)
+  - Filter by destination yard (dropdown)
+  - Filter by station count range (e.g., "Direct", "1-3 stops", "4+ stops")
+  - Clear filters button
+  - Use useMemo for filtered data performance
+
+**9. Add/Edit Route Dialog**
+- [ ] Create comprehensive route form dialog:
+  - Text input: Route name (required, max 100 chars)
+  - Text input: Description (optional, multiline)
+  - Dropdown: Origin yard (required, filtered to industries where isYard=true)
+  - Dropdown: Termination yard (required, filtered to industries where isYard=true)
+  - Station sequence builder:
+    - Available stations dropdown
+    - "Add Station" button
+    - Ordered list showing current sequence
+    - Up/Down arrow buttons to reorder stations
+    - Remove button per station
+    - Empty sequence is valid (direct yard-to-yard)
+  - Form validation with error messages
+  - Save/Cancel buttons
+
+**10. Route Detail View Dialog**
+- [ ] Create route detail dialog (read-only):
+  - Display route name and description
+  - Show origin → destination with visual arrow
+  - Display full station sequence with order numbers
+  - Show total distance estimate (if applicable)
+  - List any trains currently using this route (future: Phase 2.2)
+  - Close button
+
+**11. Delete Confirmation**
+- [ ] Implement delete route confirmation dialog:
+  - Warning message with route name
+  - Check if route is in use by active trains (future check)
+  - Confirm/Cancel buttons
+  - Error handling if delete fails
+
+**12. Navigation & Routing**
+- [ ] Update `frontend/src/App.tsx`:
+  - Add route: /routes → RouteManagement component
+  - Add to navigation menu with train/route icon
+  - Update active navigation highlighting
+
+**13. Dashboard Integration**
+- [ ] Update `frontend/src/pages/Dashboard.tsx`:
+  - Add "Total Routes" to stats cards
+  - Add "Manage Routes" quick access button
+  - Update stats calculation to include routes count
+  - Add route-related recent activity items (route created/updated)
+
+**14. Type Safety & Validation**
+- [ ] Ensure all components use proper TypeScript types:
+  - Route interface already defined in types/index.ts
+  - Create RouteFormData interface if needed
+  - Type-safe API calls in context methods
+  - Proper error handling with typed responses
+
+#### Testing & Quality Assurance
+
+**15. Frontend Testing**
+- [ ] Manual testing checklist:
+  - Create route with all fields
+  - Create direct yard-to-yard route (no stations)
+  - Edit route and modify station sequence
+  - Delete route with confirmation
+  - Test all filters and search
+  - Verify DataGrid sorting on all columns
+  - Test pagination with different page sizes
+  - Verify form validation (required fields, yard validation)
+  - Test error handling (network errors, validation errors)
+  - Verify responsive design on mobile/tablet/desktop
+
+**16. Build & Performance**
+- [ ] Run frontend build: `npm run build`
+- [ ] Verify no TypeScript errors
+- [ ] Check bundle size (should be ~1,020-1,050 KB, minimal increase)
+- [ ] Run backend tests: `npm test` (all tests must pass)
+- [ ] Verify DataGrid performance with 10+ routes
+
+**17. Documentation**
+- [ ] Update IMPLEMENTATION_PLAN.md:
+  - Mark Phase 2.1 tasks as completed
+  - Update current status and known issues
+  - Document any API endpoint changes
+- [ ] Update CLAUDE.md if needed:
+  - Add routes to backend collections list
+  - Document route-specific patterns or considerations
+
+### Phase 2.1 Success Criteria
+- [ ] Backend routes API fully functional with CRUD operations
+- [ ] All backend tests passing (including new route tests)
+- [ ] Route management UI complete with DataGrid interface
+- [ ] Add/Edit/Delete functionality working
+- [ ] Station sequence builder functional with reordering
+- [ ] Advanced filtering (search, origin, destination, station count)
+- [ ] Seed data includes 2-3 example routes
+- [ ] Dashboard shows route statistics
+- [ ] Responsive design working on all screen sizes
+- [ ] No TypeScript errors in frontend build
+- [ ] Clean, professional UI following Material-UI patterns
+
+**Estimated Effort**: 8-12 hours
+**Priority**: High - Foundation for Phase 2.2 (Train Operations)
+
+---
+
+### Phase 2.2: Train Operations (Builds on Routes)
 - Switch list generation
-- Train operations management
+- Train management (create trains using route templates)
 - Operating session tracking
-- Route management
+- Car pickup/setout management
+
+**Note**: Phase 2.2 will use the route templates created in Phase 2.1 to assign routes to trains during operating sessions.
 
 ### Phase 3: Enhanced Features
 - Advanced reporting and analytics
