@@ -5,6 +5,7 @@ import importRouter from '../../routes/import.js';
 import { dbHelpers } from '../../database/index.js';
 import { validateCar } from '../../models/car.js';
 import { validateIndustry } from '../../models/industry.js';
+import { validateRoute } from '../../models/route.js';
 
 // Mock multer is now in src/__mocks__/multer.js
 jest.mock('multer');
@@ -13,6 +14,7 @@ jest.mock('multer');
 jest.mock('../../database/index.js', () => ({
   dbHelpers: {
     create: jest.fn(),
+    findById: jest.fn(),
     findByQuery: jest.fn()
   }
 }));
@@ -24,6 +26,10 @@ jest.mock('../../models/car.js', () => ({
 
 jest.mock('../../models/industry.js', () => ({
   validateIndustry: jest.fn()
+}));
+
+jest.mock('../../models/route.js', () => ({
+  validateRoute: jest.fn()
 }));
 
 const app = express();
@@ -57,13 +63,31 @@ describe('Import Routes', () => {
     isOnLayout: true
   };
 
+  const mockYard = {
+    _id: 'yard1',
+    name: 'Test Yard',
+    stationId: 'station1',
+    isYard: true,
+    isOnLayout: true
+  };
+
+  const mockRoute = {
+    name: 'Test Route',
+    description: 'A test route',
+    originYard: 'yard1',
+    terminationYard: 'yard2',
+    stationSequence: ['station1']
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
     // Default mock implementations
     dbHelpers.findByQuery.mockResolvedValue([]);
+    dbHelpers.findById.mockResolvedValue(mockYard);
     dbHelpers.create.mockResolvedValue({ _id: '123' });
     validateCar.mockReturnValue({ error: null, value: mockCar });
     validateIndustry.mockReturnValue({ error: null, value: mockIndustry });
+    validateRoute.mockReturnValue({ error: null, value: mockRoute });
   });
 
   describe('POST /api/import/json', () => {
@@ -176,6 +200,148 @@ describe('Import Routes', () => {
       expect(response.body.data.errors).toBeDefined();
       expect(response.body.data.errors.length).toBeGreaterThan(0);
       expect(response.body.data.errors[0]).toContain('Database error');
+    });
+
+    it('should import valid routes', async () => {
+      dbHelpers.findById
+        .mockResolvedValueOnce(mockYard) // origin yard
+        .mockResolvedValueOnce(mockYard) // termination yard
+        .mockResolvedValueOnce(mockStation); // station in sequence
+
+      const response = await request(app)
+        .post('/api/import/json')
+        .send({
+          data: {
+            routes: [mockRoute]
+          }
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.imported).toBeGreaterThan(0);
+      expect(validateRoute).toHaveBeenCalledWith(mockRoute);
+    });
+
+    it('should report validation errors for route data', async () => {
+      const error = { details: [{ message: 'Invalid route data' }] };
+      validateRoute.mockReturnValueOnce({ error, value: null });
+
+      const response = await request(app)
+        .post('/api/import/json')
+        .send({
+          data: {
+            routes: [mockRoute]
+          }
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.errors).toBeDefined();
+      expect(response.body.data.errors.length).toBeGreaterThan(0);
+      expect(response.body.data.errors[0]).toContain('Invalid route data');
+    });
+
+    it('should report error if origin yard not found', async () => {
+      dbHelpers.findById.mockResolvedValueOnce(null); // origin yard not found
+
+      const response = await request(app)
+        .post('/api/import/json')
+        .send({
+          data: {
+            routes: [mockRoute]
+          }
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.errors).toBeDefined();
+      expect(response.body.data.errors.length).toBeGreaterThan(0);
+      expect(response.body.data.errors[0]).toContain('Origin yard');
+      expect(response.body.data.errors[0]).toContain('not found');
+    });
+
+    it('should report error if origin is not a yard', async () => {
+      dbHelpers.findById.mockResolvedValueOnce({ ...mockYard, isYard: false });
+
+      const response = await request(app)
+        .post('/api/import/json')
+        .send({
+          data: {
+            routes: [mockRoute]
+          }
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.errors).toBeDefined();
+      expect(response.body.data.errors.length).toBeGreaterThan(0);
+      expect(response.body.data.errors[0]).toContain('is not a yard');
+    });
+
+    it('should report error if termination yard not found', async () => {
+      dbHelpers.findById
+        .mockResolvedValueOnce(mockYard) // origin yard valid
+        .mockResolvedValueOnce(null); // termination yard not found
+
+      const response = await request(app)
+        .post('/api/import/json')
+        .send({
+          data: {
+            routes: [mockRoute]
+          }
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.errors).toBeDefined();
+      expect(response.body.data.errors.length).toBeGreaterThan(0);
+      expect(response.body.data.errors[0]).toContain('Termination yard');
+      expect(response.body.data.errors[0]).toContain('not found');
+    });
+
+    it('should report error if station in sequence not found', async () => {
+      dbHelpers.findById
+        .mockResolvedValueOnce(mockYard) // origin yard
+        .mockResolvedValueOnce(mockYard) // termination yard
+        .mockResolvedValueOnce(null); // station not found
+
+      const response = await request(app)
+        .post('/api/import/json')
+        .send({
+          data: {
+            routes: [mockRoute]
+          }
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.errors).toBeDefined();
+      expect(response.body.data.errors.length).toBeGreaterThan(0);
+      expect(response.body.data.errors[0]).toContain('Station');
+      expect(response.body.data.errors[0]).toContain('not found');
+    });
+
+    it('should skip duplicate route names and report warnings', async () => {
+      dbHelpers.findById
+        .mockResolvedValueOnce(mockYard) // origin yard
+        .mockResolvedValueOnce(mockYard) // termination yard
+        .mockResolvedValueOnce(mockStation); // station
+
+      dbHelpers.findByQuery.mockResolvedValueOnce([{ _id: 'existing', name: 'Test Route' }]);
+
+      const response = await request(app)
+        .post('/api/import/json')
+        .send({
+          data: {
+            routes: [mockRoute]
+          }
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.warnings).toBeDefined();
+      expect(response.body.data.warnings.length).toBeGreaterThan(0);
+      expect(response.body.data.warnings[0]).toContain('Duplicate route name');
     });
 
     it('should return 400 if no data provided', async () => {
