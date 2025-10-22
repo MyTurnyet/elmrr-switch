@@ -88,6 +88,11 @@ GET    /api/cars                   # List all cars
 GET    /api/cars/:id               # Get car by ID
 PUT    /api/cars/:id               # Update car
 DELETE /api/cars/:id               # Delete car
+GET    /api/routes                 # List all routes (with filtering)
+GET    /api/routes/:id             # Get route by ID
+POST   /api/routes                 # Create new route
+PUT    /api/routes/:id             # Update route
+DELETE /api/routes/:id             # Delete route
 POST   /api/import                 # Bulk import JSON data
 ```
 
