@@ -347,12 +347,14 @@ Build route template system as foundation for train operations
   - Active highlighting works automatically via location.pathname
   - Mobile-responsive drawer behavior
 
-**13. Dashboard Integration**
-- [ ] Update `frontend/src/pages/Dashboard.tsx`:
-  - Add "Total Routes" to stats cards
-  - Add "Manage Routes" quick access button
-  - Update stats calculation to include routes count
-  - Add route-related recent activity items (route created/updated)
+**13. Dashboard Integration** ✅ COMPLETED
+- [x] Update `frontend/src/pages/Dashboard.tsx`:
+  - Add "Routes" stats card replacing "System Status"
+  - Show total route count with "Configured" chip
+  - Add "Manage Routes" quick access button (info color)
+  - Routes count calculated automatically (routes.length)
+  - RouteIcon added for visual consistency
+  - Route-related recent activity items deferred (not tracking activity yet)
 
 **14. Type Safety & Validation**
 - [ ] Ensure all components use proper TypeScript types:
@@ -402,7 +404,7 @@ Build route template system as foundation for train operations
 - [x] Advanced filtering (search, origin, destination, station count) - completed with Step 7
 - [x] Seed data includes 2-3 example routes - 3 routes in seed-data.json
 - [x] Routes accessible from navigation menu - completed in Step 12
-- [ ] Dashboard shows route statistics (Step 13 - pending)
+- [x] Dashboard shows route statistics - completed in Step 13 (stats card + quick action)
 - [x] Responsive design working on all screen sizes
 - [x] No TypeScript errors in frontend build - 1,033 KB bundle
 - [x] Clean, professional UI following Material-UI patterns
