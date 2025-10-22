@@ -20,6 +20,7 @@ import {
   Dashboard as DashboardIcon,
   DirectionsCar as CarIcon,
   Factory as IndustryIcon,
+  Route as RouteIcon,
   CloudUpload as ImportIcon,
   Train as TrainIcon,
 } from '@mui/icons-material';
@@ -46,6 +47,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
     { text: 'Car Management', icon: <CarIcon />, path: '/cars' },
     { text: 'Industries', icon: <IndustryIcon />, path: '/industries' },
+    { text: 'Routes', icon: <RouteIcon />, path: '/routes' },
     { text: 'Data Import', icon: <ImportIcon />, path: '/import' },
   ];
 
