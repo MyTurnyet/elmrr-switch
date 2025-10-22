@@ -882,7 +882,7 @@ const RouteManagement: React.FC = () => {
                                     color="primary"
                                     variant="outlined"
                                   />
-                                  <Typography variant="body1">
+                                  <Typography variant="body1" fontWeight={500}>
                                     {getStationName(stationId)}
                                   </Typography>
                                 </Box>
