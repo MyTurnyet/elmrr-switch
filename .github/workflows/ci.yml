@@ -11,20 +11,15 @@ jobs:
     name: Backend Tests
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20.x
           cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
 
       - name: Install backend dependencies
         working-directory: ./backend
@@ -40,7 +35,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: backend-test-results-node-${{ matrix.node-version }}
+          name: backend-test-results-node-20
           path: backend/coverage/
           retention-days: 30
 
@@ -48,20 +43,15 @@ jobs:
     name: Frontend Build & Lint
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20.x
           cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
 
       - name: Install frontend dependencies
         working-directory: ./frontend
@@ -79,7 +69,7 @@ jobs:
         run: npm run build
 
       - name: Upload build artifacts
-        if: success() && matrix.node-version == '20.x'
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: frontend-build
