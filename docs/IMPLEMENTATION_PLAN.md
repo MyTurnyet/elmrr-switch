@@ -298,21 +298,24 @@ Build route template system as foundation for train operations
   - All filters work in combination
   - useMemo for performance optimization (filtered data, yards, stats)
 
-**9. Add/Edit Route Dialog**
-- [ ] Create comprehensive route form dialog:
+**9. Add/Edit Route Dialog** ✅ COMPLETED
+- [x] Comprehensive route form dialog (RouteManagement.tsx: 344→782 lines):
   - Text input: Route name (required, max 100 chars)
-  - Text input: Description (optional, multiline)
-  - Dropdown: Origin yard (required, filtered to industries where isYard=true)
-  - Dropdown: Termination yard (required, filtered to industries where isYard=true)
+  - Text input: Description (optional, multiline, max 500 chars)
+  - Dropdown: Origin yard (required, filtered to yards only)
+  - Dropdown: Termination yard (required, filtered to yards only)
   - Station sequence builder:
-    - Available stations dropdown
+    - Available stations dropdown with all stations
     - "Add Station" button
-    - Ordered list showing current sequence
-    - Up/Down arrow buttons to reorder stations
-    - Remove button per station
+    - Ordered list showing current sequence with numbered chips (#1, #2, etc.)
+    - Up/Down arrow buttons to reorder stations (disabled at boundaries)
+    - Remove button per station (X icon)
     - Empty sequence is valid (direct yard-to-yard)
-  - Form validation with error messages
-  - Save/Cancel buttons
+    - Duplicate prevention (alerts if station already in sequence)
+  - Form validation with per-field error messages
+  - Same yard validation (origin ≠ termination)
+  - Save/Cancel buttons (save disabled until required fields valid)
+  - Opens in Add or Edit mode with proper state management
 
 **10. Route Detail View Dialog**
 - [ ] Create route detail dialog (read-only):
