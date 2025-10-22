@@ -13,6 +13,7 @@ import goodsRouter from './routes/goods.js';
 import aarTypesRouter from './routes/aarTypes.js';
 import blocksRouter from './routes/blocks.js';
 import tracksRouter from './routes/tracks.js';
+import routesRouter from './routes/routes.js';
 import importRouter from './routes/import.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,6 +37,7 @@ app.use('/api/goods', goodsRouter);
 app.use('/api/aar-types', aarTypesRouter);
 app.use('/api/blocks', blocksRouter);
 app.use('/api/tracks', tracksRouter);
+app.use('/api/routes', routesRouter);
 app.use('/api/import', importRouter);
 
 // Health check endpoint
