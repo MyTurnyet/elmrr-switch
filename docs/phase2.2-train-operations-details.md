@@ -56,8 +56,8 @@ Implement complete train operations workflow including operating sessions, car o
   - Model tests: 28 tests covering validation, snapshot creation
   - Route tests: 23 tests covering API endpoints, error handling
 
-### 2. Car Order Model & API
-- [ ] Create `backend/src/models/carOrder.js` with Joi schema
+### 2. Car Order Model & API ✅ COMPLETE
+- [x] Create `backend/src/models/carOrder.js` with Joi schema
   - Fields: industryId (string, required, references Industry)
   - Fields: aarTypeId (string, required, references AarType)
   - Fields: sessionNumber (integer, required, session when order created)
@@ -67,27 +67,29 @@ Implement complete train operations workflow including operating sessions, car o
   - Fields: createdAt (ISO date string, auto-set)
   - Validation: industryId must exist, aarTypeId must exist
   - Support custom _id for seed data
-- [ ] Create `backend/src/routes/carOrders.js` with CRUD endpoints:
+- [x] Create `backend/src/routes/carOrders.js` with CRUD endpoints:
   - GET /api/car-orders - List all orders with filtering (industryId, status, sessionNumber, aarTypeId)
   - GET /api/car-orders/:id - Get single order
   - POST /api/car-orders - Create new order (manual creation)
   - PUT /api/car-orders/:id - Update order (status, assigned car/train)
   - DELETE /api/car-orders/:id - Delete order
   - POST /api/car-orders/generate - Generate orders for current session based on industry demand
-- [ ] Implement order generation logic:
+- [x] Implement order generation logic:
   - Query all industries with carDemandConfig
   - For each demand config entry, check if demand should be generated this session:
     - Use formula: (currentSessionNumber % frequency) === 0
     - Example: frequency=2 means every other session (sessions 2, 4, 6...)
   - Create carOrder records with status 'pending'
   - Return count of orders generated
-- [ ] Add validation middleware:
+- [x] Add validation middleware:
   - Prevent duplicate orders (same industry + aarType + session + status=pending)
   - Validate assigned car matches aarType when assigning
-- [ ] Create comprehensive unit tests (25+ tests)
+- [x] Create comprehensive unit tests (73 tests total)
   - Test order generation with various frequencies
   - Test order assignment validation
   - Test filtering and status updates
+  - Model tests: 45 tests covering validation, helpers, status transitions
+  - Route tests: 28 tests covering API endpoints, business logic, error handling
 
 ### 3. Industry Demand Configuration
 - [ ] Update `backend/src/models/industry.js` to add optional field:

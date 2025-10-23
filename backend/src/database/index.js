@@ -20,7 +20,8 @@ export const collections = {
   tracks: new Datastore({ filename: path.join(dbPath, 'tracks.db'), autoload: true }),
   trains: new Datastore({ filename: path.join(dbPath, 'trains.db'), autoload: true }),
   routes: new Datastore({ filename: path.join(dbPath, 'routes.db'), autoload: true }),
-  operatingSessions: new Datastore({ filename: path.join(dbPath, 'operatingSessions.db'), autoload: true })
+  operatingSessions: new Datastore({ filename: path.join(dbPath, 'operatingSessions.db'), autoload: true }),
+  carOrders: new Datastore({ filename: path.join(dbPath, 'carOrders.db'), autoload: true })
 };
 
 // Ensure indexes for better performance
@@ -38,6 +39,11 @@ collections.industries.ensureIndex({ fieldName: 'stationId' });
 
 collections.stations.ensureIndex({ fieldName: 'name' });
 collections.stations.ensureIndex({ fieldName: 'block' });
+
+collections.carOrders.ensureIndex({ fieldName: 'industryId' });
+collections.carOrders.ensureIndex({ fieldName: 'sessionNumber' });
+collections.carOrders.ensureIndex({ fieldName: 'status' });
+collections.carOrders.ensureIndex({ fieldName: 'aarTypeId' });
 
 // Helper functions for database operations
 export const dbHelpers = {
