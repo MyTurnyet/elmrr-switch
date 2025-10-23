@@ -18,8 +18,8 @@ Implement complete train operations workflow including operating sessions, car o
 
 ## Backend Implementation
 
-### 1. Operating Session Model & API
-- [ ] Create `backend/src/models/operatingSession.js` with Joi schema
+### 1. Operating Session Model & API ✅ COMPLETE
+- [x] Create `backend/src/models/operatingSession.js` with Joi schema
   - Fields: currentSessionNumber (integer, required, default: 1)
   - Fields: sessionDate (ISO date string, auto-set to current date)
   - Fields: description (optional string, max 500 chars)
@@ -27,12 +27,12 @@ Implement complete train operations workflow including operating sessions, car o
     - Snapshot contains: sessionNumber, cars (locations), trains, carOrders
   - Validation: currentSessionNumber >= 1
   - Note: Only ONE operating session record exists (singleton pattern)
-- [ ] Create `backend/src/routes/operatingSessions.js` with endpoints:
+- [x] Create `backend/src/routes/operatingSessions.js` with endpoints:
   - GET /api/sessions/current - Get current session info
   - POST /api/sessions/advance - Advance to next session (increment counter, create snapshot, update cars, delete completed trains, generate new car orders)
   - POST /api/sessions/rollback - Rollback to previous session (restore snapshot, decrement counter)
   - PUT /api/sessions/current - Update session description
-- [ ] Implement session advancement logic:
+- [x] Implement session advancement logic:
   - Create snapshot of current state (session number, all car locations, all trains, all car orders)
   - Increment currentSessionNumber
   - Update all cars: increment sessionsAtCurrentLocation counter
@@ -40,19 +40,21 @@ Implement complete train operations workflow including operating sessions, car o
   - Revert cars from "In Progress" or "Planned" trains to their previous locations (from snapshot)
   - Generate new car orders based on industry demand configurations
   - Update sessionDate to current date
-- [ ] Implement rollback logic:
+- [x] Implement rollback logic:
   - Validate previousSessionSnapshot exists (cannot rollback session 1)
   - Restore all car locations from snapshot
   - Restore all trains from snapshot (delete current trains, recreate previous)
   - Restore all car orders from snapshot
   - Decrement currentSessionNumber
   - Clear previousSessionSnapshot (can only rollback once)
-- [ ] Add session initialization on first server start:
+- [x] Add session initialization on first server start:
   - Check if operating session exists, if not create with sessionNumber: 1
-- [ ] Create comprehensive unit tests (20+ tests)
+- [x] Create comprehensive unit tests (51 tests total)
   - Test session advancement (snapshot creation, car updates, train deletion)
   - Test rollback (state restoration, validation)
   - Test edge cases (rollback on session 1, multiple advances)
+  - Model tests: 28 tests covering validation, snapshot creation
+  - Route tests: 23 tests covering API endpoints, error handling
 
 ### 2. Car Order Model & API
 - [ ] Create `backend/src/models/carOrder.js` with Joi schema

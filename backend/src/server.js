@@ -15,6 +15,7 @@ import blocksRouter from './routes/blocks.js';
 import tracksRouter from './routes/tracks.js';
 import routesRouter from './routes/routes.js';
 import importRouter from './routes/import.js';
+import operatingSessionsRouter from './routes/operatingSessions.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,6 +29,42 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Initialize operating session on startup
+import { dbHelpers } from './database/index.js';
+import { validateOperatingSession } from './models/operatingSession.js';
+
+const initializeOperatingSession = async () => {
+  try {
+    const sessions = await dbHelpers.findAll('operatingSessions');
+    
+    if (sessions.length === 0) {
+      console.log('🎯 Initializing operating session...');
+      
+      const { error, value } = validateOperatingSession({
+        currentSessionNumber: 1,
+        sessionDate: new Date().toISOString(),
+        description: 'Initial operating session',
+        previousSessionSnapshot: null
+      });
+
+      if (error) {
+        console.error('❌ Failed to validate initial session:', error.details[0].message);
+        return;
+      }
+
+      await dbHelpers.create('operatingSessions', value);
+      console.log('✅ Operating session initialized (Session 1)');
+    } else {
+      console.log(`✅ Operating session found (Session ${sessions[0].currentSessionNumber})`);
+    }
+  } catch (error) {
+    console.error('❌ Failed to initialize operating session:', error.message);
+  }
+};
+
+// Initialize session on startup
+initializeOperatingSession();
+
 // Routes
 app.use('/api/cars', carsRouter);
 app.use('/api/locomotives', locomotivesRouter);
@@ -38,6 +75,7 @@ app.use('/api/aar-types', aarTypesRouter);
 app.use('/api/blocks', blocksRouter);
 app.use('/api/tracks', tracksRouter);
 app.use('/api/routes', routesRouter);
+app.use('/api/sessions', operatingSessionsRouter);
 app.use('/api/import', importRouter);
 
 // Health check endpoint
