@@ -17,6 +17,7 @@ import routesRouter from './routes/routes.js';
 import importRouter from './routes/import.js';
 import operatingSessionsRouter from './routes/operatingSessions.js';
 import carOrdersRouter from './routes/carOrders.js';
+import trainsRouter from './routes/trains.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -78,6 +79,7 @@ app.use('/api/tracks', tracksRouter);
 app.use('/api/routes', routesRouter);
 app.use('/api/sessions', operatingSessionsRouter);
 app.use('/api/car-orders', carOrdersRouter);
+app.use('/api/trains', trainsRouter);
 app.use('/api/import', importRouter);
 
 // Health check endpoint

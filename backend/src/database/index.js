@@ -45,6 +45,11 @@ collections.carOrders.ensureIndex({ fieldName: 'sessionNumber' });
 collections.carOrders.ensureIndex({ fieldName: 'status' });
 collections.carOrders.ensureIndex({ fieldName: 'aarTypeId' });
 
+collections.trains.ensureIndex({ fieldName: 'sessionNumber' });
+collections.trains.ensureIndex({ fieldName: 'status' });
+collections.trains.ensureIndex({ fieldName: 'routeId' });
+collections.trains.ensureIndex({ fieldName: 'name' });
+
 // Helper functions for database operations
 export const dbHelpers = {
   // Generic CRUD operations

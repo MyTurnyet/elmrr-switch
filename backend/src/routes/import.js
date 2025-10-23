@@ -227,7 +227,7 @@ router.post('/json', upload.single('file'), async (req, res) => {
 router.get('/export', async (req, res) => {
   try {
     const exportData = {};
-    const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes'];
+    const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
 
     for (const collection of collections) {
       exportData[collection] = await dbHelpers.findAll(collection);
@@ -250,7 +250,7 @@ router.get('/export', async (req, res) => {
 // POST /api/import/clear - Clear all data (for testing)
 router.post('/clear', async (req, res) => {
   try {
-    const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes'];
+    const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
     let totalCleared = 0;
 
     for (const collection of collections) {

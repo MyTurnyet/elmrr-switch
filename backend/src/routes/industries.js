@@ -1,6 +1,6 @@
 import express from 'express';
 import { dbHelpers } from '../database/index.js';
-import { validateIndustry } from '../models/industry.js';
+import { validateIndustry, validateCarDemandConfig } from '../models/industry.js';
 
 const router = express.Router();
 
@@ -75,6 +75,30 @@ router.post('/', async (req, res) => {
       });
     }
 
+    // Validate car demand configuration if provided
+    if (value.carDemandConfig && value.carDemandConfig.length > 0) {
+      const demandValidation = validateCarDemandConfig(value.carDemandConfig);
+      if (!demandValidation.valid) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid car demand configuration',
+          message: demandValidation.errors.join(', ')
+        });
+      }
+
+      // Verify all AAR types exist
+      for (const config of value.carDemandConfig) {
+        const aarType = await dbHelpers.findById('aarTypes', config.aarTypeId);
+        if (!aarType) {
+          return res.status(404).json({
+            success: false,
+            error: 'AAR type not found',
+            message: `AAR type '${config.aarTypeId}' does not exist`
+          });
+        }
+      }
+    }
+
     const newIndustry = await dbHelpers.create('industries', value);
     res.status(201).json({
       success: true,
@@ -100,6 +124,30 @@ router.put('/:id', async (req, res) => {
         error: 'Validation failed',
         message: error.details[0].message
       });
+    }
+
+    // Validate car demand configuration if provided
+    if (value.carDemandConfig && value.carDemandConfig.length > 0) {
+      const demandValidation = validateCarDemandConfig(value.carDemandConfig);
+      if (!demandValidation.valid) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid car demand configuration',
+          message: demandValidation.errors.join(', ')
+        });
+      }
+
+      // Verify all AAR types exist
+      for (const config of value.carDemandConfig) {
+        const aarType = await dbHelpers.findById('aarTypes', config.aarTypeId);
+        if (!aarType) {
+          return res.status(404).json({
+            success: false,
+            error: 'AAR type not found',
+            message: `AAR type '${config.aarTypeId}' does not exist`
+          });
+        }
+      }
     }
 
     const updated = await dbHelpers.update('industries', req.params.id, value);

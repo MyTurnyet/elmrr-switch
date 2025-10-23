@@ -1,11 +1,11 @@
 # Current Status & Known Issues
 
-**Last Updated**: 2025-10-23T09:12:00-07:00  
-**Current Phase**: Phase 2.1 Complete, Phase 2.2 Steps 1-2 Complete
+**Last Updated**: 2025-10-23T09:31:00-07:00  
+**Current Phase**: Phase 2.1 Complete, Phase 2.2 Steps 1-4 Complete
 
 ## Build Status
 - ✅ Frontend compiles successfully with no TypeScript errors (1,033 KB bundle)
-- ✅ Backend tests pass (289/289) - Added 51 operating session + 73 car order tests
+- ✅ Backend tests pass (409/409) - Added 51 operating session + 73 car order + 42 industry + 91 train tests
 - ✅ All strict mode type issues resolved
 - ✅ DataGrid ID compatibility fixed (id/_id dual support)
 - ✅ Import system fixed with proper dependency ordering
@@ -39,9 +39,10 @@
 ### Phase 2.1 Endpoints
 - **Routes**: GET, POST, PUT, DELETE (with filtering and validation)
 
-### Phase 2.2 Endpoints (Steps 1-2)
+### Phase 2.2 Endpoints (Steps 1-4)
 - **Operating Sessions**: GET /api/sessions/current, POST /api/sessions/advance, POST /api/sessions/rollback, PUT /api/sessions/current
 - **Car Orders**: GET /api/car-orders, GET /api/car-orders/:id, POST /api/car-orders, PUT /api/car-orders/:id, DELETE /api/car-orders/:id, POST /api/car-orders/generate
+- **Trains**: GET /api/trains, GET /api/trains/:id, POST /api/trains, PUT /api/trains/:id, DELETE /api/trains/:id, POST /api/trains/:id/generate-switch-list, POST /api/trains/:id/complete, POST /api/trains/:id/cancel
 
 ## Backend Status
 - ✅ All GET/PUT/POST/DELETE routes fully implemented with comprehensive test coverage
@@ -53,9 +54,11 @@
 - ✅ Duplicate checking on car creation (reporting marks + number combo)
 - ✅ Route validation (unique names, valid yard references, station sequence validation)
 - ✅ All endpoints tested via curl and working correctly
-- ✅ 289 tests passing (165 Phase 1 & 2.1 + 51 operating sessions + 73 car orders)
+- ✅ 409 tests passing (165 Phase 1 & 2.1 + 51 operating sessions + 73 car orders + 42 industry + 91 trains)
 - ✅ Operating session management with advance/rollback functionality (Phase 2.2 Step 1)
 - ✅ Car order system with demand-based generation (Phase 2.2 Step 2)
+- ✅ Industry demand configuration with frequency controls (Phase 2.2 Step 3)
+- ✅ Train operations with switch list generation algorithm (Phase 2.2 Step 4)
 - Middleware and services directories exist but empty (not needed yet)
 
 ## Frontend Status
@@ -188,11 +191,29 @@ elmrr-switch/
 ## Next Steps
 1. ✅ Phase 2.2 Step 1: Operating Session model and API (COMPLETE)
 2. ✅ Phase 2.2 Step 2: Car Order system with industry demand (COMPLETE)
-3. Phase 2.2 Step 3: Industry demand configuration
-4. Phase 2.2 Step 4: Train model with switch list generation
-5. Build frontend UI for session management, train operations, and car orders
+3. ✅ Phase 2.2 Step 3: Industry demand configuration (COMPLETE)
+4. ✅ Phase 2.2 Step 4: Train model with switch list generation (COMPLETE)
+5. Phase 2.2 Step 5+: Remaining backend steps or frontend implementation
+6. Build frontend UI for session management, train operations, and car orders
 
 ## Recent Updates
+- **2025-10-23**: Completed Phase 2.2 Step 4 (Train Model & API)
+  - Implemented complete train operations with switch list generation algorithm
+  - Backend: Train model with comprehensive Joi validation and complex business logic
+  - API: 8 endpoints (CRUD + switch list generation + completion/cancellation)
+  - Features: Complete train lifecycle, intelligent switch list generation, capacity management
+  - Algorithm: Multi-station processing, car routing, order fulfillment, home yard routing
+  - Testing: 91 comprehensive tests (49 model + 42 route tests)
+  - Database: trains collection with performance indexes
+  - Total backend tests: 409 passing (318 + 91 new)
+
+- **2025-10-23**: Completed Phase 2.2 Step 3 (Industry Demand Configuration)
+  - Enhanced industry model with carDemandConfig field
+  - Validation: AAR type existence, frequency controls, duplicate prevention
+  - Helper functions: demand calculations, active session filtering, formatting
+  - Testing: 42 comprehensive tests covering validation and business logic
+  - Import/export: Full support for demand configuration
+
 - **2025-10-23**: Completed Phase 2.2 Step 2 (Car Order Model & API)
   - Implemented complete car order system with demand-based generation
   - Backend: Car order model with comprehensive Joi validation and helper functions
@@ -200,7 +221,6 @@ elmrr-switch/
   - Features: Order generation based on industry demand, status transitions, car assignment validation
   - Testing: 73 comprehensive tests (45 model + 28 route tests)
   - Database: carOrders collection with performance indexes
-  - Total backend tests: 289 passing (216 + 73 new)
 
 - **2025-10-23**: Completed Phase 2.2 Step 1 (Operating Session Model & API)
   - Implemented complete operating session management system

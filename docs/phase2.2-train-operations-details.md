@@ -91,18 +91,18 @@ Implement complete train operations workflow including operating sessions, car o
   - Model tests: 45 tests covering validation, helpers, status transitions
   - Route tests: 28 tests covering API endpoints, business logic, error handling
 
-### 3. Industry Demand Configuration
-- [ ] Update `backend/src/models/industry.js` to add optional field:
+### 3. Industry Demand Configuration ✅ COMPLETE
+- [x] Update `backend/src/models/industry.js` to add optional field:
   - carDemandConfig: array of { aarTypeId: string, carsPerSession: number, frequency: number }
   - Example: `[{ aarTypeId: "flatcar", carsPerSession: 2, frequency: 1 }, { aarTypeId: "hopper", carsPerSession: 1, frequency: 2 }]`
   - Validation: aarTypeId must reference valid AAR type, carsPerSession >= 1, frequency >= 1
   - Default: empty array (no demand)
-- [ ] Update industry CRUD endpoints to support carDemandConfig field
-- [ ] Update industry tests to cover demand configuration validation
-- [ ] Update import/export to include carDemandConfig
+- [x] Update industry CRUD endpoints to support carDemandConfig field
+- [x] Update industry tests to cover demand configuration validation (42 tests total)
+- [x] Update import/export to include carDemandConfig
 
-### 4. Train Model & API
-- [ ] Create `backend/src/models/train.js` with Joi schema
+### 4. Train Model & API ✅ COMPLETE
+- [x] Create `backend/src/models/train.js` with Joi schema
   - Fields: name (string, required, max 100 chars, unique per session)
   - Fields: routeId (string, required, references Route)
   - Fields: sessionNumber (integer, required, session when train created)
@@ -115,7 +115,7 @@ Implement complete train operations workflow including operating sessions, car o
   - Fields: createdAt, updatedAt (ISO date strings)
   - Validation: routeId must exist, locomotiveIds must exist and not be assigned to other active trains
   - Support custom _id for seed data
-- [ ] Create `backend/src/routes/trains.js` with CRUD endpoints:
+- [x] Create `backend/src/routes/trains.js` with CRUD endpoints:
   - GET /api/trains - List all trains with filtering (sessionNumber, status, routeId)
   - GET /api/trains/:id - Get single train with full switch list
   - POST /api/trains - Create new train (status: Planned)
@@ -124,7 +124,7 @@ Implement complete train operations workflow including operating sessions, car o
   - POST /api/trains/:id/generate-switch-list - Generate switch list (status: Planned → In Progress)
   - POST /api/trains/:id/complete - Mark train as completed (status: In Progress → Completed, update car locations)
   - POST /api/trains/:id/cancel - Cancel train (status: any → Cancelled, revert car locations if needed)
-- [ ] Implement switch list generation algorithm:
+- [x] Implement switch list generation algorithm:
   - Input: train (with route, capacity)
   - Get route with full station sequence (origin → stations → termination)
   - For each station along route:
@@ -140,26 +140,28 @@ Implement complete train operations workflow including operating sessions, car o
   - Output: switchList object with station-by-station instructions
   - Update carOrders: status pending → assigned, set assignedCarId and assignedTrainId
   - Update train: set switchList, assignedCarIds, status → In Progress
-- [ ] Implement train completion logic:
+- [x] Implement train completion logic:
   - Validate train status is "In Progress"
   - For each car in assignedCarIds, update car.currentIndustry to destination from switch list
   - Update carOrders assigned to this train: status assigned/in-transit → delivered
   - Update train status → Completed
   - Reset car.sessionsAtCurrentLocation to 0 for moved cars
-- [ ] Implement train cancellation logic:
+- [x] Implement train cancellation logic:
   - If status is "In Progress", revert car locations to pre-train state
   - Update carOrders: status assigned/in-transit → pending, clear assignedCarId/trainId
   - Update train status → Cancelled
-- [ ] Add validation middleware:
+- [x] Add validation middleware:
   - Prevent locomotive assignment conflicts (loco can't be on multiple active trains)
   - Validate train name uniqueness within session
   - Prevent status changes if invalid (e.g., can't complete a Planned train)
-- [ ] Create comprehensive unit tests (35+ tests)
+- [x] Create comprehensive unit tests (91 tests total)
   - Test train creation and validation
   - Test switch list generation algorithm with various scenarios
   - Test train completion and car movement
   - Test cancellation and rollback
   - Test locomotive assignment conflicts
+  - Model tests: 49 tests covering validation, helpers, business logic
+  - Route tests: 42 tests covering API endpoints, complex workflows, error handling
 
 ### 5. Backend Testing & Integration
 - [ ] Run all backend tests (expect 250+ tests total)
