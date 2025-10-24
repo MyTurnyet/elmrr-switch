@@ -1,19 +1,23 @@
 import express from 'express';
 import request from 'supertest';
 
-// Mock the service factory
-jest.mock('../../services/index.js', () => ({
-  getService: jest.fn((serviceName) => {
-    if (serviceName === 'train') {
-      return {
-        generateSwitchList: jest.fn(),
-        completeTrain: jest.fn(),
-        cancelTrain: jest.fn()
-      };
-    }
-    return {};
-  })
-}));
+// Mock the service factory - create instance inside the factory
+jest.mock('../../services/index.js', () => {
+  const trainService = {
+    generateSwitchList: jest.fn(),
+    completeTrain: jest.fn(),
+    cancelTrain: jest.fn()
+  };
+  
+  return {
+    getService: jest.fn((serviceName) => {
+      if (serviceName === 'train') {
+        return trainService;
+      }
+      return {};
+    })
+  };
+});
 
 // Mock the repository factory
 jest.mock('../../repositories/index.js', () => ({
@@ -330,6 +334,13 @@ describe('Trains Routes (Working)', () => {
   });
 
   describe('POST /:id/generate-switch-list', () => {
+    it('should verify service mock is working', () => {
+      // Debug: Check if the service mock is actually applied
+      expect(trainService.generateSwitchList).toBeDefined();
+      expect(typeof trainService.generateSwitchList).toBe('function');
+      expect(jest.isMockFunction(trainService.generateSwitchList)).toBe(true);
+    });
+
     it('should generate switch list successfully', async () => {
       const response = await request(app)
         .post('/api/trains/train1/generate-switch-list')
