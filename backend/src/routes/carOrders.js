@@ -48,277 +48,168 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // GET /api/car-orders/:id - Get single order
-router.get('/:id', async (req, res) => {
-  try {
-    const carOrder = await dbHelpers.findById('carOrders', req.params.id);
-    if (!carOrder) {
-      return res.status(404).json({
-        success: false,
-        error: 'Car order not found'
-      });
-    }
-
-    // Enrich with related data
-    const industry = await dbHelpers.findById('industries', carOrder.industryId);
-    const enrichedOrder = {
-      ...carOrder,
-      industry: industry ? { _id: industry._id, name: industry.name } : null
-    };
-
-    if (carOrder.assignedCarId) {
-      const car = await dbHelpers.findById('cars', carOrder.assignedCarId);
-      enrichedOrder.assignedCar = car ? {
-        _id: car._id,
-        reportingMarks: car.reportingMarks,
-        reportingNumber: car.reportingNumber
-      } : null;
-    }
-
-    if (carOrder.assignedTrainId) {
-      const train = await dbHelpers.findById('trains', carOrder.assignedTrainId);
-      enrichedOrder.assignedTrain = train ? {
-        _id: train._id,
-        name: train.name
-      } : null;
-    }
-
-    res.json({
-      success: true,
-      data: enrichedOrder
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch car order',
-      message: error.message
-    });
+router.get('/:id', asyncHandler(async (req, res) => {
+  const carOrder = await dbHelpers.findById('carOrders', req.params.id);
+  if (!carOrder) {
+    throw new ApiError('Car order not found', 404);
   }
-});
+
+  // Enrich with related data
+  const industry = await dbHelpers.findById('industries', carOrder.industryId);
+  const enrichedOrder = {
+    ...carOrder,
+    industry: industry ? { _id: industry._id, name: industry.name } : null
+  };
+
+  if (carOrder.assignedCarId) {
+    const car = await dbHelpers.findById('cars', carOrder.assignedCarId);
+    enrichedOrder.assignedCar = car ? {
+      _id: car._id,
+      reportingMarks: car.reportingMarks,
+      reportingNumber: car.reportingNumber
+    } : null;
+  }
+
+  if (carOrder.assignedTrainId) {
+    const train = await dbHelpers.findById('trains', carOrder.assignedTrainId);
+    enrichedOrder.assignedTrain = train ? {
+      _id: train._id,
+      name: train.name
+    } : null;
+  }
+
+  res.json(ApiResponse.success(enrichedOrder, 'Car order retrieved successfully'));
+}));
 
 // POST /api/car-orders - Create new order (manual creation)
-router.post('/', async (req, res) => {
-  try {
-    const { error, value } = validateCarOrder(req.body);
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
-
-    // Verify industry exists
-    const industry = await dbHelpers.findById('industries', value.industryId);
-    if (!industry) {
-      return res.status(404).json({
-        success: false,
-        error: 'Industry not found',
-        message: `Industry with ID '${value.industryId}' does not exist`
-      });
-    }
-
-    // Verify AAR type exists
-    const aarType = await dbHelpers.findById('aarTypes', value.aarTypeId);
-    if (!aarType) {
-      return res.status(404).json({
-        success: false,
-        error: 'AAR type not found',
-        message: `AAR type with ID '${value.aarTypeId}' does not exist`
-      });
-    }
-
-    // Check for duplicate pending orders
-    const existingOrders = await dbHelpers.findByQuery('carOrders', {
-      industryId: value.industryId,
-      aarTypeId: value.aarTypeId,
-      sessionNumber: value.sessionNumber,
-      status: 'pending'
-    });
-
-    if (existingOrders.length > 0) {
-      return res.status(409).json({
-        success: false,
-        error: 'Duplicate order',
-        message: 'A pending order for this industry, AAR type, and session already exists'
-      });
-    }
-
-    const newOrder = await dbHelpers.create('carOrders', value);
-
-    res.status(201).json({
-      success: true,
-      data: newOrder,
-      message: 'Car order created successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to create car order',
-      message: error.message
-    });
+router.post('/', asyncHandler(async (req, res) => {
+  const { error, value } = validateCarOrder(req.body);
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
   }
-});
+
+  // Verify industry exists
+  const industry = await dbHelpers.findById('industries', value.industryId);
+  if (!industry) {
+    throw new ApiError(`Industry with ID '${value.industryId}' does not exist`, 404);
+  }
+
+  // Verify AAR type exists
+  const aarType = await dbHelpers.findById('aarTypes', value.aarTypeId);
+  if (!aarType) {
+    throw new ApiError(`AAR type with ID '${value.aarTypeId}' does not exist`, 404);
+  }
+
+  // Check for duplicate pending orders
+  const existingOrders = await dbHelpers.findByQuery('carOrders', {
+    industryId: value.industryId,
+    aarTypeId: value.aarTypeId,
+    sessionNumber: value.sessionNumber,
+    status: 'pending'
+  });
+
+  if (existingOrders.length > 0) {
+    throw new ApiError('A pending order for this industry, AAR type, and session already exists', 409);
+  }
+
+  const newOrder = await dbHelpers.create('carOrders', value);
+
+  res.status(201).json(ApiResponse.success(newOrder, 'Car order created successfully', 201));
+}));
+
 
 // PUT /api/car-orders/:id - Update order (status, assigned car/train)
-router.put('/:id', async (req, res) => {
-  try {
-    const { error, value } = validateCarOrder(req.body, true); // Allow partial updates
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
-
-    // Check if order exists
-    const existingOrder = await dbHelpers.findById('carOrders', req.params.id);
-    if (!existingOrder) {
-      return res.status(404).json({
-        success: false,
-        error: 'Car order not found'
-      });
-    }
-
-    // Validate status transition if status is being updated
-    if (value.status && value.status !== existingOrder.status) {
-      const transition = validateStatusTransition(existingOrder.status, value.status);
-      if (!transition.valid) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid status transition',
-          message: `Cannot change status from '${existingOrder.status}' to '${value.status}'. Allowed transitions: ${transition.allowedTransitions.join(', ')}`
-        });
-      }
-    }
-
-    // Validate car assignment if assignedCarId is being updated
-    if (value.assignedCarId && value.assignedCarId !== existingOrder.assignedCarId) {
-      const car = await dbHelpers.findById('cars', value.assignedCarId);
-      const validation = validateCarAssignment(existingOrder, car);
-      
-      if (!validation.valid) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid car assignment',
-          message: validation.errors.join(', ')
-        });
-      }
-    }
-
-    // Verify references if being updated
-    if (value.industryId && value.industryId !== existingOrder.industryId) {
-      const industry = await dbHelpers.findById('industries', value.industryId);
-      if (!industry) {
-        return res.status(404).json({
-          success: false,
-          error: 'Industry not found',
-          message: `Industry with ID '${value.industryId}' does not exist`
-        });
-      }
-    }
-
-    if (value.aarTypeId && value.aarTypeId !== existingOrder.aarTypeId) {
-      const aarType = await dbHelpers.findById('aarTypes', value.aarTypeId);
-      if (!aarType) {
-        return res.status(404).json({
-          success: false,
-          error: 'AAR type not found',
-          message: `AAR type with ID '${value.aarTypeId}' does not exist`
-        });
-      }
-    }
-
-    const updated = await dbHelpers.update('carOrders', req.params.id, value);
-    if (updated === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'Car order not found'
-      });
-    }
-
-    const carOrder = await dbHelpers.findById('carOrders', req.params.id);
-    res.json({
-      success: true,
-      data: carOrder,
-      message: 'Car order updated successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to update car order',
-      message: error.message
-    });
+router.put('/:id', asyncHandler(async (req, res) => {
+  const { error, value } = validateCarOrder(req.body, true); // Allow partial updates
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
   }
-});
+
+  // Check if order exists
+  const existingOrder = await dbHelpers.findById('carOrders', req.params.id);
+  if (!existingOrder) {
+    throw new ApiError('Car order not found', 404);
+  }
+
+  // Validate status transition if status is being updated
+  if (value.status && value.status !== existingOrder.status) {
+    const transition = validateStatusTransition(existingOrder.status, value.status);
+    if (!transition.valid) {
+      throw new ApiError(`Cannot change status from '${existingOrder.status}' to '${value.status}'. Allowed transitions: ${transition.allowedTransitions.join(', ')}`, 400);
+    }
+  }
+
+  // Validate car assignment if assignedCarId is being updated
+  if (value.assignedCarId && value.assignedCarId !== existingOrder.assignedCarId) {
+    const car = await dbHelpers.findById('cars', value.assignedCarId);
+    const validation = validateCarAssignment(existingOrder, car);
+    
+    if (!validation.valid) {
+      throw new ApiError('Invalid car assignment', 400, validation.errors);
+    }
+  }
+
+  // Verify references if being updated
+  if (value.industryId && value.industryId !== existingOrder.industryId) {
+    const industry = await dbHelpers.findById('industries', value.industryId);
+    if (!industry) {
+      throw new ApiError(`Industry with ID '${value.industryId}' does not exist`, 404);
+    }
+  }
+
+  if (value.aarTypeId && value.aarTypeId !== existingOrder.aarTypeId) {
+    const aarType = await dbHelpers.findById('aarTypes', value.aarTypeId);
+    if (!aarType) {
+      throw new ApiError(`AAR type with ID '${value.aarTypeId}' does not exist`, 404);
+    }
+  }
+
+  const updated = await dbHelpers.update('carOrders', req.params.id, value);
+  if (updated === 0) {
+    throw new ApiError('Car order not found', 404);
+  }
+
+  const carOrder = await dbHelpers.findById('carOrders', req.params.id);
+  res.json(ApiResponse.success(carOrder, 'Car order updated successfully'));
+}));
 
 // DELETE /api/car-orders/:id - Delete order
-router.delete('/:id', async (req, res) => {
-  try {
-    const existingOrder = await dbHelpers.findById('carOrders', req.params.id);
-    if (!existingOrder) {
-      return res.status(404).json({
-        success: false,
-        error: 'Car order not found'
-      });
-    }
-
-    // Prevent deletion of orders that are assigned to trains
-    if (existingOrder.assignedTrainId) {
-      return res.status(409).json({
-        success: false,
-        error: 'Cannot delete assigned order',
-        message: 'Cannot delete car order that is assigned to a train'
-      });
-    }
-
-    const deleted = await dbHelpers.delete('carOrders', req.params.id);
-    if (deleted === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'Car order not found'
-      });
-    }
-
-    res.json({
-      success: true,
-      message: 'Car order deleted successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to delete car order',
-      message: error.message
-    });
+router.delete('/:id', asyncHandler(async (req, res) => {
+  const existingOrder = await dbHelpers.findById('carOrders', req.params.id);
+  if (!existingOrder) {
+    throw new ApiError('Car order not found', 404);
   }
-});
+
+  // Prevent deletion of orders that are assigned to trains
+  if (existingOrder.assignedTrainId) {
+    throw new ApiError('Cannot delete car order that is assigned to a train', 409);
+  }
+
+  const deleted = await dbHelpers.delete('carOrders', req.params.id);
+  if (deleted === 0) {
+    throw new ApiError('Car order not found', 404);
+  }
+
+  res.json(ApiResponse.success(null, 'Car order deleted successfully'));
+}));
 
 // POST /api/car-orders/generate - Generate orders for current session based on industry demand
-router.post('/generate', async (req, res) => {
-  try {
-    const { error, value } = validateOrderGeneration(req.body);
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
+router.post('/generate', asyncHandler(async (req, res) => {
+  const { error, value } = validateOrderGeneration(req.body);
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
+  }
 
-    // Get current session number if not provided
-    let sessionNumber = value.sessionNumber;
-    if (!sessionNumber) {
-      const sessions = await dbHelpers.findAll('operatingSessions');
-      const currentSession = sessions[0];
-      if (!currentSession) {
-        return res.status(404).json({
-          success: false,
-          error: 'No current session found',
-          message: 'Cannot generate orders without an active operating session'
-        });
-      }
-      sessionNumber = currentSession.currentSessionNumber;
+  // Get current session number if not provided
+  let sessionNumber = value.sessionNumber;
+  if (!sessionNumber) {
+    const sessions = await dbHelpers.findAll('operatingSessions');
+    const currentSession = sessions[0];
+    if (!currentSession) {
+      throw new ApiError('Cannot generate orders without an active operating session', 404);
     }
+    sessionNumber = currentSession.currentSessionNumber;
+  }
 
     // Get all industries with demand configuration
     const industries = await dbHelpers.findAll('industries');
@@ -396,24 +287,13 @@ router.post('/generate', async (req, res) => {
 
     const summary = createOrderGenerationSummary(createdOrders, processedIndustries);
 
-    res.json({
-      success: true,
-      data: {
-        sessionNumber,
-        ordersGenerated: createdOrders.length,
-        industriesProcessed: processedIndustries.length,
-        summary,
-        orders: createdOrders
-      },
-      message: `Generated ${createdOrders.length} car orders for session ${sessionNumber}`
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to generate car orders',
-      message: error.message
-    });
-  }
-});
+  res.json(ApiResponse.success({
+    sessionNumber,
+    ordersGenerated: createdOrders.length,
+    industriesProcessed: processedIndustries.length,
+    summary,
+    orders: createdOrders
+  }, `Generated ${createdOrders.length} car orders for session ${sessionNumber}`));
+}));
 
 export default router;

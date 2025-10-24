@@ -4,28 +4,25 @@ import { dbHelpers } from '../database/index.js';
 import { validateCar } from '../models/car.js';
 import { validateIndustry } from '../models/industry.js';
 import { validateRoute } from '../models/route.js';
+import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
+import { ApiResponse } from '../utils/ApiResponse.js';
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 // POST /api/import/json - Import JSON data
-router.post('/json', upload.single('file'), async (req, res) => {
-  try {
-    let data;
-    
-    if (req.file) {
-      // File upload
-      data = JSON.parse(req.file.buffer.toString());
-    } else if (req.body.data) {
-      // Direct JSON data
-      data = req.body.data;
-    } else {
-      return res.status(400).json({
-        success: false,
-        error: 'No data provided',
-        message: 'Please provide either a file or JSON data'
-      });
-    }
+router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
+  let data;
+  
+  if (req.file) {
+    // File upload
+    data = JSON.parse(req.file.buffer.toString());
+  } else if (req.body.data) {
+    // Direct JSON data
+    data = req.body.data;
+  } else {
+    throw new ApiError('Please provide either a file or JSON data', 400);
+  }
 
     const results = {
       imported: 0,
@@ -208,67 +205,37 @@ router.post('/json', upload.single('file'), async (req, res) => {
       }
     }
 
-    res.json({
-      success: true,
-      data: results,
-      message: `Import completed: ${results.imported} records imported, ${results.errors.length} errors, ${results.warnings.length} warnings`
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Import failed',
-      message: error.message
-    });
-  }
-});
+  res.json(ApiResponse.success(results, `Import completed: ${results.imported} records imported, ${results.errors.length} errors, ${results.warnings.length} warnings`));
+}));
 
 // GET /api/import/export - Export all data to JSON
-router.get('/export', async (req, res) => {
-  try {
-    const exportData = {};
-    const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
+router.get('/export', asyncHandler(async (req, res) => {
+  const exportData = {};
+  const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
 
-    for (const collection of collections) {
-      exportData[collection] = await dbHelpers.findAll(collection);
-    }
-
-    res.json({
-      success: true,
-      data: exportData,
-      exportedAt: new Date().toISOString()
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Export failed',
-      message: error.message
-    });
+  for (const collection of collections) {
+    exportData[collection] = await dbHelpers.findAll(collection);
   }
-});
+
+  const responseData = {
+    ...exportData,
+    exportedAt: new Date().toISOString()
+  };
+
+  res.json(ApiResponse.success(responseData, 'Data exported successfully'));
+}));
 
 // POST /api/import/clear - Clear all data (for testing)
-router.post('/clear', async (req, res) => {
-  try {
-    const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
-    let totalCleared = 0;
+router.post('/clear', asyncHandler(async (req, res) => {
+  const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
+  let totalCleared = 0;
 
-    for (const collection of collections) {
-      const cleared = await dbHelpers.clearCollection(collection);
-      totalCleared += cleared;
-    }
-
-    res.json({
-      success: true,
-      message: `Cleared ${totalCleared} records from database`
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Clear operation failed',
-      message: error.message
-    });
+  for (const collection of collections) {
+    const cleared = await dbHelpers.clearCollection(collection);
+    totalCleared += cleared;
   }
-});
+
+  res.json(ApiResponse.success({ totalCleared }, `Cleared ${totalCleared} records from database`));
+}));
 
 export default router;
