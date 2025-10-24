@@ -1,17 +1,18 @@
 import express from 'express';
-import { dbHelpers } from '../database/index.js';
+import { getRepository } from '../repositories/index.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 
 const router = express.Router();
+const aarTypeRepository = getRepository('aarTypes');
 
 router.get('/', asyncHandler(async (req, res) => {
-  const aarTypes = await dbHelpers.findAll('aarTypes');
+  const aarTypes = await aarTypeRepository.findAll();
   res.json(ApiResponse.success(aarTypes, 'AAR types retrieved successfully'));
 }));
 
 router.get('/:id', asyncHandler(async (req, res) => {
-  const aarType = await dbHelpers.findById('aarTypes', req.params.id);
+  const aarType = await aarTypeRepository.findById(req.params.id);
   if (!aarType) {
     throw new ApiError('AAR type not found', 404);
   }
