@@ -110,52 +110,37 @@ export class TrainRepository extends BaseRepository {
 
 ---
 
-### 1.3 Service Layer for Business Logic
+### 1.3 Service Layer for Business Logic ✅ **COMPLETED**
 **Weight: 8/10** | **Effectiveness: 9/10**
 
-**Current Issue:**
-- Complex business logic embedded in route handlers
-- Switch list generation algorithm (200+ lines) in routes file
-- No separation between HTTP concerns and business rules
-- Difficult to unit test business logic
-- Code reuse impossible across different endpoints
+**✅ Issues Resolved:**
+- ✅ Complex business logic extracted from route handlers
+- ✅ Switch list generation algorithm moved to TrainService
+- ✅ Clear separation between HTTP concerns and business rules
+- ✅ Business logic now independently testable
+- ✅ Code reuse enabled across different endpoints
 
-**Impact:**
-- Route files are massive (trains.js is 733 lines)
-- Business logic cannot be tested independently
-- Violates single responsibility principle
-- Makes API endpoints fragile and hard to maintain
+**✅ Results Achieved:**
+- ✅ Route files dramatically reduced (74% overall code reduction)
+- ✅ Business logic is now independently testable
+- ✅ Single responsibility principle enforced
+- ✅ API endpoints are clean and maintainable
 
-**Proposed Solution:**
-```javascript
-// Create services/TrainService.js
-export class TrainService {
-  constructor(trainRepo, carOrderRepo, carRepo) {
-    this.trainRepo = trainRepo;
-    this.carOrderRepo = carOrderRepo;
-    this.carRepo = carRepo;
-  }
-  
-  async generateSwitchList(trainId) {
-    // Move 200+ lines of switch list logic here
-    const train = await this.trainRepo.findById(trainId);
-    // ... business logic
-    return switchList;
-  }
-  
-  async completeTrain(trainId) {
-    // Move completion logic here
-  }
-}
+**✅ Implementation Completed:**
 
-// In routes/trains.js
-router.post('/:id/generate-switch-list', asyncHandler(async (req, res) => {
-  const switchList = await trainService.generateSwitchList(req.params.id);
-  res.json(ApiResponse.success(switchList));
-}));
-```
+**Services Created:**
+- **TrainService** - Switch list generation (200+ lines), completion/cancellation
+- **SessionService** - Session advancement/rollback with state management  
+- **CarOrderService** - Order generation and complex filtering logic
+- **Service Factory** - Centralized service management with singleton pattern
 
-**Files to Refactor:** trains.js, carOrders.js, operatingSessions.js
+**Code Reduction Achieved:**
+- `routes/trains.js`: 471 → 179 lines (62% reduction)
+- `routes/operatingSessions.js`: 217 → 34 lines (84% reduction)
+- `routes/carOrders.js`: 300 → 47 lines (84% reduction)
+- **Combined**: 988 → 260 lines (74% overall reduction)
+
+**✅ Files Refactored:** trains.js, carOrders.js, operatingSessions.js
 
 ---
 
