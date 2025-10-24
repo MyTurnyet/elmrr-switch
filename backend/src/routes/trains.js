@@ -14,7 +14,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 const router = express.Router();
 
 // GET /api/trains - List all trains with optional filtering
-router.get('/', asyncHandler(asyncHandler(async (req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
   const { sessionNumber, status, routeId, search } = req.query;
   let query = {};
 
@@ -39,7 +39,7 @@ router.get('/', asyncHandler(asyncHandler(async (req, res) => {
 }));
 
 // GET /api/trains/:id - Get single train with full switch list
-router.get('/:id', asyncHandler(asyncHandler(async (req, res) => {
+router.get('/:id', asyncHandler(async (req, res) => {
   const train = await dbHelpers.findById('trains', req.params.id);
   if (!train) {
     throw new ApiError('Train not found', 404);
@@ -66,7 +66,7 @@ router.get('/:id', asyncHandler(asyncHandler(async (req, res) => {
 }));
 
 // POST /api/trains - Create new train (status: Planned)
-router.post('/', asyncHandler(asyncHandler(async (req, res) => {
+router.post('/', asyncHandler(async (req, res) => {
   // Get current session number if not provided
   let sessionNumber = req.body.sessionNumber;
   if (!sessionNumber) {
@@ -126,7 +126,7 @@ router.post('/', asyncHandler(asyncHandler(async (req, res) => {
 }));
 
 // PUT /api/trains/:id - Update train (name, locos, capacity - only if status=Planned)
-router.put('/:id', asyncHandler(asyncHandler(async (req, res) => {
+router.put('/:id', asyncHandler(async (req, res) => {
   const { error, value } = validateTrain(req.body, true); // Allow partial updates
   if (error) {
     throw new ApiError('Validation failed', 400, error.details.map(d => d.message));

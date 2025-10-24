@@ -7,7 +7,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 const router = express.Router();
 
 // GET /api/sessions/current - Get current session info
-router.get('/current', asyncHandler(asyncHandler(async (req, res) => {
+router.get('/current', asyncHandler(async (req, res) => {
   // Find the current session (should only be one)
   const sessions = await dbHelpers.findAll('operatingSessions');
   let currentSession = sessions[0];
