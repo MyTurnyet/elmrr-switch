@@ -1,9 +1,47 @@
 import express from 'express';
 import request from 'supertest';
 import trainsRouter from '../../routes/trains.js';
-import { dbHelpers } from '../../database/index.js';
 
-// Mock the database helpers
+// Mock the services (new architecture)
+jest.mock('../../services/index.js', () => ({
+  getService: jest.fn((serviceName) => {
+    if (serviceName === 'train') {
+      return {
+        generateSwitchList: jest.fn(),
+        completeTrain: jest.fn(),
+        cancelTrain: jest.fn()
+      };
+    }
+    return {};
+  })
+}));
+
+// Mock the repositories (new architecture)
+jest.mock('../../repositories/index.js', () => ({
+  getRepository: jest.fn((repoName) => {
+    if (repoName === 'trains') {
+      return {
+        findAll: jest.fn(),
+        findById: jest.fn(),
+        findWithFilters: jest.fn(),
+        createTrain: jest.fn(),
+        update: jest.fn(),
+        delete: jest.fn()
+      };
+    }
+    if (repoName === 'operatingSessions') {
+      return {
+        findAll: jest.fn()
+      };
+    }
+    return {
+      findAll: jest.fn(),
+      findById: jest.fn()
+    };
+  })
+}));
+
+// Mock the database helpers (for backward compatibility)
 jest.mock('../../database/index.js', () => ({
   dbHelpers: {
     findAll: jest.fn(),
@@ -15,22 +53,11 @@ jest.mock('../../database/index.js', () => ({
   }
 }));
 
-// Mock the validation functions
-jest.mock('../../models/train.js', () => ({
-  validateTrain: jest.fn(),
-  validateTrainNameUniqueness: jest.fn(),
-  validateLocomotiveAssignments: jest.fn(),
-  validateStatusTransition: jest.fn(),
-  validateSwitchListRequirements: jest.fn(),
-  formatTrainSummary: jest.fn()
-}));
-
-import { 
-  validateTrain,
-  validateTrainNameUniqueness,
-  validateLocomotiveAssignments,
-  validateSwitchListRequirements
-} from '../../models/train.js';
+// Import the services and repositories for testing
+import { getService } from '../../services/index.js';
+import { getRepository } from '../../repositories/index.js';
+import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 const app = express();
 app.use(express.json());
@@ -648,10 +675,14 @@ describe('Trains Routes', () => {
     });
 
     it('should handle train not found', async () => {
-      dbHelpers.findById.mockResolvedValue(null);
+      // Mock the service to throw a 404 error for a valid ID format
+      const trainService = require('../../services/index.js').getService('train');
+      trainService.completeTrain = jest.fn().mockRejectedValue(
+        new (require('../../middleware/errorHandler.js').ApiError)('Train not found', 404)
+      );
 
       const response = await request(app)
-        .post('/api/trains/nonexistent/complete')
+        .post('/api/trains/507f1f77bcf86cd799439011/complete') // Valid ObjectId format
         .expect(404);
 
       expect(response.body).toEqual({
