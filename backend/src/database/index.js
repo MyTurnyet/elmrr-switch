@@ -1,27 +1,35 @@
 import Datastore from 'nedb';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getDatabaseConfig } from '../config/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Database file paths
-const dbPath = path.join(__dirname, '../../data');
+// Get database configuration
+const dbConfig = getDatabaseConfig();
+const dbPath = dbConfig.path;
 
-// Initialize NeDB collections
+// Initialize NeDB collections with configuration
+const datastoreOptions = {
+  autoload: dbConfig.autoload,
+  timestampData: dbConfig.timestampData,
+  corruptAlertThreshold: dbConfig.corruptAlertThreshold
+};
+
 export const collections = {
-  cars: new Datastore({ filename: path.join(dbPath, 'cars.db'), autoload: true }),
-  locomotives: new Datastore({ filename: path.join(dbPath, 'locomotives.db'), autoload: true }),
-  industries: new Datastore({ filename: path.join(dbPath, 'industries.db'), autoload: true }),
-  stations: new Datastore({ filename: path.join(dbPath, 'stations.db'), autoload: true }),
-  goods: new Datastore({ filename: path.join(dbPath, 'goods.db'), autoload: true }),
-  aarTypes: new Datastore({ filename: path.join(dbPath, 'aarTypes.db'), autoload: true }),
-  blocks: new Datastore({ filename: path.join(dbPath, 'blocks.db'), autoload: true }),
-  tracks: new Datastore({ filename: path.join(dbPath, 'tracks.db'), autoload: true }),
-  trains: new Datastore({ filename: path.join(dbPath, 'trains.db'), autoload: true }),
-  routes: new Datastore({ filename: path.join(dbPath, 'routes.db'), autoload: true }),
-  operatingSessions: new Datastore({ filename: path.join(dbPath, 'operatingSessions.db'), autoload: true }),
-  carOrders: new Datastore({ filename: path.join(dbPath, 'carOrders.db'), autoload: true })
+  cars: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'cars.db') }),
+  locomotives: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'locomotives.db') }),
+  industries: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'industries.db') }),
+  stations: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'stations.db') }),
+  goods: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'goods.db') }),
+  aarTypes: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'aarTypes.db') }),
+  blocks: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'blocks.db') }),
+  tracks: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'tracks.db') }),
+  trains: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'trains.db') }),
+  routes: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'routes.db') }),
+  operatingSessions: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'operatingSessions.db') }),
+  carOrders: new Datastore({ ...datastoreOptions, filename: path.join(dbPath, 'carOrders.db') })
 };
 
 // Ensure indexes for better performance

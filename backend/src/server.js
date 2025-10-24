@@ -4,6 +4,17 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// Import configuration
+import { 
+  config, 
+  getServerConfig, 
+  getApiConfig, 
+  getLoggingConfig,
+  getSecurityConfig,
+  isDevelopment,
+  isProduction 
+} from './config/index.js';
+
 // Import routes
 import carsRouter from './routes/cars.js';
 import locomotivesRouter from './routes/locomotives.js';
@@ -26,13 +37,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const serverConfig = getServerConfig();
+const apiConfig = getApiConfig();
+const loggingConfig = getLoggingConfig();
+const securityConfig = getSecurityConfig();
 
 // Middleware
-app.use(cors());
-app.use(morgan('combined'));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cors({
+  origin: serverConfig.cors.origin,
+  credentials: serverConfig.cors.credentials
+}));
+app.use(morgan(loggingConfig.format));
+app.use(express.json({ limit: apiConfig.bodyLimit }));
+app.use(express.urlencoded({ extended: true, limit: apiConfig.bodyLimit }));
 
 // Initialize operating session on startup
 import { dbHelpers } from './database/index.js';
@@ -98,8 +115,10 @@ app.get('/api/health', (req, res) => {
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
-app.listen(PORT, () => {
-  console.log(`🚂 ELMRR Switch Backend running on port ${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-  console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
+app.listen(serverConfig.port, serverConfig.host, () => {
+  console.log(`🚂 ELMRR Switch Backend running on ${serverConfig.host}:${serverConfig.port}`);
+  console.log(`📊 Health check: http://${serverConfig.host}:${serverConfig.port}/api/health`);
+  console.log(`🔧 Environment: ${serverConfig.env}`);
+  console.log(`📁 Database path: ${config.database.path}`);
+  console.log(`🔒 CORS origin: ${serverConfig.cors.origin}`);
 });
