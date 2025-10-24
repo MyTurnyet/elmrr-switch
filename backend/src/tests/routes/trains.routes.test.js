@@ -90,6 +90,12 @@ jest.mock('../../schemas/commonSchemas.js', () => ({
   }
 }));
 
+// Mock model validation functions
+jest.mock('../../models/train.js', () => ({
+  validateLocomotiveAssignments: jest.fn(() => ({ valid: true, conflicts: [] })),
+  validateTrainNameUniqueness: jest.fn(() => ({ valid: true }))
+}));
+
 // Now import the dependencies
 import { ApiError } from '../../middleware/errorHandler.js';
 import trainsRouter from '../../routes/trains.js';

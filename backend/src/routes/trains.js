@@ -6,6 +6,7 @@ import { trainSchemas } from '../schemas/trainSchemas.js';
 import { commonSchemas } from '../schemas/commonSchemas.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+import { validateLocomotiveAssignments, validateTrainNameUniqueness } from '../models/train.js';
 
 const router = express.Router();
 const trainRepository = getRepository('trains');
@@ -86,16 +87,16 @@ router.put('/:id',
   }
 
   // Verify route if being updated
-  if (value.routeId && value.routeId !== existingTrain.routeId) {
-    const route = await dbHelpers.findById('routes', value.routeId);
+  if (req.body.routeId && req.body.routeId !== existingTrain.routeId) {
+    const route = await dbHelpers.findById('routes', req.body.routeId);
     if (!route) {
-      throw new ApiError(`Route with ID '${value.routeId}' does not exist`, 404);
+      throw new ApiError(`Route with ID '${req.body.routeId}' does not exist`, 404);
     }
   }
 
   // Verify locomotives if being updated
-  if (value.locomotiveIds) {
-    for (const locoId of value.locomotiveIds) {
+  if (req.body.locomotiveIds) {
+    for (const locoId of req.body.locomotiveIds) {
       const locomotive = await dbHelpers.findById('locomotives', locoId);
       if (!locomotive) {
         throw new ApiError(`Locomotive with ID '${locoId}' does not exist`, 404);
@@ -107,7 +108,7 @@ router.put('/:id',
 
     // Check locomotive assignment conflicts
     const allTrains = await dbHelpers.findAll('trains');
-    const locoValidation = validateLocomotiveAssignments(allTrains, value.locomotiveIds, req.params.id);
+    const locoValidation = validateLocomotiveAssignments(allTrains, req.body.locomotiveIds, req.params.id);
     if (!locoValidation.valid) {
       const conflicts = locoValidation.conflicts.map(c => 
         `Locomotive ${c.locomotiveId} is assigned to train '${c.conflictingTrains[0].name}'`
@@ -117,18 +118,18 @@ router.put('/:id',
   }
 
   // Check train name uniqueness if being updated
-  if (value.name && value.name !== existingTrain.name) {
+  if (req.body.name && req.body.name !== existingTrain.name) {
     const allTrains = await dbHelpers.findAll('trains');
-    const nameValidation = validateTrainNameUniqueness(allTrains, value.name, existingTrain.sessionNumber, req.params.id);
+    const nameValidation = validateTrainNameUniqueness(allTrains, req.body.name, existingTrain.sessionNumber, req.params.id);
     if (!nameValidation.valid) {
-      throw new ApiError(`A train named '${value.name}' already exists in session ${existingTrain.sessionNumber}`, 409);
+      throw new ApiError(`A train named '${req.body.name}' already exists in session ${existingTrain.sessionNumber}`, 409);
     }
   }
 
   // Add updatedAt timestamp
-  value.updatedAt = new Date().toISOString();
+  const updateData = { ...req.body, updatedAt: new Date().toISOString() };
 
-  const updated = await dbHelpers.update('trains', req.params.id, value);
+  const updated = await dbHelpers.update('trains', req.params.id, updateData);
   if (updated === 0) {
     throw new ApiError('Train not found', 404);
   }
