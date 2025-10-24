@@ -1,200 +1,99 @@
 import express from 'express';
 import { dbHelpers } from '../database/index.js';
 import { validateIndustry, validateCarDemandConfig } from '../models/industry.js';
+import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
+import { ApiResponse } from '../utils/ApiResponse.js';
 
 const router = express.Router();
 
 // GET /api/industries - Get all industries
-router.get('/', async (req, res) => {
-  try {
-    const industries = await dbHelpers.findAll('industries');
-    res.json({
-      success: true,
-      data: industries,
-      count: industries.length
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch industries',
-      message: error.message
-    });
-  }
-});
+router.get('/', asyncHandler(async (req, res) => {
+  const industries = await dbHelpers.findAll('industries');
+  res.json(ApiResponse.success(industries, 'Industries retrieved successfully'));
+}));
 
 // GET /api/industries/:id - Get industry by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const industry = await dbHelpers.findById('industries', req.params.id);
-    if (!industry) {
-      return res.status(404).json({
-        success: false,
-        error: 'Industry not found'
-      });
-    }
-    res.json({
-      success: true,
-      data: industry
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch industry',
-      message: error.message
-    });
+router.get('/:id', asyncHandler(async (req, res) => {
+  const industry = await dbHelpers.findById('industries', req.params.id);
+  if (!industry) {
+    throw new ApiError('Industry not found', 404);
   }
-});
+  res.json(ApiResponse.success(industry, 'Industry retrieved successfully'));
+}));
 
 // GET /api/industries/:id/cars - Get cars currently at industry
-router.get('/:id/cars', async (req, res) => {
-  try {
-    const cars = await dbHelpers.findByQuery('cars', { currentIndustry: req.params.id });
-    res.json({
-      success: true,
-      data: cars,
-      count: cars.length
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch cars at industry',
-      message: error.message
-    });
-  }
-});
+router.get('/:id/cars', asyncHandler(async (req, res) => {
+  const cars = await dbHelpers.findByQuery('cars', { currentIndustry: req.params.id });
+  res.json(ApiResponse.success(cars, 'Cars at industry retrieved successfully'));
+}));
 
 // POST /api/industries - Create new industry
-router.post('/', async (req, res) => {
-  try {
-    const { error, value } = validateIndustry(req.body);
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
-
-    // Validate car demand configuration if provided
-    if (value.carDemandConfig && value.carDemandConfig.length > 0) {
-      const demandValidation = validateCarDemandConfig(value.carDemandConfig);
-      if (!demandValidation.valid) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid car demand configuration',
-          message: demandValidation.errors.join(', ')
-        });
-      }
-
-      // Verify all AAR types exist
-      for (const config of value.carDemandConfig) {
-        const aarType = await dbHelpers.findById('aarTypes', config.aarTypeId);
-        if (!aarType) {
-          return res.status(404).json({
-            success: false,
-            error: 'AAR type not found',
-            message: `AAR type '${config.aarTypeId}' does not exist`
-          });
-        }
-      }
-    }
-
-    const newIndustry = await dbHelpers.create('industries', value);
-    res.status(201).json({
-      success: true,
-      data: newIndustry,
-      message: 'Industry created successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to create industry',
-      message: error.message
-    });
+router.post('/', asyncHandler(async (req, res) => {
+  const { error, value } = validateIndustry(req.body);
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
   }
-});
+
+  // Validate car demand configuration if provided
+  if (value.carDemandConfig && value.carDemandConfig.length > 0) {
+    const demandValidation = validateCarDemandConfig(value.carDemandConfig);
+    if (!demandValidation.valid) {
+      throw new ApiError('Invalid car demand configuration', 400, demandValidation.errors);
+    }
+
+    // Verify all AAR types exist
+    for (const config of value.carDemandConfig) {
+      const aarType = await dbHelpers.findById('aarTypes', config.aarTypeId);
+      if (!aarType) {
+        throw new ApiError(`AAR type '${config.aarTypeId}' does not exist`, 404);
+      }
+    }
+  }
+
+  const newIndustry = await dbHelpers.create('industries', value);
+  res.status(201).json(ApiResponse.success(newIndustry, 'Industry created successfully', 201));
+}));
 
 // PUT /api/industries/:id - Update industry
-router.put('/:id', async (req, res) => {
-  try {
-    const { error, value } = validateIndustry(req.body, true);
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
-
-    // Validate car demand configuration if provided
-    if (value.carDemandConfig && value.carDemandConfig.length > 0) {
-      const demandValidation = validateCarDemandConfig(value.carDemandConfig);
-      if (!demandValidation.valid) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid car demand configuration',
-          message: demandValidation.errors.join(', ')
-        });
-      }
-
-      // Verify all AAR types exist
-      for (const config of value.carDemandConfig) {
-        const aarType = await dbHelpers.findById('aarTypes', config.aarTypeId);
-        if (!aarType) {
-          return res.status(404).json({
-            success: false,
-            error: 'AAR type not found',
-            message: `AAR type '${config.aarTypeId}' does not exist`
-          });
-        }
-      }
-    }
-
-    const updated = await dbHelpers.update('industries', req.params.id, value);
-    if (updated === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'Industry not found'
-      });
-    }
-
-    const industry = await dbHelpers.findById('industries', req.params.id);
-    res.json({
-      success: true,
-      data: industry,
-      message: 'Industry updated successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to update industry',
-      message: error.message
-    });
+router.put('/:id', asyncHandler(async (req, res) => {
+  const { error, value } = validateIndustry(req.body, true);
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
   }
-});
+
+  // Validate car demand configuration if provided
+  if (value.carDemandConfig && value.carDemandConfig.length > 0) {
+    const demandValidation = validateCarDemandConfig(value.carDemandConfig);
+    if (!demandValidation.valid) {
+      throw new ApiError('Invalid car demand configuration', 400, demandValidation.errors);
+    }
+
+    // Verify all AAR types exist
+    for (const config of value.carDemandConfig) {
+      const aarType = await dbHelpers.findById('aarTypes', config.aarTypeId);
+      if (!aarType) {
+        throw new ApiError(`AAR type '${config.aarTypeId}' does not exist`, 404);
+      }
+    }
+  }
+
+  const updated = await dbHelpers.update('industries', req.params.id, value);
+  if (updated === 0) {
+    throw new ApiError('Industry not found', 404);
+  }
+
+  const industry = await dbHelpers.findById('industries', req.params.id);
+  res.json(ApiResponse.success(industry, 'Industry updated successfully'));
+}));
 
 // DELETE /api/industries/:id - Delete industry
-router.delete('/:id', async (req, res) => {
-  try {
-    const deleted = await dbHelpers.delete('industries', req.params.id);
-    if (deleted === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'Industry not found'
-      });
-    }
-
-    res.json({
-      success: true,
-      message: 'Industry deleted successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to delete industry',
-      message: error.message
-    });
+router.delete('/:id', asyncHandler(async (req, res) => {
+  const deleted = await dbHelpers.delete('industries', req.params.id);
+  if (deleted === 0) {
+    throw new ApiError('Industry not found', 404);
   }
-});
+
+  res.json(ApiResponse.success(null, 'Industry deleted successfully'));
+}));
 
 export default router;

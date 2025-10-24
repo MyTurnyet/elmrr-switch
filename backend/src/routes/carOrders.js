@@ -8,54 +8,44 @@ import {
   checkDuplicateOrder,
   validateStatusTransition
 } from '../models/carOrder.js';
+import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
+import { ApiResponse } from '../utils/ApiResponse.js';
 
 const router = express.Router();
 
 // GET /api/car-orders - List all orders with optional filtering
-router.get('/', async (req, res) => {
-  try {
-    const { industryId, status, sessionNumber, aarTypeId, search } = req.query;
-    let query = {};
+router.get('/', asyncHandler(async (req, res) => {
+  const { industryId, status, sessionNumber, aarTypeId, search } = req.query;
+  let query = {};
 
-    if (industryId) query.industryId = industryId;
-    if (status) query.status = status;
-    if (sessionNumber) query.sessionNumber = parseInt(sessionNumber);
-    if (aarTypeId) query.aarTypeId = aarTypeId;
+  if (industryId) query.industryId = industryId;
+  if (status) query.status = status;
+  if (sessionNumber) query.sessionNumber = parseInt(sessionNumber);
+  if (aarTypeId) query.aarTypeId = aarTypeId;
 
-    let carOrders = await dbHelpers.findByQuery('carOrders', query);
+  let carOrders = await dbHelpers.findByQuery('carOrders', query);
 
-    // Apply search filter if provided (search in industry names)
-    if (search) {
-      const industries = await dbHelpers.findAll('industries');
-      const industryMap = industries.reduce((map, industry) => {
-        map[industry._id] = industry.name.toLowerCase();
-        return map;
-      }, {});
+  // Apply search filter if provided (search in industry names)
+  if (search) {
+    const industries = await dbHelpers.findAll('industries');
+    const industryMap = industries.reduce((map, industry) => {
+      map[industry._id] = industry.name.toLowerCase();
+      return map;
+    }, {});
 
-      const searchLower = search.toLowerCase();
-      carOrders = carOrders.filter(order => {
-        const industryName = industryMap[order.industryId] || '';
-        return industryName.includes(searchLower) || 
-               order.aarTypeId.toLowerCase().includes(searchLower);
-      });
-    }
-
-    // Sort by creation date (newest first)
-    carOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    res.json({
-      success: true,
-      data: carOrders,
-      count: carOrders.length
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch car orders',
-      message: error.message
+    const searchLower = search.toLowerCase();
+    carOrders = carOrders.filter(order => {
+      const industryName = industryMap[order.industryId] || '';
+      return industryName.includes(searchLower) || 
+             order.aarTypeId.toLowerCase().includes(searchLower);
     });
   }
-});
+
+  // Sort by creation date (newest first)
+  carOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  res.json(ApiResponse.success(carOrders, 'Car orders retrieved successfully'));
+}));
 
 // GET /api/car-orders/:id - Get single order
 router.get('/:id', async (req, res) => {

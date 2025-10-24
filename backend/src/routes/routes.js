@@ -1,65 +1,41 @@
 import express from 'express';
 import { dbHelpers } from '../database/index.js';
 import { validateRoute } from '../models/route.js';
+import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
+import { ApiResponse } from '../utils/ApiResponse.js';
 
 const router = express.Router();
 
 // GET /api/routes - Get all routes with optional filtering
-router.get('/', async (req, res) => {
-  try {
-    const { originYard, terminationYard, search } = req.query;
-    let query = {};
+router.get('/', asyncHandler(async (req, res) => {
+  const { originYard, terminationYard, search } = req.query;
+  let query = {};
 
-    if (originYard) query.originYard = originYard;
-    if (terminationYard) query.terminationYard = terminationYard;
+  if (originYard) query.originYard = originYard;
+  if (terminationYard) query.terminationYard = terminationYard;
 
-    let routes = await dbHelpers.findByQuery('routes', query);
+  let routes = await dbHelpers.findByQuery('routes', query);
 
-    // Apply search filter if provided (name or description)
-    if (search) {
-      const searchLower = search.toLowerCase();
-      routes = routes.filter(route =>
-        route.name.toLowerCase().includes(searchLower) ||
-        (route.description && route.description.toLowerCase().includes(searchLower))
-      );
-    }
-
-    res.json({
-      success: true,
-      data: routes,
-      count: routes.length
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch routes',
-      message: error.message
-    });
+  // Apply search filter if provided (name or description)
+  if (search) {
+    const searchLower = search.toLowerCase();
+    routes = routes.filter(route =>
+      route.name.toLowerCase().includes(searchLower) ||
+      (route.description && route.description.toLowerCase().includes(searchLower))
+    );
   }
-});
+
+  res.json(ApiResponse.success(routes, 'Routes retrieved successfully'));
+}));
 
 // GET /api/routes/:id - Get route by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const route = await dbHelpers.findById('routes', req.params.id);
-    if (!route) {
-      return res.status(404).json({
-        success: false,
-        error: 'Route not found'
-      });
-    }
-    res.json({
-      success: true,
-      data: route
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch route',
-      message: error.message
-    });
+router.get('/:id', asyncHandler(async (req, res) => {
+  const route = await dbHelpers.findById('routes', req.params.id);
+  if (!route) {
+    throw new ApiError('Route not found', 404);
   }
-});
+  res.json(ApiResponse.success(route, 'Route retrieved successfully'));
+}));
 
 // POST /api/routes - Create new route
 router.post('/', async (req, res) => {
