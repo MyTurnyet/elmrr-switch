@@ -126,16 +126,11 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 // PUT /api/trains/:id - Update train (name, locos, capacity - only if status=Planned)
-router.put('/:id', async (req, res) => {
-  try {
-    const { error, value } = validateTrain(req.body, true); // Allow partial updates
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
+router.put('/:id', asyncHandler(async (req, res) => {
+  const { error, value } = validateTrain(req.body, true); // Allow partial updates
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
+  }
 
     // Check if train exists
     const existingTrain = await dbHelpers.findById('trains', req.params.id);
