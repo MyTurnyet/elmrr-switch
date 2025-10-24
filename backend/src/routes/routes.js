@@ -38,113 +38,65 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // POST /api/routes - Create new route
-router.post('/', async (req, res) => {
-  try {
-    const { error, value } = validateRoute(req.body);
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
+router.post('/', asyncHandler(async (req, res) => {
+  const { error, value } = validateRoute(req.body);
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
+  }
 
-    // Check for duplicate route name
-    const existing = await dbHelpers.findByQuery('routes', {
-      name: value.name
-    });
+  // Check for duplicate route name
+  const existing = await dbHelpers.findByQuery('routes', {
+    name: value.name
+  });
 
-    if (existing.length > 0) {
-      return res.status(409).json({
-        success: false,
-        error: 'Duplicate route name',
-        message: 'A route with this name already exists'
-      });
-    }
+  if (existing.length > 0) {
+    throw new ApiError('A route with this name already exists', 409);
+  }
 
-    // Verify origin yard exists and is a yard
-    const originYard = await dbHelpers.findById('industries', value.originYard);
-    if (!originYard) {
-      return res.status(404).json({
-        success: false,
-        error: 'Origin yard not found',
-        message: `Industry with ID '${value.originYard}' does not exist`
-      });
-    }
-    if (!originYard.isYard) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid origin yard',
-        message: 'Origin must be an industry with isYard=true'
-      });
-    }
+  // Verify origin yard exists and is a yard
+  const originYard = await dbHelpers.findById('industries', value.originYard);
+  if (!originYard) {
+    throw new ApiError(`Industry with ID '${value.originYard}' does not exist`, 404);
+  }
+  if (!originYard.isYard) {
+    throw new ApiError('Origin must be an industry with isYard=true', 400);
+  }
 
-    // Verify termination yard exists and is a yard
-    const terminationYard = await dbHelpers.findById('industries', value.terminationYard);
-    if (!terminationYard) {
-      return res.status(404).json({
-        success: false,
-        error: 'Termination yard not found',
-        message: `Industry with ID '${value.terminationYard}' does not exist`
-      });
-    }
-    if (!terminationYard.isYard) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid termination yard',
-        message: 'Termination must be an industry with isYard=true'
-      });
-    }
+  // Verify termination yard exists and is a yard
+  const terminationYard = await dbHelpers.findById('industries', value.terminationYard);
+  if (!terminationYard) {
+    throw new ApiError(`Industry with ID '${value.terminationYard}' does not exist`, 404);
+  }
+  if (!terminationYard.isYard) {
+    throw new ApiError('Termination must be an industry with isYard=true', 400);
+  }
 
-    // Verify all stations in sequence exist
-    if (value.stationSequence && value.stationSequence.length > 0) {
-      for (const stationId of value.stationSequence) {
-        const station = await dbHelpers.findById('stations', stationId);
-        if (!station) {
-          return res.status(404).json({
-            success: false,
-            error: 'Station not found',
-            message: `Station with ID '${stationId}' does not exist`
-          });
-        }
+  // Verify all stations in sequence exist
+  if (value.stationSequence && value.stationSequence.length > 0) {
+    for (const stationId of value.stationSequence) {
+      const station = await dbHelpers.findById('stations', stationId);
+      if (!station) {
+        throw new ApiError(`Station with ID '${stationId}' does not exist`, 404);
       }
     }
-
-    const newRoute = await dbHelpers.create('routes', value);
-
-    res.status(201).json({
-      success: true,
-      data: newRoute,
-      message: 'Route created successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to create route',
-      message: error.message
-    });
   }
-});
+
+  const newRoute = await dbHelpers.create('routes', value);
+
+  res.status(201).json(ApiResponse.success(newRoute, 'Route created successfully', 201));
+}));
 
 // PUT /api/routes/:id - Update route
-router.put('/:id', async (req, res) => {
-  try {
-    const { error, value } = validateRoute(req.body, true); // Allow partial updates
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
+router.put('/:id', asyncHandler(async (req, res) => {
+  const { error, value } = validateRoute(req.body, true); // Allow partial updates
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
+  }
 
     // Check if route exists
     const existingRoute = await dbHelpers.findById('routes', req.params.id);
     if (!existingRoute) {
-      return res.status(404).json({
-        success: false,
-        error: 'Route not found'
-      });
+      throw new ApiError('Route not found', 404);
     }
 
     // Check for duplicate route name (if name is being updated)
@@ -154,11 +106,7 @@ router.put('/:id', async (req, res) => {
       });
 
       if (duplicate.length > 0) {
-        return res.status(409).json({
-          success: false,
-          error: 'Duplicate route name',
-          message: 'A route with this name already exists'
-        });
+        throw new ApiError('A route with this name already exists', 409);
       }
     }
 
@@ -166,18 +114,10 @@ router.put('/:id', async (req, res) => {
     if (value.originYard) {
       const originYard = await dbHelpers.findById('industries', value.originYard);
       if (!originYard) {
-        return res.status(404).json({
-          success: false,
-          error: 'Origin yard not found',
-          message: `Industry with ID '${value.originYard}' does not exist`
-        });
+        throw new ApiError(`Industry with ID '${value.originYard}' does not exist`, 404);
       }
       if (!originYard.isYard) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid origin yard',
-          message: 'Origin must be an industry with isYard=true'
-        });
+        throw new ApiError('Origin must be an industry with isYard=true', 400);
       }
     }
 
@@ -185,18 +125,10 @@ router.put('/:id', async (req, res) => {
     if (value.terminationYard) {
       const terminationYard = await dbHelpers.findById('industries', value.terminationYard);
       if (!terminationYard) {
-        return res.status(404).json({
-          success: false,
-          error: 'Termination yard not found',
-          message: `Industry with ID '${value.terminationYard}' does not exist`
-        });
+        throw new ApiError(`Industry with ID '${value.terminationYard}' does not exist`, 404);
       }
       if (!terminationYard.isYard) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid termination yard',
-          message: 'Termination must be an industry with isYard=true'
-        });
+        throw new ApiError('Termination must be an industry with isYard=true', 400);
       }
     }
 
@@ -205,70 +137,34 @@ router.put('/:id', async (req, res) => {
       for (const stationId of value.stationSequence) {
         const station = await dbHelpers.findById('stations', stationId);
         if (!station) {
-          return res.status(404).json({
-            success: false,
-            error: 'Station not found',
-            message: `Station with ID '${stationId}' does not exist`
-          });
+          throw new ApiError(`Station with ID '${stationId}' does not exist`, 404);
         }
       }
     }
 
     const updated = await dbHelpers.update('routes', req.params.id, value);
     if (updated === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'Route not found'
-      });
+      throw new ApiError('Route not found', 404);
     }
 
     const route = await dbHelpers.findById('routes', req.params.id);
-    res.json({
-      success: true,
-      data: route,
-      message: 'Route updated successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to update route',
-      message: error.message
-    });
-  }
-});
+    res.json(ApiResponse.success(route, 'Route updated successfully'));
+}));
 
 // DELETE /api/routes/:id - Delete route
-router.delete('/:id', async (req, res) => {
-  try {
-    // TODO: Phase 2.2 - Check if route is in use by active trains
-    // const trains = await dbHelpers.findByQuery('trains', { route: req.params.id });
-    // if (trains.length > 0) {
-    //   return res.status(409).json({
-    //     success: false,
-    //     error: 'Route in use',
-    //     message: 'Cannot delete route that is assigned to active trains'
-    //   });
-    // }
+router.delete('/:id', asyncHandler(async (req, res) => {
+  // TODO: Phase 2.2 - Check if route is in use by active trains
+  // const trains = await dbHelpers.findByQuery('trains', { route: req.params.id });
+  // if (trains.length > 0) {
+  //   throw new ApiError('Cannot delete route that is assigned to active trains', 409);
+  // }
 
-    const deleted = await dbHelpers.delete('routes', req.params.id);
-    if (deleted === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'Route not found'
-      });
-    }
-
-    res.json({
-      success: true,
-      message: 'Route deleted successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to delete route',
-      message: error.message
-    });
+  const deleted = await dbHelpers.delete('routes', req.params.id);
+  if (deleted === 0) {
+    throw new ApiError('Route not found', 404);
   }
-});
+
+  res.json(ApiResponse.success(null, 'Route deleted successfully'));
+}));
 
 export default router;

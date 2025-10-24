@@ -8,45 +8,35 @@ import {
   validateSwitchListRequirements,
   formatTrainSummary
 } from '../models/train.js';
+import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
+import { ApiResponse } from '../utils/ApiResponse.js';
 
 const router = express.Router();
 
 // GET /api/trains - List all trains with optional filtering
-router.get('/', async (req, res) => {
-  try {
-    const { sessionNumber, status, routeId, search } = req.query;
-    let query = {};
+router.get('/', asyncHandler(async (req, res) => {
+  const { sessionNumber, status, routeId, search } = req.query;
+  let query = {};
 
-    if (sessionNumber) query.sessionNumber = parseInt(sessionNumber);
-    if (status) query.status = status;
-    if (routeId) query.routeId = routeId;
+  if (sessionNumber) query.sessionNumber = parseInt(sessionNumber);
+  if (status) query.status = status;
+  if (routeId) query.routeId = routeId;
 
-    let trains = await dbHelpers.findByQuery('trains', query);
+  let trains = await dbHelpers.findByQuery('trains', query);
 
-    // Apply search filter if provided (search in train names)
-    if (search) {
-      const searchLower = search.toLowerCase();
-      trains = trains.filter(train =>
-        train.name.toLowerCase().includes(searchLower)
-      );
-    }
-
-    // Sort by creation date (newest first)
-    trains.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    res.json({
-      success: true,
-      data: trains,
-      count: trains.length
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch trains',
-      message: error.message
-    });
+  // Apply search filter if provided (search in train names)
+  if (search) {
+    const searchLower = search.toLowerCase();
+    trains = trains.filter(train =>
+      train.name.toLowerCase().includes(searchLower)
+    );
   }
-});
+
+  // Sort by creation date (newest first)
+  trains.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  res.json(ApiResponse.success(trains, 'Trains retrieved successfully'));
+}));
 
 // GET /api/trains/:id - Get single train with full switch list
 router.get('/:id', async (req, res) => {
