@@ -1,15 +1,9 @@
 import express from 'express';
 import { getRepository } from '../repositories/index.js';
 import { getService } from '../services/index.js';
-import { dbHelpers } from '../database/index.js';
-import { 
-  validateTrain, 
-  validateTrainNameUniqueness,
-  validateLocomotiveAssignments,
-  validateStatusTransition,
-  validateSwitchListRequirements,
-  formatTrainSummary
-} from '../models/train.js';
+import { validateBody, validateQuery, validateParams } from '../middleware/validation.js';
+import { trainSchemas } from '../schemas/trainSchemas.js';
+import { commonSchemas } from '../schemas/commonSchemas.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 
@@ -21,8 +15,10 @@ const locomotiveRepository = getRepository('locomotives');
 const trainService = getService('train');
 
 // GET /api/trains - List all trains with optional filtering
-router.get('/', asyncHandler(async (req, res) => {
-  const { sessionNumber, status, routeId, search } = req.query;
+router.get('/', 
+  validateQuery(trainSchemas.query),
+  asyncHandler(async (req, res) => {
+    const { sessionNumber, status, routeId, search } = req.query;
   
   const trains = await trainRepository.findWithFilters({
     sessionNumber,
@@ -38,7 +34,9 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // GET /api/trains/:id - Get single train with enriched data
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id', 
+  validateParams(commonSchemas.params.id),
+  asyncHandler(async (req, res) => {
   const train = await trainRepository.findById(req.params.id, { enrich: true });
   if (!train) {
     throw new ApiError('Train not found', 404);
@@ -48,7 +46,9 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // POST /api/trains - Create new train (status: Planned)
-router.post('/', asyncHandler(async (req, res) => {
+router.post('/', 
+  validateBody(trainSchemas.create),
+  asyncHandler(async (req, res) => {
   // Get current session number if not provided
   let sessionNumber = req.body.sessionNumber;
   if (!sessionNumber) {
@@ -69,11 +69,10 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 // PUT /api/trains/:id - Update train (name, locos, capacity - only if status=Planned)
-router.put('/:id', asyncHandler(async (req, res) => {
-  const { error, value } = validateTrain(req.body, true); // Allow partial updates
-  if (error) {
-    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
-  }
+router.put('/:id', 
+  validateParams(commonSchemas.params.id),
+  validateBody(trainSchemas.update),
+  asyncHandler(async (req, res) => {
 
   // Check if train exists
   const existingTrain = await dbHelpers.findById('trains', req.params.id);
@@ -139,7 +138,9 @@ router.put('/:id', asyncHandler(async (req, res) => {
 }));
 
 // DELETE /api/trains/:id - Delete train (only if status=Planned)
-router.delete('/:id', asyncHandler(async (req, res) => {
+router.delete('/:id', 
+  validateParams(commonSchemas.params.id),
+  asyncHandler(async (req, res) => {
   const existingTrain = await dbHelpers.findById('trains', req.params.id);
   if (!existingTrain) {
     throw new ApiError('Train not found', 404);
@@ -159,19 +160,25 @@ router.delete('/:id', asyncHandler(async (req, res) => {
 }));
 
 // POST /api/trains/:id/generate-switch-list - Generate switch list (status: Planned → In Progress)
-router.post('/:id/generate-switch-list', asyncHandler(async (req, res) => {
+router.post('/:id/generate-switch-list', 
+  validateParams(commonSchemas.params.id),
+  asyncHandler(async (req, res) => {
   const result = await trainService.generateSwitchList(req.params.id);
   res.json(ApiResponse.success(result.train, 'Switch list generated successfully', 200));
 }));
 
 // POST /api/trains/:id/complete - Mark train as completed
-router.post('/:id/complete', asyncHandler(async (req, res) => {
+router.post('/:id/complete', 
+  validateParams(commonSchemas.params.id),
+  asyncHandler(async (req, res) => {
   const result = await trainService.completeTrain(req.params.id);
   res.json(ApiResponse.success(result.train, 'Train completed successfully'));
 }));
 
 // POST /api/trains/:id/cancel - Cancel train
-router.post('/:id/cancel', asyncHandler(async (req, res) => {
+router.post('/:id/cancel', 
+  validateParams(commonSchemas.params.id),
+  asyncHandler(async (req, res) => {
   const result = await trainService.cancelTrain(req.params.id);
   res.json(ApiResponse.success(result.train, 'Train cancelled successfully'));
 }));
