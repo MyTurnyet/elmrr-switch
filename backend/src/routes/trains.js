@@ -14,7 +14,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 const router = express.Router();
 
 // GET /api/trains - List all trains with optional filtering
-router.get('/', asyncHandler(async (req, res) => {
+router.get('/', asyncHandler(asyncHandler(async (req, res) => {
   const { sessionNumber, status, routeId, search } = req.query;
   let query = {};
 
@@ -39,7 +39,7 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // GET /api/trains/:id - Get single train with full switch list
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id', asyncHandler(asyncHandler(async (req, res) => {
   const train = await dbHelpers.findById('trains', req.params.id);
   if (!train) {
     throw new ApiError('Train not found', 404);
@@ -66,7 +66,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // POST /api/trains - Create new train (status: Planned)
-router.post('/', asyncHandler(async (req, res) => {
+router.post('/', asyncHandler(asyncHandler(async (req, res) => {
   // Get current session number if not provided
   let sessionNumber = req.body.sessionNumber;
   if (!sessionNumber) {
@@ -126,7 +126,7 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 // PUT /api/trains/:id - Update train (name, locos, capacity - only if status=Planned)
-router.put('/:id', asyncHandler(async (req, res) => {
+router.put('/:id', asyncHandler(asyncHandler(async (req, res) => {
   const { error, value } = validateTrain(req.body, true); // Allow partial updates
   if (error) {
     throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
@@ -135,7 +135,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
     // Check if train exists
     const existingTrain = await dbHelpers.findById('trains', req.params.id);
     if (!existingTrain) {
-      return res.status(404).json({
+      throw new ApiError(
         success: false,
         error: 'Train not found'
       });
@@ -143,7 +143,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
 
     // Only allow updates if train is in Planned status
     if (existingTrain.status !== 'Planned') {
-      return res.status(400).json({
+      throw new ApiError(
         success: false,
         error: 'Cannot update train',
         message: `Cannot update train with status: ${existingTrain.status}. Only 'Planned' trains can be updated.`
@@ -154,7 +154,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
     if (value.routeId && value.routeId !== existingTrain.routeId) {
       const route = await dbHelpers.findById('routes', value.routeId);
       if (!route) {
-        return res.status(404).json({
+        throw new ApiError(
           success: false,
           error: 'Route not found',
           message: `Route with ID '${value.routeId}' does not exist`
@@ -167,14 +167,14 @@ router.put('/:id', asyncHandler(async (req, res) => {
       for (const locoId of value.locomotiveIds) {
         const locomotive = await dbHelpers.findById('locomotives', locoId);
         if (!locomotive) {
-          return res.status(404).json({
+          throw new ApiError(
             success: false,
             error: 'Locomotive not found',
             message: `Locomotive with ID '${locoId}' does not exist`
           });
         }
         if (!locomotive.isInService) {
-          return res.status(400).json({
+          throw new ApiError(
             success: false,
             error: 'Locomotive out of service',
             message: `Locomotive '${locomotive.reportingMarks}' is not in service`
@@ -189,7 +189,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
         const conflicts = locoValidation.conflicts.map(c => 
           `Locomotive ${c.locomotiveId} is assigned to train '${c.conflictingTrains[0].name}'`
         ).join(', ');
-        return res.status(409).json({
+        throw new ApiError(
           success: false,
           error: 'Locomotive assignment conflict',
           message: conflicts
@@ -202,7 +202,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
       const allTrains = await dbHelpers.findAll('trains');
       const nameValidation = validateTrainNameUniqueness(allTrains, value.name, existingTrain.sessionNumber, req.params.id);
       if (!nameValidation.valid) {
-        return res.status(409).json({
+        throw new ApiError(
           success: false,
           error: 'Duplicate train name',
           message: `A train named '${value.name}' already exists in session ${existingTrain.sessionNumber}`
@@ -215,19 +215,19 @@ router.put('/:id', asyncHandler(async (req, res) => {
 
     const updated = await dbHelpers.update('trains', req.params.id, value);
     if (updated === 0) {
-      return res.status(404).json({
+      throw new ApiError(
         success: false,
         error: 'Train not found'
       });
     }
 
     const train = await dbHelpers.findById('trains', req.params.id);
-    res.json({
+    res.json(ApiResponse.success(
       success: true,
       data: train,
       message: 'Train updated successfully'
     });
-  } catch (error) {
+  }));
     res.status(500).json({
       success: false,
       error: 'Failed to update train',
@@ -237,11 +237,11 @@ router.put('/:id', asyncHandler(async (req, res) => {
 });
 
 // DELETE /api/trains/:id - Delete train (only if status=Planned)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', asyncHandler(async (req, res) => {
   try {
     const existingTrain = await dbHelpers.findById('trains', req.params.id);
     if (!existingTrain) {
-      return res.status(404).json({
+      throw new ApiError(
         success: false,
         error: 'Train not found'
       });
@@ -249,7 +249,7 @@ router.delete('/:id', async (req, res) => {
 
     // Only allow deletion if train is in Planned status
     if (existingTrain.status !== 'Planned') {
-      return res.status(409).json({
+      throw new ApiError(
         success: false,
         error: 'Cannot delete train',
         message: `Cannot delete train with status: ${existingTrain.status}. Only 'Planned' trains can be deleted.`
@@ -258,17 +258,17 @@ router.delete('/:id', async (req, res) => {
 
     const deleted = await dbHelpers.delete('trains', req.params.id);
     if (deleted === 0) {
-      return res.status(404).json({
+      throw new ApiError(
         success: false,
         error: 'Train not found'
       });
     }
 
-    res.json({
+    res.json(ApiResponse.success(
       success: true,
       message: 'Train deleted successfully'
     });
-  } catch (error) {
+  }));
     res.status(500).json({
       success: false,
       error: 'Failed to delete train',
@@ -278,11 +278,11 @@ router.delete('/:id', async (req, res) => {
 });
 
 // POST /api/trains/:id/generate-switch-list - Generate switch list (status: Planned → In Progress)
-router.post('/:id/generate-switch-list', async (req, res) => {
+router.post('/:id/generate-switch-list', asyncHandler(async (req, res) => {
   try {
     const train = await dbHelpers.findById('trains', req.params.id);
     if (!train) {
-      return res.status(404).json({
+      throw new ApiError(
         success: false,
         error: 'Train not found'
       });
@@ -297,7 +297,7 @@ router.post('/:id/generate-switch-list', async (req, res) => {
     // Validate requirements
     const validation = validateSwitchListRequirements(train, route, locomotives.filter(Boolean));
     if (!validation.valid) {
-      return res.status(400).json({
+      throw new ApiError(
         success: false,
         error: 'Cannot generate switch list',
         message: validation.errors.join(', ')
@@ -308,7 +308,7 @@ router.post('/:id/generate-switch-list', async (req, res) => {
     const switchListResult = await generateSwitchList(train, route);
     
     if (!switchListResult.success) {
-      return res.status(400).json({
+      throw new ApiError(
         success: false,
         error: 'Switch list generation failed',
         message: switchListResult.message
@@ -336,7 +336,7 @@ router.post('/:id/generate-switch-list', async (req, res) => {
 
     const updatedTrain = await dbHelpers.findById('trains', req.params.id);
 
-    res.json({
+    res.json(ApiResponse.success(
       success: true,
       data: updatedTrain,
       message: 'Switch list generated successfully',
@@ -348,7 +348,7 @@ router.post('/:id/generate-switch-list', async (req, res) => {
         carOrdersFulfilled: switchListResult.carOrderUpdates.length
       }
     });
-  } catch (error) {
+  }));
     res.status(500).json({
       success: false,
       error: 'Failed to generate switch list',
@@ -358,18 +358,18 @@ router.post('/:id/generate-switch-list', async (req, res) => {
 });
 
 // POST /api/trains/:id/complete - Mark train as completed
-router.post('/:id/complete', async (req, res) => {
+router.post('/:id/complete', asyncHandler(async (req, res) => {
   try {
     const train = await dbHelpers.findById('trains', req.params.id);
     if (!train) {
-      return res.status(404).json({
+      throw new ApiError(
         success: false,
         error: 'Train not found'
       });
     }
 
     if (train.status !== 'In Progress') {
-      return res.status(400).json({
+      throw new ApiError(
         success: false,
         error: 'Invalid train status',
         message: `Cannot complete train with status: ${train.status}. Only 'In Progress' trains can be completed.`
@@ -411,7 +411,7 @@ router.post('/:id/complete', async (req, res) => {
 
     const updatedTrain = await dbHelpers.findById('trains', req.params.id);
 
-    res.json({
+    res.json(ApiResponse.success(
       success: true,
       data: updatedTrain,
       message: 'Train completed successfully',
@@ -420,7 +420,7 @@ router.post('/:id/complete', async (req, res) => {
         ordersDelivered: carOrders.filter(o => o.status === 'assigned' || o.status === 'in-transit').length
       }
     });
-  } catch (error) {
+  }));
     res.status(500).json({
       success: false,
       error: 'Failed to complete train',
@@ -430,11 +430,11 @@ router.post('/:id/complete', async (req, res) => {
 });
 
 // POST /api/trains/:id/cancel - Cancel train
-router.post('/:id/cancel', async (req, res) => {
+router.post('/:id/cancel', asyncHandler(async (req, res) => {
   try {
     const train = await dbHelpers.findById('trains', req.params.id);
     if (!train) {
-      return res.status(404).json({
+      throw new ApiError(
         success: false,
         error: 'Train not found'
       });
@@ -442,7 +442,7 @@ router.post('/:id/cancel', async (req, res) => {
 
     // Cannot cancel completed trains
     if (train.status === 'Completed') {
-      return res.status(400).json({
+      throw new ApiError(
         success: false,
         error: 'Cannot cancel completed train',
         message: 'Completed trains cannot be cancelled'
@@ -471,12 +471,12 @@ router.post('/:id/cancel', async (req, res) => {
 
     const updatedTrain = await dbHelpers.findById('trains', req.params.id);
 
-    res.json({
+    res.json(ApiResponse.success(
       success: true,
       data: updatedTrain,
       message: 'Train cancelled successfully'
     });
-  } catch (error) {
+  }));
     res.status(500).json({
       success: false,
       error: 'Failed to cancel train',
@@ -652,7 +652,7 @@ async function generateSwitchList(train, route) {
       assignedCarIds,
       carOrderUpdates
     };
-  } catch (error) {
+  }));
     return {
       success: false,
       message: error.message
