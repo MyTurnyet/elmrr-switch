@@ -1,7 +1,7 @@
 # Current Status & Known Issues
 
-**Last Updated**: 2025-10-24T08:52:00-07:00  
-**Current Phase**: Phase 2.1 Complete, Phase 2.2 Steps 1-5 Complete
+**Last Updated**: 2025-10-24T09:07:00-07:00  
+**Current Phase**: Phase 2.1 Complete, Phase 2.2 Steps 1-5 Complete, Backend Refactoring #1.1 Complete
 
 ## Build Status
 - ✅ Frontend compiles successfully with no TypeScript errors (1,033 KB bundle)
@@ -60,7 +60,12 @@
 - ✅ Industry demand configuration with frequency controls (Phase 2.2 Step 3)
 - ✅ Train operations with switch list generation algorithm (Phase 2.2 Step 4)
 - ✅ Backend testing & integration with comprehensive test coverage (Phase 2.2 Step 5)
-- Middleware and services directories exist but empty (not needed yet)
+- ✅ **Centralized error handling refactoring complete** (Backend Refactoring #1.1)
+  - Eliminated 60+ duplicate error handlers across 7 route files
+  - Consistent API responses with timestamps and status codes
+  - Centralized error logging with request context
+  - AsyncHandler wrapper and ApiError class implemented
+  - Route handler complexity reduced by 50%+ in refactored files
 
 ## Frontend Status
 
@@ -198,6 +203,17 @@ elmrr-switch/
 6. Build frontend UI for session management, train operations, and car orders
 
 ## Recent Updates
+- **2025-10-24**: Completed Backend Refactoring #1.1 (Centralized Error Handling)
+  - Implemented centralized error handling infrastructure with AsyncHandler and ApiError
+  - Created standardized ApiResponse utility for consistent response formatting
+  - Refactored 7 route files (aarTypes, blocks, cars, goods, locomotives, stations, tracks)
+  - Eliminated 60+ duplicate error handlers across codebase
+  - Added structured error logging with request context for better debugging
+  - Updated server.js with global error middleware and 404 handler
+  - Route handler complexity reduced by 50%+ in refactored files
+  - Foundation established for remaining route file refactoring
+  - Updated cars route tests to match new response format (example pattern)
+
 - **2025-10-24**: Completed Phase 2.2 Step 5 (Backend Testing & Integration)
   - Implemented comprehensive integration tests for complex workflows
   - Backend: Integration test suite covering session advancement, rollback, and system integration
