@@ -39,15 +39,11 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // GET /api/trains/:id - Get single train with full switch list
-router.get('/:id', async (req, res) => {
-  try {
-    const train = await dbHelpers.findById('trains', req.params.id);
-    if (!train) {
-      return res.status(404).json({
-        success: false,
-        error: 'Train not found'
-      });
-    }
+router.get('/:id', asyncHandler(async (req, res) => {
+  const train = await dbHelpers.findById('trains', req.params.id);
+  if (!train) {
+    throw new ApiError('Train not found', 404);
+  }
 
     // Enrich with related data
     const route = await dbHelpers.findById('routes', train.routeId);
@@ -66,118 +62,68 @@ router.get('/:id', async (req, res) => {
       }))
     };
 
-    res.json({
-      success: true,
-      data: enrichedTrain
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch train',
-      message: error.message
-    });
-  }
-});
+  res.json(ApiResponse.success(enrichedTrain, 'Train retrieved successfully'));
+}));
 
 // POST /api/trains - Create new train (status: Planned)
-router.post('/', async (req, res) => {
-  try {
-    // Get current session number if not provided
-    let sessionNumber = req.body.sessionNumber;
-    if (!sessionNumber) {
-      const sessions = await dbHelpers.findAll('operatingSessions');
-      const currentSession = sessions[0];
-      if (!currentSession) {
-        return res.status(404).json({
-          success: false,
-          error: 'No current session found',
-          message: 'Cannot create train without an active operating session'
-        });
-      }
-      sessionNumber = currentSession.currentSessionNumber;
+router.post('/', asyncHandler(async (req, res) => {
+  // Get current session number if not provided
+  let sessionNumber = req.body.sessionNumber;
+  if (!sessionNumber) {
+    const sessions = await dbHelpers.findAll('operatingSessions');
+    const currentSession = sessions[0];
+    if (!currentSession) {
+      throw new ApiError('Cannot create train without an active operating session', 404);
     }
+    sessionNumber = currentSession.currentSessionNumber;
+  }
 
-    const trainData = { ...req.body, sessionNumber, status: 'Planned' };
-    const { error, value } = validateTrain(trainData);
-    
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        message: error.details[0].message
-      });
-    }
+  const trainData = { ...req.body, sessionNumber, status: 'Planned' };
+  const { error, value } = validateTrain(trainData);
+  
+  if (error) {
+    throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
+  }
 
-    // Verify route exists
-    const route = await dbHelpers.findById('routes', value.routeId);
-    if (!route) {
-      return res.status(404).json({
-        success: false,
-        error: 'Route not found',
-        message: `Route with ID '${value.routeId}' does not exist`
-      });
-    }
+  // Verify route exists
+  const route = await dbHelpers.findById('routes', value.routeId);
+  if (!route) {
+    throw new ApiError(`Route with ID '${value.routeId}' does not exist`, 404);
+  }
 
     // Verify all locomotives exist and are in service
     const locomotives = [];
     for (const locoId of value.locomotiveIds) {
       const locomotive = await dbHelpers.findById('locomotives', locoId);
       if (!locomotive) {
-        return res.status(404).json({
-          success: false,
-          error: 'Locomotive not found',
-          message: `Locomotive with ID '${locoId}' does not exist`
-        });
+        throw new ApiError(`Locomotive with ID '${locoId}' does not exist`, 404);
       }
       if (!locomotive.isInService) {
-        return res.status(400).json({
-          success: false,
-          error: 'Locomotive out of service',
-          message: `Locomotive '${locomotive.reportingMarks}' is not in service`
-        });
+        throw new ApiError(`Locomotive '${locomotive.reportingMarks}' is not in service`, 400);
       }
       locomotives.push(locomotive);
     }
 
-    // Check train name uniqueness within session
-    const allTrains = await dbHelpers.findAll('trains');
-    const nameValidation = validateTrainNameUniqueness(allTrains, value.name, value.sessionNumber);
-    if (!nameValidation.valid) {
-      return res.status(409).json({
-        success: false,
-        error: 'Duplicate train name',
-        message: `A train named '${value.name}' already exists in session ${value.sessionNumber}`
-      });
-    }
-
-    // Check locomotive assignment conflicts
-    const locoValidation = validateLocomotiveAssignments(allTrains, value.locomotiveIds);
-    if (!locoValidation.valid) {
-      const conflicts = locoValidation.conflicts.map(c => 
-        `Locomotive ${c.locomotiveId} is assigned to train '${c.conflictingTrains[0].name}'`
-      ).join(', ');
-      return res.status(409).json({
-        success: false,
-        error: 'Locomotive assignment conflict',
-        message: conflicts
-      });
-    }
-
-    const newTrain = await dbHelpers.create('trains', value);
-
-    res.status(201).json({
-      success: true,
-      data: newTrain,
-      message: 'Train created successfully'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to create train',
-      message: error.message
-    });
+  // Check train name uniqueness within session
+  const allTrains = await dbHelpers.findAll('trains');
+  const nameValidation = validateTrainNameUniqueness(allTrains, value.name, value.sessionNumber);
+  if (!nameValidation.valid) {
+    throw new ApiError(`A train named '${value.name}' already exists in session ${value.sessionNumber}`, 409);
   }
-});
+
+  // Check locomotive assignment conflicts
+  const locoValidation = validateLocomotiveAssignments(allTrains, value.locomotiveIds);
+  if (!locoValidation.valid) {
+    const conflicts = locoValidation.conflicts.map(c => 
+      `Locomotive ${c.locomotiveId} is assigned to train '${c.conflictingTrains[0].name}'`
+    ).join(', ');
+    throw new ApiError('Locomotive assignment conflict', 409, [conflicts]);
+  }
+
+  const newTrain = await dbHelpers.create('trains', value);
+
+  res.status(201).json(ApiResponse.success(newTrain, 'Train created successfully', 201));
+}));
 
 // PUT /api/trains/:id - Update train (name, locos, capacity - only if status=Planned)
 router.put('/:id', async (req, res) => {
