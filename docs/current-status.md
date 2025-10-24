@@ -1,11 +1,11 @@
 # Current Status & Known Issues
 
-**Last Updated**: 2025-10-23T09:31:00-07:00  
-**Current Phase**: Phase 2.1 Complete, Phase 2.2 Steps 1-4 Complete
+**Last Updated**: 2025-10-24T08:52:00-07:00  
+**Current Phase**: Phase 2.1 Complete, Phase 2.2 Steps 1-5 Complete
 
 ## Build Status
 - ✅ Frontend compiles successfully with no TypeScript errors (1,033 KB bundle)
-- ✅ Backend tests pass (409/409) - Added 51 operating session + 73 car order + 42 industry + 91 train tests
+- ✅ Backend tests pass (413/413) - Added 51 operating session + 73 car order + 42 industry + 91 train + 4 integration tests
 - ✅ All strict mode type issues resolved
 - ✅ DataGrid ID compatibility fixed (id/_id dual support)
 - ✅ Import system fixed with proper dependency ordering
@@ -54,11 +54,12 @@
 - ✅ Duplicate checking on car creation (reporting marks + number combo)
 - ✅ Route validation (unique names, valid yard references, station sequence validation)
 - ✅ All endpoints tested via curl and working correctly
-- ✅ 409 tests passing (165 Phase 1 & 2.1 + 51 operating sessions + 73 car orders + 42 industry + 91 trains)
+- ✅ 413 tests passing (165 Phase 1 & 2.1 + 51 operating sessions + 73 car orders + 42 industry + 91 trains + 4 integration)
 - ✅ Operating session management with advance/rollback functionality (Phase 2.2 Step 1)
 - ✅ Car order system with demand-based generation (Phase 2.2 Step 2)
 - ✅ Industry demand configuration with frequency controls (Phase 2.2 Step 3)
 - ✅ Train operations with switch list generation algorithm (Phase 2.2 Step 4)
+- ✅ Backend testing & integration with comprehensive test coverage (Phase 2.2 Step 5)
 - Middleware and services directories exist but empty (not needed yet)
 
 ## Frontend Status
@@ -193,10 +194,19 @@ elmrr-switch/
 2. ✅ Phase 2.2 Step 2: Car Order system with industry demand (COMPLETE)
 3. ✅ Phase 2.2 Step 3: Industry demand configuration (COMPLETE)
 4. ✅ Phase 2.2 Step 4: Train model with switch list generation (COMPLETE)
-5. Phase 2.2 Step 5+: Remaining backend steps or frontend implementation
+5. ✅ Phase 2.2 Step 5: Backend testing & integration (COMPLETE)
 6. Build frontend UI for session management, train operations, and car orders
 
 ## Recent Updates
+- **2025-10-24**: Completed Phase 2.2 Step 5 (Backend Testing & Integration)
+  - Implemented comprehensive integration tests for complex workflows
+  - Backend: Integration test suite covering session advancement, rollback, and system integration
+  - Testing: 4 focused integration tests validating key operational scenarios
+  - Features: Session advancement with multiple trains, complex state rollback, system integration verification
+  - Quality: All 413 backend tests passing (409 + 4 new integration tests)
+  - Coverage: Integration points between operating sessions, trains, car orders, and cars
+  - Validation: Complex workflows tested including train deletion, car reversion, and state restoration
+
 - **2025-10-23**: Completed Phase 2.2 Step 4 (Train Model & API)
   - Implemented complete train operations with switch list generation algorithm
   - Backend: Train model with comprehensive Joi validation and complex business logic
