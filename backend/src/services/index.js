@@ -4,6 +4,8 @@
  */
 
 import { TrainService } from './TrainService.js';
+import { SessionService } from './SessionService.js';
+import { CarOrderService } from './CarOrderService.js';
 
 // Service instances cache
 const services = new Map();
@@ -26,11 +28,12 @@ export function getService(serviceName) {
     case 'train':
       service = new TrainService();
       break;
-    // Add more services as they are created
     case 'session':
+      service = new SessionService();
+      break;
     case 'carOrder':
-      // Placeholder for future services
-      throw new Error(`Service '${serviceName}' not yet implemented`);
+      service = new CarOrderService();
+      break;
     default:
       throw new Error(`Unknown service: ${serviceName}`);
   }
@@ -61,3 +64,5 @@ export function clearServiceCache() {
 
 // Export specific services for direct access
 export { TrainService } from './TrainService.js';
+export { SessionService } from './SessionService.js';
+export { CarOrderService } from './CarOrderService.js';
