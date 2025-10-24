@@ -37,6 +37,18 @@ jest.mock('../../repositories/index.js', () => ({
         findAll: jest.fn()
       };
     }
+    if (repoName === 'routes') {
+      return {
+        findAll: jest.fn(),
+        findById: jest.fn()
+      };
+    }
+    if (repoName === 'locomotives') {
+      return {
+        findAll: jest.fn(),
+        findById: jest.fn()
+      };
+    }
     return {
       findAll: jest.fn(),
       findById: jest.fn()
