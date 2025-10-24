@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import carsRouter from '../../routes/cars.js';
 import { dbHelpers } from '../../database/index.js';
+import { globalErrorHandler } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -22,6 +23,7 @@ jest.mock('../../models/car.js', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/cars', carsRouter);
+app.use(globalErrorHandler);
 
 describe('Car Routes', () => {
   const mockCar = {
@@ -50,11 +52,13 @@ describe('Car Routes', () => {
       const response = await request(app).get('/api/cars');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
+      expect(response.body).toMatchObject({
         success: true,
         data: [mockCar],
-        count: 1
+        message: 'Cars retrieved successfully',
+        statusCode: 200
       });
+      expect(response.body.timestamp).toBeDefined();
       expect(dbHelpers.findByQuery).toHaveBeenCalledWith('cars', {});
     });
 
@@ -74,8 +78,10 @@ describe('Car Routes', () => {
       expect(response.status).toBe(500);
       expect(response.body).toMatchObject({
         success: false,
-        error: 'Failed to fetch cars'
+        error: 'Internal Server Error',
+        statusCode: 500
       });
+      expect(response.body.timestamp).toBeDefined();
     });
   });
 
@@ -97,10 +103,12 @@ describe('Car Routes', () => {
       const response = await request(app).get('/api/cars/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
+      expect(response.body).toMatchObject({
         success: false,
-        error: 'Car not found'
+        error: 'Car not found',
+        statusCode: 404
       });
+      expect(response.body.timestamp).toBeDefined();
     });
   });
 
@@ -155,8 +163,10 @@ describe('Car Routes', () => {
       expect(response.status).toBe(400);
       expect(response.body).toMatchObject({
         success: false,
-        error: expect.any(String)
+        error: 'Validation failed',
+        statusCode: 400
       });
+      expect(response.body.timestamp).toBeDefined();
     });
   });
 
@@ -192,10 +202,12 @@ describe('Car Routes', () => {
         .send(updates);
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
+      expect(response.body).toMatchObject({
         success: false,
-        error: 'Car not found'
+        error: 'Car not found',
+        statusCode: 404
       });
+      expect(response.body.timestamp).toBeDefined();
     });
   });
 
@@ -204,10 +216,13 @@ describe('Car Routes', () => {
       const response = await request(app).delete('/api/cars/1');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
+      expect(response.body).toMatchObject({
         success: true,
-        message: 'Car deleted successfully'
+        data: null,
+        message: 'Car deleted successfully',
+        statusCode: 200
       });
+      expect(response.body.timestamp).toBeDefined();
       expect(dbHelpers.delete).toHaveBeenCalledWith('cars', '1');
     });
 
@@ -217,10 +232,12 @@ describe('Car Routes', () => {
       const response = await request(app).delete('/api/cars/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
+      expect(response.body).toMatchObject({
         success: false,
-        error: 'Car not found'
+        error: 'Car not found',
+        statusCode: 404
       });
+      expect(response.body.timestamp).toBeDefined();
     });
   });
 });

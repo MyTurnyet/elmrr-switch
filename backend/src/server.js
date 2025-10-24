@@ -19,6 +19,9 @@ import operatingSessionsRouter from './routes/operatingSessions.js';
 import carOrdersRouter from './routes/carOrders.js';
 import trainsRouter from './routes/trains.js';
 
+// Import error handling middleware
+import { globalErrorHandler, notFoundHandler } from './middleware/errorHandler.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -91,24 +94,9 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    success: false,
-    error: 'Internal Server Error',
-    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
-  });
-});
-
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    error: 'Not Found',
-    message: `Route ${req.originalUrl} not found`
-  });
-});
+// Error handling middleware (must be last)
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`🚂 ELMRR Switch Backend running on port ${PORT}`);
