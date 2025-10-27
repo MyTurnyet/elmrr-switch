@@ -7,15 +7,20 @@
 
 import { BaseTransformer } from './BaseTransformer.js';
 import { CarTransformer } from './CarTransformer.js';
+import { TrainTransformer } from './TrainTransformer.js';
+import { LocomotiveTransformer } from './LocomotiveTransformer.js';
+import { IndustryTransformer } from './IndustryTransformer.js';
 
 // Transformer registry
 const transformers = {
   car: new CarTransformer(),
   cars: new CarTransformer(),
-  // Add more transformers as they are created
-  // locomotive: new LocomotiveTransformer(),
-  // train: new TrainTransformer(),
-  // etc.
+  train: new TrainTransformer(),
+  trains: new TrainTransformer(),
+  locomotive: new LocomotiveTransformer(),
+  locomotives: new LocomotiveTransformer(),
+  industry: new IndustryTransformer(),
+  industries: new IndustryTransformer()
 };
 
 /**
@@ -125,3 +130,6 @@ export function parseSort(sortQuery) {
 // Export transformer classes for direct use
 export { BaseTransformer } from './BaseTransformer.js';
 export { CarTransformer } from './CarTransformer.js';
+export { TrainTransformer } from './TrainTransformer.js';
+export { LocomotiveTransformer } from './LocomotiveTransformer.js';
+export { IndustryTransformer } from './IndustryTransformer.js';
