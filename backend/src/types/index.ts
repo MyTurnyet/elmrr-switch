@@ -11,6 +11,9 @@ export * from './models.js';
 // Transformer types
 export * from './transformers.js';
 
+// Service types
+export * from './services.js';
+
 // Re-export commonly used types for convenience
 export type {
   BaseEntity,
