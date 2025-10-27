@@ -1,29 +1,26 @@
 import express from 'express';
 import request from 'supertest';
-import operatingSessionsRouter from '../../routes/operatingSessions.js';
-import { dbHelpers } from '../../database/index.js';
 import { ApiError } from '../../middleware/errorHandler.js';
 
-// Mock the database helpers
-jest.mock('../../database/index.js', () => ({
-  dbHelpers: {
-    findAll: jest.fn(),
-    findById: jest.fn(),
-    create: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    bulkInsert: jest.fn()
-  }
+// Create mock service methods
+const mockGetCurrentSession = jest.fn();
+const mockAdvanceSession = jest.fn();
+const mockRollbackSession = jest.fn();
+const mockUpdateSessionDescription = jest.fn();
+const mockGetSessionStats = jest.fn();
+
+// Mock getService to return an object with our mock methods
+jest.mock('../../services/index.js', () => ({
+  getService: jest.fn(() => ({
+    getCurrentSession: (...args) => mockGetCurrentSession(...args),
+    advanceSession: (...args) => mockAdvanceSession(...args),
+    rollbackSession: (...args) => mockRollbackSession(...args),
+    updateSessionDescription: (...args) => mockUpdateSessionDescription(...args),
+    getSessionStats: (...args) => mockGetSessionStats(...args)
+  }))
 }));
 
-// Mock the validation functions
-jest.mock('../../models/operatingSession.js', () => ({
-  validateOperatingSession: jest.fn(),
-  createSessionSnapshot: jest.fn(),
-  validateSnapshot: jest.fn()
-}));
-
-import { validateOperatingSession, createSessionSnapshot, validateSnapshot } from '../../models/operatingSession.js';
+import operatingSessionsRouter from '../../routes/operatingSessions.js';
 
 const app = express();
 app.use(express.json());
