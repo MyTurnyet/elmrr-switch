@@ -54,11 +54,11 @@ export class CarOrderService {
     // Filter by specific industries if requested
     if (value.industryIds && value.industryIds.length > 0) {
       industriesToProcess = industriesToProcess.filter(industry =>
-        value.industryIds.includes(industry._id)
+        value.industryIds!.includes(industry._id)
       );
     }
 
-    const result = await this._processIndustryDemands(industriesToProcess, sessionNumber, value.force);
+    const result = await this._processIndustryDemands(industriesToProcess, sessionNumber!, value.force);
 
     return {
       sessionNumber,

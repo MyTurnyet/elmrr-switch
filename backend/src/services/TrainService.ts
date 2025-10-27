@@ -79,7 +79,7 @@ export class TrainService implements ITrainService {
     await this.trainRepo.update(trainId, updateData);
 
     // Update car orders to assigned status
-    for (const carOrderUpdate of switchListResult.carOrderUpdates) {
+    for (const carOrderUpdate of switchListResult.carOrderUpdates || []) {
       await dbHelpers.update('carOrders', carOrderUpdate.orderId, {
         status: 'assigned',
         assignedCarId: carOrderUpdate.carId,
@@ -93,11 +93,11 @@ export class TrainService implements ITrainService {
     return {
       train: updatedTrain,
       stats: {
-        stationsServed: switchListResult.switchList.stations.length,
-        totalPickups: switchListResult.switchList.totalPickups,
-        totalSetouts: switchListResult.switchList.totalSetouts,
-        finalCarCount: switchListResult.switchList.finalCarCount,
-        carOrdersFulfilled: switchListResult.carOrderUpdates.length
+        stationsServed: switchListResult.switchList?.stations.length || 0,
+        totalPickups: switchListResult.switchList?.totalPickups || 0,
+        totalSetouts: switchListResult.switchList?.totalSetouts || 0,
+        finalCarCount: switchListResult.switchList?.finalCarCount || 0,
+        carOrdersFulfilled: switchListResult.carOrderUpdates?.length || 0
       }
     };
   }

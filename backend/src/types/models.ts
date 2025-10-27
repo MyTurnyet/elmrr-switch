@@ -105,9 +105,10 @@ export interface Track extends BaseEntity {
  */
 export interface Route extends BaseEntity {
   name: string;
-  origin: string;
-  termination: string;
-  stations: string[];
+  description?: string;
+  originYard: string;
+  terminationYard: string;
+  stationSequence: string[];
 }
 
 /**

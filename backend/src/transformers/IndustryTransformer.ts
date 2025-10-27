@@ -23,6 +23,7 @@ export class IndustryTransformer extends BaseTransformer<Industry, TransformedIn
     
     // Sanitize internal fields
     const sanitized = BaseTransformer.sanitize(industry);
+    if (!sanitized) return null;
     
     // Base transformation
     const transformed = {

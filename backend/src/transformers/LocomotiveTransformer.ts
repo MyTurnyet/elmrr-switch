@@ -22,6 +22,7 @@ export class LocomotiveTransformer extends BaseTransformer<Locomotive, Transform
     
     // Sanitize internal fields
     const sanitized = BaseTransformer.sanitize(locomotive);
+    if (!sanitized) return null;
     
     // Base transformation
     const transformed = {

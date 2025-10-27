@@ -12,10 +12,10 @@ export interface RouteStation {
 export interface Route {
   _id?: string;
   name: string;
-  originStationId: string;
-  terminationStationId: string;
-  stations: RouteStation[];
   description?: string;
+  originYard: string;
+  terminationYard: string;
+  stationSequence: string[];
 }
 
 export declare const routeStationSchema: Joi.ObjectSchema<RouteStation>;
