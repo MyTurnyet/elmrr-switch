@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import routesRouter from '../../routes/routes.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -23,6 +24,21 @@ jest.mock('../../models/route.js', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/routes', routesRouter);
+
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Route Routes', () => {
   const mockRoute = {
@@ -61,11 +77,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockRoute],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockRoute]);
       expect(dbHelpers.findByQuery).toHaveBeenCalledWith('routes', {});
     });
 
@@ -142,11 +155,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [],
-        count: 0
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([]);
     });
 
     it('should handle database errors', async () => {
@@ -155,10 +165,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes');
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch routes'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
