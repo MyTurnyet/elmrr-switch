@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import industriesRouter from '../../routes/industries.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -17,12 +18,28 @@ jest.mock('../../database/index.js', () => ({
 
 // Mock the validateIndustry function
 jest.mock('../../models/industry.js', () => ({
-  validateIndustry: jest.fn()
+  validateIndustry: jest.fn(),
+  validateCarDemandConfig: jest.fn()
 }));
 
 const app = express();
 app.use(express.json());
 app.use('/api/industries', industriesRouter);
+
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Industry Routes', () => {
   const mockIndustry = {
