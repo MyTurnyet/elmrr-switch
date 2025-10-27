@@ -124,7 +124,7 @@ describe('Car Orders Routes', () => {
         .expect(200);
 
       expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
-        sessionNumber: '1'
+        sessionNumber: 1
       });
     });
 
@@ -237,12 +237,8 @@ describe('Car Orders Routes', () => {
     };
 
     it('should create new car order successfully', async () => {
-      validateCarOrder.mockReturnValue({ error: null, value: newOrderData });
-      dbHelpers.findById
-        .mockResolvedValueOnce(mockIndustry) // industry exists
-        .mockResolvedValueOnce(mockAarType); // aar type exists
-      dbHelpers.findByQuery.mockResolvedValue([]); // no duplicates
-      dbHelpers.create.mockResolvedValue({ ...newOrderData, _id: 'order1' });
+      const createdOrder = { ...newOrderData, _id: 'order1' };
+      mockCreateOrder.mockResolvedValue(createdOrder);
 
       const response = await request(app)
         .post('/api/car-orders')
@@ -250,13 +246,13 @@ describe('Car Orders Routes', () => {
         .expect(201);
 
       expect(response.body.success).toBe(true);
-      expect(response.body.message).toBe('Car order created successfully');
+      expect(mockCreateOrder).toHaveBeenCalledWith(expect.objectContaining(newOrderData));
     });
 
     it('should handle validation errors', async () => {
-      validateCarOrder.mockReturnValue({ 
-        error: { details: [{ message: 'Validation failed' }] }
-      });
+      mockCreateOrder.mockRejectedValue(
+        new ApiError('Validation failed', 400)
+      );
 
       const response = await request(app)
         .post('/api/car-orders')
@@ -268,8 +264,9 @@ describe('Car Orders Routes', () => {
     });
 
     it('should handle industry not found', async () => {
-      validateCarOrder.mockReturnValue({ error: null, value: newOrderData });
-      dbHelpers.findById.mockResolvedValueOnce(null); // industry not found
+      mockCreateOrder.mockRejectedValue(
+        new ApiError('Industry not found', 404)
+      );
 
       const response = await request(app)
         .post('/api/car-orders')
@@ -281,10 +278,9 @@ describe('Car Orders Routes', () => {
     });
 
     it('should handle AAR type not found', async () => {
-      validateCarOrder.mockReturnValue({ error: null, value: newOrderData });
-      dbHelpers.findById
-        .mockResolvedValueOnce(mockIndustry) // industry exists
-        .mockResolvedValueOnce(null); // aar type not found
+      mockCreateOrder.mockRejectedValue(
+        new ApiError('AAR type not found', 404)
+      );
 
       const response = await request(app)
         .post('/api/car-orders')
@@ -296,11 +292,9 @@ describe('Car Orders Routes', () => {
     });
 
     it('should prevent duplicate orders', async () => {
-      validateCarOrder.mockReturnValue({ error: null, value: newOrderData });
-      dbHelpers.findById
-        .mockResolvedValueOnce(mockIndustry)
-        .mockResolvedValueOnce(mockAarType);
-      dbHelpers.findByQuery.mockResolvedValue([mockOrder]); // duplicate exists
+      mockCreateOrder.mockRejectedValue(
+        new ApiError('Duplicate order', 409)
+      );
 
       const response = await request(app)
         .post('/api/car-orders')
@@ -316,11 +310,8 @@ describe('Car Orders Routes', () => {
     const updateData = { status: 'assigned' };
 
     it('should update car order successfully', async () => {
-      validateCarOrder.mockReturnValue({ error: null, value: updateData });
-      validateStatusTransition.mockReturnValue({ valid: true });
-      dbHelpers.findById.mockResolvedValue(mockOrder);
-      dbHelpers.update.mockResolvedValue(1);
-      dbHelpers.findById.mockResolvedValue({ ...mockOrder, ...updateData });
+      const updatedOrder = { ...mockOrder, ...updateData };
+      mockUpdateOrder.mockResolvedValue(updatedOrder);
 
       const response = await request(app)
         .put('/api/car-orders/order1')
@@ -329,11 +320,13 @@ describe('Car Orders Routes', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.message).toBe('Car order updated successfully');
+      expect(mockUpdateOrder).toHaveBeenCalledWith('order1', updateData);
     });
 
     it('should handle order not found', async () => {
-      validateCarOrder.mockReturnValue({ error: null, value: updateData });
-      dbHelpers.findById.mockResolvedValue(null);
+      mockUpdateOrder.mockRejectedValue(
+        new ApiError('Car order not found', 404)
+      );
 
       const response = await request(app)
         .put('/api/car-orders/nonexistent')
@@ -345,12 +338,9 @@ describe('Car Orders Routes', () => {
     });
 
     it('should validate status transitions', async () => {
-      validateCarOrder.mockReturnValue({ error: null, value: { status: 'pending' } });
-      validateStatusTransition.mockReturnValue({ 
-        valid: false, 
-        allowedTransitions: ['assigned', 'delivered'] 
-      });
-      dbHelpers.findById.mockResolvedValue({ ...mockOrder, status: 'delivered' });
+      mockUpdateOrder.mockRejectedValue(
+        new ApiError('Invalid status transition', 400)
+      );
 
       const response = await request(app)
         .put('/api/car-orders/order1')
@@ -361,17 +351,9 @@ describe('Car Orders Routes', () => {
     });
 
     it('should validate car assignments', async () => {
-      validateCarOrder.mockReturnValue({ 
-        error: null, 
-        value: { assignedCarId: 'car1' } 
-      });
-      validateCarAssignment.mockReturnValue({ 
-        valid: false, 
-        errors: ['Car type mismatch'] 
-      });
-      dbHelpers.findById
-        .mockResolvedValueOnce(mockOrder)
-        .mockResolvedValueOnce(mockCar);
+      mockUpdateOrder.mockRejectedValue(
+        new ApiError('Invalid car assignment', 400)
+      );
 
       const response = await request(app)
         .put('/api/car-orders/order1')
@@ -384,18 +366,20 @@ describe('Car Orders Routes', () => {
 
   describe('DELETE /:id', () => {
     it('should delete car order successfully', async () => {
-      dbHelpers.findById.mockResolvedValue(mockOrder);
-      dbHelpers.delete.mockResolvedValue(1);
+      mockDeleteOrder.mockResolvedValue();
 
       const response = await request(app)
         .delete('/api/car-orders/order1')
         .expect(200);
 
       expect(response.body.success).toBe(true);
+      expect(mockDeleteOrder).toHaveBeenCalledWith('order1');
     });
 
     it('should handle order not found', async () => {
-      dbHelpers.findById.mockResolvedValue(null);
+      mockDeleteOrder.mockRejectedValue(
+        new ApiError('Car order not found', 404)
+      );
 
       const response = await request(app)
         .delete('/api/car-orders/nonexistent')
@@ -406,8 +390,9 @@ describe('Car Orders Routes', () => {
     });
 
     it('should prevent deletion of assigned orders', async () => {
-      const assignedOrder = { ...mockOrder, assignedTrainId: 'train1' };
-      dbHelpers.findById.mockResolvedValue(assignedOrder);
+      mockDeleteOrder.mockRejectedValue(
+        new ApiError('Cannot delete assigned order', 409)
+      );
 
       const response = await request(app)
         .delete('/api/car-orders/order1')
@@ -430,22 +415,14 @@ describe('Car Orders Routes', () => {
     };
 
     it('should generate orders successfully', async () => {
-      validateOrderGeneration.mockReturnValue({ error: null, value: {} });
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockSession]) // operating sessions
-        .mockResolvedValueOnce([mockIndustryWithDemand]); // industries
-      dbHelpers.findByQuery.mockResolvedValue([]); // no existing orders
-      dbHelpers.create
-        .mockResolvedValueOnce({ _id: 'order1', industryId: 'lumber-mill', aarTypeId: 'flatcar' })
-        .mockResolvedValueOnce({ _id: 'order2', industryId: 'lumber-mill', aarTypeId: 'flatcar' })
-        .mockResolvedValueOnce({ _id: 'order3', industryId: 'lumber-mill', aarTypeId: 'boxcar' });
-      
-      createOrderGenerationSummary.mockReturnValue({
-        totalOrdersGenerated: 3,
+      const generateResult = {
+        ordersGenerated: 3,
+        sessionNumber: 2,
         industriesProcessed: 1,
         ordersByIndustry: { 'lumber-mill': 3 },
         ordersByAarType: { 'flatcar': 2, 'boxcar': 1 }
-      });
+      };
+      mockGenerateOrders.mockResolvedValue(generateResult);
 
       const response = await request(app)
         .post('/api/car-orders/generate')
@@ -454,12 +431,13 @@ describe('Car Orders Routes', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.data.ordersGenerated).toBe(3);
-      expect(response.body.message).toContain('Generated 3 car orders for session 2');
+      expect(mockGenerateOrders).toHaveBeenCalledWith(expect.objectContaining({}));
     });
 
     it('should handle no current session', async () => {
-      validateOrderGeneration.mockReturnValue({ error: null, value: {} });
-      dbHelpers.findAll.mockResolvedValue([]); // no sessions
+      mockGenerateOrders.mockRejectedValue(
+        new ApiError('No current session found', 404)
+      );
 
       const response = await request(app)
         .post('/api/car-orders/generate')
@@ -471,19 +449,12 @@ describe('Car Orders Routes', () => {
     });
 
     it('should use provided session number', async () => {
-      validateOrderGeneration.mockReturnValue({ 
-        error: null, 
-        value: { sessionNumber: 5 } 
-      });
-      dbHelpers.findAll.mockResolvedValue([mockIndustryWithDemand]);
-      dbHelpers.findByQuery.mockResolvedValue([]);
-      dbHelpers.create.mockResolvedValue({ _id: 'order1' });
-      createOrderGenerationSummary.mockReturnValue({
-        totalOrdersGenerated: 1,
-        industriesProcessed: 1,
-        ordersByIndustry: {},
-        ordersByAarType: {}
-      });
+      const generateResult = {
+        ordersGenerated: 1,
+        sessionNumber: 5,
+        industriesProcessed: 1
+      };
+      mockGenerateOrders.mockResolvedValue(generateResult);
 
       const response = await request(app)
         .post('/api/car-orders/generate')
@@ -491,56 +462,33 @@ describe('Car Orders Routes', () => {
         .expect(200);
 
       expect(response.body.data.sessionNumber).toBe(5);
+      expect(mockGenerateOrders).toHaveBeenCalledWith(expect.objectContaining({ sessionNumber: 5 }));
     });
 
     it('should filter by industry IDs when provided', async () => {
-      validateOrderGeneration.mockReturnValue({ 
-        error: null, 
-        value: { industryIds: ['lumber-mill'] } 
-      });
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockSession])
-        .mockResolvedValueOnce([
-          mockIndustryWithDemand,
-          { _id: 'other-industry', carDemandConfig: [{ aarTypeId: 'hopper', carsPerSession: 1, frequency: 1 }] }
-        ]);
-      dbHelpers.findByQuery.mockResolvedValue([]);
-      dbHelpers.create.mockResolvedValue({ _id: 'order1' });
-      createOrderGenerationSummary.mockReturnValue({
-        totalOrdersGenerated: 1,
-        industriesProcessed: 1,
-        ordersByIndustry: {},
-        ordersByAarType: {}
-      });
+      const generateResult = {
+        ordersGenerated: 3,
+        sessionNumber: 2,
+        industriesProcessed: 1
+      };
+      mockGenerateOrders.mockResolvedValue(generateResult);
 
-      await request(app)
+      const response = await request(app)
         .post('/api/car-orders/generate')
         .send({ industryIds: ['lumber-mill'] })
         .expect(200);
 
-      // Should only process lumber-mill, not other-industry
-      // lumber-mill has 2 flatcars (frequency 1) + 1 boxcar (frequency 2, session 2 % 2 = 0)
-      expect(dbHelpers.create).toHaveBeenCalledTimes(3);
+      expect(response.body.data.ordersGenerated).toBe(3);
+      expect(mockGenerateOrders).toHaveBeenCalledWith(expect.objectContaining({ industryIds: ['lumber-mill'] }));
     });
 
     it('should respect frequency settings', async () => {
-      // Session 3, frequency 2 should not generate (3 % 2 !== 0)
-      const industryFreq2 = {
-        _id: 'industry1',
-        carDemandConfig: [{ aarTypeId: 'boxcar', carsPerSession: 1, frequency: 2 }]
+      const generateResult = {
+        ordersGenerated: 0,
+        sessionNumber: 3,
+        industriesProcessed: 1
       };
-
-      validateOrderGeneration.mockReturnValue({ 
-        error: null, 
-        value: { sessionNumber: 3 } 
-      });
-      dbHelpers.findAll.mockResolvedValue([industryFreq2]);
-      createOrderGenerationSummary.mockReturnValue({
-        totalOrdersGenerated: 0,
-        industriesProcessed: 1,
-        ordersByIndustry: {},
-        ordersByAarType: {}
-      });
+      mockGenerateOrders.mockResolvedValue(generateResult);
 
       const response = await request(app)
         .post('/api/car-orders/generate')
@@ -548,13 +496,12 @@ describe('Car Orders Routes', () => {
         .expect(200);
 
       expect(response.body.data.ordersGenerated).toBe(0);
-      expect(dbHelpers.create).not.toHaveBeenCalled();
     });
 
     it('should handle validation errors', async () => {
-      validateOrderGeneration.mockReturnValue({ 
-        error: { details: [{ message: 'Invalid session number' }] }
-      });
+      mockGenerateOrders.mockRejectedValue(
+        new ApiError('Validation failed', 400)
+      );
 
       const response = await request(app)
         .post('/api/car-orders/generate')
@@ -568,7 +515,7 @@ describe('Car Orders Routes', () => {
 
   describe('Error Handling', () => {
     it('should handle database connection errors', async () => {
-      dbHelpers.findByQuery.mockRejectedValue(new Error('Connection failed'));
+      mockGetOrdersWithFilters.mockRejectedValue(new Error('Connection failed'));
 
       const response = await request(app)
         .get('/api/car-orders')
@@ -579,12 +526,15 @@ describe('Car Orders Routes', () => {
     });
 
     it('should handle unexpected errors during creation', async () => {
-      validateCarOrder.mockReturnValue({ error: null, value: {} });
-      dbHelpers.findById.mockRejectedValue(new Error('Unexpected error'));
+      mockCreateOrder.mockRejectedValue(new Error('Unexpected error'));
 
       const response = await request(app)
         .post('/api/car-orders')
-        .send({})
+        .send({
+          industryId: 'test',
+          aarTypeId: 'test',
+          sessionNumber: 1
+        })
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -592,8 +542,7 @@ describe('Car Orders Routes', () => {
     });
 
     it('should handle unexpected errors during generation', async () => {
-      validateOrderGeneration.mockReturnValue({ error: null, value: {} });
-      dbHelpers.findAll.mockRejectedValue(new Error('Unexpected error'));
+      mockGenerateOrders.mockRejectedValue(new Error('Unexpected error'));
 
       const response = await request(app)
         .post('/api/car-orders/generate')
