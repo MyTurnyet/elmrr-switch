@@ -133,7 +133,7 @@ export interface ITransformer<T extends BaseEntity, R = any> {
 
 **Total: ~970 lines of TypeScript service code**
 
-### 🔄 Phase 4 In Progress: Routes
+### ✅ Phase 4 Complete: Routes
 
 #### Express Type Definitions
 - ✅ `src/types/express.ts` - Express type definitions (80 lines)
@@ -144,12 +144,29 @@ export interface ITransformer<T extends BaseEntity, R = any> {
   - Query param types (PaginationQuery, SearchQuery, ViewQuery)
   - StandardQuery combined type
 
-#### Routes Being Migrated
-- 🔄 Route handlers with typed requests
-- 🔄 Type-safe params, body, query
-- 🔄 Express middleware types
+#### All Routes Migrated (13 files)
+- ✅ `cars.ts` - Car management routes
+- ✅ `trains.ts` - Train operations routes
+- ✅ `locomotives.ts` - Locomotive management
+- ✅ `industries.ts` - Industry management
+- ✅ `stations.ts` - Station management
+- ✅ `goods.ts` - Goods/commodities
+- ✅ `aarTypes.ts` - AAR type classifications
+- ✅ `blocks.ts` - Track blocks
+- ✅ `tracks.ts` - Track management
+- ✅ `routes.ts` - Train routes
+- ✅ `operatingSessions.ts` - Session management
+- ✅ `carOrders.ts` - Car order management
+- ✅ `import.ts` - Data import/export
 
-**Total: ~80 lines of TypeScript route infrastructure**
+**Features:**
+- Router typed with Router from express
+- TypedRequest<IdParam> for /:id routes
+- TypedRequest<{}, {}, StandardQuery> for list routes
+- Type-safe request params, query, body
+- Full IDE autocomplete support
+
+**Total: ~2,480 lines of TypeScript route code**
 
 ## Using TypeScript in the Project
 
@@ -499,13 +516,13 @@ console.log(car?.reportingMarks);
 - [x] Migrate SessionService
 - [x] Migrate CarOrderService
 
-### 🔄 Phase 4: Routes (IN PROGRESS)
-- [ ] Add Express types for routes
-- [ ] Create route type definitions
-- [ ] Migrate cars route
-- [ ] Migrate trains route
-- [ ] Migrate other routes
-- [ ] Type request/response objects
+### ✅ Phase 4: Routes (COMPLETE)
+- [x] Add Express types for routes
+- [x] Create route type definitions
+- [x] Migrate cars route
+- [x] Migrate trains route
+- [x] Migrate all 13 routes
+- [x] Type request/response objects
 
 ### Phase 5: Models (Optional)
 - [ ] Integrate with Joi validation
@@ -514,7 +531,7 @@ console.log(car?.reportingMarks);
 
 ## Success Metrics
 
-- [ ] 50% of codebase in TypeScript
+- [ ] 100% of ./backend codebase in TypeScript
 - [ ] Zero `any` types (except external libraries)
 - [ ] All new code in TypeScript
 - [ ] Type checking in CI/CD
@@ -523,6 +540,7 @@ console.log(car?.reportingMarks);
 ---
 
 **Last Updated**: October 27, 2025  
-**Status**: Phases 1-3 Complete, Phase 4 In Progress  
-**Progress**: ~60% of planned migration complete  
+**Status**: Phases 1-4 COMPLETE! (Phase 5 Optional)  
+**Progress**: ~85% of planned migration complete  
+**TypeScript Code**: ~5,900 lines  
 **Branch**: refactor/typescript-migration
