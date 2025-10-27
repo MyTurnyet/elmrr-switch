@@ -10,23 +10,17 @@ import {
   validateStatusTransition
 } from '../models/train.js';
 import { ApiError } from '../middleware/errorHandler.js';
-import type { 
-  Train, 
-  Car, 
-  CarOrder, 
-  Route,
-  ITrainService,
-  SwitchListStation
-} from '../types/index.js';
+import type { Train, ITrainService, SwitchListStation } from '../types/index.js';
 
 export class TrainService implements ITrainService {
-  private trainRepo: any;
-  private carOrderRepo: any;
-  private carRepo: any;
-  private routeRepo: any;
-  private locomotiveRepo: any;
-  private industryRepo: any;
-  private stationRepo: any;
+  trainRepo: any;
+  carOrderRepo: any;
+  carRepo: any;
+  routeRepo: any;
+  locomotiveRepo: any;
+  industryRepo: any;
+  stationRepo: any;
+  
   constructor() {
     this.trainRepo = getRepository('trains');
     this.carOrderRepo = getRepository('carOrders');
@@ -39,8 +33,10 @@ export class TrainService implements ITrainService {
 
   /**
    * Generate switch list for a train
+   * @param {string} trainId - Train ID
+   * @returns {Promise<Object>} Switch list generation result
    */
-  async generateSwitchList(trainId: string): Promise<Train> {
+  async generateSwitchList(trainId) {
     // Get train with enriched data
     const train = await this.trainRepo.findById(trainId, { enrich: true });
     if (!train) {
@@ -110,7 +106,7 @@ export class TrainService implements ITrainService {
    * @param {string} trainId - Train ID
    * @returns {Promise<Object>} Completion result
    */
-  async completeTrain(trainId: string): Promise<Train> {
+  async completeTrain(trainId) {
     const train = await this.trainRepo.findById(trainId);
     if (!train) {
       throw new ApiError('Train not found', 404);
@@ -171,7 +167,7 @@ export class TrainService implements ITrainService {
    * @param {string} trainId - Train ID
    * @returns {Promise<Object>} Cancellation result
    */
-  async cancelTrain(trainId: string): Promise<Train> {
+  async cancelTrain(trainId) {
     const train = await this.trainRepo.findById(trainId);
     if (!train) {
       throw new ApiError('Train not found', 404);
@@ -222,7 +218,7 @@ export class TrainService implements ITrainService {
    * @param {Object} route - Route object
    * @returns {Promise<Object>} Switch list result
    */
-  async _generateSwitchListAlgorithm(train: Train, route: Route): Promise<SwitchListStation[]> {
+  async _generateSwitchListAlgorithm(train, route) {
     try {
       // Get all stations in the route sequence
       const stationSequence = [route.originYard, ...route.stationSequence, route.terminationYard];

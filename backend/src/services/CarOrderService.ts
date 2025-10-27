@@ -1,27 +1,21 @@
 /**
- * Car Order Service - Handles car order business operations
+ * Car Order Service - Handles complex car order business operations
+ * Extracted from routes to improve testability and maintainability
  */
 
-import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { 
+  validateCarOrder, 
   validateOrderGeneration,
   createOrderGenerationSummary,
+  validateCarAssignment,
+  checkDuplicateOrder,
   validateStatusTransition
 } from '../models/carOrder.js';
 import { ApiError } from '../middleware/errorHandler.js';
-import type {
-  CarOrder,
-  ICarOrderService,
-  OrderGenerationResult,
-  CarOrderFilters
-} from '../types/index.js';
+import type { ITrainService, ISessionService, ICarOrderService } from '../types/index.js';
 
-export class CarOrderService implements ICarOrderService {
-  private carOrderRepo: any;
-  private industryRepo: any;
-  private aarTypeRepo: any;
-  private carRepo: any;
+export class CarOrderService {
   constructor() {
     // Service can be extended with repository dependencies if needed
   }
@@ -86,9 +80,9 @@ export class CarOrderService implements ICarOrderService {
    * @param {string} filters.search - Search term for industry names and AAR types
    * @returns {Promise<Array>} Filtered car orders
    */
-  async getOrdersWithFilters(filters = {}) {
+  async getOrdersWithFilters(filters: any = {}) {
     const { industryId, status, sessionNumber, aarTypeId, search } = filters;
-    let query = {};
+    let query: any = {};
 
     if (industryId) query.industryId = industryId;
     if (status) query.status = status;
@@ -114,7 +108,7 @@ export class CarOrderService implements ICarOrderService {
     }
 
     // Sort by creation date (newest first)
-    carOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    carOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return carOrders;
   }

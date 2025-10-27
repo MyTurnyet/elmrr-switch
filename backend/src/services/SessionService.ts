@@ -1,28 +1,18 @@
 /**
- * Session Service - Handles operating session business operations
+ * Session Service - Handles complex session management operations
+ * Extracted from routes to improve testability and maintainability
  */
 
-import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { 
-  createSessionSnapshot,
-  validateSnapshot
+  validateOperatingSession, 
+  createSessionSnapshot, 
+  validateSnapshot 
 } from '../models/operatingSession.js';
 import { ApiError } from '../middleware/errorHandler.js';
-import type {
-  OperatingSession,
-  ISessionService,
-  SessionAdvanceResult,
-  SessionRollbackResult,
-  SessionStats
-} from '../types/index.js';
+import type { ITrainService, ISessionService, ICarOrderService } from '../types/index.js';
 
-export class SessionService implements ISessionService {
-  private sessionRepo: any;
-  private carRepo: any;
-  private trainRepo: any;
-
-  private carOrderRepo: any;
+export class SessionService {
   constructor() {
     // Service can be extended with repository dependencies if needed
   }
@@ -31,7 +21,7 @@ export class SessionService implements ISessionService {
    * Get or create the current operating session
    * @returns {Promise<Object>} Current session
    */
-  async getCurrentSession(): Promise<OperatingSession> {
+  async getCurrentSession() {
     // Find the current session (should only be one)
     const sessions = await dbHelpers.findAll('operatingSessions');
     let currentSession = sessions[0];
@@ -162,7 +152,7 @@ export class SessionService implements ISessionService {
    * @param {string} description - New description
    * @returns {Promise<Object>} Updated session
    */
-  async updateSessionDescription(description: string): Promise<OperatingSession> {
+  async updateSessionDescription(description) {
     if (!description || typeof description !== 'string') {
       throw new ApiError('Description is required and must be a string', 400);
     }
@@ -288,7 +278,7 @@ export class SessionService implements ISessionService {
    * Get session statistics and current state info
    * @returns {Promise<Object>} Session statistics
    */
-  async getSessionStats(): Promise<SessionStats> {
+  async getSessionStats() {
     const currentSession = await this.getCurrentSession();
     
     // Get counts of various entities

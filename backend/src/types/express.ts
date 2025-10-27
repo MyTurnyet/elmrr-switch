@@ -6,7 +6,13 @@
  */
 
 import type { Request, Response, NextFunction } from 'express';
-import type { QueryParams } from './models.js';
+
+/**
+ * Query Parameters
+ */
+export interface QueryParams {
+  [key: string]: any;
+}
 
 /**
  * Typed Request with params
@@ -14,11 +20,13 @@ import type { QueryParams } from './models.js';
 export interface TypedRequest<
   TParams = any,
   TBody = any,
-  TQuery = QueryParams
-> extends Request {
+  TQuery = any
+> {
   params: TParams;
   body: TBody;
   query: TQuery;
+  apiVersion?: string;
+  [key: string]: any;
 }
 
 /**

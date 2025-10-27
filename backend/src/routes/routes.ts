@@ -10,7 +10,7 @@ const router: Router = express.Router();
 // GET /api/routes - Get all routes with optional filtering
 router.get('/', asyncHandler(async (req: TypedRequest<{}, {}, StandardQuery>, res) => {
   const { originYard, terminationYard, search } = req.query;
-  let query = {};
+  let query: any = {};
 
   if (originYard) query.originYard = originYard;
   if (terminationYard) query.terminationYard = terminationYard;

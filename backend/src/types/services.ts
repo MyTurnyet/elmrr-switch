@@ -48,11 +48,12 @@ export interface ICarOrderService {
  * Session Advance Result
  */
 export interface SessionAdvanceResult {
-  session: OperatingSession;
+  session: any;
   stats: {
-    trainsDeleted: number;
+    advancedToSession: number;
     carsUpdated: number;
-    activeTrainsReverted: number;
+    trainsDeleted: number;
+    carsReverted: number;
   };
 }
 
@@ -60,11 +61,12 @@ export interface SessionAdvanceResult {
  * Session Rollback Result
  */
 export interface SessionRollbackResult {
-  session: OperatingSession;
+  session: any;
   stats: {
+    rolledBackToSession: number;
     carsRestored: number;
     trainsRestored: number;
-    carOrdersRestored: number;
+    ordersRestored: number;
   };
 }
 

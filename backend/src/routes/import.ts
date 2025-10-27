@@ -143,7 +143,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
           });
 
           if (existing.length > 0) {
-            results.warnings.push(`Route ${index + 1}: Duplicate route name '${value.name}'`);
+            results.warnings!.push(`Route ${index + 1}: Duplicate route name '${value.name}'`);
             continue;
           }
 
@@ -173,7 +173,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
           });
 
           if (existing.length > 0) {
-            results.warnings.push(`Car ${index + 1}: Duplicate reporting marks ${value.reportingMarks} ${value.reportingNumber}`);
+            results.warnings!.push(`Car ${index + 1}: Duplicate reporting marks ${value.reportingMarks} ${value.reportingNumber}`);
             continue;
           }
 
@@ -206,7 +206,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
       }
     }
 
-  res.json(ApiResponse.success(results, `Import completed: ${results.imported} records imported, ${results.errors.length} errors, ${results.warnings.length} warnings`));
+  res.json(ApiResponse.success(results, `Import completed: ${results.imported} records imported, ${results.errors.length} errors, ${results.warnings!.length} warnings`));
 }));
 
 // GET /api/import/export - Export all data to JSON

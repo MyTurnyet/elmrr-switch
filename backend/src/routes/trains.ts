@@ -30,7 +30,7 @@ router.get('/',
   });
 
   // Sort by creation date (newest first)
-  trains.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  trains.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   res.json(ApiResponse.success(trains, 'Trains retrieved successfully'));
 }));
