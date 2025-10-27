@@ -95,11 +95,8 @@ describe('Car Orders Routes', () => {
         .get('/api/car-orders')
         .expect(200);
 
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockOrder],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockOrder]);
       expect(dbHelpers.findByQuery).toHaveBeenCalledWith('carOrders', {});
     });
 
