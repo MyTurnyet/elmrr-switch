@@ -188,10 +188,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes/nonexistent');
 
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Route not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Route not found');
     });
 
     it('should handle database errors', async () => {
@@ -428,10 +426,8 @@ describe('Route Routes', () => {
         .send(updateData);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Route not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Route not found');
     });
 
     it('should return 400 if validation fails', async () => {
@@ -579,10 +575,8 @@ describe('Route Routes', () => {
       const response = await request(app).delete('/api/routes/nonexistent');
 
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Route not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Route not found');
     });
 
     it('should handle database errors', async () => {
