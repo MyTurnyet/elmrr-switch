@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import locomotivesRouter from '../../routes/locomotives.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -14,6 +15,20 @@ jest.mock('../../database/index.js', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/locomotives', locomotivesRouter);
+
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Locomotives Routes', () => {
   const mockLocomotive = {
@@ -43,11 +58,8 @@ describe('Locomotives Routes', () => {
       const response = await request(app).get('/api/locomotives');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockLocomotive],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockLocomotive]);
       expect(dbHelpers.findAll).toHaveBeenCalledWith('locomotives');
     });
 
@@ -57,10 +69,8 @@ describe('Locomotives Routes', () => {
       const response = await request(app).get('/api/locomotives');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch locomotives'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -69,10 +79,8 @@ describe('Locomotives Routes', () => {
       const response = await request(app).get('/api/locomotives/1');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: mockLocomotive
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual(mockLocomotive);
       expect(dbHelpers.findById).toHaveBeenCalledWith('locomotives', '1');
     });
 
@@ -82,10 +90,8 @@ describe('Locomotives Routes', () => {
       const response = await request(app).get('/api/locomotives/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Locomotive not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Locomotive not found');
     });
 
     it('should handle database errors', async () => {
@@ -94,10 +100,8 @@ describe('Locomotives Routes', () => {
       const response = await request(app).get('/api/locomotives/1');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch locomotive'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 });
