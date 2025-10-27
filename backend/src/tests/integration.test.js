@@ -1,88 +1,67 @@
 import express from 'express';
 import request from 'supertest';
+import { ApiError } from '../middleware/errorHandler.js';
+
+// Create mock service methods
+const mockGetCurrentSession = jest.fn();
+const mockAdvanceSession = jest.fn();
+const mockRollbackSession = jest.fn();
+const mockUpdateSessionDescription = jest.fn();
+const mockGetSessionStats = jest.fn();
+
+// Mock getService to return an object with our mock methods
+jest.mock('../services/index.js', () => ({
+  getService: jest.fn(() => ({
+    getCurrentSession: (...args) => mockGetCurrentSession(...args),
+    advanceSession: (...args) => mockAdvanceSession(...args),
+    rollbackSession: (...args) => mockRollbackSession(...args),
+    updateSessionDescription: (...args) => mockUpdateSessionDescription(...args),
+    getSessionStats: (...args) => mockGetSessionStats(...args)
+  }))
+}));
+
 import operatingSessionsRouter from '../routes/operatingSessions.js';
-import { dbHelpers } from '../database/index.js';
-
-// Mock the database helpers
-jest.mock('../database/index.js', () => ({
-  dbHelpers: {
-    findAll: jest.fn(),
-    findById: jest.fn(),
-    create: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    bulkInsert: jest.fn(),
-    bulkUpdate: jest.fn()
-  }
-}));
-
-// Mock the validation functions
-jest.mock('../models/operatingSession.js', () => ({
-  validateOperatingSession: jest.fn(),
-  createSessionSnapshot: jest.fn(),
-  validateSnapshot: jest.fn()
-}));
-
-import { validateOperatingSession, createSessionSnapshot, validateSnapshot } from '../models/operatingSession.js';
 
 const app = express();
 app.use(express.json());
 app.use('/api/sessions', operatingSessionsRouter);
 
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
+
 describe('Phase 2.2 Integration Tests - Step 5', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    
-    // Default mock implementations
-    validateOperatingSession.mockReturnValue({ error: null });
-    createSessionSnapshot.mockReturnValue({
-      sessionNumber: 1,
-      cars: [],
-      trains: [],
-      carOrders: []
-    });
-    validateSnapshot.mockReturnValue({ error: null });
   });
 
   describe('Session Advancement Integration', () => {
     test('should successfully advance session', async () => {
-      const mockCurrentSession = {
-        _id: 'session1',
-        currentSessionNumber: 1,
-        sessionDate: '2024-01-15T10:00:00.000Z',
-        description: 'Current session'
-      };
-
-      const mockCars = [
-        { _id: 'car1', currentIndustry: 'yard1', sessionsAtCurrentLocation: 1 }
-      ];
-
-      const mockTrains = [
-        {
-          _id: 'train1',
-          name: 'Local Freight 1',
-          status: 'Completed',
-          assignedCarIds: ['car1']
+      const advanceResult = {
+        session: {
+          _id: 'session1',
+          currentSessionNumber: 2,
+          sessionDate: '2024-01-15T10:00:00.000Z',
+          description: 'Operating Session 2'
+        },
+        stats: {
+          trainsDeleted: 1,
+          carsUpdated: 1,
+          activeTrainsReverted: 0
         }
-      ];
-
-      // Mock database calls
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockCurrentSession]) // Get current session
-        .mockResolvedValueOnce(mockCars) // Get all cars
-        .mockResolvedValueOnce(mockTrains) // Get all trains
-        .mockResolvedValueOnce([]); // Get all car orders
-
-      createSessionSnapshot.mockReturnValue({
-        sessionNumber: 1,
-        cars: mockCars.map(car => ({ ...car, id: car._id })),
-        trains: mockTrains,
-        carOrders: []
-      });
-
-      dbHelpers.update.mockResolvedValue({ acknowledged: true });
-      dbHelpers.findById.mockResolvedValue({ ...mockCurrentSession, currentSessionNumber: 2 });
-      dbHelpers.delete.mockResolvedValue({ acknowledged: true });
+      };
+      mockAdvanceSession.mockResolvedValue(advanceResult);
 
       const response = await request(app)
         .post('/api/sessions/advance')
@@ -90,34 +69,26 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.data.currentSessionNumber).toBe(2);
-      expect(createSessionSnapshot).toHaveBeenCalled();
+      expect(mockAdvanceSession).toHaveBeenCalled();
     });
   });
 
   describe('Session Rollback Integration', () => {
     test('should successfully rollback session', async () => {
-      const mockCurrentSession = {
-        _id: 'session1',
-        currentSessionNumber: 2,
-        sessionDate: '2024-01-15T10:00:00.000Z',
-        previousSessionSnapshot: {
-          sessionNumber: 1,
-          cars: [
-            { id: 'car1', currentIndustry: 'yard1', sessionsAtCurrentLocation: 0 }
-          ],
-          trains: [],
-          carOrders: []
+      const rollbackResult = {
+        session: {
+          _id: 'session1',
+          currentSessionNumber: 1,
+          sessionDate: '2024-01-15T10:00:00.000Z',
+          description: 'Rolled back to Session 1'
+        },
+        stats: {
+          carsRestored: 1,
+          trainsRestored: 0,
+          carOrdersRestored: 0
         }
       };
-
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockCurrentSession]) // Get current session
-        .mockResolvedValueOnce([]) // Get current trains
-        .mockResolvedValueOnce([]); // Get current car orders
-
-      dbHelpers.update.mockResolvedValue({ acknowledged: true });
-      dbHelpers.bulkInsert.mockResolvedValue({ acknowledged: true });
-      dbHelpers.findById.mockResolvedValue({ ...mockCurrentSession, currentSessionNumber: 1 });
+      mockRollbackSession.mockResolvedValue(rollbackResult);
 
       const response = await request(app)
         .post('/api/sessions/rollback')
@@ -125,17 +96,13 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.data.currentSessionNumber).toBe(1);
-      expect(validateSnapshot).toHaveBeenCalled();
+      expect(mockRollbackSession).toHaveBeenCalled();
     });
 
     test('should prevent rollback from session 1', async () => {
-      const mockCurrentSession = {
-        _id: 'session1',
-        currentSessionNumber: 1,
-        sessionDate: '2024-01-15T10:00:00.000Z'
-      };
-
-      dbHelpers.findAll.mockResolvedValueOnce([mockCurrentSession]);
+      mockRollbackSession.mockRejectedValue(
+        new ApiError('Cannot rollback from session 1', 400)
+      );
 
       const response = await request(app)
         .post('/api/sessions/rollback')
@@ -157,8 +124,7 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
         currentSessionNumber: 1,
         sessionDate: '2024-01-15T10:00:00.000Z'
       };
-
-      dbHelpers.findAll.mockResolvedValueOnce([mockSession]);
+      mockGetCurrentSession.mockResolvedValue(mockSession);
 
       let response = await request(app)
         .get('/api/sessions/current')
@@ -168,9 +134,8 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
       expect(response.body.data.currentSessionNumber).toBe(1);
 
       // Test 2: Session description can be updated
-      dbHelpers.findAll.mockResolvedValueOnce([mockSession]);
-      dbHelpers.update.mockResolvedValue({ acknowledged: true });
-      dbHelpers.findById.mockResolvedValue({ ...mockSession, description: 'Updated session' });
+      const updatedSession = { ...mockSession, description: 'Updated session' };
+      mockUpdateSessionDescription.mockResolvedValue(updatedSession);
 
       response = await request(app)
         .put('/api/sessions/current')
@@ -181,9 +146,8 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
       expect(response.body.data.description).toBe('Updated session');
 
       // Verify all systems are accessible through the integration
-      expect(dbHelpers.findAll).toHaveBeenCalled();
-      expect(dbHelpers.update).toHaveBeenCalled();
-      expect(dbHelpers.findById).toHaveBeenCalled();
+      expect(mockGetCurrentSession).toHaveBeenCalled();
+      expect(mockUpdateSessionDescription).toHaveBeenCalled();
     });
   });
 });
