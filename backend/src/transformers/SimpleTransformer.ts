@@ -19,9 +19,10 @@ export class SimpleTransformer extends BaseTransformer<BaseEntity, any> {
     
     // Sanitize internal fields
     const sanitized = BaseTransformer.sanitize(entity);
+    if (!sanitized) return null;
     
     // Base transformation - convert _id to id
-    const transformed = {
+    const transformed: any = {
       id: sanitized._id,
       ...sanitized
     };

@@ -19,9 +19,10 @@ export class TrainTransformer extends BaseTransformer<Train, TransformedTrain> {
     
     // Sanitize internal fields
     const sanitized = BaseTransformer.sanitize(train);
+    if (!sanitized) return null;
     
     // Base transformation
-    const transformed = {
+    const transformed: any = {
       id: sanitized._id,
       name: sanitized.name,
       routeId: sanitized.routeId,
@@ -134,8 +135,8 @@ export class TrainTransformer extends BaseTransformer<Train, TransformedTrain> {
     return {
       id: route._id,
       name: route.name,
-      origin: route.origin,
-      termination: route.termination
+      originYard: route.originYard,
+      terminationYard: route.terminationYard
     };
   }
 
