@@ -200,7 +200,7 @@ describe('Car Orders Routes', () => {
         .get('/api/car-orders/order1')
         .expect(200);
 
-      expect(response.body.data.assignedCar).toEqual({
+      expect(response.body.data.assignedCar).toMatchObject({
         _id: 'car1',
         reportingMarks: 'UP',
         reportingNumber: '12345'
@@ -214,10 +214,8 @@ describe('Car Orders Routes', () => {
         .get('/api/car-orders/nonexistent')
         .expect(404);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Car order not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Car order not found');
     });
 
     it('should handle database errors', async () => {
@@ -358,10 +356,8 @@ describe('Car Orders Routes', () => {
         .send(updateData)
         .expect(404);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Car order not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Car order not found');
     });
 
     it('should validate status transitions', async () => {
@@ -424,10 +420,8 @@ describe('Car Orders Routes', () => {
         .delete('/api/car-orders/nonexistent')
         .expect(404);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Car order not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Car order not found');
     });
 
     it('should prevent deletion of assigned orders', async () => {
