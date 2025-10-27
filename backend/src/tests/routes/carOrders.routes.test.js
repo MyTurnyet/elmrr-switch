@@ -123,37 +123,38 @@ describe('Car Orders Routes', () => {
         .get('/api/car-orders?sessionNumber=1')
         .expect(200);
 
-      expect(dbHelpers.findByQuery).toHaveBeenCalledWith('carOrders', {
-        sessionNumber: 1
+      expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
+        sessionNumber: '1'
       });
     });
 
     it('should filter by aarTypeId', async () => {
-      dbHelpers.findByQuery.mockResolvedValue([mockOrder]);
+      mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       await request(app)
         .get('/api/car-orders?aarTypeId=flatcar')
         .expect(200);
 
-      expect(dbHelpers.findByQuery).toHaveBeenCalledWith('carOrders', {
+      expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
         aarTypeId: 'flatcar'
       });
     });
 
     it('should search by industry name', async () => {
-      dbHelpers.findByQuery.mockResolvedValue([mockOrder]);
-      dbHelpers.findAll.mockResolvedValue([mockIndustry]);
+      mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       const response = await request(app)
         .get('/api/car-orders?search=lumber')
         .expect(200);
 
-      expect(dbHelpers.findAll).toHaveBeenCalledWith('industries');
+      expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
+        search: 'lumber'
+      });
       expect(response.body.data).toHaveLength(1);
     });
 
     it('should handle database errors', async () => {
-      dbHelpers.findByQuery.mockRejectedValue(new Error('Database error'));
+      mockGetOrdersWithFilters.mockRejectedValue(new Error('Database error'));
 
       const response = await request(app)
         .get('/api/car-orders')
@@ -166,27 +167,31 @@ describe('Car Orders Routes', () => {
 
   describe('GET /:id', () => {
     it('should return single car order with enriched data', async () => {
-      dbHelpers.findById
-        .mockResolvedValueOnce(mockOrder)
-        .mockResolvedValueOnce(mockIndustry);
+      const enrichedOrder = {
+        ...mockOrder,
+        industry: { _id: 'lumber-mill', name: 'Lumber Mill' }
+      };
+      mockGetEnrichedOrder.mockResolvedValue(enrichedOrder);
 
       const response = await request(app)
         .get('/api/car-orders/order1')
         .expect(200);
 
       expect(response.body.success).toBe(true);
-      expect(response.body.data.industry).toEqual({
+      expect(response.body.data.industry).toMatchObject({
         _id: 'lumber-mill',
         name: 'Lumber Mill'
       });
+      expect(mockGetEnrichedOrder).toHaveBeenCalledWith('order1');
     });
 
     it('should include assigned car data when present', async () => {
-      const orderWithCar = { ...mockOrder, assignedCarId: 'car1' };
-      dbHelpers.findById
-        .mockResolvedValueOnce(orderWithCar)
-        .mockResolvedValueOnce(mockIndustry)
-        .mockResolvedValueOnce(mockCar);
+      const enrichedOrder = {
+        ...mockOrder,
+        assignedCarId: 'car1',
+        assignedCar: mockCar
+      };
+      mockGetEnrichedOrder.mockResolvedValue(enrichedOrder);
 
       const response = await request(app)
         .get('/api/car-orders/order1')
@@ -200,7 +205,9 @@ describe('Car Orders Routes', () => {
     });
 
     it('should handle order not found', async () => {
-      dbHelpers.findById.mockResolvedValue(null);
+      mockGetEnrichedOrder.mockRejectedValue(
+        new ApiError('Car order not found', 404)
+      );
 
       const response = await request(app)
         .get('/api/car-orders/nonexistent')
@@ -211,7 +218,7 @@ describe('Car Orders Routes', () => {
     });
 
     it('should handle database errors', async () => {
-      dbHelpers.findById.mockRejectedValue(new Error('Database error'));
+      mockGetEnrichedOrder.mockRejectedValue(new Error('Database error'));
 
       const response = await request(app)
         .get('/api/car-orders/order1')
