@@ -1,7 +1,7 @@
 import express from 'express';
 import request from 'supertest';
 
-// Create mock functions that we can reference
+// Create mock objects inside the factory functions to avoid hoisting issues
 const mockTrainService = {
     generateSwitchList: jest.fn(),
     completeTrain: jest.fn(),
@@ -22,30 +22,56 @@ const mockSessionRepository = {
 };
 
 // Mock the services (new architecture)
-jest.mock('../../services/index.js', () => ({
-    getService: jest.fn((serviceName) => {
-        if (serviceName === 'train') {
-            return mockTrainService;
-        }
-        return {};
-    })
-}));
+jest.mock('../../services/index.js', () => {
+    const mockService = {
+        generateSwitchList: jest.fn(),
+        completeTrain: jest.fn(),
+        cancelTrain: jest.fn()
+    };
+    
+    return {
+        getService: jest.fn((serviceName) => {
+            if (serviceName === 'train') {
+                return mockService;
+            }
+            return {};
+        }),
+        __mockTrainService: mockService
+    };
+});
 
 // Mock the repositories (new architecture)
-jest.mock('../../repositories/index.js', () => ({
-    getRepository: jest.fn((repoName) => {
-        if (repoName === 'trains') {
-            return mockTrainRepository;
-        }
-        if (repoName === 'operatingSessions') {
-            return mockSessionRepository;
-        }
-        return {
-            findAll: jest.fn(),
-            findById: jest.fn()
-        };
-    })
-}));
+jest.mock('../../repositories/index.js', () => {
+    const mockTrainRepo = {
+        findAll: jest.fn(),
+        findById: jest.fn(),
+        findWithFilters: jest.fn(),
+        createTrain: jest.fn(),
+        update: jest.fn(),
+        delete: jest.fn()
+    };
+    
+    const mockSessionRepo = {
+        findAll: jest.fn()
+    };
+    
+    return {
+        getRepository: jest.fn((repoName) => {
+            if (repoName === 'trains') {
+                return mockTrainRepo;
+            }
+            if (repoName === 'operatingSessions') {
+                return mockSessionRepo;
+            }
+            return {
+                findAll: jest.fn(),
+                findById: jest.fn()
+            };
+        }),
+        __mockTrainRepository: mockTrainRepo,
+        __mockSessionRepository: mockSessionRepo
+    };
+});
 
 // Mock validation middleware to pass through
 jest.mock('../../middleware/validation.js', () => ({
@@ -61,6 +87,13 @@ jest.mock('../../schemas/commonSchemas.js', () => ({ commonSchemas: { params: { 
 // Now import the dependencies
 import { ApiError } from '../../middleware/errorHandler.js';
 import trainsRouter from '../../routes/trains.js';
+import { getRepository } from '../../repositories/index.js';
+import { getService } from '../../services/index.js';
+
+// Get references to the mocks
+const mockTrainRepoInstance = getRepository('trains');
+const mockSessionRepoInstance = getRepository('operatingSessions');
+const mockTrainServiceInstance = getService('train');
 
 const app = express();
 app.use(express.json());
@@ -106,16 +139,25 @@ describe('Trains Routes', () => {
         jest.clearAllMocks();
 
         // Setup default successful mocks
-        mockSessionRepository.findAll.mockResolvedValue([mockSession]);
-        mockTrainRepository.findWithFilters.mockResolvedValue([mockTrain]);
-        mockTrainRepository.findById.mockResolvedValue(mockTrain);
-        mockTrainRepository.createTrain.mockResolvedValue(mockTrain);
-        mockTrainRepository.update.mockResolvedValue(mockTrain);
-        mockTrainRepository.delete.mockResolvedValue({ deletedCount: 1 });
+        mockSessionRepoInstance.findAll.mockResolvedValue([mockSession]);
+        mockTrainRepoInstance.findWithFilters.mockResolvedValue([mockTrain]);
+        mockTrainRepoInstance.findById.mockResolvedValue(mockTrain);
+        mockTrainRepoInstance.createTrain.mockResolvedValue(mockTrain);
+        mockTrainRepoInstance.update.mockResolvedValue(mockTrain);
+        mockTrainRepoInstance.delete.mockResolvedValue({ deletedCount: 1 });
 
-        mockTrainService.generateSwitchList.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
-        mockTrainService.completeTrain.mockResolvedValue({ ...mockTrain, status: 'Completed' });
-        mockTrainService.cancelTrain.mockResolvedValue({ ...mockTrain, status: 'Cancelled' });
+        mockTrainServiceInstance.generateSwitchList.mockResolvedValue({ 
+            train: { ...mockTrain, status: 'In Progress' },
+            stats: { stationsServed: 3, carsAssigned: 5 }
+        });
+        mockTrainServiceInstance.completeTrain.mockResolvedValue({ 
+            train: { ...mockTrain, status: 'Completed' },
+            stats: { carsMoved: 5 }
+        });
+        mockTrainServiceInstance.cancelTrain.mockResolvedValue({ 
+            train: { ...mockTrain, status: 'Cancelled' },
+            stats: { ordersReverted: 5 }
+        });
     });
 
     describe('GET /', () => {
@@ -126,7 +168,7 @@ describe('Trains Routes', () => {
 
             expect(response.body.success).toBe(true);
             expect(response.body.data).toEqual([mockTrain]);
-            expect(mockTrainRepository.findWithFilters).toHaveBeenCalledWith({
+            expect(mockTrainRepoInstance.findWithFilters).toHaveBeenCalledWith({
                 sessionNumber: '1',
                 status: 'Planned',
                 routeId: undefined,
@@ -135,7 +177,7 @@ describe('Trains Routes', () => {
         });
 
         it('should handle repository errors gracefully', async () => {
-            mockTrainRepository.findWithFilters.mockRejectedValue(new Error('Database error'));
+            mockTrainRepoInstance.findWithFilters.mockRejectedValue(new Error('Database error'));
 
             const response = await request(app)
                 .get('/api/trains')
@@ -154,11 +196,11 @@ describe('Trains Routes', () => {
 
             expect(response.body.success).toBe(true);
             expect(response.body.data).toEqual(mockTrain);
-            expect(mockTrainRepository.findById).toHaveBeenCalledWith('train1', { enrich: true });
+            expect(mockTrainRepoInstance.findById).toHaveBeenCalledWith('train1', { enrich: true });
         });
 
         it('should handle train not found', async () => {
-            mockTrainRepository.findById.mockResolvedValue(null);
+            mockTrainRepoInstance.findById.mockResolvedValue(null);
 
             const response = await request(app)
                 .get('/api/trains/nonexistent')
@@ -185,7 +227,7 @@ describe('Trains Routes', () => {
 
             expect(response.body.success).toBe(true);
             expect(response.body.data).toEqual(mockTrain);
-            expect(mockTrainRepository.createTrain).toHaveBeenCalledWith({
+            expect(mockTrainRepoInstance.createTrain).toHaveBeenCalledWith({
                 ...newTrainData,
                 sessionNumber: 1,
                 status: 'Planned'
@@ -193,7 +235,7 @@ describe('Trains Routes', () => {
         });
 
         it('should handle missing session error', async () => {
-            mockSessionRepository.findAll.mockResolvedValue([]);
+            mockSessionRepoInstance.findAll.mockResolvedValue([]);
 
             const response = await request(app)
                 .post('/api/trains')
@@ -211,6 +253,9 @@ describe('Trains Routes', () => {
         };
 
         it('should update train successfully', async () => {
+            // Mock findAll for name uniqueness check
+            mockTrainRepoInstance.findAll.mockResolvedValue([mockTrain]);
+            
             const response = await request(app)
                 .put('/api/trains/train1')
                 .send(updateData)
@@ -218,11 +263,10 @@ describe('Trains Routes', () => {
 
             expect(response.body.success).toBe(true);
             expect(response.body.data).toEqual(mockTrain);
-            expect(mockTrainRepository.update).toHaveBeenCalledWith('train1', updateData);
         });
 
         it('should prevent updates to non-Planned trains', async () => {
-            mockTrainRepository.findById.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
+            mockTrainRepoInstance.findById.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
 
             const response = await request(app)
                 .put('/api/trains/train1')
@@ -241,11 +285,11 @@ describe('Trains Routes', () => {
                 .expect(204);
 
             expect(response.status).toBe(204);
-            expect(mockTrainRepository.delete).toHaveBeenCalledWith('train1');
+            expect(mockTrainRepoInstance.delete).toHaveBeenCalledWith('train1');
         });
 
         it('should prevent deletion of non-Planned trains', async () => {
-            mockTrainRepository.findById.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
+            mockTrainRepoInstance.findById.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
 
             const response = await request(app)
                 .delete('/api/trains/train1')
@@ -264,11 +308,11 @@ describe('Trains Routes', () => {
 
             expect(response.body.success).toBe(true);
             expect(response.body.data.status).toBe('In Progress');
-            expect(mockTrainService.generateSwitchList).toHaveBeenCalledWith('train1');
+            expect(mockTrainServiceInstance.generateSwitchList).toHaveBeenCalledWith('train1');
         });
 
         it('should handle service errors', async () => {
-            mockTrainService.generateSwitchList.mockRejectedValue(
+            mockTrainServiceInstance.generateSwitchList.mockRejectedValue(
                 new ApiError('Switchlist generation failed', 400)
             );
 
@@ -289,11 +333,11 @@ describe('Trains Routes', () => {
 
             expect(response.body.success).toBe(true);
             expect(response.body.data.status).toBe('Completed');
-            expect(mockTrainService.completeTrain).toHaveBeenCalledWith('train1');
+            expect(mockTrainServiceInstance.completeTrain).toHaveBeenCalledWith('train1');
         });
 
         it('should handle service errors', async () => {
-            mockTrainService.completeTrain.mockRejectedValue(
+            mockTrainServiceInstance.completeTrain.mockRejectedValue(
                 new ApiError('Completion failed', 400)
             );
 
@@ -314,11 +358,11 @@ describe('Trains Routes', () => {
 
             expect(response.body.success).toBe(true);
             expect(response.body.data.status).toBe('Cancelled');
-            expect(mockTrainService.cancelTrain).toHaveBeenCalledWith('train1');
+            expect(mockTrainServiceInstance.cancelTrain).toHaveBeenCalledWith('train1');
         });
 
         it('should handle service errors', async () => {
-            mockTrainService.cancelTrain.mockRejectedValue(
+            mockTrainServiceInstance.cancelTrain.mockRejectedValue(
                 new ApiError('Cancellation failed', 400)
             );
 

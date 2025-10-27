@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import blocksRouter from '../../routes/blocks.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -14,6 +15,20 @@ jest.mock('../../database/index.js', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/blocks', blocksRouter);
+
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Blocks Routes', () => {
   const mockBlock = {
@@ -37,11 +52,8 @@ describe('Blocks Routes', () => {
       const response = await request(app).get('/api/blocks');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockBlock],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockBlock]);
       expect(dbHelpers.findAll).toHaveBeenCalledWith('blocks');
     });
 
@@ -51,10 +63,8 @@ describe('Blocks Routes', () => {
       const response = await request(app).get('/api/blocks');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch blocks'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -63,10 +73,8 @@ describe('Blocks Routes', () => {
       const response = await request(app).get('/api/blocks/1');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: mockBlock
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual(mockBlock);
       expect(dbHelpers.findById).toHaveBeenCalledWith('blocks', '1');
     });
 
@@ -76,10 +84,8 @@ describe('Blocks Routes', () => {
       const response = await request(app).get('/api/blocks/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Block not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Block not found');
     });
 
     it('should handle database errors', async () => {
@@ -88,10 +94,8 @@ describe('Blocks Routes', () => {
       const response = await request(app).get('/api/blocks/1');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch block'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 });

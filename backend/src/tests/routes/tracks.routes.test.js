@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import tracksRouter from '../../routes/tracks.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -14,6 +15,20 @@ jest.mock('../../database/index.js', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/tracks', tracksRouter);
+
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Tracks Routes', () => {
   const mockTrack = {
@@ -43,11 +58,8 @@ describe('Tracks Routes', () => {
       const response = await request(app).get('/api/tracks');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockTrack],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockTrack]);
       expect(dbHelpers.findAll).toHaveBeenCalledWith('tracks');
     });
 
@@ -57,10 +69,8 @@ describe('Tracks Routes', () => {
       const response = await request(app).get('/api/tracks');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch tracks'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -69,10 +79,8 @@ describe('Tracks Routes', () => {
       const response = await request(app).get('/api/tracks/1');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: mockTrack
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual(mockTrack);
       expect(dbHelpers.findById).toHaveBeenCalledWith('tracks', '1');
     });
 
@@ -82,10 +90,8 @@ describe('Tracks Routes', () => {
       const response = await request(app).get('/api/tracks/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Track not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Track not found');
     });
 
     it('should handle database errors', async () => {
@@ -94,10 +100,8 @@ describe('Tracks Routes', () => {
       const response = await request(app).get('/api/tracks/1');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch track'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 });

@@ -56,7 +56,7 @@ router.post('/',
     const sessions = await sessionRepository.findAll();
     const currentSession = sessions[0];
     if (!currentSession) {
-      throw new ApiError('Cannot create train without an active operating session', 404);
+      throw new ApiError('Cannot create train without an active operating session', 400);
     }
     sessionNumber = currentSession.currentSessionNumber;
   }
@@ -66,7 +66,7 @@ router.post('/',
   // Use the repository's built-in validation and creation
   const train = await trainRepository.createTrain(trainData);
 
-  res.json(ApiResponse.success(train, 'Train created successfully'));
+  res.status(201).json(ApiResponse.success(train, 'Train created successfully'));
 }));
 
 // PUT /api/trains/:id - Update train (name, locos, capacity - only if status=Planned)
@@ -76,7 +76,7 @@ router.put('/:id',
   asyncHandler(async (req, res) => {
 
   // Check if train exists
-  const existingTrain = await dbHelpers.findById('trains', req.params.id);
+  const existingTrain = await trainRepository.findById(req.params.id);
   if (!existingTrain) {
     throw new ApiError('Train not found', 404);
   }
@@ -88,7 +88,7 @@ router.put('/:id',
 
   // Verify route if being updated
   if (req.body.routeId && req.body.routeId !== existingTrain.routeId) {
-    const route = await dbHelpers.findById('routes', req.body.routeId);
+    const route = await routeRepository.findById(req.body.routeId);
     if (!route) {
       throw new ApiError(`Route with ID '${req.body.routeId}' does not exist`, 404);
     }
@@ -97,7 +97,7 @@ router.put('/:id',
   // Verify locomotives if being updated
   if (req.body.locomotiveIds) {
     for (const locoId of req.body.locomotiveIds) {
-      const locomotive = await dbHelpers.findById('locomotives', locoId);
+      const locomotive = await locomotiveRepository.findById(locoId);
       if (!locomotive) {
         throw new ApiError(`Locomotive with ID '${locoId}' does not exist`, 404);
       }
@@ -107,7 +107,7 @@ router.put('/:id',
     }
 
     // Check locomotive assignment conflicts
-    const allTrains = await dbHelpers.findAll('trains');
+    const allTrains = await trainRepository.findAll();
     const locoValidation = validateLocomotiveAssignments(allTrains, req.body.locomotiveIds, req.params.id);
     if (!locoValidation.valid) {
       const conflicts = locoValidation.conflicts.map(c => 
@@ -119,7 +119,7 @@ router.put('/:id',
 
   // Check train name uniqueness if being updated
   if (req.body.name && req.body.name !== existingTrain.name) {
-    const allTrains = await dbHelpers.findAll('trains');
+    const allTrains = await trainRepository.findAll();
     const nameValidation = validateTrainNameUniqueness(allTrains, req.body.name, existingTrain.sessionNumber, req.params.id);
     if (!nameValidation.valid) {
       throw new ApiError(`A train named '${req.body.name}' already exists in session ${existingTrain.sessionNumber}`, 409);
@@ -129,12 +129,7 @@ router.put('/:id',
   // Add updatedAt timestamp
   const updateData = { ...req.body, updatedAt: new Date().toISOString() };
 
-  const updated = await dbHelpers.update('trains', req.params.id, updateData);
-  if (updated === 0) {
-    throw new ApiError('Train not found', 404);
-  }
-
-  const train = await dbHelpers.findById('trains', req.params.id);
+  const train = await trainRepository.update(req.params.id, updateData);
   res.json(ApiResponse.success(train, 'Train updated successfully'));
 }));
 
@@ -142,7 +137,7 @@ router.put('/:id',
 router.delete('/:id', 
   validateParams(commonSchemas.params.id),
   asyncHandler(async (req, res) => {
-  const existingTrain = await dbHelpers.findById('trains', req.params.id);
+  const existingTrain = await trainRepository.findById(req.params.id);
   if (!existingTrain) {
     throw new ApiError('Train not found', 404);
   }
@@ -152,12 +147,9 @@ router.delete('/:id',
     throw new ApiError(`Cannot delete train with status: ${existingTrain.status}. Only 'Planned' trains can be deleted.`, 400);
   }
 
-  const deleted = await dbHelpers.delete('trains', req.params.id);
-  if (deleted === 0) {
-    throw new ApiError('Train not found', 404);
-  }
+  await trainRepository.delete(req.params.id);
 
-  res.json(ApiResponse.success(null, 'Train deleted successfully'));
+  res.status(204).send();
 }));
 
 // POST /api/trains/:id/generate-switch-list - Generate switch list (status: Planned → In Progress)

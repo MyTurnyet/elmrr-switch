@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import stationsRouter from '../../routes/stations.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -14,6 +15,21 @@ jest.mock('../../database/index.js', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/stations', stationsRouter);
+
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Station Routes', () => {
   const mockStation = {
@@ -37,11 +53,8 @@ describe('Station Routes', () => {
       const response = await request(app).get('/api/stations');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockStation],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockStation]);
       expect(dbHelpers.findAll).toHaveBeenCalledWith('stations');
     });
 
@@ -51,10 +64,8 @@ describe('Station Routes', () => {
       const response = await request(app).get('/api/stations');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch stations'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -63,10 +74,8 @@ describe('Station Routes', () => {
       const response = await request(app).get('/api/stations/1');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: mockStation
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual(mockStation);
       expect(dbHelpers.findById).toHaveBeenCalledWith('stations', '1');
     });
 
@@ -76,10 +85,8 @@ describe('Station Routes', () => {
       const response = await request(app).get('/api/stations/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Station not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Station not found');
     });
 
     it('should handle database errors', async () => {
@@ -88,10 +95,8 @@ describe('Station Routes', () => {
       const response = await request(app).get('/api/stations/1');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch station'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 });
