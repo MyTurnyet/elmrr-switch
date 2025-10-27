@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import carOrdersRouter from '../../routes/carOrders.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -36,6 +37,21 @@ import {
 const app = express();
 app.use(express.json());
 app.use('/api/car-orders', carOrdersRouter);
+
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Car Orders Routes', () => {
   const mockOrder = {
