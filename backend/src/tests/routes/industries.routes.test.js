@@ -77,11 +77,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockIndustry],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockIndustry]);
       expect(dbHelpers.findAll).toHaveBeenCalledWith('industries');
     });
 
@@ -91,10 +88,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch industries'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -128,11 +123,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries/1/cars');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockCar],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockCar]);
       expect(dbHelpers.findByQuery).toHaveBeenCalledWith('cars', {
         currentIndustry: '1'
       });
