@@ -129,15 +129,15 @@ export class LocomotiveTransformer extends BaseTransformer<Locomotive, Transform
     const inService = locomotives.filter(l => l.isInService).length;
     const outOfService = total - inService;
     
-    const byRoadName = locomotives.reduce((acc, loco) => {
+    const byRoadName = locomotives.reduce((acc: Record<string, number>, loco) => {
       acc[loco.roadName] = (acc[loco.roadName] || 0) + 1;
       return acc;
-    }, {});
+    }, {} as Record<string, number>);
     
-    const byModel = locomotives.reduce((acc, loco) => {
+    const byModel = locomotives.reduce((acc: Record<string, number>, loco) => {
       acc[loco.model] = (acc[loco.model] || 0) + 1;
       return acc;
-    }, {});
+    }, {} as Record<string, number>);
     
     return {
       total,

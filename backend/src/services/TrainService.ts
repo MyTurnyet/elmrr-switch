@@ -55,11 +55,11 @@ export class TrainService implements ITrainService {
     // Get route and locomotives
     const route = await dbHelpers.findById('routes', train.routeId);
     const locomotives = await Promise.all(
-      train.locomotiveIds.map(id => dbHelpers.findById('locomotives', id))
+      train.locomotiveIds.map((id: string) => dbHelpers.findById('locomotives', id))
     );
 
     // Validate requirements
-    const validation = validateSwitchListRequirements(train, route, locomotives.filter(Boolean));
+    const validation = validateSwitchListRequirements(train);
     if (!validation.valid) {
       throw new ApiError('Cannot generate switch list', 400, validation.errors.join(', '));
     }
@@ -222,7 +222,7 @@ export class TrainService implements ITrainService {
    * @param {Object} route - Route object
    * @returns {Promise<Object>} Switch list result
    */
-  async _generateSwitchListAlgorithm(train, route) {
+  async _generateSwitchListAlgorithm(train: any, route: any) {
     try {
       // Get all stations in the route sequence
       const stationSequence = [route.originYard, ...route.stationSequence, route.terminationYard];
@@ -244,7 +244,7 @@ export class TrainService implements ITrainService {
       }
 
       const switchListStations = [];
-      const assignedCarIds = [];
+      const assignedCarIds: string[] = [];
       const carOrderUpdates = [];
       let currentCarCount = 0;
       let totalPickups = 0;

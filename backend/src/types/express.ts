@@ -21,7 +21,7 @@ export interface TypedRequest<
   TParams = any,
   TBody = any,
   TQuery = any
-> extends Request {
+> extends Omit<Request, 'params' | 'body' | 'query'> {
   params: TParams;
   body: TBody;
   query: TQuery;

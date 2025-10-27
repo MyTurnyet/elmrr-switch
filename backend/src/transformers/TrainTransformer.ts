@@ -192,16 +192,16 @@ export class TrainTransformer extends BaseTransformer<Train, TransformedTrain> {
   static transformStatistics(trains: Train[]): Statistics {
     const total = trains.length;
     
-    const byStatus = trains.reduce((acc, train) => {
+    const byStatus = trains.reduce((acc: Record<string, number>, train) => {
       acc[train.status] = (acc[train.status] || 0) + 1;
       return acc;
-    }, {});
+    }, {} as Record<string, number>);
     
-    const bySession = trains.reduce((acc, train) => {
+    const bySession = trains.reduce((acc: Record<string | number, number>, train) => {
       const session = train.sessionNumber || 'unknown';
       acc[session] = (acc[session] || 0) + 1;
       return acc;
-    }, {});
+    }, {} as Record<string | number, number>);
     
     const totalCapacity = trains.reduce((sum, train) => sum + (train.maxCapacity || 0), 0);
     const totalCars = trains.reduce((sum, train) => sum + (train.assignedCarIds?.length || 0), 0);
@@ -233,13 +233,13 @@ export class TrainTransformer extends BaseTransformer<Train, TransformedTrain> {
       pickups: station.pickups?.length || 0,
       setouts: station.setouts?.length || 0,
       actions: [
-        ...(station.pickups || []).map(p => ({
+        ...(station.pickups || []).map((p: any) => ({
           type: 'pickup',
           carId: p.carId,
           industryId: p.fromIndustry,
           destination: p.toIndustry
         })),
-        ...(station.setouts || []).map(s => ({
+        ...(station.setouts || []).map((s: any) => ({
           type: 'setout',
           carId: s.carId,
           industryId: s.toIndustry

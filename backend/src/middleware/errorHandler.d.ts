@@ -8,7 +8,7 @@ import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler } 
  * Async handler wrapper to catch async errors
  */
 export declare function asyncHandler<T = any>(
-  fn: (req: Request, res: Response, next: NextFunction) => Promise<T>
+  fn: (req: any, res: Response, next?: NextFunction) => Promise<T>
 ): RequestHandler;
 
 /**

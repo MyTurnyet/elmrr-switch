@@ -50,12 +50,12 @@ export class SessionService {
    * @param {string} description - Optional description for the new session
    * @returns {Promise<Object>} Advanced session with stats
    */
-  async advanceSession(description = null) {
+  async advanceSession(description: string | null = null) {
     // Get current session
     const currentSession = await this.getCurrentSession();
 
     // Create snapshot of current state
-    const snapshot = await createSessionSnapshot();
+    const snapshot = await createSessionSnapshot(currentSession.currentSessionNumber, [], [], []);
 
     // Validate snapshot
     const { error: snapshotError } = validateSnapshot(snapshot);
@@ -97,7 +97,7 @@ export class SessionService {
    * @param {string} description - Optional description for the rollback
    * @returns {Promise<Object>} Rolled back session with stats
    */
-  async rollbackSession(description = null) {
+  async rollbackSession(description: string | null = null) {
     // Get current session
     const currentSession = await this.getCurrentSession();
 
@@ -127,7 +127,7 @@ export class SessionService {
       currentSessionNumber: previousSessionNumber,
       sessionDate: new Date().toISOString(),
       description: description || `Rolled back to session ${previousSessionNumber}`,
-      previousSessionSnapshot: null // Clear the snapshot after rollback
+      previousSessionSnapshot: null as any // Clear the snapshot after rollback
     };
 
     const { error, value } = validateOperatingSession(updateData);
@@ -152,7 +152,7 @@ export class SessionService {
    * @param {string} description - New description
    * @returns {Promise<Object>} Updated session
    */
-  async updateSessionDescription(description) {
+  async updateSessionDescription(description: string) {
     if (!description || typeof description !== 'string') {
       throw new ApiError('Description is required and must be a string', 400);
     }
@@ -180,7 +180,7 @@ export class SessionService {
    * @param {Object} currentSession - Current session object
    * @returns {Promise<Object>} Operation statistics
    */
-  async _performSessionAdvancement(snapshot, currentSession) {
+  async _performSessionAdvancement(snapshot: any, currentSession: any) {
     const stats = {
       carsUpdated: 0,
       trainsDeleted: 0,
@@ -209,7 +209,7 @@ export class SessionService {
       if (train.assignedCarIds && train.assignedCarIds.length > 0) {
         for (const carId of train.assignedCarIds) {
           // Find the car's original location from the snapshot
-          const originalCar = snapshot.cars.find(c => c._id === carId);
+          const originalCar = snapshot.cars.find((c: any) => c._id === carId);
           if (originalCar) {
             await dbHelpers.update('cars', carId, {
               currentIndustry: originalCar.currentIndustry,
@@ -229,7 +229,7 @@ export class SessionService {
    * @param {Object} snapshot - Previous state snapshot
    * @returns {Promise<Object>} Operation statistics
    */
-  async _performSessionRollback(snapshot) {
+  async _performSessionRollback(snapshot: any) {
     const stats = {
       carsRestored: 0,
       trainsRestored: 0,

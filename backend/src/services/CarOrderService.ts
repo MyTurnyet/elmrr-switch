@@ -118,7 +118,7 @@ export class CarOrderService {
    * @param {string} orderId - Order ID
    * @returns {Promise<Object>} Enriched car order
    */
-  async getEnrichedOrder(orderId) {
+  async getEnrichedOrder(orderId: string) {
     const carOrder = await dbHelpers.findById('carOrders', orderId);
     if (!carOrder) {
       throw new ApiError('Car order not found', 404);
@@ -144,7 +144,7 @@ export class CarOrderService {
    * @param {Object} orderData - Order data
    * @returns {Promise<Object>} Created order
    */
-  async createOrder(orderData) {
+  async createOrder(orderData: any) {
     const { error, value } = validateCarOrder(orderData);
     if (error) {
       throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
@@ -163,9 +163,9 @@ export class CarOrderService {
     }
 
     // Check for duplicate orders
-    const duplicateCheck = await checkDuplicateOrder(value);
-    if (duplicateCheck.isDuplicate) {
-      throw new ApiError('Duplicate order detected', 400, duplicateCheck.message);
+    const duplicateCheck = await checkDuplicateOrder(value.industryId, value.aarTypeId, value.sessionNumber);
+    if (duplicateCheck) {
+      throw new ApiError('Duplicate order detected', 400, 'An order with the same industry, AAR type, and session already exists');
     }
 
     // Add timestamps
@@ -184,7 +184,7 @@ export class CarOrderService {
    * @param {Object} updateData - Update data
    * @returns {Promise<Object>} Updated order
    */
-  async updateOrder(orderId, updateData) {
+  async updateOrder(orderId: string, updateData: any) {
     const existingOrder = await dbHelpers.findById('carOrders', orderId);
     if (!existingOrder) {
       throw new ApiError('Car order not found', 404);
@@ -201,9 +201,9 @@ export class CarOrderService {
     // Validate car assignment if being updated
     if (updateData.assignedCarId) {
       const car = await dbHelpers.findById('cars', updateData.assignedCarId);
-      const assignmentValidation = validateCarAssignment(existingOrder, car);
+      const assignmentValidation = await validateCarAssignment(updateData.assignedCarId, existingOrder.aarTypeId);
       if (!assignmentValidation.valid) {
-        throw new ApiError('Invalid car assignment', 400, assignmentValidation.errors.join(', '));
+        throw new ApiError('Invalid car assignment', 400, assignmentValidation.error || 'Invalid assignment');
       }
     }
 
@@ -223,7 +223,7 @@ export class CarOrderService {
    * @param {string} orderId - Order ID
    * @returns {Promise<void>}
    */
-  async deleteOrder(orderId) {
+  async deleteOrder(orderId: string) {
     const existingOrder = await dbHelpers.findById('carOrders', orderId);
     if (!existingOrder) {
       throw new ApiError('Car order not found', 404);
@@ -248,7 +248,7 @@ export class CarOrderService {
    * @param {number} sessionNumber - Session number (optional, uses current if not provided)
    * @returns {Promise<Object>} Order statistics
    */
-  async getOrderStats(sessionNumber = null) {
+  async getOrderStats(sessionNumber: number | null = null) {
     // Get session number if not provided
     if (!sessionNumber) {
       const sessions = await dbHelpers.findAll('operatingSessions');
@@ -262,12 +262,12 @@ export class CarOrderService {
       ? await dbHelpers.findByQuery('carOrders', { sessionNumber })
       : await dbHelpers.findAll('carOrders');
 
-    const ordersByStatus = orders.reduce((acc, order) => {
+    const ordersByStatus = orders.reduce((acc: any, order: any) => {
       acc[order.status] = (acc[order.status] || 0) + 1;
       return acc;
     }, {});
 
-    const ordersByAarType = orders.reduce((acc, order) => {
+    const ordersByAarType = orders.reduce((acc: any, order: any) => {
       acc[order.aarTypeId] = (acc[order.aarTypeId] || 0) + 1;
       return acc;
     }, {});
@@ -290,7 +290,7 @@ export class CarOrderService {
    * @param {boolean} force - Force generation even if orders exist
    * @returns {Promise<Object>} Processing result
    */
-  async _processIndustryDemands(industries, sessionNumber, force = false) {
+  async _processIndustryDemands(industries: any[], sessionNumber: number, force = false) {
     const ordersToCreate = [];
     const processedIndustries = [];
 
@@ -321,9 +321,9 @@ export class CarOrderService {
               industryId: industry._id,
               aarTypeId: demandConfig.aarTypeId,
               sessionNumber: sessionNumber,
-              status: 'pending',
-              assignedCarId: null,
-              assignedTrainId: null,
+              status: 'pending' as const,
+              assignedCarId: null as any,
+              assignedTrainId: null as any,
               createdAt: new Date().toISOString()
             });
           }

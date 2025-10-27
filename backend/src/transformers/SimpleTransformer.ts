@@ -47,8 +47,8 @@ export class SimpleTransformer extends BaseTransformer<BaseEntity, any> {
    * Transform for export (capitalize field names)
    * @private
    */
-  _transformForExport(entity) {
-    const exported = {};
+  _transformForExport(entity: any) {
+    const exported: Record<string, any> = {};
     
     for (const [key, value] of Object.entries(entity)) {
       // Capitalize first letter and replace camelCase with spaces
@@ -71,7 +71,7 @@ export class SimpleTransformer extends BaseTransformer<BaseEntity, any> {
    * @param {Array<string>} filterableFields - Fields that can be filtered
    * @returns {Object} - Database query object
    */
-  static buildFilterQuery(queryParams, filterableFields = []) {
+  static buildFilterQuery(queryParams: any, filterableFields: string[] = []) {
     const query: any = {};
     
     // Add filters for specified fields
@@ -99,15 +99,15 @@ export class SimpleTransformer extends BaseTransformer<BaseEntity, any> {
    * @param {string} groupByField - Field to group by (optional)
    * @returns {Object} - Statistics
    */
-  static transformStatistics(entities, groupByField = null) {
+  static transformStatistics(entities: any[], groupByField: string | null = null) {
     const total = entities.length;
     
-    const stats = { total };
+    const stats: Record<string, any> = { total };
     
     // Group by field if specified
     if (groupByField) {
       stats[`by${groupByField.charAt(0).toUpperCase() + groupByField.slice(1)}`] = 
-        entities.reduce((acc, entity) => {
+        entities.reduce((acc: Record<string, number>, entity: any) => {
           const value = entity[groupByField] || 'unknown';
           acc[value] = (acc[value] || 0) + 1;
           return acc;
@@ -122,7 +122,7 @@ export class SimpleTransformer extends BaseTransformer<BaseEntity, any> {
  * Station Transformer
  */
 export class StationTransformer extends SimpleTransformer {
-  static buildFilterQuery(queryParams) {
+  static buildFilterQuery(queryParams: any) {
     return super.buildFilterQuery(queryParams, ['code']);
   }
 }
@@ -131,11 +131,11 @@ export class StationTransformer extends SimpleTransformer {
  * Good Transformer
  */
 export class GoodTransformer extends SimpleTransformer {
-  static buildFilterQuery(queryParams) {
+  static buildFilterQuery(queryParams: any) {
     return super.buildFilterQuery(queryParams, ['category']);
   }
   
-  static transformStatistics(goods) {
+  static transformStatistics(goods: any[]) {
     return super.transformStatistics(goods, 'category');
   }
 }
@@ -144,11 +144,11 @@ export class GoodTransformer extends SimpleTransformer {
  * AAR Type Transformer
  */
 export class AarTypeTransformer extends SimpleTransformer {
-  static buildFilterQuery(queryParams) {
+  static buildFilterQuery(queryParams: any) {
     return super.buildFilterQuery(queryParams, ['category', 'code']);
   }
   
-  static transformStatistics(aarTypes) {
+  static transformStatistics(aarTypes: any[]) {
     return super.transformStatistics(aarTypes, 'category');
   }
 }
@@ -157,7 +157,7 @@ export class AarTypeTransformer extends SimpleTransformer {
  * Block Transformer
  */
 export class BlockTransformer extends SimpleTransformer {
-  static buildFilterQuery(queryParams) {
+  static buildFilterQuery(queryParams: any) {
     return super.buildFilterQuery(queryParams, []);
   }
 }
@@ -166,11 +166,11 @@ export class BlockTransformer extends SimpleTransformer {
  * Track Transformer
  */
 export class TrackTransformer extends SimpleTransformer {
-  static buildFilterQuery(queryParams) {
+  static buildFilterQuery(queryParams: any) {
     return super.buildFilterQuery(queryParams, ['stationId', 'trackType']);
   }
   
-  static transformStatistics(tracks) {
+  static transformStatistics(tracks: any[]) {
     return super.transformStatistics(tracks, 'trackType');
   }
 }
@@ -179,7 +179,7 @@ export class TrackTransformer extends SimpleTransformer {
  * Route Transformer
  */
 export class RouteTransformer extends SimpleTransformer {
-  transform(route, options = {}) {
+  transform(route: any, options: any = {}) {
     if (!route) return null;
     
     const transformed = super.transform(route, options);
@@ -192,7 +192,7 @@ export class RouteTransformer extends SimpleTransformer {
     return transformed;
   }
   
-  static buildFilterQuery(queryParams) {
+  static buildFilterQuery(queryParams: any) {
     return super.buildFilterQuery(queryParams, ['origin', 'termination']);
   }
 }

@@ -142,17 +142,17 @@ export class CarTransformer extends BaseTransformer<Car, TransformedCar> {
     const inService = cars.filter(c => c.isInService).length;
     const outOfService = total - inService;
     
-    const byType = cars.reduce((acc, car) => {
+    const byType = cars.reduce((acc: Record<string, number>, car) => {
       acc[car.carType] = (acc[car.carType] || 0) + 1;
       return acc;
-    }, {});
+    }, {} as Record<string, number>);
     
-    const byLocation = cars.reduce((acc, car) => {
+    const byLocation = cars.reduce((acc: Record<string, number>, car) => {
       if (car.currentIndustry) {
         acc[car.currentIndustry] = (acc[car.currentIndustry] || 0) + 1;
       }
       return acc;
-    }, {});
+    }, {} as Record<string, number>);
     
     return {
       total,

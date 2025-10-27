@@ -156,10 +156,10 @@ export class IndustryTransformer extends BaseTransformer<Industry, TransformedIn
     const withDemand = industries.filter(i => i.carDemandConfig && i.carDemandConfig.length > 0).length;
     const withoutDemand = total - withDemand;
     
-    const byStation = industries.reduce((acc, industry) => {
+    const byStation = industries.reduce((acc: Record<string, number>, industry) => {
       acc[industry.stationId] = (acc[industry.stationId] || 0) + 1;
       return acc;
-    }, {});
+    }, {} as Record<string, number>);
     
     const totalDemandConfigs = industries.reduce((sum, industry) => {
       return sum + (industry.carDemandConfig?.length || 0);
