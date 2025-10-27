@@ -4,10 +4,19 @@
 
 import { BaseRepository } from './BaseRepository.js';
 import { ApiError } from '../middleware/errorHandler.js';
+import { NULL_AAR_TYPE } from '../patterns/nullObjects/NullAarType.js';
 
 export class AarTypeRepository extends BaseRepository {
   constructor() {
     super('aarTypes');
+  }
+
+  /**
+   * Get the null object for AAR types
+   * @returns {NullAarType} Null AAR type instance
+   */
+  getNullObject() {
+    return NULL_AAR_TYPE;
   }
 
   /**

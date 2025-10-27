@@ -5,7 +5,8 @@ import request from 'supertest';
 jest.mock('../../repositories/index.js', () => {
   const mockAarTypeRepo = {
     findAll: jest.fn(),
-    findById: jest.fn()
+    findById: jest.fn(),
+    findByIdOrNull: jest.fn()
   };
   
   return {
@@ -15,7 +16,8 @@ jest.mock('../../repositories/index.js', () => {
       }
       return {
         findAll: jest.fn(),
-        findById: jest.fn()
+        findById: jest.fn(),
+        findByIdOrNull: jest.fn()
       };
     }),
     __mockAarTypeRepository: mockAarTypeRepo
@@ -63,6 +65,7 @@ describe('AAR Types Routes', () => {
     jest.clearAllMocks();
     mockAarTypeRepoInstance.findAll.mockResolvedValue([mockAarType]);
     mockAarTypeRepoInstance.findById.mockResolvedValue(mockAarType);
+    mockAarTypeRepoInstance.findByIdOrNull.mockResolvedValue(mockAarType);
   });
 
   describe('GET /api/aar-types', () => {
@@ -93,11 +96,12 @@ describe('AAR Types Routes', () => {
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
       expect(response.body.data).toEqual(mockAarType);
-      expect(mockAarTypeRepoInstance.findById).toHaveBeenCalledWith('1');
+      expect(mockAarTypeRepoInstance.findByIdOrNull).toHaveBeenCalledWith('1');
     });
 
     it('should return 404 if AAR type not found', async () => {
-      mockAarTypeRepoInstance.findById.mockResolvedValue(null);
+      const NULL_AAR_TYPE = { isNull: true, isValid: false, _id: '', code: 'UNKNOWN' };
+      mockAarTypeRepoInstance.findByIdOrNull.mockResolvedValue(NULL_AAR_TYPE);
       
       const response = await request(app).get('/api/v1/aar-types/nonexistent');
       
@@ -107,7 +111,7 @@ describe('AAR Types Routes', () => {
     });
 
     it('should handle database errors', async () => {
-      mockAarTypeRepoInstance.findById.mockRejectedValue(new Error('Database error'));
+      mockAarTypeRepoInstance.findByIdOrNull.mockRejectedValue(new Error('Database error'));
       
       const response = await request(app).get('/api/v1/aar-types/1');
       

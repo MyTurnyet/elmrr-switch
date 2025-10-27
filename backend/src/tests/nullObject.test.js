@@ -10,6 +10,9 @@ import { NULL_INDUSTRY } from '../patterns/nullObjects/NullIndustry.js';
 import { NULL_ROUTE } from '../patterns/nullObjects/NullRoute.js';
 import { NULL_CAR_ORDER } from '../patterns/nullObjects/NullCarOrder.js';
 import { NULL_OPERATING_SESSION } from '../patterns/nullObjects/NullOperatingSession.js';
+import { NULL_LOCOMOTIVE } from '../patterns/nullObjects/NullLocomotive.js';
+import { NULL_STATION } from '../patterns/nullObjects/NullStation.js';
+import { NULL_AAR_TYPE } from '../patterns/nullObjects/NullAarType.js';
 import { throwIfNull, getOrDefault, filterNullObjects, allPresent, anyNull } from '../utils/nullObjectHelpers.js';
 import { ApiError } from '../middleware/errorHandler.js';
 
@@ -22,6 +25,9 @@ describe('Null Object Pattern', () => {
       expect(isNullObject(NULL_ROUTE)).toBe(true);
       expect(isNullObject(NULL_CAR_ORDER)).toBe(true);
       expect(isNullObject(NULL_OPERATING_SESSION)).toBe(true);
+      expect(isNullObject(NULL_LOCOMOTIVE)).toBe(true);
+      expect(isNullObject(NULL_STATION)).toBe(true);
+      expect(isNullObject(NULL_AAR_TYPE)).toBe(true);
     });
 
     it('should not identify regular objects as null objects', () => {

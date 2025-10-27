@@ -11,6 +11,8 @@ import { IndustryRepository } from './IndustryRepository.js';
 import { RouteRepository } from './RouteRepository.js';
 import { CarOrderRepository } from './CarOrderRepository.js';
 import { OperatingSessionRepository } from './OperatingSessionRepository.js';
+import { LocomotiveRepository } from './LocomotiveRepository.js';
+import { StationRepository } from './StationRepository.js';
 
 // Repository instances cache
 const repositories = new Map();
@@ -51,9 +53,13 @@ export function getRepository(entityName) {
     case 'operatingSessions':
       repository = new OperatingSessionRepository();
       break;
-    // Entities without specific repositories yet
     case 'locomotives':
+      repository = new LocomotiveRepository();
+      break;
     case 'stations':
+      repository = new StationRepository();
+      break;
+    // Entities without specific repositories yet
     case 'blocks':
     case 'tracks':
     case 'goods':
@@ -133,3 +139,5 @@ export { IndustryRepository } from './IndustryRepository.js';
 export { RouteRepository } from './RouteRepository.js';
 export { CarOrderRepository } from './CarOrderRepository.js';
 export { OperatingSessionRepository } from './OperatingSessionRepository.js';
+export { LocomotiveRepository } from './LocomotiveRepository.js';
+export { StationRepository } from './StationRepository.js';

@@ -1,12 +1,16 @@
 import express from 'express';
+import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { validateCar } from '../models/car.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { CarTransformer, parsePagination, parseFields } from '../transformers/index.js';
+import { throwIfNull } from '../utils/nullObjectHelpers.js';
 
 const router = express.Router();
 const carTransformer = new CarTransformer();
+const carRepository = getRepository('cars');
+const industryRepository = getRepository('industries');
 
 // GET /api/cars - Get all cars with optional filtering
 router.get('/', asyncHandler(async (req, res) => {
@@ -37,10 +41,8 @@ router.get('/', asyncHandler(async (req, res) => {
 
 // GET /api/cars/:id - Get car by ID
 router.get('/:id', asyncHandler(async (req, res) => {
-  const car = await dbHelpers.findById('cars', req.params.id);
-  if (!car) {
-    throw new ApiError('Car not found', 404);
-  }
+  const car = await carRepository.findByIdOrNull(req.params.id);
+  throwIfNull(car, 'Car not found', 404);
   
   // Transform for detail view
   const transformedCar = carTransformer.transformForDetail(car);
@@ -97,10 +99,8 @@ router.post('/:id/move', asyncHandler(async (req, res) => {
   }
 
   // Verify destination industry exists
-  const industry = await dbHelpers.findById('industries', destinationIndustryId);
-  if (!industry) {
-    throw new ApiError('Destination industry not found', 404);
-  }
+  const industry = await industryRepository.findByIdOrNull(destinationIndustryId);
+  throwIfNull(industry, 'Destination industry not found', 404);
 
   const updated = await dbHelpers.update('cars', req.params.id, {
     currentIndustry: destinationIndustryId,

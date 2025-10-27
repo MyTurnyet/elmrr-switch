@@ -1,10 +1,14 @@
 import express from 'express';
+import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { validateIndustry, validateCarDemandConfig } from '../models/industry.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+import { throwIfNull } from '../utils/nullObjectHelpers.js';
 
 const router = express.Router();
+const industryRepository = getRepository('industries');
+const aarTypeRepository = getRepository('aarTypes');
 
 // GET /api/industries - Get all industries
 router.get('/', asyncHandler(async (req, res) => {
@@ -14,10 +18,8 @@ router.get('/', asyncHandler(async (req, res) => {
 
 // GET /api/industries/:id - Get industry by ID
 router.get('/:id', asyncHandler(async (req, res) => {
-  const industry = await dbHelpers.findById('industries', req.params.id);
-  if (!industry) {
-    throw new ApiError('Industry not found', 404);
-  }
+  const industry = await industryRepository.findByIdOrNull(req.params.id);
+  throwIfNull(industry, 'Industry not found', 404);
   res.json(ApiResponse.success(industry, 'Industry retrieved successfully'));
 }));
 
@@ -43,10 +45,8 @@ router.post('/', asyncHandler(async (req, res) => {
 
     // Verify all AAR types exist
     for (const config of value.carDemandConfig) {
-      const aarType = await dbHelpers.findById('aarTypes', config.aarTypeId);
-      if (!aarType) {
-        throw new ApiError(`AAR type '${config.aarTypeId}' does not exist`, 404);
-      }
+      const aarType = await aarTypeRepository.findByIdOrNull(config.aarTypeId);
+      throwIfNull(aarType, `AAR type '${config.aarTypeId}' does not exist`, 404);
     }
   }
 
@@ -70,10 +70,8 @@ router.put('/:id', asyncHandler(async (req, res) => {
 
     // Verify all AAR types exist
     for (const config of value.carDemandConfig) {
-      const aarType = await dbHelpers.findById('aarTypes', config.aarTypeId);
-      if (!aarType) {
-        throw new ApiError(`AAR type '${config.aarTypeId}' does not exist`, 404);
-      }
+      const aarType = await aarTypeRepository.findByIdOrNull(config.aarTypeId);
+      throwIfNull(aarType, `AAR type '${config.aarTypeId}' does not exist`, 404);
     }
   }
 

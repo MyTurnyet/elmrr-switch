@@ -1,10 +1,14 @@
 import express from 'express';
+import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { validateRoute } from '../models/route.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+import { throwIfNull } from '../utils/nullObjectHelpers.js';
 
 const router = express.Router();
+const routeRepository = getRepository('routes');
+const industryRepository = getRepository('industries');
 
 // GET /api/routes - Get all routes with optional filtering
 router.get('/', asyncHandler(async (req, res) => {
@@ -30,10 +34,8 @@ router.get('/', asyncHandler(async (req, res) => {
 
 // GET /api/routes/:id - Get route by ID
 router.get('/:id', asyncHandler(async (req, res) => {
-  const route = await dbHelpers.findById('routes', req.params.id);
-  if (!route) {
-    throw new ApiError('Route not found', 404);
-  }
+  const route = await routeRepository.findByIdOrNull(req.params.id);
+  throwIfNull(route, 'Route not found', 404);
   res.json(ApiResponse.success(route, 'Route retrieved successfully'));
 }));
 
@@ -54,19 +56,15 @@ router.post('/', asyncHandler(async (req, res) => {
   }
 
   // Verify origin yard exists and is a yard
-  const originYard = await dbHelpers.findById('industries', value.originYard);
-  if (!originYard) {
-    throw new ApiError(`Industry with ID '${value.originYard}' does not exist`, 404);
-  }
+  const originYard = await industryRepository.findByIdOrNull(value.originYard);
+  throwIfNull(originYard, `Industry with ID '${value.originYard}' does not exist`, 404);
   if (!originYard.isYard) {
     throw new ApiError('Origin must be an industry with isYard=true', 400);
   }
 
   // Verify termination yard exists and is a yard
-  const terminationYard = await dbHelpers.findById('industries', value.terminationYard);
-  if (!terminationYard) {
-    throw new ApiError(`Industry with ID '${value.terminationYard}' does not exist`, 404);
-  }
+  const terminationYard = await industryRepository.findByIdOrNull(value.terminationYard);
+  throwIfNull(terminationYard, `Industry with ID '${value.terminationYard}' does not exist`, 404);
   if (!terminationYard.isYard) {
     throw new ApiError('Termination must be an industry with isYard=true', 400);
   }
@@ -94,10 +92,8 @@ router.put('/:id', asyncHandler(async (req, res) => {
   }
 
     // Check if route exists
-    const existingRoute = await dbHelpers.findById('routes', req.params.id);
-    if (!existingRoute) {
-      throw new ApiError('Route not found', 404);
-    }
+    const existingRoute = await routeRepository.findByIdOrNull(req.params.id);
+    throwIfNull(existingRoute, 'Route not found', 404);
 
     // Check for duplicate route name (if name is being updated)
     if (value.name && value.name !== existingRoute.name) {
@@ -112,10 +108,8 @@ router.put('/:id', asyncHandler(async (req, res) => {
 
     // Verify origin yard if being updated
     if (value.originYard) {
-      const originYard = await dbHelpers.findById('industries', value.originYard);
-      if (!originYard) {
-        throw new ApiError(`Industry with ID '${value.originYard}' does not exist`, 404);
-      }
+      const originYard = await industryRepository.findByIdOrNull(value.originYard);
+      throwIfNull(originYard, `Industry with ID '${value.originYard}' does not exist`, 404);
       if (!originYard.isYard) {
         throw new ApiError('Origin must be an industry with isYard=true', 400);
       }
@@ -123,10 +117,8 @@ router.put('/:id', asyncHandler(async (req, res) => {
 
     // Verify termination yard if being updated
     if (value.terminationYard) {
-      const terminationYard = await dbHelpers.findById('industries', value.terminationYard);
-      if (!terminationYard) {
-        throw new ApiError(`Industry with ID '${value.terminationYard}' does not exist`, 404);
-      }
+      const terminationYard = await industryRepository.findByIdOrNull(value.terminationYard);
+      throwIfNull(terminationYard, `Industry with ID '${value.terminationYard}' does not exist`, 404);
       if (!terminationYard.isYard) {
         throw new ApiError('Termination must be an industry with isYard=true', 400);
       }

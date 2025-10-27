@@ -3,6 +3,7 @@
  * Extracted from routes to improve testability and maintainability
  */
 
+import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { 
   validateCarOrder, 
@@ -13,10 +14,15 @@ import {
   validateStatusTransition
 } from '../models/carOrder.js';
 import { ApiError } from '../middleware/errorHandler.js';
+import { throwIfNull } from '../utils/nullObjectHelpers.js';
 
 export class CarOrderService {
   constructor() {
-    // Service can be extended with repository dependencies if needed
+    this.carOrderRepo = getRepository('carOrders');
+    this.industryRepo = getRepository('industries');
+    this.aarTypeRepo = getRepository('aarTypes');
+    this.carRepo = getRepository('cars');
+    this.trainRepo = getRepository('trains');
   }
 
   /**
@@ -118,10 +124,8 @@ export class CarOrderService {
    * @returns {Promise<Object>} Enriched car order
    */
   async getEnrichedOrder(orderId) {
-    const carOrder = await dbHelpers.findById('carOrders', orderId);
-    if (!carOrder) {
-      throw new ApiError('Car order not found', 404);
-    }
+    const carOrder = await this.carOrderRepo.findByIdOrNull(orderId);
+    throwIfNull(carOrder, 'Car order not found', 404);
 
     // Enrich with related data
     const [industry, car, train] = await Promise.all([
@@ -150,16 +154,12 @@ export class CarOrderService {
     }
 
     // Verify industry exists
-    const industry = await dbHelpers.findById('industries', value.industryId);
-    if (!industry) {
-      throw new ApiError(`Industry with ID '${value.industryId}' does not exist`, 404);
-    }
+    const industry = await this.industryRepo.findByIdOrNull(value.industryId);
+    throwIfNull(industry, `Industry with ID '${value.industryId}' does not exist`, 404);
 
     // Verify AAR type exists
-    const aarType = await dbHelpers.findById('aarTypes', value.aarTypeId);
-    if (!aarType) {
-      throw new ApiError(`AAR type with ID '${value.aarTypeId}' does not exist`, 404);
-    }
+    const aarType = await this.aarTypeRepo.findByIdOrNull(value.aarTypeId);
+    throwIfNull(aarType, `AAR type with ID '${value.aarTypeId}' does not exist`, 404);
 
     // Check for duplicate orders
     const duplicateCheck = await checkDuplicateOrder(value);
@@ -184,10 +184,8 @@ export class CarOrderService {
    * @returns {Promise<Object>} Updated order
    */
   async updateOrder(orderId, updateData) {
-    const existingOrder = await dbHelpers.findById('carOrders', orderId);
-    if (!existingOrder) {
-      throw new ApiError('Car order not found', 404);
-    }
+    const existingOrder = await this.carOrderRepo.findByIdOrNull(orderId);
+    throwIfNull(existingOrder, 'Car order not found', 404);
 
     // Validate status transition if status is being updated
     if (updateData.status && updateData.status !== existingOrder.status) {
