@@ -10,6 +10,14 @@ import { CarTransformer } from './CarTransformer.js';
 import { TrainTransformer } from './TrainTransformer.js';
 import { LocomotiveTransformer } from './LocomotiveTransformer.js';
 import { IndustryTransformer } from './IndustryTransformer.js';
+import { 
+  StationTransformer,
+  GoodTransformer,
+  AarTypeTransformer,
+  BlockTransformer,
+  TrackTransformer,
+  RouteTransformer
+} from './SimpleTransformer.js';
 
 // Transformer registry
 const transformers = {
@@ -20,7 +28,21 @@ const transformers = {
   locomotive: new LocomotiveTransformer(),
   locomotives: new LocomotiveTransformer(),
   industry: new IndustryTransformer(),
-  industries: new IndustryTransformer()
+  industries: new IndustryTransformer(),
+  station: new StationTransformer(),
+  stations: new StationTransformer(),
+  good: new GoodTransformer(),
+  goods: new GoodTransformer(),
+  aartype: new AarTypeTransformer(),
+  aartypes: new AarTypeTransformer(),
+  'aar-type': new AarTypeTransformer(),
+  'aar-types': new AarTypeTransformer(),
+  block: new BlockTransformer(),
+  blocks: new BlockTransformer(),
+  track: new TrackTransformer(),
+  tracks: new TrackTransformer(),
+  route: new RouteTransformer(),
+  routes: new RouteTransformer()
 };
 
 /**
@@ -133,3 +155,12 @@ export { CarTransformer } from './CarTransformer.js';
 export { TrainTransformer } from './TrainTransformer.js';
 export { LocomotiveTransformer } from './LocomotiveTransformer.js';
 export { IndustryTransformer } from './IndustryTransformer.js';
+export { 
+  SimpleTransformer,
+  StationTransformer,
+  GoodTransformer,
+  AarTypeTransformer,
+  BlockTransformer,
+  TrackTransformer,
+  RouteTransformer
+} from './SimpleTransformer.js';
