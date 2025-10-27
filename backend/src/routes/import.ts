@@ -25,7 +25,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
     throw new ApiError('Please provide either a file or JSON data', 400);
   }
 
-    const results = {
+    const results: { imported: number; errors: string[]; warnings?: string[] } = {
       imported: 0,
       errors: [],
       warnings: []
@@ -50,7 +50,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
             await dbHelpers.create(entityType, entityData);
             results.imported++;
           } catch (err) {
-            results.errors.push(`${entityType} ${index + 1}: ${err.message}`);
+            results.errors.push(`${entityType} ${index + 1}: ${(err as Error).message}`);
           }
         }
       }
@@ -70,7 +70,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
           await dbHelpers.create('industries', value);
           results.imported++;
         } catch (err) {
-          results.errors.push(`Industry ${index + 1}: ${err.message}`);
+          results.errors.push(`Industry ${index + 1}: ${(err as Error).message}`);
         }
       }
     }
@@ -85,7 +85,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
             await dbHelpers.create(entityType, entityData);
             results.imported++;
           } catch (err) {
-            results.errors.push(`${entityType} ${index + 1}: ${err.message}`);
+            results.errors.push(`${entityType} ${index + 1}: ${(err as Error).message}`);
           }
         }
       }
@@ -151,7 +151,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
           await dbHelpers.create('routes', value);
           results.imported++;
         } catch (err) {
-          results.errors.push(`Route ${index + 1}: ${err.message}`);
+          results.errors.push(`Route ${index + 1}: ${(err as Error).message}`);
         }
       }
     }
@@ -185,7 +185,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
 
           results.imported++;
         } catch (err) {
-          results.errors.push(`Car ${index + 1}: ${err.message}`);
+          results.errors.push(`Car ${index + 1}: ${(err as Error).message}`);
         }
       }
     }
@@ -200,7 +200,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
             await dbHelpers.create(entityType, entityData);
             results.imported++;
           } catch (err) {
-            results.errors.push(`${entityType} ${index + 1}: ${err.message}`);
+            results.errors.push(`${entityType} ${index + 1}: ${(err as Error).message}`);
           }
         }
       }

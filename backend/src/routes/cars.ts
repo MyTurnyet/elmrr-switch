@@ -1,21 +1,20 @@
-import express, { Router } from 'express';
+import express, { Router, Response } from 'express';
 import { dbHelpers } from '../database/index.js';
 import { validateCar } from '../models/car.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
-import { CarTransformer, parsePagination, parseFields } from '../transformers/index.js';
+import { CarTransformer, parsePagination } from '../transformers/index.js';
 import type { 
   TypedRequest, 
   IdParam, 
-  StandardQuery,
-  AsyncRouteHandler 
+  StandardQuery
 } from '../types/index.js';
 
 const router: Router = express.Router();
 const carTransformer = new CarTransformer();
 
 // GET /api/cars - Get all cars with optional filtering
-router.get('/', asyncHandler(async (req: TypedRequest<{}, {}, StandardQuery>, res) => {
+router.get('/', asyncHandler(async (req: TypedRequest<{}, {}, StandardQuery>, res: Response) => {
   // Build filter query using transformer
   const query = CarTransformer.buildFilterQuery(req.query);
   
@@ -42,7 +41,7 @@ router.get('/', asyncHandler(async (req: TypedRequest<{}, {}, StandardQuery>, re
 }));
 
 // GET /api/cars/:id - Get car by ID
-router.get('/:id', asyncHandler(async (req: TypedRequest<IdParam>, res) => {
+router.get('/:id', asyncHandler(async (req: TypedRequest<IdParam>, res: Response) => {
   const car = await dbHelpers.findById('cars', req.params.id);
   if (!car) {
     throw new ApiError('Car not found', 404);
@@ -54,7 +53,7 @@ router.get('/:id', asyncHandler(async (req: TypedRequest<IdParam>, res) => {
 }));
 
 // POST /api/cars - Create new car
-router.post('/', asyncHandler(async (req, res) => {
+router.post('/', asyncHandler(async (req: any, res: Response) => {
   const { error, value } = validateCar(req.body);
   if (error) {
     throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
@@ -80,7 +79,7 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 // PUT /api/cars/:id - Update car
-router.put('/:id', asyncHandler(async (req, res) => {
+router.put('/:id', asyncHandler(async (req: any, res: Response) => {
   const { error, value } = validateCar(req.body, true); // Allow partial updates
   if (error) {
     throw new ApiError('Validation failed', 400, error.details.map(d => d.message));
@@ -96,7 +95,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
 }));
 
 // POST /api/cars/:id/move - Move car to different industry
-router.post('/:id/move', asyncHandler(async (req, res) => {
+router.post('/:id/move', asyncHandler(async (req: any, res: Response) => {
   const { destinationIndustryId } = req.body;
   if (!destinationIndustryId) {
     throw new ApiError('Destination industry ID is required', 400);
@@ -123,7 +122,7 @@ router.post('/:id/move', asyncHandler(async (req, res) => {
 }));
 
 // DELETE /api/cars/:id - Delete car
-router.delete('/:id', asyncHandler(async (req, res) => {
+router.delete('/:id', asyncHandler(async (req: any, res: Response) => {
   const deleted = await dbHelpers.delete('cars', req.params.id);
   if (deleted === 0) {
     throw new ApiError('Car not found', 404);
