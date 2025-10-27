@@ -133,6 +133,24 @@ export interface ITransformer<T extends BaseEntity, R = any> {
 
 **Total: ~970 lines of TypeScript service code**
 
+### 🔄 Phase 4 In Progress: Routes
+
+#### Express Type Definitions
+- ✅ `src/types/express.ts` - Express type definitions (80 lines)
+  - TypedRequest<TParams, TBody, TQuery> interface
+  - VersionedRequest with API version
+  - AsyncRouteHandler and RouteHandler types
+  - Common param types (IdParam)
+  - Query param types (PaginationQuery, SearchQuery, ViewQuery)
+  - StandardQuery combined type
+
+#### Routes Being Migrated
+- 🔄 Route handlers with typed requests
+- 🔄 Type-safe params, body, query
+- 🔄 Express middleware types
+
+**Total: ~80 lines of TypeScript route infrastructure**
+
 ## Using TypeScript in the Project
 
 ### Importing Types
