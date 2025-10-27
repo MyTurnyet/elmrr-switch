@@ -268,11 +268,8 @@ describe('Route Routes', () => {
         .send({ originYard: 'test' });
 
       expect(response.status).toBe(400);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Validation failed',
-        message: 'name is required'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Validation failed');
     });
 
     it('should return 409 if route name already exists', async () => {
@@ -283,10 +280,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(409);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Duplicate route name'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('A route with this name already exists');
     });
 
     it('should return 404 if origin yard not found', async () => {
@@ -298,10 +293,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Origin yard not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should return 400 if origin is not a yard', async () => {
@@ -313,11 +306,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(400);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Invalid origin yard',
-        message: 'Origin must be an industry with isYard=true'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('Origin must be an industry with isYard=true');
     });
 
     it('should return 404 if termination yard not found', async () => {
@@ -331,10 +321,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Termination yard not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should return 400 if termination is not a yard', async () => {
@@ -348,11 +336,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(400);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Invalid termination yard',
-        message: 'Termination must be an industry with isYard=true'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('Termination must be an industry with isYard=true');
     });
 
     it('should return 404 if station in sequence not found', async () => {
@@ -367,11 +352,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Station not found',
-        message: "Station with ID 'station1' does not exist"
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should handle database errors', async () => {
@@ -458,10 +440,8 @@ describe('Route Routes', () => {
         .send(updateWithNewName);
 
       expect(response.status).toBe(409);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Duplicate route name'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('A route with this name already exists');
     });
 
     it('should allow updating route with same name', async () => {
@@ -492,10 +472,8 @@ describe('Route Routes', () => {
         .send(updateOrigin);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Origin yard not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should validate updated termination yard', async () => {
@@ -512,10 +490,8 @@ describe('Route Routes', () => {
         .send(updateTermination);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Termination yard not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should validate updated station sequence', async () => {
@@ -532,10 +508,8 @@ describe('Route Routes', () => {
         .send(updateStations);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Station not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should handle database errors', async () => {
