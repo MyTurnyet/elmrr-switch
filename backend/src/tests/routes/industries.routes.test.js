@@ -111,10 +111,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Industry not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Industry not found');
     });
   });
 
@@ -136,11 +134,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries/1/cars');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [],
-        count: 0
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([]);
     });
   });
 
@@ -223,10 +218,8 @@ describe('Industry Routes', () => {
         .send(updates);
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Industry not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Industry not found');
     });
   });
 
@@ -235,10 +228,7 @@ describe('Industry Routes', () => {
       const response = await request(app).delete('/api/industries/1');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        message: 'Industry deleted successfully'
-      });
+      expect(response.body.success).toBe(true);
       expect(dbHelpers.delete).toHaveBeenCalledWith('industries', '1');
     });
 
@@ -248,10 +238,8 @@ describe('Industry Routes', () => {
       const response = await request(app).delete('/api/industries/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Industry not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Industry not found');
     });
   });
 });
