@@ -12,7 +12,7 @@ export class TrainTransformer extends BaseTransformer<Train, TransformedTrain> {
   /**
    * Transform a single train entity
    */
-  transform(train: Train | null, options: TransformOptions = {}): TransformedTrain | null {
+  transform(train: Train | null, options: TransformOptions = {}): any {
     if (!train) return null;
     
     const { view = 'default' } = options;
@@ -36,12 +36,12 @@ export class TrainTransformer extends BaseTransformer<Train, TransformedTrain> {
     };
     
     // Add enriched data if available
-    if (sanitized.route) {
-      transformed.route = this._transformRoute(sanitized.route);
+    if ((sanitized as any).route) {
+      (transformed as any).route = this._transformRoute((sanitized as any).route);
     }
     
-    if (sanitized.locomotives) {
-      transformed.locomotives = sanitized.locomotives.map(l => this._transformLocomotive(l));
+    if ((sanitized as any).locomotives) {
+      (transformed as any).locomotives = (sanitized as any).locomotives.map((l: any) => this._transformLocomotive(l));
     }
     
     // View-specific transformations
@@ -61,15 +61,21 @@ export class TrainTransformer extends BaseTransformer<Train, TransformedTrain> {
    * Transform for list view (minimal fields)
    * @private
    */
-  _transformForList(train: TransformedTrain): TransformedTrain {
+  _transformForList(train: any): any {
     return {
       id: train.id,
       name: train.name,
       status: train.status,
       sessionNumber: train.sessionNumber,
       routeId: train.routeId,
-      locomotiveCount: train.locomotiveIds.length,
-      carCount: train.assignedCarIds.length,
+      locomotiveIds: train.locomotiveIds || [],
+      maxCapacity: train.maxCapacity,
+      assignedCarIds: train.assignedCarIds || [],
+      switchList: train.switchList || null,
+      createdAt: train.createdAt,
+      updatedAt: train.updatedAt,
+      locomotiveCount: (train.locomotiveIds || []).length,
+      carCount: (train.assignedCarIds || []).length,
       capacity: train.maxCapacity
     };
   }
@@ -155,7 +161,7 @@ export class TrainTransformer extends BaseTransformer<Train, TransformedTrain> {
    * @returns {Object} - Database query object
    */
   static buildFilterQuery(queryParams: QueryParams): Record<string, any> {
-    const query = {};
+    const query: any = {};
     
     if (queryParams.sessionNumber) {
       query.sessionNumber = parseInt(queryParams.sessionNumber);

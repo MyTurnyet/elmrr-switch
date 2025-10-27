@@ -16,12 +16,47 @@ import type {
 } from './models.js';
 
 /**
+ * Switch List Generation Result
+ */
+export interface SwitchListGenerationResult {
+  train: Train;
+  stats: {
+    stationsServed: number;
+    totalPickups: number;
+    totalSetouts: number;
+    finalCarCount: number;
+    carOrdersFulfilled: number;
+  };
+}
+
+/**
+ * Train Completion Result
+ */
+export interface TrainCompletionResult {
+  train: Train;
+  stats: {
+    carsDelivered: number;
+    ordersCompleted: number;
+  };
+}
+
+/**
+ * Train Cancellation Result
+ */
+export interface TrainCancellationResult {
+  train: Train;
+  stats: {
+    ordersReverted: number;
+  };
+}
+
+/**
  * Train Service Interface
  */
 export interface ITrainService {
-  generateSwitchList(trainId: string): Promise<Train>;
-  completeTrain(trainId: string): Promise<Train>;
-  cancelTrain(trainId: string): Promise<Train>;
+  generateSwitchList(trainId: string): Promise<SwitchListGenerationResult>;
+  completeTrain(trainId: string): Promise<TrainCompletionResult>;
+  cancelTrain(trainId: string): Promise<TrainCancellationResult>;
 }
 
 /**

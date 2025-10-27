@@ -16,7 +16,7 @@ export class IndustryTransformer extends BaseTransformer<Industry, TransformedIn
    * @param {Object} options - Transformation options
    * @returns {Object} - Transformed industry entity
    */
-  transform(industry: Industry | null, options: TransformOptions = {}): TransformedIndustry | null {
+  transform(industry: Industry | null, options: TransformOptions = {}): any {
     if (!industry) return null;
     
     const { view = 'default' } = options;
@@ -33,8 +33,8 @@ export class IndustryTransformer extends BaseTransformer<Industry, TransformedIn
     };
     
     // Add enriched data if available
-    if (sanitized.station) {
-      transformed.station = this._transformStation(sanitized.station);
+    if ((sanitized as any).station) {
+      (transformed as any).station = this._transformStation((sanitized as any).station);
     }
     
     // View-specific transformations
@@ -54,12 +54,13 @@ export class IndustryTransformer extends BaseTransformer<Industry, TransformedIn
    * Transform for list view (minimal fields)
    * @private
    */
-  _transformForList(industry: TransformedIndustry): TransformedIndustry {
+  _transformForList(industry: any): any {
     return {
       id: industry.id,
       name: industry.name,
       stationId: industry.stationId,
-      demandConfigCount: industry.carDemandConfig.length
+      demandConfigCount: industry.carDemandConfig?.length || 0,
+      carDemandConfig: industry.carDemandConfig || []
     };
   }
 
@@ -120,7 +121,7 @@ export class IndustryTransformer extends BaseTransformer<Industry, TransformedIn
    * @returns {Object} - Database query object
    */
   static buildFilterQuery(queryParams: QueryParams): Record<string, any> {
-    const query = {};
+    const query: any = {};
     
     if (queryParams.stationId) {
       query.stationId = queryParams.stationId;
@@ -130,7 +131,7 @@ export class IndustryTransformer extends BaseTransformer<Industry, TransformedIn
     if (queryParams.hasDemand === 'true') {
       query['carDemandConfig.0'] = { $exists: true };
     } else if (queryParams.hasDemand === 'false') {
-      query.$or = [
+      query["$or"] = [
         { carDemandConfig: { $exists: false } },
         { carDemandConfig: { $size: 0 } }
       ];

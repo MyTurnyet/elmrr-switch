@@ -27,7 +27,7 @@ export class BaseTransformer<T extends BaseEntity = BaseEntity, R = any> {
    * Transform a single entity
    * Override this method in subclasses to define entity-specific transformations
    */
-  transform(entity: T | null, options: TransformOptions = {}): R | null {
+  transform(entity: T | null, options: TransformOptions = {}): any {
     if (!entity) return null;
     
     // Default: return entity as-is

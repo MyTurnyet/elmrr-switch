@@ -15,7 +15,7 @@ export class LocomotiveTransformer extends BaseTransformer<Locomotive, Transform
    * @param {Object} options - Transformation options
    * @returns {Object} - Transformed locomotive entity
    */
-  transform(locomotive: Locomotive | null, options: TransformOptions = {}): TransformedLocomotive | null {
+  transform(locomotive: Locomotive | null, options: TransformOptions = {}): any {
     if (!locomotive) return null;
     
     const { view = 'default' } = options;
@@ -93,7 +93,7 @@ export class LocomotiveTransformer extends BaseTransformer<Locomotive, Transform
    * @returns {Object} - Database query object
    */
   static buildFilterQuery(queryParams: QueryParams): Record<string, any> {
-    const query = {};
+    const query: any = {};
     
     if (queryParams.roadName) {
       query.roadName = queryParams.roadName;
@@ -109,7 +109,7 @@ export class LocomotiveTransformer extends BaseTransformer<Locomotive, Transform
     
     // Search by road name or number
     if (queryParams.search) {
-      query.$or = [
+      query["$or"] = [
         { roadName: new RegExp(queryParams.search, 'i') },
         { roadNumber: new RegExp(queryParams.search, 'i') }
       ];

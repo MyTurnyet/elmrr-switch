@@ -72,7 +72,7 @@ export class SimpleTransformer extends BaseTransformer<BaseEntity, any> {
    * @returns {Object} - Database query object
    */
   static buildFilterQuery(queryParams, filterableFields = []) {
-    const query = {};
+    const query: any = {};
     
     // Add filters for specified fields
     filterableFields.forEach(field => {
@@ -83,7 +83,7 @@ export class SimpleTransformer extends BaseTransformer<BaseEntity, any> {
     
     // Handle search if name field exists
     if (queryParams.search) {
-      query.$or = [
+      query["$or"] = [
         { name: new RegExp(queryParams.search, 'i') },
         { code: new RegExp(queryParams.search, 'i') }
       ];

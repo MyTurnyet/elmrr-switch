@@ -12,7 +12,7 @@ export class CarTransformer extends BaseTransformer<Car, TransformedCar> {
   /**
    * Transform a single car entity
    */
-  transform(car: Car | null, options: TransformOptions = {}): TransformedCar | null {
+  transform(car: Car | null, options: TransformOptions = {}): any {
     if (!car) return null;
     
     const { view = 'default' } = options;
@@ -51,7 +51,7 @@ export class CarTransformer extends BaseTransformer<Car, TransformedCar> {
    * Transform for list view (minimal fields)
    * @private
    */
-  private _transformForList(car: TransformedCar): TransformedCar {
+  private _transformForList(car: TransformedCar): any {
     return {
       id: car.id,
       reportingMarks: car.reportingMarks,
@@ -84,7 +84,7 @@ export class CarTransformer extends BaseTransformer<Car, TransformedCar> {
    * Transform for export (flat structure)
    * @private
    */
-  private _transformForExport(car: TransformedCar): Record<string, any> {
+  private _transformForExport(car: TransformedCar): any {
     return {
       ID: car.id,
       'Reporting Marks': car.reportingMarks,
@@ -102,7 +102,7 @@ export class CarTransformer extends BaseTransformer<Car, TransformedCar> {
    * Build filter query from request parameters
    */
   static buildFilterQuery(queryParams: QueryParams): Record<string, any> {
-    const query = {};
+    const query: any = {};
     
     if (queryParams.carType) {
       query.carType = queryParams.carType;
@@ -112,12 +112,8 @@ export class CarTransformer extends BaseTransformer<Car, TransformedCar> {
       query.currentIndustry = queryParams.location;
     }
     
-    if (queryParams.status) {
-      query.isInService = queryParams.status === 'true';
-    }
-    
-    if (queryParams.homeYard) {
-      query.homeYard = queryParams.homeYard;
+    if (queryParams.isInService !== undefined) {
+      query.isInService = queryParams.isInService === 'true';
     }
     
     if (queryParams.reportingMarks) {
