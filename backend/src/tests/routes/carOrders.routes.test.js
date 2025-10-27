@@ -1,38 +1,30 @@
 import express from 'express';
 import request from 'supertest';
-import carOrdersRouter from '../../routes/carOrders.js';
-import { dbHelpers } from '../../database/index.js';
 import { ApiError } from '../../middleware/errorHandler.js';
 
-// Mock the database helpers
-jest.mock('../../database/index.js', () => ({
-  dbHelpers: {
-    findAll: jest.fn(),
-    findById: jest.fn(),
-    findByQuery: jest.fn(),
-    create: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn()
-  }
+// Create mock functions that will be accessible in the factory
+const mockGetOrdersWithFilters = jest.fn();
+const mockGetEnrichedOrder = jest.fn();
+const mockCreateOrder = jest.fn();
+const mockUpdateOrder = jest.fn();
+const mockDeleteOrder = jest.fn();
+const mockGenerateOrders = jest.fn();
+const mockGetOrderStats = jest.fn();
+
+// Mock getService to return an object with our mock methods
+jest.mock('../../services/index.js', () => ({
+  getService: jest.fn(() => ({
+    getOrdersWithFilters: (...args) => mockGetOrdersWithFilters(...args),
+    getEnrichedOrder: (...args) => mockGetEnrichedOrder(...args),
+    createOrder: (...args) => mockCreateOrder(...args),
+    updateOrder: (...args) => mockUpdateOrder(...args),
+    deleteOrder: (...args) => mockDeleteOrder(...args),
+    generateOrders: (...args) => mockGenerateOrders(...args),
+    getOrderStats: (...args) => mockGetOrderStats(...args)
+  }))
 }));
 
-// Mock the validation functions
-jest.mock('../../models/carOrder.js', () => ({
-  validateCarOrder: jest.fn(),
-  validateOrderGeneration: jest.fn(),
-  createOrderGenerationSummary: jest.fn(),
-  validateCarAssignment: jest.fn(),
-  checkDuplicateOrder: jest.fn(),
-  validateStatusTransition: jest.fn()
-}));
-
-import { 
-  validateCarOrder,
-  validateOrderGeneration,
-  createOrderGenerationSummary,
-  validateCarAssignment,
-  validateStatusTransition
-} from '../../models/carOrder.js';
+import carOrdersRouter from '../../routes/carOrders.js';
 
 const app = express();
 app.use(express.json());
@@ -89,7 +81,7 @@ describe('Car Orders Routes', () => {
 
   describe('GET /', () => {
     it('should return all car orders', async () => {
-      dbHelpers.findByQuery.mockResolvedValue([mockOrder]);
+      mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       const response = await request(app)
         .get('/api/car-orders')
@@ -97,35 +89,35 @@ describe('Car Orders Routes', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.data).toEqual([mockOrder]);
-      expect(dbHelpers.findByQuery).toHaveBeenCalledWith('carOrders', {});
+      expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({});
     });
 
     it('should filter by industryId', async () => {
-      dbHelpers.findByQuery.mockResolvedValue([mockOrder]);
+      mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       await request(app)
         .get('/api/car-orders?industryId=lumber-mill')
         .expect(200);
 
-      expect(dbHelpers.findByQuery).toHaveBeenCalledWith('carOrders', {
+      expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
         industryId: 'lumber-mill'
       });
     });
 
     it('should filter by status', async () => {
-      dbHelpers.findByQuery.mockResolvedValue([mockOrder]);
+      mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       await request(app)
         .get('/api/car-orders?status=pending')
         .expect(200);
 
-      expect(dbHelpers.findByQuery).toHaveBeenCalledWith('carOrders', {
+      expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
         status: 'pending'
       });
     });
 
     it('should filter by sessionNumber', async () => {
-      dbHelpers.findByQuery.mockResolvedValue([mockOrder]);
+      mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       await request(app)
         .get('/api/car-orders?sessionNumber=1')
