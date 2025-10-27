@@ -6,6 +6,7 @@ import { dbHelpers } from '../../database/index.js';
 import { validateCar } from '../../models/car.js';
 import { validateIndustry } from '../../models/industry.js';
 import { validateRoute } from '../../models/route.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock multer is now in src/__mocks__/multer.js
 jest.mock('multer');
@@ -35,6 +36,21 @@ jest.mock('../../models/route.js', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/import', importRouter);
+
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Import Routes', () => {
   const mockCar = {
@@ -350,10 +366,8 @@ describe('Import Routes', () => {
         .send({});
 
       expect(response.status).toBe(400);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'No data provided'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Please provide either a file or JSON data');
     });
   });
 
