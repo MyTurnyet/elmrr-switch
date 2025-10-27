@@ -45,6 +45,7 @@ jest.mock('../../repositories/index.js', () => {
     const mockTrainRepo = {
         findAll: jest.fn(),
         findById: jest.fn(),
+        findByIdOrNull: jest.fn(),
         findWithFilters: jest.fn(),
         createTrain: jest.fn(),
         update: jest.fn(),
@@ -55,6 +56,16 @@ jest.mock('../../repositories/index.js', () => {
         findAll: jest.fn()
     };
     
+    const mockRouteRepo = {
+        findById: jest.fn(),
+        findByIdOrNull: jest.fn()
+    };
+    
+    const mockLocomotiveRepo = {
+        findById: jest.fn(),
+        findByIdOrNull: jest.fn()
+    };
+    
     return {
         getRepository: jest.fn((repoName) => {
             if (repoName === 'trains') {
@@ -63,13 +74,22 @@ jest.mock('../../repositories/index.js', () => {
             if (repoName === 'operatingSessions') {
                 return mockSessionRepo;
             }
+            if (repoName === 'routes') {
+                return mockRouteRepo;
+            }
+            if (repoName === 'locomotives') {
+                return mockLocomotiveRepo;
+            }
             return {
                 findAll: jest.fn(),
-                findById: jest.fn()
+                findById: jest.fn(),
+                findByIdOrNull: jest.fn()
             };
         }),
         __mockTrainRepository: mockTrainRepo,
-        __mockSessionRepository: mockSessionRepo
+        __mockSessionRepository: mockSessionRepo,
+        __mockRouteRepository: mockRouteRepo,
+        __mockLocomotiveRepository: mockLocomotiveRepo
     };
 });
 
@@ -89,6 +109,7 @@ import { ApiError } from '../../middleware/errorHandler.js';
 import trainsRouter from '../../routes/trains.js';
 import { getRepository } from '../../repositories/index.js';
 import { getService } from '../../services/index.js';
+import { NULL_TRAIN } from '../../patterns/nullObjects/NullTrain.js';
 
 // Get references to the mocks
 const mockTrainRepoInstance = getRepository('trains');
@@ -142,6 +163,7 @@ describe('Trains Routes', () => {
         mockSessionRepoInstance.findAll.mockResolvedValue([mockSession]);
         mockTrainRepoInstance.findWithFilters.mockResolvedValue([mockTrain]);
         mockTrainRepoInstance.findById.mockResolvedValue(mockTrain);
+        mockTrainRepoInstance.findByIdOrNull.mockResolvedValue(mockTrain);
         mockTrainRepoInstance.createTrain.mockResolvedValue(mockTrain);
         mockTrainRepoInstance.update.mockResolvedValue(mockTrain);
         mockTrainRepoInstance.delete.mockResolvedValue({ deletedCount: 1 });
@@ -196,11 +218,11 @@ describe('Trains Routes', () => {
 
             expect(response.body.success).toBe(true);
             expect(response.body.data).toEqual(mockTrain);
-            expect(mockTrainRepoInstance.findById).toHaveBeenCalledWith('train1', { enrich: true });
+            expect(mockTrainRepoInstance.findByIdOrNull).toHaveBeenCalledWith('train1', { enrich: true });
         });
 
         it('should handle train not found', async () => {
-            mockTrainRepoInstance.findById.mockResolvedValue(null);
+            mockTrainRepoInstance.findByIdOrNull.mockResolvedValue(NULL_TRAIN);
 
             const response = await request(app)
                 .get('/api/v1/trains/nonexistent')
@@ -266,7 +288,7 @@ describe('Trains Routes', () => {
         });
 
         it('should prevent updates to non-Planned trains', async () => {
-            mockTrainRepoInstance.findById.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
+            mockTrainRepoInstance.findByIdOrNull.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
 
             const response = await request(app)
                 .put('/api/v1/trains/train1')
@@ -289,7 +311,7 @@ describe('Trains Routes', () => {
         });
 
         it('should prevent deletion of non-Planned trains', async () => {
-            mockTrainRepoInstance.findById.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
+            mockTrainRepoInstance.findByIdOrNull.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
 
             const response = await request(app)
                 .delete('/api/v1/trains/train1')

@@ -7,6 +7,7 @@ import { commonSchemas } from '../schemas/commonSchemas.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { validateLocomotiveAssignments, validateTrainNameUniqueness } from '../models/train.js';
+import { throwIfNull } from '../utils/nullObjectHelpers.js';
 
 const router = express.Router();
 const trainRepository = getRepository('trains');
@@ -38,10 +39,8 @@ router.get('/',
 router.get('/:id', 
   validateParams(commonSchemas.params.id),
   asyncHandler(async (req, res) => {
-  const train = await trainRepository.findById(req.params.id, { enrich: true });
-  if (!train) {
-    throw new ApiError('Train not found', 404);
-  }
+  const train = await trainRepository.findByIdOrNull(req.params.id, { enrich: true });
+  throwIfNull(train, 'Train not found', 404);
 
   res.json(ApiResponse.success(train, 'Train retrieved successfully'));
 }));
@@ -76,10 +75,8 @@ router.put('/:id',
   asyncHandler(async (req, res) => {
 
   // Check if train exists
-  const existingTrain = await trainRepository.findById(req.params.id);
-  if (!existingTrain) {
-    throw new ApiError('Train not found', 404);
-  }
+  const existingTrain = await trainRepository.findByIdOrNull(req.params.id);
+  throwIfNull(existingTrain, 'Train not found', 404);
 
   // Only allow updates if train is in Planned status
   if (existingTrain.status !== 'Planned') {
@@ -137,10 +134,8 @@ router.put('/:id',
 router.delete('/:id', 
   validateParams(commonSchemas.params.id),
   asyncHandler(async (req, res) => {
-  const existingTrain = await trainRepository.findById(req.params.id);
-  if (!existingTrain) {
-    throw new ApiError('Train not found', 404);
-  }
+  const existingTrain = await trainRepository.findByIdOrNull(req.params.id);
+  throwIfNull(existingTrain, 'Train not found', 404);
 
   // Only allow deletion if train is in Planned status
   if (existingTrain.status !== 'Planned') {

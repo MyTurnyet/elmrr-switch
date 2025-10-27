@@ -10,10 +10,19 @@ import {
   validateLocomotiveAssignments
 } from '../models/train.js';
 import { ApiError } from '../middleware/errorHandler.js';
+import { NULL_TRAIN } from '../patterns/nullObjects/NullTrain.js';
 
 export class TrainRepository extends BaseRepository {
   constructor() {
     super('trains');
+  }
+
+  /**
+   * Get the null object for trains
+   * @returns {NullTrain} Null train instance
+   */
+  getNullObject() {
+    return NULL_TRAIN;
   }
 
   /**
