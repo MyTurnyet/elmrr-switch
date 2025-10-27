@@ -24,7 +24,7 @@ import operatingSessionsRouter from '../routes/operatingSessions.js';
 
 const app = express();
 app.use(express.json());
-app.use('/api/sessions', operatingSessionsRouter);
+app.use('/api/v1/sessions', operatingSessionsRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -64,7 +64,7 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
       mockAdvanceSession.mockResolvedValue(advanceResult);
 
       const response = await request(app)
-        .post('/api/sessions/advance')
+        .post('/api/v1/sessions/advance')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -91,7 +91,7 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
       mockRollbackSession.mockResolvedValue(rollbackResult);
 
       const response = await request(app)
-        .post('/api/sessions/rollback')
+        .post('/api/v1/sessions/rollback')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -105,7 +105,7 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
       );
 
       const response = await request(app)
-        .post('/api/sessions/rollback')
+        .post('/api/v1/sessions/rollback')
         .expect(400);
 
       expect(response.body.success).toBe(false);
@@ -127,7 +127,7 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
       mockGetCurrentSession.mockResolvedValue(mockSession);
 
       let response = await request(app)
-        .get('/api/sessions/current')
+        .get('/api/v1/sessions/current')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -138,7 +138,7 @@ describe('Phase 2.2 Integration Tests - Step 5', () => {
       mockUpdateSessionDescription.mockResolvedValue(updatedSession);
 
       response = await request(app)
-        .put('/api/sessions/current')
+        .put('/api/v1/sessions/current')
         .send({ description: 'Updated session' })
         .expect(200);
 

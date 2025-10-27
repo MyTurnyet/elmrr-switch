@@ -23,7 +23,7 @@ jest.mock('../../models/route.js', () => ({
 
 const app = express();
 app.use(express.json());
-app.use('/api/routes', routesRouter);
+app.use('/api/v1/routes', routesRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -74,7 +74,7 @@ describe('Route Routes', () => {
 
   describe('GET /api/routes', () => {
     it('should return all routes', async () => {
-      const response = await request(app).get('/api/routes');
+      const response = await request(app).get('/api/v1/routes');
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -84,7 +84,7 @@ describe('Route Routes', () => {
 
     it('should filter routes by originYard', async () => {
       const response = await request(app)
-        .get('/api/routes')
+        .get('/api/v1/routes')
         .query({ originYard: 'vancouver-yard' });
 
       expect(response.status).toBe(200);
@@ -95,7 +95,7 @@ describe('Route Routes', () => {
 
     it('should filter routes by terminationYard', async () => {
       const response = await request(app)
-        .get('/api/routes')
+        .get('/api/v1/routes')
         .query({ terminationYard: 'portland-yard' });
 
       expect(response.status).toBe(200);
@@ -106,7 +106,7 @@ describe('Route Routes', () => {
 
     it('should filter routes by both yards', async () => {
       const response = await request(app)
-        .get('/api/routes')
+        .get('/api/v1/routes')
         .query({
           originYard: 'vancouver-yard',
           terminationYard: 'portland-yard'
@@ -126,7 +126,7 @@ describe('Route Routes', () => {
       ]);
 
       const response = await request(app)
-        .get('/api/routes')
+        .get('/api/v1/routes')
         .query({ search: 'vancouver' });
 
       expect(response.status).toBe(200);
@@ -141,7 +141,7 @@ describe('Route Routes', () => {
       ]);
 
       const response = await request(app)
-        .get('/api/routes')
+        .get('/api/v1/routes')
         .query({ search: 'freight' });
 
       expect(response.status).toBe(200);
@@ -152,7 +152,7 @@ describe('Route Routes', () => {
     it('should handle empty results', async () => {
       dbHelpers.findByQuery.mockResolvedValue([]);
 
-      const response = await request(app).get('/api/routes');
+      const response = await request(app).get('/api/v1/routes');
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -162,7 +162,7 @@ describe('Route Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findByQuery.mockRejectedValue(new Error('Database error'));
 
-      const response = await request(app).get('/api/routes');
+      const response = await request(app).get('/api/v1/routes');
 
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);
@@ -172,7 +172,7 @@ describe('Route Routes', () => {
 
   describe('GET /api/routes/:id', () => {
     it('should return a route by id', async () => {
-      const response = await request(app).get('/api/routes/route1');
+      const response = await request(app).get('/api/v1/routes/route1');
 
       expect(response.status).toBe(200);
       expect(response.body).toMatchObject({
@@ -185,7 +185,7 @@ describe('Route Routes', () => {
     it('should return 404 if route not found', async () => {
       dbHelpers.findById.mockResolvedValue(null);
 
-      const response = await request(app).get('/api/routes/nonexistent');
+      const response = await request(app).get('/api/v1/routes/nonexistent');
 
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
@@ -195,7 +195,7 @@ describe('Route Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findById.mockRejectedValue(new Error('Database error'));
 
-      const response = await request(app).get('/api/routes/route1');
+      const response = await request(app).get('/api/v1/routes/route1');
 
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);
@@ -225,7 +225,7 @@ describe('Route Routes', () => {
         .mockResolvedValueOnce(mockStation); // station in sequence
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(newRoute);
 
       expect(response.status).toBe(201);
@@ -248,7 +248,7 @@ describe('Route Routes', () => {
         .mockResolvedValueOnce({ ...mockYard, _id: 'portland-yard' });
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(directRoute);
 
       expect(response.status).toBe(201);
@@ -264,7 +264,7 @@ describe('Route Routes', () => {
       });
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send({ originYard: 'test' });
 
       expect(response.status).toBe(400);
@@ -276,7 +276,7 @@ describe('Route Routes', () => {
       dbHelpers.findByQuery.mockResolvedValue([mockRoute]); // Duplicate found
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(newRoute);
 
       expect(response.status).toBe(409);
@@ -289,7 +289,7 @@ describe('Route Routes', () => {
       dbHelpers.findById.mockResolvedValue(null); // Origin yard not found
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(newRoute);
 
       expect(response.status).toBe(404);
@@ -302,7 +302,7 @@ describe('Route Routes', () => {
       dbHelpers.findById.mockResolvedValue({ ...mockYard, isYard: false });
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(newRoute);
 
       expect(response.status).toBe(400);
@@ -317,7 +317,7 @@ describe('Route Routes', () => {
         .mockResolvedValueOnce(null); // termination not found
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(newRoute);
 
       expect(response.status).toBe(404);
@@ -332,7 +332,7 @@ describe('Route Routes', () => {
         .mockResolvedValueOnce({ ...mockYard, isYard: false }); // termination invalid
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(newRoute);
 
       expect(response.status).toBe(400);
@@ -348,7 +348,7 @@ describe('Route Routes', () => {
         .mockResolvedValueOnce(null); // station not found
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(newRoute);
 
       expect(response.status).toBe(404);
@@ -360,7 +360,7 @@ describe('Route Routes', () => {
       dbHelpers.findByQuery.mockRejectedValue(new Error('Database error'));
 
       const response = await request(app)
-        .post('/api/routes')
+        .post('/api/v1/routes')
         .send(newRoute);
 
       expect(response.status).toBe(500);
@@ -385,7 +385,7 @@ describe('Route Routes', () => {
       dbHelpers.findByQuery.mockResolvedValue([]); // No duplicates
 
       const response = await request(app)
-        .put('/api/routes/route1')
+        .put('/api/v1/routes/route1')
         .send(updateData);
 
       expect(response.status).toBe(200);
@@ -400,7 +400,7 @@ describe('Route Routes', () => {
       dbHelpers.findById.mockResolvedValue(null);
 
       const response = await request(app)
-        .put('/api/routes/nonexistent')
+        .put('/api/v1/routes/nonexistent')
         .send(updateData);
 
       expect(response.status).toBe(404);
@@ -417,7 +417,7 @@ describe('Route Routes', () => {
       });
 
       const response = await request(app)
-        .put('/api/routes/route1')
+        .put('/api/v1/routes/route1')
         .send({ name: 'x'.repeat(101) });
 
       expect(response.status).toBe(400);
@@ -436,7 +436,7 @@ describe('Route Routes', () => {
       dbHelpers.findByQuery.mockResolvedValue([{ _id: 'other', name: 'Existing Route' }]);
 
       const response = await request(app)
-        .put('/api/routes/route1')
+        .put('/api/v1/routes/route1')
         .send(updateWithNewName);
 
       expect(response.status).toBe(409);
@@ -452,7 +452,7 @@ describe('Route Routes', () => {
       dbHelpers.findById.mockResolvedValue(mockRoute);
 
       const response = await request(app)
-        .put('/api/routes/route1')
+        .put('/api/v1/routes/route1')
         .send(updateSameName);
 
       expect(response.status).toBe(200);
@@ -468,7 +468,7 @@ describe('Route Routes', () => {
         .mockResolvedValueOnce(null); // new origin not found
 
       const response = await request(app)
-        .put('/api/routes/route1')
+        .put('/api/v1/routes/route1')
         .send(updateOrigin);
 
       expect(response.status).toBe(404);
@@ -486,7 +486,7 @@ describe('Route Routes', () => {
         .mockResolvedValueOnce(null); // new termination not found
 
       const response = await request(app)
-        .put('/api/routes/route1')
+        .put('/api/v1/routes/route1')
         .send(updateTermination);
 
       expect(response.status).toBe(404);
@@ -504,7 +504,7 @@ describe('Route Routes', () => {
         .mockResolvedValueOnce(null); // new station not found
 
       const response = await request(app)
-        .put('/api/routes/route1')
+        .put('/api/v1/routes/route1')
         .send(updateStations);
 
       expect(response.status).toBe(404);
@@ -516,7 +516,7 @@ describe('Route Routes', () => {
       dbHelpers.findById.mockRejectedValue(new Error('Database error'));
 
       const response = await request(app)
-        .put('/api/routes/route1')
+        .put('/api/v1/routes/route1')
         .send(updateData);
 
       expect(response.status).toBe(500);
@@ -527,7 +527,7 @@ describe('Route Routes', () => {
 
   describe('DELETE /api/routes/:id', () => {
     it('should delete a route successfully', async () => {
-      const response = await request(app).delete('/api/routes/route1');
+      const response = await request(app).delete('/api/v1/routes/route1');
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -537,7 +537,7 @@ describe('Route Routes', () => {
     it('should return 404 if route not found', async () => {
       dbHelpers.delete.mockResolvedValue(0);
 
-      const response = await request(app).delete('/api/routes/nonexistent');
+      const response = await request(app).delete('/api/v1/routes/nonexistent');
 
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
@@ -547,7 +547,7 @@ describe('Route Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.delete.mockRejectedValue(new Error('Database error'));
 
-      const response = await request(app).delete('/api/routes/route1');
+      const response = await request(app).delete('/api/v1/routes/route1');
 
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);

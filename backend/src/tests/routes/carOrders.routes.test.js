@@ -28,7 +28,7 @@ import carOrdersRouter from '../../routes/carOrders.js';
 
 const app = express();
 app.use(express.json());
-app.use('/api/car-orders', carOrdersRouter);
+app.use('/api/v1/car-orders', carOrdersRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -84,7 +84,7 @@ describe('Car Orders Routes', () => {
       mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       const response = await request(app)
-        .get('/api/car-orders')
+        .get('/api/v1/car-orders')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -96,7 +96,7 @@ describe('Car Orders Routes', () => {
       mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       await request(app)
-        .get('/api/car-orders?industryId=lumber-mill')
+        .get('/api/v1/car-orders?industryId=lumber-mill')
         .expect(200);
 
       expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
@@ -108,7 +108,7 @@ describe('Car Orders Routes', () => {
       mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       await request(app)
-        .get('/api/car-orders?status=pending')
+        .get('/api/v1/car-orders?status=pending')
         .expect(200);
 
       expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
@@ -120,7 +120,7 @@ describe('Car Orders Routes', () => {
       mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       await request(app)
-        .get('/api/car-orders?sessionNumber=1')
+        .get('/api/v1/car-orders?sessionNumber=1')
         .expect(200);
 
       expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
@@ -132,7 +132,7 @@ describe('Car Orders Routes', () => {
       mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       await request(app)
-        .get('/api/car-orders?aarTypeId=flatcar')
+        .get('/api/v1/car-orders?aarTypeId=flatcar')
         .expect(200);
 
       expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
@@ -144,7 +144,7 @@ describe('Car Orders Routes', () => {
       mockGetOrdersWithFilters.mockResolvedValue([mockOrder]);
 
       const response = await request(app)
-        .get('/api/car-orders?search=lumber')
+        .get('/api/v1/car-orders?search=lumber')
         .expect(200);
 
       expect(mockGetOrdersWithFilters).toHaveBeenCalledWith({
@@ -157,7 +157,7 @@ describe('Car Orders Routes', () => {
       mockGetOrdersWithFilters.mockRejectedValue(new Error('Database error'));
 
       const response = await request(app)
-        .get('/api/car-orders')
+        .get('/api/v1/car-orders')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -174,7 +174,7 @@ describe('Car Orders Routes', () => {
       mockGetEnrichedOrder.mockResolvedValue(enrichedOrder);
 
       const response = await request(app)
-        .get('/api/car-orders/order1')
+        .get('/api/v1/car-orders/order1')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -194,7 +194,7 @@ describe('Car Orders Routes', () => {
       mockGetEnrichedOrder.mockResolvedValue(enrichedOrder);
 
       const response = await request(app)
-        .get('/api/car-orders/order1')
+        .get('/api/v1/car-orders/order1')
         .expect(200);
 
       expect(response.body.data.assignedCar).toMatchObject({
@@ -210,7 +210,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .get('/api/car-orders/nonexistent')
+        .get('/api/v1/car-orders/nonexistent')
         .expect(404);
 
       expect(response.body.success).toBe(false);
@@ -221,7 +221,7 @@ describe('Car Orders Routes', () => {
       mockGetEnrichedOrder.mockRejectedValue(new Error('Database error'));
 
       const response = await request(app)
-        .get('/api/car-orders/order1')
+        .get('/api/v1/car-orders/order1')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -241,7 +241,7 @@ describe('Car Orders Routes', () => {
       mockCreateOrder.mockResolvedValue(createdOrder);
 
       const response = await request(app)
-        .post('/api/car-orders')
+        .post('/api/v1/car-orders')
         .send(newOrderData)
         .expect(201);
 
@@ -255,7 +255,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/car-orders')
+        .post('/api/v1/car-orders')
         .send(newOrderData)
         .expect(400);
 
@@ -269,7 +269,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/car-orders')
+        .post('/api/v1/car-orders')
         .send(newOrderData)
         .expect(404);
 
@@ -283,7 +283,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/car-orders')
+        .post('/api/v1/car-orders')
         .send(newOrderData)
         .expect(404);
 
@@ -297,7 +297,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/car-orders')
+        .post('/api/v1/car-orders')
         .send(newOrderData)
         .expect(409);
 
@@ -314,7 +314,7 @@ describe('Car Orders Routes', () => {
       mockUpdateOrder.mockResolvedValue(updatedOrder);
 
       const response = await request(app)
-        .put('/api/car-orders/order1')
+        .put('/api/v1/car-orders/order1')
         .send(updateData)
         .expect(200);
 
@@ -329,7 +329,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .put('/api/car-orders/nonexistent')
+        .put('/api/v1/car-orders/nonexistent')
         .send(updateData)
         .expect(404);
 
@@ -343,7 +343,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .put('/api/car-orders/order1')
+        .put('/api/v1/car-orders/order1')
         .send({ status: 'pending' })
         .expect(400);
 
@@ -356,7 +356,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .put('/api/car-orders/order1')
+        .put('/api/v1/car-orders/order1')
         .send({ assignedCarId: 'car1' })
         .expect(400);
 
@@ -369,7 +369,7 @@ describe('Car Orders Routes', () => {
       mockDeleteOrder.mockResolvedValue();
 
       const response = await request(app)
-        .delete('/api/car-orders/order1')
+        .delete('/api/v1/car-orders/order1')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -382,7 +382,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .delete('/api/car-orders/nonexistent')
+        .delete('/api/v1/car-orders/nonexistent')
         .expect(404);
 
       expect(response.body.success).toBe(false);
@@ -395,7 +395,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .delete('/api/car-orders/order1')
+        .delete('/api/v1/car-orders/order1')
         .expect(409);
 
       expect(response.body.success).toBe(false);
@@ -425,7 +425,7 @@ describe('Car Orders Routes', () => {
       mockGenerateOrders.mockResolvedValue(generateResult);
 
       const response = await request(app)
-        .post('/api/car-orders/generate')
+        .post('/api/v1/car-orders/generate')
         .send({})
         .expect(200);
 
@@ -440,7 +440,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/car-orders/generate')
+        .post('/api/v1/car-orders/generate')
         .send({})
         .expect(404);
 
@@ -457,7 +457,7 @@ describe('Car Orders Routes', () => {
       mockGenerateOrders.mockResolvedValue(generateResult);
 
       const response = await request(app)
-        .post('/api/car-orders/generate')
+        .post('/api/v1/car-orders/generate')
         .send({ sessionNumber: 5 })
         .expect(200);
 
@@ -474,7 +474,7 @@ describe('Car Orders Routes', () => {
       mockGenerateOrders.mockResolvedValue(generateResult);
 
       const response = await request(app)
-        .post('/api/car-orders/generate')
+        .post('/api/v1/car-orders/generate')
         .send({ industryIds: ['lumber-mill'] })
         .expect(200);
 
@@ -491,7 +491,7 @@ describe('Car Orders Routes', () => {
       mockGenerateOrders.mockResolvedValue(generateResult);
 
       const response = await request(app)
-        .post('/api/car-orders/generate')
+        .post('/api/v1/car-orders/generate')
         .send({ sessionNumber: 3 })
         .expect(200);
 
@@ -504,7 +504,7 @@ describe('Car Orders Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/car-orders/generate')
+        .post('/api/v1/car-orders/generate')
         .send({ sessionNumber: -1 })
         .expect(400);
 
@@ -518,7 +518,7 @@ describe('Car Orders Routes', () => {
       mockGetOrdersWithFilters.mockRejectedValue(new Error('Connection failed'));
 
       const response = await request(app)
-        .get('/api/car-orders')
+        .get('/api/v1/car-orders')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -529,7 +529,7 @@ describe('Car Orders Routes', () => {
       mockCreateOrder.mockRejectedValue(new Error('Unexpected error'));
 
       const response = await request(app)
-        .post('/api/car-orders')
+        .post('/api/v1/car-orders')
         .send({
           industryId: 'test',
           aarTypeId: 'test',
@@ -545,7 +545,7 @@ describe('Car Orders Routes', () => {
       mockGenerateOrders.mockRejectedValue(new Error('Unexpected error'));
 
       const response = await request(app)
-        .post('/api/car-orders/generate')
+        .post('/api/v1/car-orders/generate')
         .expect(500);
 
       expect(response.body.success).toBe(false);

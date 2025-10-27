@@ -97,7 +97,7 @@ const mockTrainServiceInstance = getService('train');
 
 const app = express();
 app.use(express.json());
-app.use('/api/trains', trainsRouter);
+app.use('/api/v1/trains', trainsRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -163,7 +163,7 @@ describe('Trains Routes', () => {
     describe('GET /', () => {
         it('should return all trains with filters', async () => {
             const response = await request(app)
-                .get('/api/trains?sessionNumber=1&status=Planned')
+                .get('/api/v1/trains?sessionNumber=1&status=Planned')
                 .expect(200);
 
             expect(response.body.success).toBe(true);
@@ -180,7 +180,7 @@ describe('Trains Routes', () => {
             mockTrainRepoInstance.findWithFilters.mockRejectedValue(new Error('Database error'));
 
             const response = await request(app)
-                .get('/api/trains')
+                .get('/api/v1/trains')
                 .expect(500);
 
             expect(response.body.success).toBe(false);
@@ -191,7 +191,7 @@ describe('Trains Routes', () => {
     describe('GET /:id', () => {
         it('should get single train by id', async () => {
             const response = await request(app)
-                .get('/api/trains/train1')
+                .get('/api/v1/trains/train1')
                 .expect(200);
 
             expect(response.body.success).toBe(true);
@@ -203,7 +203,7 @@ describe('Trains Routes', () => {
             mockTrainRepoInstance.findById.mockResolvedValue(null);
 
             const response = await request(app)
-                .get('/api/trains/nonexistent')
+                .get('/api/v1/trains/nonexistent')
                 .expect(404);
 
             expect(response.body.success).toBe(false);
@@ -221,7 +221,7 @@ describe('Trains Routes', () => {
 
         it('should create new train successfully', async () => {
             const response = await request(app)
-                .post('/api/trains')
+                .post('/api/v1/trains')
                 .send(newTrainData)
                 .expect(201);
 
@@ -238,7 +238,7 @@ describe('Trains Routes', () => {
             mockSessionRepoInstance.findAll.mockResolvedValue([]);
 
             const response = await request(app)
-                .post('/api/trains')
+                .post('/api/v1/trains')
                 .send(newTrainData)
                 .expect(400);
 
@@ -257,7 +257,7 @@ describe('Trains Routes', () => {
             mockTrainRepoInstance.findAll.mockResolvedValue([mockTrain]);
             
             const response = await request(app)
-                .put('/api/trains/train1')
+                .put('/api/v1/trains/train1')
                 .send(updateData)
                 .expect(200);
 
@@ -269,7 +269,7 @@ describe('Trains Routes', () => {
             mockTrainRepoInstance.findById.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
 
             const response = await request(app)
-                .put('/api/trains/train1')
+                .put('/api/v1/trains/train1')
                 .send(updateData)
                 .expect(400);
 
@@ -281,7 +281,7 @@ describe('Trains Routes', () => {
     describe('DELETE /:id', () => {
         it('should delete train successfully', async () => {
             const response = await request(app)
-                .delete('/api/trains/train1')
+                .delete('/api/v1/trains/train1')
                 .expect(204);
 
             expect(response.status).toBe(204);
@@ -292,7 +292,7 @@ describe('Trains Routes', () => {
             mockTrainRepoInstance.findById.mockResolvedValue({ ...mockTrain, status: 'In Progress' });
 
             const response = await request(app)
-                .delete('/api/trains/train1')
+                .delete('/api/v1/trains/train1')
                 .expect(400);
 
             expect(response.body.success).toBe(false);
@@ -303,7 +303,7 @@ describe('Trains Routes', () => {
     describe('POST /:id/generate-switch-list', () => {
         it('should generate switch list successfully', async () => {
             const response = await request(app)
-                .post('/api/trains/train1/generate-switch-list')
+                .post('/api/v1/trains/train1/generate-switch-list')
                 .expect(200);
 
             expect(response.body.success).toBe(true);
@@ -317,7 +317,7 @@ describe('Trains Routes', () => {
             );
 
             const response = await request(app)
-                .post('/api/trains/train1/generate-switch-list')
+                .post('/api/v1/trains/train1/generate-switch-list')
                 .expect(400);
 
             expect(response.body.success).toBe(false);
@@ -328,7 +328,7 @@ describe('Trains Routes', () => {
     describe('POST /:id/complete', () => {
         it('should complete train successfully', async () => {
             const response = await request(app)
-                .post('/api/trains/train1/complete')
+                .post('/api/v1/trains/train1/complete')
                 .expect(200);
 
             expect(response.body.success).toBe(true);
@@ -342,7 +342,7 @@ describe('Trains Routes', () => {
             );
 
             const response = await request(app)
-                .post('/api/trains/train1/complete')
+                .post('/api/v1/trains/train1/complete')
                 .expect(400);
 
             expect(response.body.success).toBe(false);
@@ -353,7 +353,7 @@ describe('Trains Routes', () => {
     describe('POST /:id/cancel', () => {
         it('should cancel train successfully', async () => {
             const response = await request(app)
-                .post('/api/trains/train1/cancel')
+                .post('/api/v1/trains/train1/cancel')
                 .expect(200);
 
             expect(response.body.success).toBe(true);
@@ -367,7 +367,7 @@ describe('Trains Routes', () => {
             );
 
             const response = await request(app)
-                .post('/api/trains/train1/cancel')
+                .post('/api/v1/trains/train1/cancel')
                 .expect(400);
 
             expect(response.body.success).toBe(false);

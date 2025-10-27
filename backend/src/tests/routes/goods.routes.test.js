@@ -14,7 +14,7 @@ jest.mock('../../database/index.js', () => ({
 
 const app = express();
 app.use(express.json());
-app.use('/api/goods', goodsRouter);
+app.use('/api/v1/goods', goodsRouter);
 
 app.use((error, req, res, next) => {
   if (error instanceof ApiError) {
@@ -50,7 +50,7 @@ describe('Goods Routes', () => {
 
   describe('GET /api/goods', () => {
     it('should return all goods', async () => {
-      const response = await request(app).get('/api/goods');
+      const response = await request(app).get('/api/v1/goods');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -61,7 +61,7 @@ describe('Goods Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findAll.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/goods');
+      const response = await request(app).get('/api/v1/goods');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);
@@ -71,7 +71,7 @@ describe('Goods Routes', () => {
 
   describe('GET /api/goods/:id', () => {
     it('should return a good by id', async () => {
-      const response = await request(app).get('/api/goods/1');
+      const response = await request(app).get('/api/v1/goods/1');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -82,7 +82,7 @@ describe('Goods Routes', () => {
     it('should return 404 if good not found', async () => {
       dbHelpers.findById.mockResolvedValue(null);
       
-      const response = await request(app).get('/api/goods/nonexistent');
+      const response = await request(app).get('/api/v1/goods/nonexistent');
       
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
@@ -92,7 +92,7 @@ describe('Goods Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findById.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/goods/1');
+      const response = await request(app).get('/api/v1/goods/1');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);

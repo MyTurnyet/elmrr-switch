@@ -31,7 +31,7 @@ const mockAarTypeRepoInstance = getRepository('aarTypes');
 
 const app = express();
 app.use(express.json());
-app.use('/api/aar-types', aarTypesRouter);
+app.use('/api/v1/aar-types', aarTypesRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -67,7 +67,7 @@ describe('AAR Types Routes', () => {
 
   describe('GET /api/aar-types', () => {
     it('should return all AAR types', async () => {
-      const response = await request(app).get('/api/aar-types');
+      const response = await request(app).get('/api/v1/aar-types');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -78,7 +78,7 @@ describe('AAR Types Routes', () => {
     it('should handle database errors', async () => {
       mockAarTypeRepoInstance.findAll.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/aar-types');
+      const response = await request(app).get('/api/v1/aar-types');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);
@@ -88,7 +88,7 @@ describe('AAR Types Routes', () => {
 
   describe('GET /api/aar-types/:id', () => {
     it('should return an AAR type by id', async () => {
-      const response = await request(app).get('/api/aar-types/1');
+      const response = await request(app).get('/api/v1/aar-types/1');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -99,7 +99,7 @@ describe('AAR Types Routes', () => {
     it('should return 404 if AAR type not found', async () => {
       mockAarTypeRepoInstance.findById.mockResolvedValue(null);
       
-      const response = await request(app).get('/api/aar-types/nonexistent');
+      const response = await request(app).get('/api/v1/aar-types/nonexistent');
       
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
@@ -109,7 +109,7 @@ describe('AAR Types Routes', () => {
     it('should handle database errors', async () => {
       mockAarTypeRepoInstance.findById.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/aar-types/1');
+      const response = await request(app).get('/api/v1/aar-types/1');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);

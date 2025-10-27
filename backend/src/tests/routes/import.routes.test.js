@@ -35,7 +35,7 @@ jest.mock('../../models/route.js', () => ({
 
 const app = express();
 app.use(express.json());
-app.use('/api/import', importRouter);
+app.use('/api/v1/import', importRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -115,7 +115,7 @@ describe('Import Routes', () => {
       };
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({ data: importData });
 
       expect(response.status).toBe(200);
@@ -133,7 +133,7 @@ describe('Import Routes', () => {
       };
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({ data: importData });
 
       expect(response.status).toBe(200);
@@ -149,7 +149,7 @@ describe('Import Routes', () => {
       validateCar.mockReturnValueOnce({ error, value: null });
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             cars: [invalidCar]
@@ -167,7 +167,7 @@ describe('Import Routes', () => {
       dbHelpers.findByQuery.mockResolvedValueOnce([{ _id: 'existing' }]);
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             cars: [mockCar]
@@ -186,7 +186,7 @@ describe('Import Routes', () => {
       validateIndustry.mockReturnValueOnce({ error, value: null });
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             industries: [mockIndustry]
@@ -204,7 +204,7 @@ describe('Import Routes', () => {
       dbHelpers.create.mockRejectedValueOnce(new Error('Database error'));
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             cars: [mockCar]
@@ -225,7 +225,7 @@ describe('Import Routes', () => {
         .mockResolvedValueOnce(mockStation); // station in sequence
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             routes: [mockRoute]
@@ -243,7 +243,7 @@ describe('Import Routes', () => {
       validateRoute.mockReturnValueOnce({ error, value: null });
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             routes: [mockRoute]
@@ -261,7 +261,7 @@ describe('Import Routes', () => {
       dbHelpers.findById.mockResolvedValueOnce(null); // origin yard not found
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             routes: [mockRoute]
@@ -280,7 +280,7 @@ describe('Import Routes', () => {
       dbHelpers.findById.mockResolvedValueOnce({ ...mockYard, isYard: false });
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             routes: [mockRoute]
@@ -300,7 +300,7 @@ describe('Import Routes', () => {
         .mockResolvedValueOnce(null); // termination yard not found
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             routes: [mockRoute]
@@ -322,7 +322,7 @@ describe('Import Routes', () => {
         .mockResolvedValueOnce(null); // station not found
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             routes: [mockRoute]
@@ -346,7 +346,7 @@ describe('Import Routes', () => {
       dbHelpers.findByQuery.mockResolvedValueOnce([{ _id: 'existing', name: 'Test Route' }]);
 
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({
           data: {
             routes: [mockRoute]
@@ -362,7 +362,7 @@ describe('Import Routes', () => {
 
     it('should return 400 if no data provided', async () => {
       const response = await request(app)
-        .post('/api/import/json')
+        .post('/api/v1/import/json')
         .send({});
 
       expect(response.status).toBe(400);

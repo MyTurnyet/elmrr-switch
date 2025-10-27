@@ -24,7 +24,7 @@ jest.mock('../../models/industry.js', () => ({
 
 const app = express();
 app.use(express.json());
-app.use('/api/industries', industriesRouter);
+app.use('/api/v1/industries', industriesRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -74,7 +74,7 @@ describe('Industry Routes', () => {
 
   describe('GET /api/industries', () => {
     it('should return all industries', async () => {
-      const response = await request(app).get('/api/industries');
+      const response = await request(app).get('/api/v1/industries');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -85,7 +85,7 @@ describe('Industry Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findAll.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/industries');
+      const response = await request(app).get('/api/v1/industries');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);
@@ -95,7 +95,7 @@ describe('Industry Routes', () => {
 
   describe('GET /api/industries/:id', () => {
     it('should return an industry by id', async () => {
-      const response = await request(app).get('/api/industries/1');
+      const response = await request(app).get('/api/v1/industries/1');
       
       expect(response.status).toBe(200);
       expect(response.body).toMatchObject({
@@ -108,7 +108,7 @@ describe('Industry Routes', () => {
     it('should return 404 if industry not found', async () => {
       dbHelpers.findById.mockResolvedValue(null);
       
-      const response = await request(app).get('/api/industries/nonexistent');
+      const response = await request(app).get('/api/v1/industries/nonexistent');
       
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
@@ -118,7 +118,7 @@ describe('Industry Routes', () => {
 
   describe('GET /api/industries/:id/cars', () => {
     it('should return cars at the industry', async () => {
-      const response = await request(app).get('/api/industries/1/cars');
+      const response = await request(app).get('/api/v1/industries/1/cars');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -131,7 +131,7 @@ describe('Industry Routes', () => {
     it('should handle no cars at industry', async () => {
       dbHelpers.findByQuery.mockResolvedValueOnce([]);
       
-      const response = await request(app).get('/api/industries/1/cars');
+      const response = await request(app).get('/api/v1/industries/1/cars');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -157,7 +157,7 @@ describe('Industry Routes', () => {
 
     it('should create a new industry', async () => {
       const response = await request(app)
-        .post('/api/industries')
+        .post('/api/v1/industries')
         .send(newIndustry);
       
       expect(response.status).toBe(201);
@@ -175,7 +175,7 @@ describe('Industry Routes', () => {
       });
       
       const response = await request(app)
-        .post('/api/industries')
+        .post('/api/v1/industries')
         .send({});
       
       expect(response.status).toBe(400);
@@ -199,7 +199,7 @@ describe('Industry Routes', () => {
 
     it('should update an industry', async () => {
       const response = await request(app)
-        .put('/api/industries/1')
+        .put('/api/v1/industries/1')
         .send(updates);
       
       expect(response.status).toBe(200);
@@ -214,7 +214,7 @@ describe('Industry Routes', () => {
       dbHelpers.update.mockResolvedValue(0);
       
       const response = await request(app)
-        .put('/api/industries/nonexistent')
+        .put('/api/v1/industries/nonexistent')
         .send(updates);
       
       expect(response.status).toBe(404);
@@ -225,7 +225,7 @@ describe('Industry Routes', () => {
 
   describe('DELETE /api/industries/:id', () => {
     it('should delete an industry', async () => {
-      const response = await request(app).delete('/api/industries/1');
+      const response = await request(app).delete('/api/v1/industries/1');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -235,7 +235,7 @@ describe('Industry Routes', () => {
     it('should handle deletion of non-existent industry', async () => {
       dbHelpers.delete.mockResolvedValue(0);
       
-      const response = await request(app).delete('/api/industries/nonexistent');
+      const response = await request(app).delete('/api/v1/industries/nonexistent');
       
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);

@@ -14,7 +14,7 @@ jest.mock('../../database/index.js', () => ({
 
 const app = express();
 app.use(express.json());
-app.use('/api/locomotives', locomotivesRouter);
+app.use('/api/v1/locomotives', locomotivesRouter);
 
 app.use((error, req, res, next) => {
   if (error instanceof ApiError) {
@@ -55,7 +55,7 @@ describe('Locomotives Routes', () => {
 
   describe('GET /api/locomotives', () => {
     it('should return all locomotives', async () => {
-      const response = await request(app).get('/api/locomotives');
+      const response = await request(app).get('/api/v1/locomotives');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -66,7 +66,7 @@ describe('Locomotives Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findAll.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/locomotives');
+      const response = await request(app).get('/api/v1/locomotives');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);
@@ -76,7 +76,7 @@ describe('Locomotives Routes', () => {
 
   describe('GET /api/locomotives/:id', () => {
     it('should return a locomotive by id', async () => {
-      const response = await request(app).get('/api/locomotives/1');
+      const response = await request(app).get('/api/v1/locomotives/1');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -87,7 +87,7 @@ describe('Locomotives Routes', () => {
     it('should return 404 if locomotive not found', async () => {
       dbHelpers.findById.mockResolvedValue(null);
       
-      const response = await request(app).get('/api/locomotives/nonexistent');
+      const response = await request(app).get('/api/v1/locomotives/nonexistent');
       
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
@@ -97,7 +97,7 @@ describe('Locomotives Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findById.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/locomotives/1');
+      const response = await request(app).get('/api/v1/locomotives/1');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);

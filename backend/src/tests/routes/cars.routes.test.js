@@ -22,7 +22,7 @@ jest.mock('../../models/car.js', () => ({
 
 const app = express();
 app.use(express.json());
-app.use('/api/cars', carsRouter);
+app.use('/api/v1/cars', carsRouter);
 app.use(globalErrorHandler);
 
 describe('Car Routes', () => {
@@ -49,7 +49,7 @@ describe('Car Routes', () => {
 
   describe('GET /api/cars', () => {
     it('should return all cars', async () => {
-      const response = await request(app).get('/api/cars');
+      const response = await request(app).get('/api/v1/cars');
       
       expect(response.status).toBe(200);
       expect(response.body).toMatchObject({
@@ -63,7 +63,7 @@ describe('Car Routes', () => {
     });
 
     it('should filter cars by carType', async () => {
-      await request(app).get('/api/cars?carType=boxcar');
+      await request(app).get('/api/v1/cars?carType=boxcar');
       
       expect(dbHelpers.findByQuery).toHaveBeenCalledWith('cars', {
         carType: 'boxcar'
@@ -73,7 +73,7 @@ describe('Car Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findByQuery.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/cars');
+      const response = await request(app).get('/api/v1/cars');
       
       expect(response.status).toBe(500);
       expect(response.body).toMatchObject({
@@ -87,7 +87,7 @@ describe('Car Routes', () => {
 
   describe('GET /api/cars/:id', () => {
     it('should return a car by id', async () => {
-      const response = await request(app).get('/api/cars/1');
+      const response = await request(app).get('/api/v1/cars/1');
       
       expect(response.status).toBe(200);
       expect(response.body).toMatchObject({
@@ -100,7 +100,7 @@ describe('Car Routes', () => {
     it('should return 404 if car not found', async () => {
       dbHelpers.findById.mockResolvedValue(null);
       
-      const response = await request(app).get('/api/cars/nonexistent');
+      const response = await request(app).get('/api/v1/cars/nonexistent');
       
       expect(response.status).toBe(404);
       expect(response.body).toMatchObject({
@@ -133,7 +133,7 @@ describe('Car Routes', () => {
       dbHelpers.findByQuery.mockResolvedValueOnce([]);
       
       const response = await request(app)
-        .post('/api/cars')
+        .post('/api/v1/cars')
         .send(newCar);
       
       expect(response.status).toBe(201);
@@ -157,7 +157,7 @@ describe('Car Routes', () => {
       });
       
       const response = await request(app)
-        .post('/api/cars')
+        .post('/api/v1/cars')
         .send({});
       
       expect(response.status).toBe(400);
@@ -183,7 +183,7 @@ describe('Car Routes', () => {
 
     it('should update a car', async () => {
       const response = await request(app)
-        .put('/api/cars/1')
+        .put('/api/v1/cars/1')
         .send(updates);
       
       expect(response.status).toBe(200);
@@ -198,7 +198,7 @@ describe('Car Routes', () => {
       dbHelpers.update.mockResolvedValue(0);
       
       const response = await request(app)
-        .put('/api/cars/nonexistent')
+        .put('/api/v1/cars/nonexistent')
         .send(updates);
       
       expect(response.status).toBe(404);
@@ -213,7 +213,7 @@ describe('Car Routes', () => {
 
   describe('DELETE /api/cars/:id', () => {
     it('should delete a car', async () => {
-      const response = await request(app).delete('/api/cars/1');
+      const response = await request(app).delete('/api/v1/cars/1');
       
       expect(response.status).toBe(200);
       expect(response.body).toMatchObject({
@@ -229,7 +229,7 @@ describe('Car Routes', () => {
     it('should return 404 if car not found', async () => {
       dbHelpers.delete.mockResolvedValue(0);
       
-      const response = await request(app).delete('/api/cars/nonexistent');
+      const response = await request(app).delete('/api/v1/cars/nonexistent');
       
       expect(response.status).toBe(404);
       expect(response.body).toMatchObject({

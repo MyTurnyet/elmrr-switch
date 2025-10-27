@@ -24,7 +24,7 @@ import operatingSessionsRouter from '../../routes/operatingSessions.js';
 
 const app = express();
 app.use(express.json());
-app.use('/api/sessions', operatingSessionsRouter);
+app.use('/api/v1/sessions', operatingSessionsRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -81,7 +81,7 @@ describe('Operating Sessions Routes', () => {
       mockGetCurrentSession.mockResolvedValue(mockSession);
 
       const response = await request(app)
-        .get('/api/sessions/current')
+        .get('/api/v1/sessions/current')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -100,7 +100,7 @@ describe('Operating Sessions Routes', () => {
       mockGetCurrentSession.mockResolvedValue(newSession);
 
       const response = await request(app)
-        .get('/api/sessions/current')
+        .get('/api/v1/sessions/current')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -113,7 +113,7 @@ describe('Operating Sessions Routes', () => {
       );
 
       const response = await request(app)
-        .get('/api/sessions/current')
+        .get('/api/v1/sessions/current')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -124,7 +124,7 @@ describe('Operating Sessions Routes', () => {
       mockGetCurrentSession.mockRejectedValue(new Error('Database error'));
 
       const response = await request(app)
-        .get('/api/sessions/current')
+        .get('/api/v1/sessions/current')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -147,7 +147,7 @@ describe('Operating Sessions Routes', () => {
       mockAdvanceSession.mockResolvedValue(advanceResult);
 
       const response = await request(app)
-        .post('/api/sessions/advance')
+        .post('/api/v1/sessions/advance')
         .send({ description: 'Session 4' })
         .expect(200);
 
@@ -161,7 +161,7 @@ describe('Operating Sessions Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/sessions/advance')
+        .post('/api/v1/sessions/advance')
         .expect(404);
 
       expect(response.body.success).toBe(false);
@@ -174,7 +174,7 @@ describe('Operating Sessions Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/sessions/advance')
+        .post('/api/v1/sessions/advance')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -189,7 +189,7 @@ describe('Operating Sessions Routes', () => {
       mockAdvanceSession.mockResolvedValue(advanceResult);
 
       const response = await request(app)
-        .post('/api/sessions/advance')
+        .post('/api/v1/sessions/advance')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -203,7 +203,7 @@ describe('Operating Sessions Routes', () => {
       mockAdvanceSession.mockResolvedValue(advanceResult);
 
       const response = await request(app)
-        .post('/api/sessions/advance')
+        .post('/api/v1/sessions/advance')
         .send({})
         .expect(200);
 
@@ -221,7 +221,7 @@ describe('Operating Sessions Routes', () => {
       mockRollbackSession.mockResolvedValue(rollbackResult);
 
       const response = await request(app)
-        .post('/api/sessions/rollback')
+        .post('/api/v1/sessions/rollback')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -234,7 +234,7 @@ describe('Operating Sessions Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/sessions/rollback')
+        .post('/api/v1/sessions/rollback')
         .expect(400);
 
       expect(response.body.success).toBe(false);
@@ -247,7 +247,7 @@ describe('Operating Sessions Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/sessions/rollback')
+        .post('/api/v1/sessions/rollback')
         .expect(400);
 
       expect(response.body.success).toBe(false);
@@ -260,7 +260,7 @@ describe('Operating Sessions Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/sessions/rollback')
+        .post('/api/v1/sessions/rollback')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -273,7 +273,7 @@ describe('Operating Sessions Routes', () => {
       );
 
       const response = await request(app)
-        .post('/api/sessions/rollback')
+        .post('/api/v1/sessions/rollback')
         .expect(404);
 
       expect(response.body.success).toBe(false);
@@ -287,7 +287,7 @@ describe('Operating Sessions Routes', () => {
       mockUpdateSessionDescription.mockResolvedValue(updatedSession);
 
       const response = await request(app)
-        .put('/api/sessions/current')
+        .put('/api/v1/sessions/current')
         .send({ description: 'Updated description' })
         .expect(200);
 
@@ -297,7 +297,7 @@ describe('Operating Sessions Routes', () => {
 
     it('should require description', async () => {
       const response = await request(app)
-        .put('/api/sessions/current')
+        .put('/api/v1/sessions/current')
         .send({})
         .expect(400);
 
@@ -307,7 +307,7 @@ describe('Operating Sessions Routes', () => {
 
     it('should validate description type', async () => {
       const response = await request(app)
-        .put('/api/sessions/current')
+        .put('/api/v1/sessions/current')
         .send({ description: 123 })
         .expect(400);
 
@@ -319,7 +319,7 @@ describe('Operating Sessions Routes', () => {
       const longDescription = 'a'.repeat(501);
       
       const response = await request(app)
-        .put('/api/sessions/current')
+        .put('/api/v1/sessions/current')
         .send({ description: longDescription })
         .expect(400);
 
@@ -333,7 +333,7 @@ describe('Operating Sessions Routes', () => {
       );
 
       const response = await request(app)
-        .put('/api/sessions/current')
+        .put('/api/v1/sessions/current')
         .send({ description: 'Test' })
         .expect(404);
 
@@ -345,7 +345,7 @@ describe('Operating Sessions Routes', () => {
       mockUpdateSessionDescription.mockRejectedValue(new Error('Update failed'));
 
       const response = await request(app)
-        .put('/api/sessions/current')
+        .put('/api/v1/sessions/current')
         .send({ description: 'Test' })
         .expect(500);
 
@@ -359,7 +359,7 @@ describe('Operating Sessions Routes', () => {
       mockGetCurrentSession.mockRejectedValue(new Error('Connection failed'));
 
       const response = await request(app)
-        .get('/api/sessions/current')
+        .get('/api/v1/sessions/current')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -370,7 +370,7 @@ describe('Operating Sessions Routes', () => {
       mockAdvanceSession.mockRejectedValue(new Error('Unexpected error'));
 
       const response = await request(app)
-        .post('/api/sessions/advance')
+        .post('/api/v1/sessions/advance')
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -381,7 +381,7 @@ describe('Operating Sessions Routes', () => {
       mockRollbackSession.mockRejectedValue(new Error('Unexpected error'));
 
       const response = await request(app)
-        .post('/api/sessions/rollback')
+        .post('/api/v1/sessions/rollback')
         .expect(500);
 
       expect(response.body.success).toBe(false);

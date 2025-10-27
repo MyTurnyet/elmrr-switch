@@ -14,7 +14,7 @@ jest.mock('../../database/index.js', () => ({
 
 const app = express();
 app.use(express.json());
-app.use('/api/stations', stationsRouter);
+app.use('/api/v1/stations', stationsRouter);
 
 // Add error handling middleware
 app.use((error, req, res, next) => {
@@ -50,7 +50,7 @@ describe('Station Routes', () => {
 
   describe('GET /api/stations', () => {
     it('should return all stations', async () => {
-      const response = await request(app).get('/api/stations');
+      const response = await request(app).get('/api/v1/stations');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -61,7 +61,7 @@ describe('Station Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findAll.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/stations');
+      const response = await request(app).get('/api/v1/stations');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);
@@ -71,7 +71,7 @@ describe('Station Routes', () => {
 
   describe('GET /api/stations/:id', () => {
     it('should return a station by id', async () => {
-      const response = await request(app).get('/api/stations/1');
+      const response = await request(app).get('/api/v1/stations/1');
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -82,7 +82,7 @@ describe('Station Routes', () => {
     it('should return 404 if station not found', async () => {
       dbHelpers.findById.mockResolvedValue(null);
       
-      const response = await request(app).get('/api/stations/nonexistent');
+      const response = await request(app).get('/api/v1/stations/nonexistent');
       
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
@@ -92,7 +92,7 @@ describe('Station Routes', () => {
     it('should handle database errors', async () => {
       dbHelpers.findById.mockRejectedValue(new Error('Database error'));
       
-      const response = await request(app).get('/api/stations/1');
+      const response = await request(app).get('/api/v1/stations/1');
       
       expect(response.status).toBe(500);
       expect(response.body.success).toBe(false);
