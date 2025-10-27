@@ -48,13 +48,12 @@ export class BaseTransformer<T extends BaseEntity = BaseEntity, R = any> {
 
   /**
    * Transform with pagination metadata
-   * 
-   * @param {Array} entities - Array of entities
-   * @param {Object} pagination - Pagination info { page, limit, total }
-   * @param {Object} options - Transformation options
-   * @returns {Object} - Paginated response with metadata
    */
-  transformPaginated(entities, pagination, options = {}) {
+  transformPaginated(
+    entities: T[],
+    pagination: { page: number; limit: number; total?: number },
+    options: TransformOptions = {}
+  ): PaginatedResponse<R> {
     const { page = 1, limit = 50, total } = pagination;
     
     const transformedData = this.transformCollection(entities, options);
@@ -62,8 +61,8 @@ export class BaseTransformer<T extends BaseEntity = BaseEntity, R = any> {
     return {
       data: transformedData,
       pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
+        page: Number(page),
+        limit: Number(limit),
         total: total || entities.length,
         totalPages: Math.ceil((total || entities.length) / limit),
         hasMore: (page * limit) < (total || entities.length)
@@ -73,87 +72,65 @@ export class BaseTransformer<T extends BaseEntity = BaseEntity, R = any> {
 
   /**
    * Select specific fields from an entity
-   * 
-   * @param {Object} entity - Entity object
-   * @param {Array<string>} fields - Array of field names to include
-   * @returns {Object} - Entity with only selected fields
    */
-  selectFields(entity, fields) {
+  selectFields(entity: R, fields: string[]): Partial<R> {
     if (!entity || !Array.isArray(fields) || fields.length === 0) {
       return entity;
     }
     
-    const selected = {};
+    const selected: any = {};
     fields.forEach(field => {
-      if (entity.hasOwnProperty(field)) {
-        selected[field] = entity[field];
+      if (Object.prototype.hasOwnProperty.call(entity, field)) {
+        selected[field] = (entity as any)[field];
       }
     });
     
-    return selected;
+    return selected as Partial<R>;
   }
 
   /**
    * Exclude specific fields from an entity
-   * 
-   * @param {Object} entity - Entity object
-   * @param {Array<string>} fields - Array of field names to exclude
-   * @returns {Object} - Entity without excluded fields
    */
-  excludeFields(entity, fields) {
+  excludeFields(entity: R, fields: string[]): Partial<R> {
     if (!entity || !Array.isArray(fields) || fields.length === 0) {
       return entity;
     }
     
-    const result = { ...entity };
+    const result: any = { ...entity };
     fields.forEach(field => {
       delete result[field];
     });
     
-    return result;
+    return result as Partial<R>;
   }
 
   /**
    * Transform for list view (minimal fields)
-   * Override in subclasses to define list-specific transformations
-   * 
-   * @param {Object} entity - Raw entity
-   * @returns {Object} - Transformed entity with minimal fields
    */
-  transformForList(entity) {
+  transformForList(entity: T): R | null {
     return this.transform(entity, { view: 'list' });
   }
 
   /**
    * Transform for detail view (all fields + relations)
-   * Override in subclasses to define detail-specific transformations
-   * 
-   * @param {Object} entity - Raw entity
-   * @returns {Object} - Transformed entity with all fields
    */
-  transformForDetail(entity) {
+  transformForDetail(entity: T): R | null {
     return this.transform(entity, { view: 'detail' });
   }
 
   /**
    * Transform for export (all fields, flat structure)
-   * 
-   * @param {Object} entity - Raw entity
-   * @returns {Object} - Transformed entity for export
    */
-  transformForExport(entity) {
+  transformForExport(entity: T): R | null {
     return this.transform(entity, { view: 'export' });
   }
 
   /**
    * Parse and validate pagination parameters
-   * 
-   * @param {Object} query - Query parameters from request
-   * @returns {Object} - Validated pagination parameters
    */
-  static parsePagination(query) {
-    const page = Math.max(1, parseInt(query.page) || 1);
-    const limit = Math.min(100, Math.max(1, parseInt(query.limit) || 50));
+  static parsePagination(query: QueryParams): PaginationParams {
+    const page = Math.max(1, parseInt(query.page || '1') || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(query.limit || '50') || 50));
     const offset = (page - 1) * limit;
     
     return { page, limit, offset };
@@ -161,11 +138,8 @@ export class BaseTransformer<T extends BaseEntity = BaseEntity, R = any> {
 
   /**
    * Parse field selection from query
-   * 
-   * @param {string} fieldsQuery - Comma-separated field names
-   * @returns {Array<string>|null} - Array of field names or null
    */
-  static parseFields(fieldsQuery) {
+  static parseFields(fieldsQuery?: string): string[] | null {
     if (!fieldsQuery || typeof fieldsQuery !== 'string') {
       return null;
     }
@@ -175,18 +149,15 @@ export class BaseTransformer<T extends BaseEntity = BaseEntity, R = any> {
 
   /**
    * Parse sorting parameters
-   * 
-   * @param {string} sortQuery - Sort parameter (e.g., "name", "-createdAt")
-   * @returns {Object} - Sort configuration { field, order }
    */
-  static parseSort(sortQuery) {
+  static parseSort(sortQuery?: string): SortConfig | null {
     if (!sortQuery || typeof sortQuery !== 'string') {
       return null;
     }
     
     const isDescending = sortQuery.startsWith('-');
     const field = isDescending ? sortQuery.substring(1) : sortQuery;
-    const order = isDescending ? 'desc' : 'asc';
+    const order: 'asc' | 'desc' = isDescending ? 'desc' : 'asc';
     
     return { field, order };
   }
@@ -194,22 +165,16 @@ export class BaseTransformer<T extends BaseEntity = BaseEntity, R = any> {
   /**
    * Build filter query from request parameters
    * Override in subclasses to define entity-specific filters
-   * 
-   * @param {Object} queryParams - Query parameters from request
-   * @returns {Object} - Database query object
    */
-  static buildFilterQuery(queryParams) {
+  static buildFilterQuery(queryParams: QueryParams): Record<string, any> {
     // Base implementation - subclasses should override
     return {};
   }
 
   /**
    * Format timestamp for API response
-   * 
-   * @param {Date|string} date - Date to format
-   * @returns {string} - ISO formatted date string
    */
-  static formatDate(date) {
+  static formatDate(date: Date | string | null | undefined): string | null {
     if (!date) return null;
     
     if (typeof date === 'string') {
@@ -222,19 +187,16 @@ export class BaseTransformer<T extends BaseEntity = BaseEntity, R = any> {
   /**
    * Sanitize entity for API response
    * Removes internal fields that shouldn't be exposed
-   * 
-   * @param {Object} entity - Entity to sanitize
-   * @returns {Object} - Sanitized entity
    */
-  static sanitize(entity) {
+  static sanitize<T extends Record<string, any>>(entity: T | null): T | null {
     if (!entity) return null;
     
-    const sanitized = { ...entity };
+    const sanitized: any = { ...entity };
     
     // Remove internal fields
     delete sanitized.$$indexCreated;
     delete sanitized.$$indexRemoved;
     
-    return sanitized;
+    return sanitized as T;
   }
 }
