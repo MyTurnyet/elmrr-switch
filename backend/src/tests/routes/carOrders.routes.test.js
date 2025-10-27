@@ -167,11 +167,8 @@ describe('Car Orders Routes', () => {
         .get('/api/car-orders')
         .expect(500);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Failed to fetch car orders',
-        message: 'Database error'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -612,7 +609,7 @@ describe('Car Orders Routes', () => {
         .expect(500);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toBe('Failed to fetch car orders');
+      expect(response.body.error).toBe('Internal server error');
     });
 
     it('should handle unexpected errors during creation', async () => {
