@@ -34,7 +34,8 @@ describe('Car Routes', () => {
     color: 'brown',
     homeYard: 'yard1',
     currentIndustry: 'industry1',
-    isInService: true
+    isInService: true,
+    sessionsAtCurrentLocation: 0
   };
 
   beforeEach(() => {
@@ -54,7 +55,15 @@ describe('Car Routes', () => {
       expect(response.status).toBe(200);
       expect(response.body).toMatchObject({
         success: true,
-        data: [mockCar],
+        data: [{
+          id: mockCar._id,
+          reportingMarks: mockCar.reportingMarks,
+          reportingNumber: mockCar.reportingNumber,
+          carType: mockCar.carType,
+          isInService: mockCar.isInService,
+          currentIndustry: mockCar.currentIndustry,
+          homeYard: mockCar.homeYard
+        }],
         message: 'Cars retrieved successfully',
         statusCode: 200
       });
