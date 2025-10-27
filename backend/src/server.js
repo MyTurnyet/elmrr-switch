@@ -33,6 +33,9 @@ import trainsRouter from './routes/trains.js';
 // Import error handling middleware
 import { globalErrorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
+// Import API versioning middleware
+import { createVersionedRouter, versionHeaderMiddleware } from './middleware/apiVersioning.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -87,27 +90,47 @@ const initializeOperatingSession = async () => {
 // Initialize session on startup
 initializeOperatingSession();
 
-// Routes
-app.use('/api/cars', carsRouter);
-app.use('/api/locomotives', locomotivesRouter);
-app.use('/api/industries', industriesRouter);
-app.use('/api/stations', stationsRouter);
-app.use('/api/goods', goodsRouter);
-app.use('/api/aar-types', aarTypesRouter);
-app.use('/api/blocks', blocksRouter);
-app.use('/api/tracks', tracksRouter);
-app.use('/api/routes', routesRouter);
-app.use('/api/sessions', operatingSessionsRouter);
-app.use('/api/car-orders', carOrdersRouter);
-app.use('/api/trains', trainsRouter);
-app.use('/api/import', importRouter);
+// Create v1 API router
+const v1Router = createVersionedRouter('v1');
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
+// Add version header middleware to v1 routes
+v1Router.use(versionHeaderMiddleware);
+
+// Mount all routes under v1
+v1Router.use('/cars', carsRouter);
+v1Router.use('/locomotives', locomotivesRouter);
+v1Router.use('/industries', industriesRouter);
+v1Router.use('/stations', stationsRouter);
+v1Router.use('/goods', goodsRouter);
+v1Router.use('/aar-types', aarTypesRouter);
+v1Router.use('/blocks', blocksRouter);
+v1Router.use('/tracks', tracksRouter);
+v1Router.use('/routes', routesRouter);
+v1Router.use('/sessions', operatingSessionsRouter);
+v1Router.use('/car-orders', carOrdersRouter);
+v1Router.use('/trains', trainsRouter);
+v1Router.use('/import', importRouter);
+
+// Health check endpoint (versioned)
+v1Router.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
-    service: 'ELMRR Switch Backend'
+    service: 'ELMRR Switch Backend',
+    version: 'v1'
+  });
+});
+
+// Mount v1 router
+app.use('/api/v1', v1Router);
+
+// Root health check (unversioned for monitoring)
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    service: 'ELMRR Switch Backend',
+    apiVersions: ['v1']
   });
 });
 
@@ -117,7 +140,8 @@ app.use(globalErrorHandler);
 
 app.listen(serverConfig.port, serverConfig.host, () => {
   console.log(`🚂 ELMRR Switch Backend running on ${serverConfig.host}:${serverConfig.port}`);
-  console.log(`📊 Health check: http://${serverConfig.host}:${serverConfig.port}/api/health`);
+  console.log(`📊 Health check: http://${serverConfig.host}:${serverConfig.port}/health`);
+  console.log(`🔌 API v1: http://${serverConfig.host}:${serverConfig.port}/api/v1/`);
   console.log(`🔧 Environment: ${serverConfig.env}`);
   console.log(`📁 Database path: ${config.database.path}`);
   console.log(`🔒 CORS origin: ${serverConfig.cors.origin}`);
