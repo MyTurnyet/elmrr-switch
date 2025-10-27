@@ -206,32 +206,47 @@ The failing tests are **expected technical debt** from successful architectural 
 
 ## 🔍 Pattern for Fixing Remaining Tests
 
-### Service Mocking Pattern (for carOrders, operatingSessions)
+### ✅ WORKING Service Mocking Pattern (for carOrders, operatingSessions)
+
+**Status**: Pattern proven working! 3/32 carOrders tests now passing.
 
 ```javascript
-// 1. Mock the service factory
-const mockServiceMethod1 = jest.fn();
-const mockServiceMethod2 = jest.fn();
+// 1. Create mock functions BEFORE jest.mock (avoids hoisting issues)
+const mockGetOrdersWithFilters = jest.fn();
+const mockGetEnrichedOrder = jest.fn();
+const mockCreateOrder = jest.fn();
+const mockUpdateOrder = jest.fn();
+const mockDeleteOrder = jest.fn();
+const mockGenerateOrders = jest.fn();
 
-jest.mock('../../services/index.js');
-import { getService } from '../../services/index.js';
+// 2. Mock getService with arrow function wrappers
+jest.mock('../../services/index.js', () => ({
+  getService: jest.fn(() => ({
+    getOrdersWithFilters: (...args) => mockGetOrdersWithFilters(...args),
+    getEnrichedOrder: (...args) => mockGetEnrichedOrder(...args),
+    createOrder: (...args) => mockCreateOrder(...args),
+    updateOrder: (...args) => mockUpdateOrder(...args),
+    deleteOrder: (...args) => mockDeleteOrder(...args),
+    generateOrders: (...args) => mockGenerateOrders(...args)
+  }))
+}));
 
-getService.mockReturnValue({
-  method1: mockServiceMethod1,
-  method2: mockServiceMethod2
-});
+// 3. Import route AFTER mocks
+import carOrdersRouter from '../../routes/carOrders.js';
 
-// 2. In tests, mock service responses
-mockServiceMethod1.mockResolvedValue(expectedData);
+// 4. In tests, mock service responses
+mockGetOrdersWithFilters.mockResolvedValue([mockData]);
 
-// 3. For errors, use ApiError
-mockServiceMethod1.mockRejectedValue(
+// 5. For errors, use ApiError
+mockCreateOrder.mockRejectedValue(
   new ApiError('Error message', 404)
 );
 
-// 4. Update expectations
-expect(mockServiceMethod1).toHaveBeenCalledWith(expectedArgs);
+// 6. Update expectations
+expect(mockGetOrdersWithFilters).toHaveBeenCalledWith(expectedArgs);
 ```
+
+**Key Insight**: Arrow function wrappers `(...args) => mockFn(...args)` allow Jest to hoist the mock factory while still accessing the const-declared mock functions.
 
 ---
 
