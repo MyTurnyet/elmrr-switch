@@ -24,10 +24,18 @@ console.log(car.reportingMarks); // Safe even if NullCar
 
 ## Quick Start
 
-### 1. Create Null Object
+### 1. Create Null Object Interface & Implementation
 ```typescript
-export class NullCar extends NullObject implements Car {
-  readonly isNull = true;
+// Interface
+export interface NullObject {
+  readonly isNull: true;
+  readonly isValid: false;
+}
+
+// Implementation
+export class NullCar implements Car, NullObject {
+  readonly isNull = true as const;
+  readonly isValid = false as const;
   readonly reportingMarks = 'UNKNOWN';
   readonly reportingNumber = '0000';
   // ... safe defaults for all fields
@@ -81,11 +89,14 @@ throwIfNull(car, 'Car not found', 404);
 ## Key Utilities
 
 ```typescript
+import { isNullObject } from './patterns/NullObject.js';
+import { throwIfNull, isPresent, getOrDefault } from './utils/nullObjectHelpers.js';
+
 // Check if object is null
-NullObject.isNullObject(obj) // true/false
+isNullObject(obj) // true/false (type guard)
 
 // Throw if null (for required resources)
-throwIfNull(obj, 'Not found', 404)
+throwIfNull(obj, 'Not found', 404) // asserts obj is not null
 
 // Check if present
 if (isPresent(obj)) { /* use obj */ }

@@ -56,25 +56,23 @@ console.log(car.reportingMarks); // NullCar returns 'Unknown'
 
 ### Phase 1: Define Null Object Interfaces (Week 1)
 
-#### Step 1.1: Create Null Object Base Class
+#### Step 1.1: Create Null Object Interface
 **File:** `src/patterns/NullObject.ts`
 
 ```typescript
 /**
- * Base Null Object class
- * Provides common functionality for all null objects
+ * Null Object interface
+ * Implement this interface on classes that represent null/missing objects
  */
-export abstract class NullObject {
-  readonly isNull: boolean = true;
-  readonly isValid: boolean = false;
-  
-  /**
-   * Check if object is a null object
-   */
-  static isNullObject(obj: any): boolean {
-    return obj?.isNull === true;
-  }
+export interface NullObject {
+  readonly isNull: true;
+  readonly isValid: false;
 }
+
+/**
+ * Type helper to distinguish between real and null objects
+ */
+export type MaybeNull<T> = T | (T & NullObject);
 ```
 
 #### Step 1.2: Create Null Objects for Core Entities
@@ -91,10 +89,19 @@ export abstract class NullObject {
 **Example Implementation:**
 ```typescript
 // src/patterns/nullObjects/NullCar.ts
-import { NullObject } from '../NullObject.js';
+import type { NullObject } from '../NullObject.js';
 import type { Car } from '../../types/models.js';
 
-export class NullCar extends NullObject implements Car {
+/**
+ * Null Object implementation for Car
+ * Represents a missing or non-existent car with safe default values
+ */
+export class NullCar implements Car, NullObject {
+  // NullObject interface
+  readonly isNull = true as const;
+  readonly isValid = false as const;
+  
+  // Car interface with safe defaults
   readonly _id: string = '';
   readonly reportingMarks: string = 'UNKNOWN';
   readonly reportingNumber: string = '0000';
@@ -127,9 +134,9 @@ export const NULL_CAR = new NullCar();
 ```
 
 **Deliverables:**
-- [ ] Base NullObject class
+- [ ] NullObject interface and type guards
 - [ ] 8 null object implementations
-- [ ] Type guards for each null object
+- [ ] Type helpers (MaybeNull, isNullObject)
 - [ ] Unit tests for null objects
 
 ---
@@ -213,7 +220,7 @@ async getCarById(id: string): Promise<Car | null> {
 async getCarById(id: string): Promise<Car> {
   const car = await this.carRepo.findByIdOrNull(id);
   
-  if (NullObject.isNullObject(car)) {
+  if (car.isNullObject()) {
     throw new ApiError('Car not found', 404);
   }
   
@@ -230,26 +237,38 @@ async getCarByIdOptional(id: string): Promise<Car> {
 **File:** `src/utils/nullObjectHelpers.ts`
 
 ```typescript
+import { isNullObject, type NullObject } from '../patterns/NullObject.js';
+import { ApiError } from '../middleware/errorHandler.js';
+
+/**
+ * Throws an error if the object is a null object
+ * Useful for required resources that must exist
+ */
 export function throwIfNull<T>(
-  obj: T | NullObject, 
+  obj: T | (T & NullObject), 
   errorMessage: string, 
   statusCode: number = 404
-): T {
-  if (NullObject.isNullObject(obj)) {
+): asserts obj is T {
+  if (isNullObject(obj)) {
     throw new ApiError(errorMessage, statusCode);
   }
-  return obj as T;
 }
 
-export function isPresent<T>(obj: T | NullObject): obj is T {
-  return !NullObject.isNullObject(obj);
+/**
+ * Type guard to check if object is present (not null object)
+ */
+export function isPresent<T>(obj: T | (T & NullObject)): obj is T {
+  return !isNullObject(obj);
 }
 
+/**
+ * Returns the object if present, otherwise returns default value
+ */
 export function getOrDefault<T>(
-  obj: T | NullObject, 
+  obj: T | (T & NullObject), 
   defaultValue: T
 ): T {
-  return NullObject.isNullObject(obj) ? defaultValue : obj as T;
+  return isNullObject(obj) ? defaultValue : obj;
 }
 ```
 
@@ -305,10 +324,12 @@ router.get('/:id/optional', asyncHandler(async (req, res) => {
 **Files:** `src/transformers/*.ts`
 
 ```typescript
+import { isNullObject, type NullObject } from '../patterns/NullObject.js';
+
 // BaseTransformer
 class BaseTransformer {
-  transform(entity: T | NullObject, options = {}): R | null {
-    if (!entity || NullObject.isNullObject(entity)) {
+  transform(entity: T | (T & NullObject), options = {}): R | null {
+    if (!entity || isNullObject(entity)) {
       return this.transformNull(options);
     }
     
