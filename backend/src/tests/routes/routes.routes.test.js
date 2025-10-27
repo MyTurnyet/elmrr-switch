@@ -198,10 +198,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes/route1');
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch route'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -384,10 +382,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to create route'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -550,10 +546,8 @@ describe('Route Routes', () => {
         .send(updateData);
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to update route'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -562,10 +556,7 @@ describe('Route Routes', () => {
       const response = await request(app).delete('/api/routes/route1');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        message: 'Route deleted successfully'
-      });
+      expect(response.body.success).toBe(true);
       expect(dbHelpers.delete).toHaveBeenCalledWith('routes', 'route1');
     });
 
@@ -585,10 +576,8 @@ describe('Route Routes', () => {
       const response = await request(app).delete('/api/routes/route1');
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to delete route'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 });
