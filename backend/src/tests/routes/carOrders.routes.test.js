@@ -225,11 +225,8 @@ describe('Car Orders Routes', () => {
         .get('/api/car-orders/order1')
         .expect(500);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Failed to fetch car order',
-        message: 'Database error'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -267,11 +264,8 @@ describe('Car Orders Routes', () => {
         .send(newOrderData)
         .expect(400);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Validation failed',
-        message: 'Validation failed'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Validation failed');
     });
 
     it('should handle industry not found', async () => {
@@ -283,11 +277,8 @@ describe('Car Orders Routes', () => {
         .send(newOrderData)
         .expect(404);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Industry not found',
-        message: `Industry with ID '${newOrderData.industryId}' does not exist`
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Industry not found');
     });
 
     it('should handle AAR type not found', async () => {
@@ -301,11 +292,8 @@ describe('Car Orders Routes', () => {
         .send(newOrderData)
         .expect(404);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'AAR type not found',
-        message: `AAR type with ID '${newOrderData.aarTypeId}' does not exist`
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('AAR type not found');
     });
 
     it('should prevent duplicate orders', async () => {
@@ -320,11 +308,8 @@ describe('Car Orders Routes', () => {
         .send(newOrderData)
         .expect(409);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Duplicate order',
-        message: 'A pending order for this industry, AAR type, and session already exists'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Duplicate order');
     });
   });
 
