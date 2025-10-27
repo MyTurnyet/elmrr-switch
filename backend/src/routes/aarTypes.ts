@@ -7,7 +7,7 @@ import type { TypedRequest, IdParam, StandardQuery } from '../types/index.js';
 const router: Router = express.Router();
 const aarTypeRepository = getRepository('aarTypes');
 
-router.get('/', asyncHandler(async (req: TypedRequest<{}, {}, StandardQuery>, res) => {
+router.get('/', asyncHandler(async (_req: TypedRequest<{}, {}, StandardQuery>, res) => {
   const aarTypes = await aarTypeRepository.findAll();
   res.json(ApiResponse.success(aarTypes, 'AAR types retrieved successfully'));
 }));

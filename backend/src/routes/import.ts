@@ -7,7 +7,6 @@ import { validateRoute } from '../models/route.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 
-import type { TypedRequest, IdParam, StandardQuery } from '../types/index.js';
 const router: Router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -210,7 +209,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
 }));
 
 // GET /api/import/export - Export all data to JSON
-router.get('/export', asyncHandler(async (req, res) => {
+router.get('/export', asyncHandler(async (_req, res) => {
   const exportData: Record<string, any> = {};
   const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
 
@@ -227,7 +226,7 @@ router.get('/export', asyncHandler(async (req, res) => {
 }));
 
 // POST /api/import/clear - Clear all data (for testing)
-router.post('/clear', asyncHandler(async (req, res) => {
+router.post('/clear', asyncHandler(async (_req, res) => {
   const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
   let totalCleared = 0;
 

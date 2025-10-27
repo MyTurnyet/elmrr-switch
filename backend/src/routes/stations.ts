@@ -6,7 +6,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 import type { TypedRequest, IdParam, StandardQuery } from '../types/index.js';
 const router: Router = express.Router();
 
-router.get('/', asyncHandler(async (req: TypedRequest<{}, {}, StandardQuery>, res) => {
+router.get('/', asyncHandler(async (_req: TypedRequest<{}, {}, StandardQuery>, res) => {
   const stations = await dbHelpers.findAll('stations');
   res.json(ApiResponse.success(stations, 'Stations retrieved successfully'));
 }));

@@ -3,10 +3,8 @@ import { getService } from '../services/index.js';
 import { validateBody, validateQuery, validateParams } from '../middleware/validation.js';
 import { carOrderSchemas } from '../schemas/carOrderSchemas.js';
 import { commonSchemas } from '../schemas/commonSchemas.js';
-import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
+import { asyncHandler } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
-
-import type { TypedRequest, IdParam, StandardQuery } from '../types/index.js';
 const router: Router = express.Router();
 const carOrderService = getService('carOrder');
 

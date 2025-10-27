@@ -7,7 +7,7 @@ import type { TypedRequest, IdParam, StandardQuery } from '../types/index.js';
 const router: Router = express.Router();
 
 // GET /api/locomotives - Get all locomotives
-router.get('/', asyncHandler(async (req: TypedRequest<{}, {}, StandardQuery>, res) => {
+router.get('/', asyncHandler(async (_req: TypedRequest<{}, {}, StandardQuery>, res) => {
   const locomotives = await dbHelpers.findAll('locomotives');
   res.json(ApiResponse.success(locomotives, 'Locomotives retrieved successfully'));
 }));

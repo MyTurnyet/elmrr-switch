@@ -2,15 +2,14 @@ import express, { Router } from 'express';
 import { getService } from '../services/index.js';
 import { validateBody } from '../middleware/validation.js';
 import { sessionSchemas } from '../schemas/sessionSchemas.js';
-import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
+import { asyncHandler } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 
-import type { TypedRequest, IdParam, StandardQuery } from '../types/index.js';
 const router: Router = express.Router();
 const sessionService = getService('session');
 
 // GET /api/sessions/current - Get current session info
-router.get('/current', asyncHandler(async (req, res) => {
+router.get('/current', asyncHandler(async (_req, res) => {
   const currentSession = await sessionService.getCurrentSession();
   res.json(ApiResponse.success(currentSession, 'Current session retrieved successfully'));
 }));

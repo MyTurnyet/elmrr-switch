@@ -6,14 +6,11 @@
 import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { 
-  validateSwitchListRequirements,
-  validateStatusTransition
+  validateSwitchListRequirements
 } from '../models/train.js';
 import { ApiError } from '../middleware/errorHandler.js';
 import type { 
-  Train, 
   ITrainService, 
-  SwitchListStation,
   SwitchListGenerationResult,
   TrainCompletionResult,
   TrainCancellationResult
@@ -54,7 +51,7 @@ export class TrainService implements ITrainService {
 
     // Get route and locomotives
     const route = await dbHelpers.findById('routes', train.routeId);
-    const locomotives = await Promise.all(
+    await Promise.all(
       train.locomotiveIds.map((id: string) => dbHelpers.findById('locomotives', id))
     );
 

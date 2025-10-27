@@ -13,7 +13,6 @@ import {
   validateStatusTransition
 } from '../models/carOrder.js';
 import { ApiError } from '../middleware/errorHandler.js';
-import type { ITrainService, ISessionService, ICarOrderService } from '../types/index.js';
 
 export class CarOrderService {
   constructor() {
@@ -200,7 +199,7 @@ export class CarOrderService {
 
     // Validate car assignment if being updated
     if (updateData.assignedCarId) {
-      const car = await dbHelpers.findById('cars', updateData.assignedCarId);
+      await dbHelpers.findById('cars', updateData.assignedCarId);
       const assignmentValidation = await validateCarAssignment(updateData.assignedCarId, existingOrder.aarTypeId);
       if (!assignmentValidation.valid) {
         throw new ApiError('Invalid car assignment', 400, assignmentValidation.error || 'Invalid assignment');

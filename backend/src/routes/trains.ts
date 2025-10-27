@@ -8,7 +8,6 @@ import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { validateLocomotiveAssignments, validateTrainNameUniqueness } from '../models/train.js';
 
-import type { TypedRequest, IdParam, StandardQuery } from '../types/index.js';
 const router: Router = express.Router();
 const trainRepository = getRepository('trains');
 const sessionRepository = getRepository('operatingSessions');

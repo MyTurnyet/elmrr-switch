@@ -10,7 +10,6 @@ import {
   validateSnapshot 
 } from '../models/operatingSession.js';
 import { ApiError } from '../middleware/errorHandler.js';
-import type { ITrainService, ISessionService, ICarOrderService } from '../types/index.js';
 
 export class SessionService {
   constructor() {
@@ -180,7 +179,7 @@ export class SessionService {
    * @param {Object} currentSession - Current session object
    * @returns {Promise<Object>} Operation statistics
    */
-  async _performSessionAdvancement(snapshot: any, currentSession: any) {
+  async _performSessionAdvancement(snapshot: any, _currentSession: any) {
     const stats = {
       carsUpdated: 0,
       trainsDeleted: 0,
