@@ -95,11 +95,14 @@ export class BaseRepository {
    * @returns {Promise<Object|null>} Updated document or null if not found
    */
   async update(id, data, options = {}) {
-    const document = await dbHelpers.update(this.collectionName, id, data);
+    const numReplaced = await dbHelpers.update(this.collectionName, id, data);
     
-    if (!document) {
+    if (numReplaced === 0) {
       return null;
     }
+    
+    // Fetch the updated document
+    const document = await dbHelpers.findById(this.collectionName, id);
     
     if (options.enrich) {
       return await this.enrich(document);

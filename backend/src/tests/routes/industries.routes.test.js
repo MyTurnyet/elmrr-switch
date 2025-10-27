@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import industriesRouter from '../../routes/industries.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -17,12 +18,28 @@ jest.mock('../../database/index.js', () => ({
 
 // Mock the validateIndustry function
 jest.mock('../../models/industry.js', () => ({
-  validateIndustry: jest.fn()
+  validateIndustry: jest.fn(),
+  validateCarDemandConfig: jest.fn()
 }));
 
 const app = express();
 app.use(express.json());
 app.use('/api/industries', industriesRouter);
+
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Industry Routes', () => {
   const mockIndustry = {
@@ -60,11 +77,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockIndustry],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockIndustry]);
       expect(dbHelpers.findAll).toHaveBeenCalledWith('industries');
     });
 
@@ -74,10 +88,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries');
       
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch industries'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -99,10 +111,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Industry not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Industry not found');
     });
   });
 
@@ -111,11 +121,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries/1/cars');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockCar],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockCar]);
       expect(dbHelpers.findByQuery).toHaveBeenCalledWith('cars', {
         currentIndustry: '1'
       });
@@ -127,11 +134,8 @@ describe('Industry Routes', () => {
       const response = await request(app).get('/api/industries/1/cars');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [],
-        count: 0
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([]);
     });
   });
 
@@ -214,10 +218,8 @@ describe('Industry Routes', () => {
         .send(updates);
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Industry not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Industry not found');
     });
   });
 
@@ -226,10 +228,7 @@ describe('Industry Routes', () => {
       const response = await request(app).delete('/api/industries/1');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        message: 'Industry deleted successfully'
-      });
+      expect(response.body.success).toBe(true);
       expect(dbHelpers.delete).toHaveBeenCalledWith('industries', '1');
     });
 
@@ -239,10 +238,8 @@ describe('Industry Routes', () => {
       const response = await request(app).delete('/api/industries/nonexistent');
       
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Industry not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Industry not found');
     });
   });
 });

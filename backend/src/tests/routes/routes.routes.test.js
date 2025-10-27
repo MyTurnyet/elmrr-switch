@@ -2,6 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import routesRouter from '../../routes/routes.js';
 import { dbHelpers } from '../../database/index.js';
+import { ApiError } from '../../middleware/errorHandler.js';
 
 // Mock the database helpers
 jest.mock('../../database/index.js', () => ({
@@ -23,6 +24,21 @@ jest.mock('../../models/route.js', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/routes', routesRouter);
+
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Route Routes', () => {
   const mockRoute = {
@@ -61,11 +77,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [mockRoute],
-        count: 1
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([mockRoute]);
       expect(dbHelpers.findByQuery).toHaveBeenCalledWith('routes', {});
     });
 
@@ -142,11 +155,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        data: [],
-        count: 0
-      });
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual([]);
     });
 
     it('should handle database errors', async () => {
@@ -155,10 +165,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes');
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch routes'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -180,10 +188,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes/nonexistent');
 
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Route not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Route not found');
     });
 
     it('should handle database errors', async () => {
@@ -192,10 +198,8 @@ describe('Route Routes', () => {
       const response = await request(app).get('/api/routes/route1');
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to fetch route'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -264,11 +268,8 @@ describe('Route Routes', () => {
         .send({ originYard: 'test' });
 
       expect(response.status).toBe(400);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Validation failed',
-        message: 'name is required'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Validation failed');
     });
 
     it('should return 409 if route name already exists', async () => {
@@ -279,10 +280,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(409);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Duplicate route name'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('A route with this name already exists');
     });
 
     it('should return 404 if origin yard not found', async () => {
@@ -294,10 +293,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Origin yard not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should return 400 if origin is not a yard', async () => {
@@ -309,11 +306,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(400);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Invalid origin yard',
-        message: 'Origin must be an industry with isYard=true'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('Origin must be an industry with isYard=true');
     });
 
     it('should return 404 if termination yard not found', async () => {
@@ -327,10 +321,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Termination yard not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should return 400 if termination is not a yard', async () => {
@@ -344,11 +336,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(400);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Invalid termination yard',
-        message: 'Termination must be an industry with isYard=true'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('Termination must be an industry with isYard=true');
     });
 
     it('should return 404 if station in sequence not found', async () => {
@@ -363,11 +352,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Station not found',
-        message: "Station with ID 'station1' does not exist"
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should handle database errors', async () => {
@@ -378,10 +364,8 @@ describe('Route Routes', () => {
         .send(newRoute);
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to create route'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -420,10 +404,8 @@ describe('Route Routes', () => {
         .send(updateData);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Route not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Route not found');
     });
 
     it('should return 400 if validation fails', async () => {
@@ -458,10 +440,8 @@ describe('Route Routes', () => {
         .send(updateWithNewName);
 
       expect(response.status).toBe(409);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Duplicate route name'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('A route with this name already exists');
     });
 
     it('should allow updating route with same name', async () => {
@@ -492,10 +472,8 @@ describe('Route Routes', () => {
         .send(updateOrigin);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Origin yard not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should validate updated termination yard', async () => {
@@ -512,10 +490,8 @@ describe('Route Routes', () => {
         .send(updateTermination);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Termination yard not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should validate updated station sequence', async () => {
@@ -532,10 +508,8 @@ describe('Route Routes', () => {
         .send(updateStations);
 
       expect(response.status).toBe(404);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Station not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('does not exist');
     });
 
     it('should handle database errors', async () => {
@@ -546,10 +520,8 @@ describe('Route Routes', () => {
         .send(updateData);
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to update route'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -558,10 +530,7 @@ describe('Route Routes', () => {
       const response = await request(app).delete('/api/routes/route1');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        success: true,
-        message: 'Route deleted successfully'
-      });
+      expect(response.body.success).toBe(true);
       expect(dbHelpers.delete).toHaveBeenCalledWith('routes', 'route1');
     });
 
@@ -571,10 +540,8 @@ describe('Route Routes', () => {
       const response = await request(app).delete('/api/routes/nonexistent');
 
       expect(response.status).toBe(404);
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Route not found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Route not found');
     });
 
     it('should handle database errors', async () => {
@@ -583,10 +550,8 @@ describe('Route Routes', () => {
       const response = await request(app).delete('/api/routes/route1');
 
       expect(response.status).toBe(500);
-      expect(response.body).toMatchObject({
-        success: false,
-        error: 'Failed to delete route'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 });

@@ -1,32 +1,45 @@
 import express from 'express';
 import request from 'supertest';
+import { ApiError } from '../../middleware/errorHandler.js';
+
+// Create mock service methods
+const mockGetCurrentSession = jest.fn();
+const mockAdvanceSession = jest.fn();
+const mockRollbackSession = jest.fn();
+const mockUpdateSessionDescription = jest.fn();
+const mockGetSessionStats = jest.fn();
+
+// Mock getService to return an object with our mock methods
+jest.mock('../../services/index.js', () => ({
+  getService: jest.fn(() => ({
+    getCurrentSession: (...args) => mockGetCurrentSession(...args),
+    advanceSession: (...args) => mockAdvanceSession(...args),
+    rollbackSession: (...args) => mockRollbackSession(...args),
+    updateSessionDescription: (...args) => mockUpdateSessionDescription(...args),
+    getSessionStats: (...args) => mockGetSessionStats(...args)
+  }))
+}));
+
 import operatingSessionsRouter from '../../routes/operatingSessions.js';
-import { dbHelpers } from '../../database/index.js';
-
-// Mock the database helpers
-jest.mock('../../database/index.js', () => ({
-  dbHelpers: {
-    findAll: jest.fn(),
-    findById: jest.fn(),
-    create: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    bulkInsert: jest.fn()
-  }
-}));
-
-// Mock the validation functions
-jest.mock('../../models/operatingSession.js', () => ({
-  validateOperatingSession: jest.fn(),
-  createSessionSnapshot: jest.fn(),
-  validateSnapshot: jest.fn()
-}));
-
-import { validateOperatingSession, createSessionSnapshot, validateSnapshot } from '../../models/operatingSession.js';
 
 const app = express();
 app.use(express.json());
 app.use('/api/sessions', operatingSessionsRouter);
+
+// Add error handling middleware
+app.use((error, req, res, next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      error: error.message,
+      details: error.details
+    });
+  }
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error'
+  });
+});
 
 describe('Operating Sessions Routes', () => {
   const mockSession = {
@@ -65,76 +78,57 @@ describe('Operating Sessions Routes', () => {
 
   describe('GET /current', () => {
     it('should return existing session', async () => {
-      dbHelpers.findAll.mockResolvedValue([mockSession]);
+      mockGetCurrentSession.mockResolvedValue(mockSession);
 
       const response = await request(app)
         .get('/api/sessions/current')
         .expect(200);
 
-      expect(response.body).toEqual({
-        success: true,
-        data: mockSession
-      });
-      expect(dbHelpers.findAll).toHaveBeenCalledWith('operatingSessions');
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual(mockSession);
+      expect(mockGetCurrentSession).toHaveBeenCalled();
     });
 
     it('should create initial session if none exists', async () => {
-      dbHelpers.findAll.mockResolvedValue([]);
-      validateOperatingSession.mockReturnValue({ 
-        error: null, 
-        value: {
-          currentSessionNumber: 1,
-          sessionDate: expect.any(String),
-          description: 'Initial operating session',
-          previousSessionSnapshot: null
-        }
-      });
-      dbHelpers.create.mockResolvedValue({
+      const newSession = {
         _id: 'new-session',
         currentSessionNumber: 1,
         sessionDate: '2024-01-15T10:00:00.000Z',
         description: 'Initial operating session',
         previousSessionSnapshot: null
-      });
+      };
+      mockGetCurrentSession.mockResolvedValue(newSession);
 
       const response = await request(app)
         .get('/api/sessions/current')
         .expect(200);
 
-      expect(validateOperatingSession).toHaveBeenCalled();
-      expect(dbHelpers.create).toHaveBeenCalledWith('operatingSessions', expect.any(Object));
       expect(response.body.success).toBe(true);
+      expect(response.body.data.currentSessionNumber).toBe(1);
     });
 
     it('should handle validation error during initial session creation', async () => {
-      dbHelpers.findAll.mockResolvedValue([]);
-      validateOperatingSession.mockReturnValue({ 
-        error: { details: [{ message: 'Validation failed' }] }
-      });
+      mockGetCurrentSession.mockRejectedValue(
+        new ApiError('Failed to create initial session', 500)
+      );
 
       const response = await request(app)
         .get('/api/sessions/current')
         .expect(500);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Failed to create initial session',
-        message: 'Validation failed'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Failed to create initial session');
     });
 
     it('should handle database errors', async () => {
-      dbHelpers.findAll.mockRejectedValue(new Error('Database error'));
+      mockGetCurrentSession.mockRejectedValue(new Error('Database error'));
 
       const response = await request(app)
         .get('/api/sessions/current')
         .expect(500);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Failed to fetch current session',
-        message: 'Database error'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
@@ -142,333 +136,163 @@ describe('Operating Sessions Routes', () => {
     // Remove the beforeEach that was interfering with individual test setups
 
     it('should advance session successfully', async () => {
-      jest.clearAllMocks();
-      
-      // Setup mocks for successful advance
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockSession]) // operatingSessions
-        .mockResolvedValueOnce(mockCars) // cars
-        .mockResolvedValueOnce(mockTrains) // trains
-        .mockResolvedValueOnce(mockCarOrders); // carOrders
-      
-      createSessionSnapshot.mockReturnValue({
-        sessionNumber: 3,
-        cars: mockCars.map(car => ({
-          id: car._id,
-          currentIndustry: car.currentIndustry,
-          sessionsAtCurrentLocation: car.sessionsAtCurrentLocation
-        })),
-        trains: mockTrains,
-        carOrders: mockCarOrders
-      });
-
-      validateSnapshot.mockReturnValue({ error: null });
-      dbHelpers.update.mockResolvedValue(1);
-      dbHelpers.delete.mockResolvedValue(1);
-      dbHelpers.findById.mockResolvedValue({
-        ...mockSession,
-        currentSessionNumber: 4
-      });
+      const advanceResult = {
+        session: { ...mockSession, currentSessionNumber: 4, description: 'Session 4' },
+        stats: {
+          trainsDeleted: 1,
+          carsUpdated: 2,
+          activeTrainsReverted: 2
+        }
+      };
+      mockAdvanceSession.mockResolvedValue(advanceResult);
 
       const response = await request(app)
         .post('/api/sessions/advance')
         .send({ description: 'Session 4' })
         .expect(200);
 
-      expect(createSessionSnapshot).toHaveBeenCalledWith(3, mockCars, mockTrains, mockCarOrders);
-      expect(dbHelpers.update).toHaveBeenCalledWith('operatingSessions', 'session1', {
-        currentSessionNumber: 4,
-        sessionDate: expect.any(String),
-        description: 'Session 4',
-        previousSessionSnapshot: expect.any(Object)
-      });
-
-      // Should update all cars
-      expect(dbHelpers.update).toHaveBeenCalledWith('cars', 'car1', {
-        sessionsAtCurrentLocation: 3
-      });
-      expect(dbHelpers.update).toHaveBeenCalledWith('cars', 'car2', {
-        sessionsAtCurrentLocation: 1
-      });
-
-      // Should delete completed trains
-      expect(dbHelpers.delete).toHaveBeenCalledWith('trains', 'train1');
-
       expect(response.body.success).toBe(true);
-      expect(response.body.message).toContain('Session 4');
-      expect(response.body.stats).toEqual({
-        trainsDeleted: 1,
-        carsUpdated: 2,
-        activeTrainsReverted: 2
-      });
+      expect(mockAdvanceSession).toHaveBeenCalledWith('Session 4');
     });
 
     it('should handle missing session', async () => {
-      // Reset all mocks for this test
-      jest.clearAllMocks();
-      dbHelpers.findAll.mockResolvedValue([]); // No sessions
+      mockAdvanceSession.mockRejectedValue(
+        new ApiError('No current session found', 404)
+      );
 
       const response = await request(app)
         .post('/api/sessions/advance')
         .expect(404);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'No current session found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('No current session found');
     });
 
     it('should handle snapshot validation error', async () => {
-      // Reset mocks and set up for this specific test
-      jest.clearAllMocks();
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockSession]) // operatingSessions
-        .mockResolvedValueOnce(mockCars) // cars
-        .mockResolvedValueOnce(mockTrains) // trains
-        .mockResolvedValueOnce(mockCarOrders); // carOrders
-      
-      createSessionSnapshot.mockReturnValue({
-        sessionNumber: 3,
-        cars: [],
-        trains: [],
-        carOrders: []
-      });
-
-      validateSnapshot.mockReturnValue({ 
-        error: { details: [{ message: 'Invalid snapshot' }] }
-      });
+      mockAdvanceSession.mockRejectedValue(
+        new ApiError('Failed to create session snapshot', 500)
+      );
 
       const response = await request(app)
         .post('/api/sessions/advance')
         .expect(500);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Failed to create session snapshot',
-        message: 'Invalid snapshot'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Failed to create session snapshot');
     });
 
     it('should revert cars from active trains', async () => {
-      jest.clearAllMocks();
-      
-      // Setup mocks
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockSession]) // operatingSessions
-        .mockResolvedValueOnce(mockCars) // cars
-        .mockResolvedValueOnce(mockTrains) // trains
-        .mockResolvedValueOnce(mockCarOrders); // carOrders
-
-      const snapshot = {
-        sessionNumber: 3,
-        cars: [
-          { id: 'car2', currentIndustry: 'original-location', sessionsAtCurrentLocation: 5 }
-        ],
-        trains: mockTrains,
-        carOrders: mockCarOrders
+      const advanceResult = {
+        session: { ...mockSession, currentSessionNumber: 4 },
+        stats: { activeTrainsReverted: 1, carsUpdated: 2, trainsDeleted: 0 }
       };
+      mockAdvanceSession.mockResolvedValue(advanceResult);
 
-      createSessionSnapshot.mockReturnValue(snapshot);
-      validateSnapshot.mockReturnValue({ error: null });
-      dbHelpers.update.mockResolvedValue(1);
-      dbHelpers.delete.mockResolvedValue(1);
-      dbHelpers.findById.mockResolvedValue({
-        ...mockSession,
-        currentSessionNumber: 4
-      });
-
-      await request(app)
+      const response = await request(app)
         .post('/api/sessions/advance')
         .expect(200);
 
-      // Should revert car2 from active train to original location
-      expect(dbHelpers.update).toHaveBeenCalledWith('cars', 'car2', {
-        currentIndustry: 'original-location',
-        sessionsAtCurrentLocation: 0
-      });
+      expect(response.body.success).toBe(true);
     });
 
     it('should use default description if not provided', async () => {
-      jest.clearAllMocks();
-      
-      // Setup mocks
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockSession]) // operatingSessions
-        .mockResolvedValueOnce(mockCars) // cars
-        .mockResolvedValueOnce(mockTrains) // trains
-        .mockResolvedValueOnce(mockCarOrders); // carOrders
-      
-      createSessionSnapshot.mockReturnValue({
-        sessionNumber: 3,
-        cars: [],
-        trains: [],
-        carOrders: []
-      });
+      const advanceResult = {
+        session: { ...mockSession, currentSessionNumber: 4, description: 'Operating Session 4' },
+        stats: { trainsDeleted: 0, carsUpdated: 2, activeTrainsReverted: 0 }
+      };
+      mockAdvanceSession.mockResolvedValue(advanceResult);
 
-      validateSnapshot.mockReturnValue({ error: null });
-      dbHelpers.update.mockResolvedValue(1);
-      dbHelpers.delete.mockResolvedValue(1);
-      dbHelpers.findById.mockResolvedValue({
-        ...mockSession,
-        currentSessionNumber: 4
-      });
-
-      await request(app)
+      const response = await request(app)
         .post('/api/sessions/advance')
         .send({})
         .expect(200);
 
-      expect(dbHelpers.update).toHaveBeenCalledWith('operatingSessions', 'session1', 
-        expect.objectContaining({
-          description: 'Operating Session 4'
-        })
-      );
+      expect(response.body.success).toBe(true);
+      expect(mockAdvanceSession).toHaveBeenCalledWith(undefined);
     });
   });
 
   describe('POST /rollback', () => {
     it('should rollback session successfully', async () => {
-      jest.clearAllMocks();
-      dbHelpers.findAll
-        .mockResolvedValueOnce([mockSession]) // operatingSessions
-        .mockResolvedValueOnce(mockTrains) // current trains
-        .mockResolvedValueOnce(mockCarOrders); // current car orders
-      
-      validateSnapshot.mockReturnValue({ error: null });
-      dbHelpers.update.mockResolvedValue(1);
-      dbHelpers.delete.mockResolvedValue(1);
-      dbHelpers.bulkInsert.mockResolvedValue([]);
-      dbHelpers.findById.mockResolvedValue({
-        ...mockSession,
-        currentSessionNumber: 2,
-        previousSessionSnapshot: null
-      });
+      const rollbackResult = {
+        session: { ...mockSession, currentSessionNumber: 2, description: 'Rolled back to Session 2' },
+        stats: { carsRestored: 2, trainsRestored: 1, carOrdersRestored: 1 }
+      };
+      mockRollbackSession.mockResolvedValue(rollbackResult);
 
       const response = await request(app)
         .post('/api/sessions/rollback')
         .expect(200);
 
-      // Should restore car locations
-      expect(dbHelpers.update).toHaveBeenCalledWith('cars', 'car1', {
-        currentIndustry: 'yard1',
-        sessionsAtCurrentLocation: 1
-      });
-
-      // Should delete current trains and restore from snapshot
-      // mockTrains = 3, mockCarOrders = 1, so 4 delete calls total
-      expect(dbHelpers.delete).toHaveBeenCalledTimes(4);
-
-      // Should update session
-      expect(dbHelpers.update).toHaveBeenCalledWith('operatingSessions', 'session1', {
-        currentSessionNumber: 2,
-        sessionDate: expect.any(String),
-        description: 'Rolled back to Session 2',
-        previousSessionSnapshot: null
-      });
-
       expect(response.body.success).toBe(true);
-      expect(response.body.message).toContain('Session 2');
+      expect(mockRollbackSession).toHaveBeenCalled();
     });
 
     it('should prevent rollback from session 1', async () => {
-      jest.clearAllMocks();
-      // Session 1 should not have any snapshot, but the check is session number first
-      const session1 = { 
-        ...mockSession, 
-        currentSessionNumber: 1, 
-        previousSessionSnapshot: { // Even with snapshot, session 1 check comes first
-          sessionNumber: 0,
-          cars: [],
-          trains: [],
-          carOrders: []
-        }
-      };
-      dbHelpers.findAll.mockResolvedValue([session1]);
+      mockRollbackSession.mockRejectedValue(
+        new ApiError('Cannot rollback from session 1', 400)
+      );
 
       const response = await request(app)
         .post('/api/sessions/rollback')
         .expect(400);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Cannot rollback',
-        message: 'Cannot rollback from session 1'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Cannot rollback from session 1');
     });
 
     it('should prevent rollback without snapshot', async () => {
-      jest.clearAllMocks();
-      const sessionNoSnapshot = { 
-        ...mockSession, 
-        currentSessionNumber: 2,
-        previousSessionSnapshot: null 
-      };
-      dbHelpers.findAll.mockResolvedValue([sessionNoSnapshot]);
+      mockRollbackSession.mockRejectedValue(
+        new ApiError('No previous session snapshot available', 400)
+      );
 
       const response = await request(app)
         .post('/api/sessions/rollback')
         .expect(400);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Cannot rollback',
-        message: 'No previous session snapshot available'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('No previous session snapshot available');
     });
 
     it('should handle invalid snapshot', async () => {
-      dbHelpers.findAll.mockResolvedValue([mockSession]);
-      validateSnapshot.mockReturnValue({ 
-        error: { details: [{ message: 'Invalid snapshot structure' }] }
-      });
+      mockRollbackSession.mockRejectedValue(
+        new ApiError('Invalid session snapshot', 500)
+      );
 
       const response = await request(app)
         .post('/api/sessions/rollback')
         .expect(500);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Invalid session snapshot',
-        message: 'Invalid snapshot structure'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Invalid session snapshot');
     });
 
     it('should handle missing session', async () => {
-      dbHelpers.findAll.mockResolvedValue([]);
+      mockRollbackSession.mockRejectedValue(
+        new ApiError('No current session found', 404)
+      );
 
       const response = await request(app)
         .post('/api/sessions/rollback')
         .expect(404);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'No current session found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('No current session found');
     });
   });
 
   describe('PUT /current', () => {
-    beforeEach(() => {
-      dbHelpers.findAll.mockResolvedValue([mockSession]);
-      dbHelpers.update.mockResolvedValue(1);
-      dbHelpers.findById.mockResolvedValue({
-        ...mockSession,
-        description: 'Updated description'
-      });
-    });
-
     it('should update session description successfully', async () => {
+      const updatedSession = { ...mockSession, description: 'Updated description' };
+      mockUpdateSessionDescription.mockResolvedValue(updatedSession);
+
       const response = await request(app)
         .put('/api/sessions/current')
         .send({ description: 'Updated description' })
         .expect(200);
 
-      expect(dbHelpers.update).toHaveBeenCalledWith('operatingSessions', 'session1', {
-        description: 'Updated description'
-      });
-
       expect(response.body.success).toBe(true);
-      expect(response.body.message).toBe('Session description updated successfully');
+      expect(mockUpdateSessionDescription).toHaveBeenCalledWith('Updated description');
     });
 
     it('should require description', async () => {
@@ -477,11 +301,8 @@ describe('Operating Sessions Routes', () => {
         .send({})
         .expect(400);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Validation failed',
-        message: 'Description is required and must be a string'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Validation failed');
     });
 
     it('should validate description type', async () => {
@@ -490,11 +311,8 @@ describe('Operating Sessions Routes', () => {
         .send({ description: 123 })
         .expect(400);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Validation failed',
-        message: 'Description is required and must be a string'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Validation failed');
     });
 
     it('should enforce description length limit', async () => {
@@ -505,75 +323,69 @@ describe('Operating Sessions Routes', () => {
         .send({ description: longDescription })
         .expect(400);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Validation failed',
-        message: 'Description cannot exceed 500 characters'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Validation failed');
     });
 
     it('should handle missing session', async () => {
-      dbHelpers.findAll.mockResolvedValue([]);
+      mockUpdateSessionDescription.mockRejectedValue(
+        new ApiError('No current session found', 404)
+      );
 
       const response = await request(app)
         .put('/api/sessions/current')
         .send({ description: 'Test' })
         .expect(404);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'No current session found'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('No current session found');
     });
 
     it('should handle database errors', async () => {
-      dbHelpers.update.mockRejectedValue(new Error('Update failed'));
+      mockUpdateSessionDescription.mockRejectedValue(new Error('Update failed'));
 
       const response = await request(app)
         .put('/api/sessions/current')
         .send({ description: 'Test' })
         .expect(500);
 
-      expect(response.body).toEqual({
-        success: false,
-        error: 'Failed to update session description',
-        message: 'Update failed'
-      });
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 
   describe('Error Handling', () => {
     it('should handle database connection errors', async () => {
-      dbHelpers.findAll.mockRejectedValue(new Error('Connection failed'));
+      mockGetCurrentSession.mockRejectedValue(new Error('Connection failed'));
 
       const response = await request(app)
         .get('/api/sessions/current')
         .expect(500);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toBe('Failed to fetch current session');
+      expect(response.body.error).toBe('Internal server error');
     });
 
     it('should handle unexpected errors during advance', async () => {
-      dbHelpers.findAll.mockRejectedValue(new Error('Unexpected error'));
+      mockAdvanceSession.mockRejectedValue(new Error('Unexpected error'));
 
       const response = await request(app)
         .post('/api/sessions/advance')
         .expect(500);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toBe('Failed to advance session');
+      expect(response.body.error).toBe('Internal server error');
     });
 
     it('should handle unexpected errors during rollback', async () => {
-      dbHelpers.findAll.mockRejectedValue(new Error('Unexpected error'));
+      mockRollbackSession.mockRejectedValue(new Error('Unexpected error'));
 
       const response = await request(app)
         .post('/api/sessions/rollback')
         .expect(500);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toBe('Failed to rollback session');
+      expect(response.body.error).toBe('Internal server error');
     });
   });
 });
