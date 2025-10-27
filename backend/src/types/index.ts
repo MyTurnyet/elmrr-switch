@@ -14,6 +14,9 @@ export * from './transformers.js';
 // Service types
 export * from './services.js';
 
+// Express types
+export * from './express.js';
+
 // Re-export commonly used types for convenience
 export type {
   BaseEntity,
