@@ -21,12 +21,11 @@ export interface TypedRequest<
   TParams = any,
   TBody = any,
   TQuery = any
-> {
+> extends Request {
   params: TParams;
   body: TBody;
   query: TQuery;
   apiVersion?: string;
-  [key: string]: any;
 }
 
 /**

@@ -47,7 +47,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
         for (const [index, entityData] of data[entityType].entries()) {
           try {
             // Preserve _id if provided in seed data
-            await dbHelpers.create(entityType, entityData);
+            await dbHelpers.create(entityType as any, entityData);
             results.imported++;
           } catch (err) {
             results.errors.push(`${entityType} ${index + 1}: ${(err as Error).message}`);
@@ -67,7 +67,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
           }
 
           // Preserve _id if provided in seed data
-          await dbHelpers.create('industries', value);
+          await dbHelpers.create('industries' as any, value);
           results.imported++;
         } catch (err) {
           results.errors.push(`Industry ${index + 1}: ${(err as Error).message}`);
@@ -82,7 +82,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
       if (data[entityType] && Array.isArray(data[entityType])) {
         for (const [index, entityData] of data[entityType].entries()) {
           try {
-            await dbHelpers.create(entityType, entityData);
+            await dbHelpers.create(entityType as any, entityData);
             results.imported++;
           } catch (err) {
             results.errors.push(`${entityType} ${index + 1}: ${(err as Error).message}`);
@@ -197,7 +197,7 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
       if (data[entityType] && Array.isArray(data[entityType])) {
         for (const [index, entityData] of data[entityType].entries()) {
           try {
-            await dbHelpers.create(entityType, entityData);
+            await dbHelpers.create(entityType as any, entityData);
             results.imported++;
           } catch (err) {
             results.errors.push(`${entityType} ${index + 1}: ${(err as Error).message}`);
@@ -211,11 +211,11 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
 
 // GET /api/import/export - Export all data to JSON
 router.get('/export', asyncHandler(async (req, res) => {
-  const exportData = {};
+  const exportData: Record<string, any> = {};
   const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
 
   for (const collection of collections) {
-    exportData[collection] = await dbHelpers.findAll(collection);
+    exportData[collection] = await dbHelpers.findAll(collection as any);
   }
 
   const responseData = {
@@ -231,8 +231,8 @@ router.post('/clear', asyncHandler(async (req, res) => {
   const collections = ['cars', 'locomotives', 'industries', 'stations', 'goods', 'aarTypes', 'blocks', 'tracks', 'routes', 'operatingSessions', 'carOrders'];
   let totalCleared = 0;
 
-  for (const collection of collections) {
-    const cleared = await dbHelpers.clearCollection(collection);
+  for (const collectionName of collections) {
+    const cleared = await dbHelpers.clearCollection(collectionName as any);
     totalCleared += cleared;
   }
 
