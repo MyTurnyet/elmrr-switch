@@ -329,7 +329,7 @@ import { isNullObject, type NullObject } from '../patterns/NullObject.js';
 // BaseTransformer
 class BaseTransformer {
   transform(entity: T | (T & NullObject), options = {}): R | null {
-    if (!entity || isNullObject(entity)) {
+    if (!entity || entity.isNullObject()) {
       return this.transformNull(options);
     }
     
