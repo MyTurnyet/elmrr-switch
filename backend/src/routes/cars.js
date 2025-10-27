@@ -3,21 +3,36 @@ import { dbHelpers } from '../database/index.js';
 import { validateCar } from '../models/car.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+import { CarTransformer, parsePagination, parseFields } from '../transformers/index.js';
 
 const router = express.Router();
+const carTransformer = new CarTransformer();
 
 // GET /api/cars - Get all cars with optional filtering
 router.get('/', asyncHandler(async (req, res) => {
-  const { carType, location, status, homeYard } = req.query;
-  let query = {};
+  // Build filter query using transformer
+  const query = CarTransformer.buildFilterQuery(req.query);
   
-  if (carType) query.carType = carType;
-  if (location) query.currentIndustry = location;
-  if (status) query.isInService = status === 'true';
-  if (homeYard) query.homeYard = homeYard;
-
+  // Parse pagination
+  const pagination = parsePagination(req.query);
+  
+  // Get cars from database
   const cars = await dbHelpers.findByQuery('cars', query);
-  res.json(ApiResponse.success(cars, 'Cars retrieved successfully'));
+  
+  // Transform response
+  const view = req.query.view || 'default';
+  const transformedCars = carTransformer.transformCollection(cars, { view });
+  
+  // Return with pagination if requested
+  if (req.query.page) {
+    const paginated = carTransformer.transformPaginated(cars, {
+      ...pagination,
+      total: cars.length
+    }, { view });
+    res.json(ApiResponse.success(paginated, 'Cars retrieved successfully'));
+  } else {
+    res.json(ApiResponse.success(transformedCars, 'Cars retrieved successfully'));
+  }
 }));
 
 // GET /api/cars/:id - Get car by ID
@@ -26,7 +41,10 @@ router.get('/:id', asyncHandler(async (req, res) => {
   if (!car) {
     throw new ApiError('Car not found', 404);
   }
-  res.json(ApiResponse.success(car, 'Car retrieved successfully'));
+  
+  // Transform for detail view
+  const transformedCar = carTransformer.transformForDetail(car);
+  res.json(ApiResponse.success(transformedCar, 'Car retrieved successfully'));
 }));
 
 // POST /api/cars - Create new car
