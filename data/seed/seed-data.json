@@ -2,91 +2,91 @@
   "stations": [
     {
       "_id": "edmonton-ab",
-      "stationName": "Edmonton, AB",
+      "name": "Edmonton, AB",
       "block": "NORTH",
       "type": "station",
       "description": "Northern Canadian station"
     },
     {
       "_id": "seattle-wa",
-      "stationName": "Seattle, WA",
+      "name": "Seattle, WA",
       "block": "SEA",
       "type": "station",
       "description": "Major Pacific Northwest hub"
     },
     {
       "_id": "saskatoon-sk",
-      "stationName": "Saskatoon, SK",
+      "name": "Saskatoon, SK",
       "block": "NORTH",
       "type": "station",
       "description": "Central Saskatchewan station"
     },
     {
       "_id": "beaverton-or",
-      "stationName": "Beaverton, OR",
+      "name": "Beaverton, OR",
       "block": "SOUTH",
       "type": "station",
       "description": "Portland metropolitan area station"
     },
     {
       "_id": "everett-wa",
-      "stationName": "Everett, WA",
+      "name": "Everett, WA",
       "block": "SEA",
       "type": "station",
       "description": "North Seattle area station"
     },
     {
       "_id": "high-bridge-wa",
-      "stationName": "High Bridge, WA",
+      "name": "High Bridge, WA",
       "block": "ECHO",
       "type": "station",
       "description": "Mountain pass station"
     },
     {
       "_id": "spokane-wa",
-      "stationName": "Spokane, WA",
+      "name": "Spokane, WA",
       "block": "EAST",
       "type": "station",
       "description": "Eastern Washington hub"
     },
     {
       "_id": "walla-walla-wa",
-      "stationName": "Walla Walla, WA",
+      "name": "Walla Walla, WA",
       "block": "EAST",
       "type": "station",
       "description": "Southeastern Washington station"
     },
     {
       "_id": "vancouver-bc",
-      "stationName": "Vancouver, BC",
+      "name": "Vancouver, BC",
       "block": "NORTH",
       "type": "station",
       "description": "Pacific Northwest Canadian hub"
     },
     {
       "_id": "echo-lake-wa",
-      "stationName": "Echo Lake, WA",
+      "name": "Echo Lake, WA",
       "block": "ECHO",
       "type": "station",
       "description": "Mountain lake station"
     },
     {
       "_id": "portland-or",
-      "stationName": "Portland, OR",
+      "name": "Portland, OR",
       "block": "SOUTH",
       "type": "station",
       "description": "Major Oregon hub"
     },
     {
       "_id": "chicago-il",
-      "stationName": "Chicago, IL",
+      "name": "Chicago, IL",
       "block": "EAST",
       "type": "station",
       "description": "Eastern terminus and major interchange"
     },
     {
       "_id": "cascade-id",
-      "stationName": "Cascade, ID",
+      "name": "Cascade, ID",
       "block": "EAST",
       "type": "station",
       "description": "Idaho mountain station"
