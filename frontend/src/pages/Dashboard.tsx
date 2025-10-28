@@ -27,12 +27,29 @@ import { useApp } from '../contexts/AppContext';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
-  const { cars, locomotives, industries, routes, loading, error, fetchData } = useApp();
+  const { 
+    cars, 
+    locomotives, 
+    industries, 
+    routes, 
+    trains,
+    carOrders,
+    currentSession,
+    loading, 
+    error, 
+    fetchData,
+    fetchCurrentSession,
+    fetchTrains,
+    fetchCarOrders,
+  } = useApp();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    fetchCurrentSession();
+    fetchTrains();
+    fetchCarOrders();
+  }, [fetchData, fetchCurrentSession, fetchTrains, fetchCarOrders]);
 
   if (loading) {
     return (
@@ -54,16 +71,35 @@ const Dashboard: React.FC = () => {
   const locomotivesInService = locomotives.filter(loco => loco.isInService).length;
   const totalIndustries = industries.length;
 
+  // Train statistics
+  const trainsThisSession = currentSession 
+    ? trains.filter(t => t.sessionNumber === currentSession.currentSessionNumber).length
+    : trains.length;
+  const trainsPlanned = trains.filter(t => t.status === 'Planned').length;
+  const trainsInProgress = trains.filter(t => t.status === 'In Progress').length;
+  const trainsCompleted = trains.filter(t => t.status === 'Completed').length;
+
+  // Car order statistics
+  const ordersThisSession = currentSession
+    ? carOrders.filter(o => o.sessionNumber === currentSession.currentSessionNumber).length
+    : carOrders.length;
+  const ordersPending = carOrders.filter(o => o.status === 'pending').length;
+  const ordersAssigned = carOrders.filter(o => o.status === 'assigned').length;
+  const ordersDelivered = carOrders.filter(o => o.status === 'delivered').length;
+  const fulfillmentRate = ordersThisSession > 0 
+    ? Math.round((ordersDelivered / ordersThisSession) * 100) 
+    : 0;
+
   const recentActivity = [
     { id: '1', type: 'info', message: 'System initialized successfully', time: 'Just now' },
     { id: '2', type: 'success', message: 'Ready to import data', time: '1 minute ago' },
   ];
 
   const quickActions = [
-    { label: 'Import Data', path: '/import', color: 'primary' as const },
-    { label: 'Manage Cars', path: '/cars', color: 'secondary' as const },
-    { label: 'View Industries', path: '/industries', color: 'success' as const },
-    { label: 'Manage Routes', path: '/routes', color: 'info' as const },
+    { label: 'Session Management', path: '/sessions', color: 'primary' as const },
+    { label: 'Train Operations', path: '/trains', color: 'secondary' as const },
+    { label: 'Car Orders', path: '/orders', color: 'success' as const },
+    { label: 'Import Data', path: '/import', color: 'info' as const },
   ];
 
   return (
@@ -71,6 +107,37 @@ const Dashboard: React.FC = () => {
       <Typography variant="h4" component="h1" gutterBottom sx={{ mb: 3 }}>
         Dashboard
       </Typography>
+
+      {/* Current Session Card */}
+      {currentSession && (
+        <Card sx={{ mb: 3, bgcolor: 'primary.main', color: 'primary.contrastText' }}>
+          <CardContent>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Box>
+                <Typography variant="h6" gutterBottom>
+                  Current Operating Session
+                </Typography>
+                <Typography variant="h3" component="div" sx={{ fontWeight: 'bold' }}>
+                  Session {currentSession.currentSessionNumber}
+                </Typography>
+                {currentSession.description && (
+                  <Typography variant="body2" sx={{ mt: 1, opacity: 0.9 }}>
+                    {currentSession.description}
+                  </Typography>
+                )}
+              </Box>
+              <Button
+                variant="contained"
+                color="inherit"
+                onClick={() => navigate('/sessions')}
+                sx={{ color: 'primary.main', bgcolor: 'background.paper' }}
+              >
+                Manage Session
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Stats Cards */}
       <Box 
@@ -165,6 +232,98 @@ const Dashboard: React.FC = () => {
                 />
               </Box>
               <RouteIcon color="primary" sx={{ fontSize: 40 }} />
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+
+      {/* Train Operations & Car Orders Section */}
+      <Box 
+        sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+          gap: 3,
+          mb: 4 
+        }}
+      >
+        {/* Trains Card */}
+        <Card>
+          <CardContent>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+              <Typography variant="h6">
+                Train Operations
+              </Typography>
+              <Button
+                size="small"
+                onClick={() => navigate('/trains')}
+                sx={{ textTransform: 'none' }}
+              >
+                View All →
+              </Button>
+            </Box>
+            <Typography variant="h3" component="div" gutterBottom>
+              {trainsThisSession}
+            </Typography>
+            <Typography color="textSecondary" variant="body2" gutterBottom>
+              Trains this session
+            </Typography>
+            <Box display="flex" gap={1} mt={2} flexWrap="wrap">
+              <Chip 
+                label={`${trainsPlanned} Planned`} 
+                size="small" 
+                color="default"
+              />
+              <Chip 
+                label={`${trainsInProgress} In Progress`} 
+                size="small" 
+                color="primary"
+              />
+              <Chip 
+                label={`${trainsCompleted} Completed`} 
+                size="small" 
+                color="success"
+              />
+            </Box>
+          </CardContent>
+        </Card>
+
+        {/* Car Orders Card */}
+        <Card>
+          <CardContent>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+              <Typography variant="h6">
+                Car Orders
+              </Typography>
+              <Button
+                size="small"
+                onClick={() => navigate('/orders')}
+                sx={{ textTransform: 'none' }}
+              >
+                View All →
+              </Button>
+            </Box>
+            <Typography variant="h3" component="div" gutterBottom>
+              {ordersThisSession}
+            </Typography>
+            <Typography color="textSecondary" variant="body2" gutterBottom>
+              Orders this session
+            </Typography>
+            <Box display="flex" gap={1} mt={2} flexWrap="wrap">
+              <Chip 
+                label={`${ordersPending} Pending`} 
+                size="small" 
+                color="default"
+              />
+              <Chip 
+                label={`${ordersAssigned} Assigned`} 
+                size="small" 
+                color="primary"
+              />
+              <Chip 
+                label={`${fulfillmentRate}% Fulfilled`} 
+                size="small" 
+                color="success"
+              />
             </Box>
           </CardContent>
         </Card>
