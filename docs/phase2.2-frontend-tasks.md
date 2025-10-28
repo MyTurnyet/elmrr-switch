@@ -460,6 +460,8 @@ Implement the frontend UI for Phase 2.2 Train Operations, including operating se
 **Priority**: High (ensures quality)
 
 **Subtasks:**
+- [ ] Full suite of unit tests covering all UI functionality
+  - Create any missing expected unit tests
 - [ ] Manual testing of all workflows
   - Create train → generate switch list → complete train
   - Session advance with multiple trains
@@ -467,20 +469,12 @@ Implement the frontend UI for Phase 2.2 Train Operations, including operating se
   - Order generation with demand config
   - All CRUD operations
 - [ ] Test error scenarios
-  - Network failures
   - Validation errors
   - Business rule violations (can't edit In Progress train, etc.)
-- [ ] Test responsive design
-  - Mobile (320px - 768px)
-  - Tablet (768px - 1024px)
-  - Desktop (1024px+)
 - [ ] Test with realistic data
   - Multiple trains in different states
   - Many car orders
   - Complex switch lists
-- [ ] Performance testing
-  - Large datasets (100+ trains, 500+ orders)
-  - Rapid state changes
 - [ ] Fix any bugs found
 - [ ] Refine UI/UX based on testing
 - [ ] Optimize performance if needed
