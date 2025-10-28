@@ -1,4 +1,221 @@
 {
+  "aarTypes": [
+    {
+      "_id": "FB",
+      "code": "FB",
+      "name": "Flatcar - Bulkhead",
+      "description": "Flatcar with bulkheads for lumber and long loads",
+      "category": "Flatcar",
+      "length": 50,
+      "capacity": 70
+    },
+    {
+      "_id": "FBC",
+      "code": "FBC",
+      "name": "Flatcar - Centerbeam",
+      "description": "Centerbeam flatcar for lumber and building materials",
+      "category": "Flatcar",
+      "length": 73,
+      "capacity": 100
+    },
+    {
+      "_id": "FD",
+      "code": "FD",
+      "name": "Flatcar - Depressed Center",
+      "description": "Depressed center flatcar for heavy machinery",
+      "category": "Flatcar",
+      "length": 53,
+      "capacity": 80
+    },
+    {
+      "_id": "GHC",
+      "code": "GHC",
+      "name": "Covered Hopper - Coal",
+      "description": "Covered hopper car for coal transport",
+      "category": "Hopper",
+      "length": 53,
+      "capacity": 110
+    },
+    {
+      "_id": "GS",
+      "code": "GS",
+      "name": "Gondola - Steel",
+      "description": "Open-top gondola for bulk materials",
+      "category": "Gondola",
+      "length": 52,
+      "capacity": 100
+    },
+    {
+      "_id": "GTS",
+      "code": "GTS",
+      "name": "Gondola - Woodchip",
+      "description": "High-sided gondola for woodchips",
+      "category": "Gondola",
+      "length": 62,
+      "capacity": 120
+    },
+    {
+      "_id": "HM",
+      "code": "HM",
+      "name": "Hopper - 2-Bay",
+      "description": "Two-bay covered hopper for grain and aggregates",
+      "category": "Hopper",
+      "length": 39,
+      "capacity": 70
+    },
+    {
+      "_id": "HT",
+      "code": "HT",
+      "name": "Hopper - 3-Bay",
+      "description": "Three-bay covered hopper for grain and dry bulk",
+      "category": "Hopper",
+      "length": 47,
+      "capacity": 90
+    },
+    {
+      "_id": "HTC",
+      "code": "HTC",
+      "name": "Hopper - Cylindrical",
+      "description": "Cylindrical covered hopper for cement and plastics",
+      "category": "Hopper",
+      "length": 39,
+      "capacity": 80
+    },
+    {
+      "_id": "TA",
+      "code": "TA",
+      "name": "Tank Car - General Service",
+      "description": "Tank car for liquids and chemicals",
+      "category": "Tank",
+      "length": 54,
+      "capacity": 90
+    },
+    {
+      "_id": "XM",
+      "code": "XM",
+      "name": "Boxcar - 50ft",
+      "description": "Standard 50-foot boxcar for general merchandise",
+      "category": "Boxcar",
+      "length": 50,
+      "capacity": 70
+    },
+    {
+      "_id": "XMO",
+      "code": "XMO",
+      "name": "Boxcar - Hi-Cube",
+      "description": "High-cube boxcar for light, bulky loads",
+      "category": "Boxcar",
+      "length": 60,
+      "capacity": 100
+    },
+    {
+      "_id": "XPB",
+      "code": "XPB",
+      "name": "Boxcar - Beer/Beverage",
+      "description": "Insulated boxcar for beer and beverages",
+      "category": "Boxcar",
+      "length": 50,
+      "capacity": 70
+    },
+    {
+      "_id": "XPT",
+      "code": "XPT",
+      "name": "Boxcar - Insulated",
+      "description": "Insulated boxcar for temperature-sensitive cargo",
+      "category": "Boxcar",
+      "length": 50,
+      "capacity": 70
+    }
+  ],
+  "blocks": [
+    {
+      "_id": "NORTH",
+      "name": "North Block",
+      "description": "Canada"
+    },
+    {
+      "_id": "SEA",
+      "name": "Seattle Block",
+      "description": "Seattle and greater Puget Sound"
+    },
+    {
+      "_id": "SOUTH",
+      "name": "South Block",
+      "description": "Oregon and California"
+    },
+    {
+      "_id": "ECHO",
+      "name": "Echo Block",
+      "description": "Echo Lake and surrounding areas"
+    },
+    {
+      "_id": "EAST",
+      "name": "East Block",
+      "description": "Eastern Washington and all points East"
+    }
+  ],
+  "goods": [
+    {
+      "_id": "lumber",
+      "name": "Lumber",
+      "description": "Dimensional lumber and timber products",
+      "category": "Forest Products"
+    },
+    {
+      "_id": "woodchips",
+      "name": "Wood Chips",
+      "description": "Wood chips for paper mills",
+      "category": "Forest Products"
+    },
+    {
+      "_id": "grain",
+      "name": "Grain",
+      "description": "Wheat, barley, and other grains",
+      "category": "Agricultural"
+    },
+    {
+      "_id": "coal",
+      "name": "Coal",
+      "description": "Coal for power generation",
+      "category": "Minerals"
+    },
+    {
+      "_id": "aggregates",
+      "name": "Aggregates",
+      "description": "Sand, gravel, and crushed stone",
+      "category": "Construction"
+    },
+    {
+      "_id": "chemicals",
+      "name": "Chemicals",
+      "description": "Industrial chemicals and liquids",
+      "category": "Chemicals"
+    },
+    {
+      "_id": "beer",
+      "name": "Beer & Beverages",
+      "description": "Bottled beer and beverages",
+      "category": "Food & Beverage"
+    },
+    {
+      "_id": "general-merchandise",
+      "name": "General Merchandise",
+      "description": "Boxed goods and general freight",
+      "category": "General"
+    },
+    {
+      "_id": "paper",
+      "name": "Paper Products",
+      "description": "Finished paper and cardboard",
+      "category": "Forest Products"
+    },
+    {
+      "_id": "scrap-metal",
+      "name": "Scrap Metal",
+      "description": "Recyclable metal scrap",
+      "category": "Recycling"
+    }
+  ],
   "stations": [
     {
       "_id": "edmonton-ab",
