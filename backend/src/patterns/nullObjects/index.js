@@ -12,3 +12,6 @@ export { NullOperatingSession, NULL_OPERATING_SESSION } from './NullOperatingSes
 export { NullLocomotive, NULL_LOCOMOTIVE } from './NullLocomotive.js';
 export { NullStation, NULL_STATION } from './NullStation.js';
 export { NullAarType, NULL_AAR_TYPE } from './NullAarType.js';
+export { NullBlock, NULL_BLOCK } from './NullBlock.js';
+export { NullTrack, NULL_TRACK } from './NullTrack.js';
+export { NullGood, NULL_GOOD } from './NullGood.js';

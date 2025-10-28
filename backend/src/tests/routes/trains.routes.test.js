@@ -53,7 +53,8 @@ jest.mock('../../repositories/index.js', () => {
     };
     
     const mockSessionRepo = {
-        findAll: jest.fn()
+        findAll: jest.fn(),
+        getCurrentSession: jest.fn()
     };
     
     const mockRouteRepo = {
@@ -161,6 +162,7 @@ describe('Trains Routes', () => {
 
         // Setup default successful mocks
         mockSessionRepoInstance.findAll.mockResolvedValue([mockSession]);
+        mockSessionRepoInstance.getCurrentSession.mockResolvedValue(mockSession);
         mockTrainRepoInstance.findWithFilters.mockResolvedValue([mockTrain]);
         mockTrainRepoInstance.findById.mockResolvedValue(mockTrain);
         mockTrainRepoInstance.findByIdOrNull.mockResolvedValue(mockTrain);
@@ -257,7 +259,7 @@ describe('Trains Routes', () => {
         });
 
         it('should handle missing session error', async () => {
-            mockSessionRepoInstance.findAll.mockResolvedValue([]);
+            mockSessionRepoInstance.getCurrentSession.mockResolvedValue({ isNull: true, isValid: false });
 
             const response = await request(app)
                 .post('/api/v1/trains')

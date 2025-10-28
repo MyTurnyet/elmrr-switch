@@ -9,6 +9,7 @@ import { throwIfNull } from '../utils/nullObjectHelpers.js';
 const router = express.Router();
 const routeRepository = getRepository('routes');
 const industryRepository = getRepository('industries');
+const stationRepository = getRepository('stations');
 
 // GET /api/routes - Get all routes with optional filtering
 router.get('/', asyncHandler(async (req, res) => {
@@ -72,10 +73,8 @@ router.post('/', asyncHandler(async (req, res) => {
   // Verify all stations in sequence exist
   if (value.stationSequence && value.stationSequence.length > 0) {
     for (const stationId of value.stationSequence) {
-      const station = await dbHelpers.findById('stations', stationId);
-      if (!station) {
-        throw new ApiError(`Station with ID '${stationId}' does not exist`, 404);
-      }
+      const station = await stationRepository.findByIdOrNull(stationId);
+      throwIfNull(station, `Station with ID '${stationId}' does not exist`, 404);
     }
   }
 
@@ -127,10 +126,8 @@ router.put('/:id', asyncHandler(async (req, res) => {
     // Verify all stations in sequence exist (if being updated)
     if (value.stationSequence && value.stationSequence.length > 0) {
       for (const stationId of value.stationSequence) {
-        const station = await dbHelpers.findById('stations', stationId);
-        if (!station) {
-          throw new ApiError(`Station with ID '${stationId}' does not exist`, 404);
-        }
+        const station = await stationRepository.findByIdOrNull(stationId);
+        throwIfNull(station, `Station with ID '${stationId}' does not exist`, 404);
       }
     }
 

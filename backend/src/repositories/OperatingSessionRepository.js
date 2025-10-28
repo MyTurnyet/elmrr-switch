@@ -43,4 +43,13 @@ export class OperatingSessionRepository extends BaseRepository {
   async getCurrentOrNull(options = {}) {
     return this.getCurrent({ ...options, useNullObject: true });
   }
+
+  /**
+   * Alias for getCurrentOrNull for consistency with service layer
+   * @param {Object} options - Query options
+   * @returns {Promise<Object>} Current session or null object
+   */
+  async getCurrentSession(options = {}) {
+    return this.getCurrentOrNull(options);
+  }
 }

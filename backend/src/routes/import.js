@@ -1,13 +1,17 @@
 import express from 'express';
 import multer from 'multer';
+import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { validateCar } from '../models/car.js';
 import { validateIndustry } from '../models/industry.js';
 import { validateRoute } from '../models/route.js';
 import { asyncHandler, ApiError } from '../middleware/errorHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+import { isNullObject } from '../patterns/NullObject.js';
 
 const router = express.Router();
+const industryRepository = getRepository('industries');
+const stationRepository = getRepository('stations');
 const upload = multer({ storage: multer.memoryStorage() });
 
 // POST /api/import/json - Import JSON data
@@ -101,8 +105,8 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
           }
 
           // Verify origin yard exists and is a yard
-          const originYard = await dbHelpers.findById('industries', value.originYard);
-          if (!originYard) {
+          const originYard = await industryRepository.findByIdOrNull(value.originYard);
+          if (isNullObject(originYard)) {
             results.errors.push(`Route ${index + 1}: Origin yard '${value.originYard}' not found`);
             continue;
           }
@@ -112,8 +116,8 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
           }
 
           // Verify termination yard exists and is a yard
-          const terminationYard = await dbHelpers.findById('industries', value.terminationYard);
-          if (!terminationYard) {
+          const terminationYard = await industryRepository.findByIdOrNull(value.terminationYard);
+          if (isNullObject(terminationYard)) {
             results.errors.push(`Route ${index + 1}: Termination yard '${value.terminationYard}' not found`);
             continue;
           }
@@ -126,8 +130,8 @@ router.post('/json', upload.single('file'), asyncHandler(async (req, res) => {
           if (value.stationSequence && value.stationSequence.length > 0) {
             let stationsValid = true;
             for (const stationId of value.stationSequence) {
-              const station = await dbHelpers.findById('stations', stationId);
-              if (!station) {
+              const station = await stationRepository.findByIdOrNull(stationId);
+              if (isNullObject(station)) {
                 results.errors.push(`Route ${index + 1}: Station '${stationId}' not found in sequence`);
                 stationsValid = false;
                 break;

@@ -23,6 +23,7 @@ export class CarOrderService {
     this.aarTypeRepo = getRepository('aarTypes');
     this.carRepo = getRepository('cars');
     this.trainRepo = getRepository('trains');
+    this.sessionRepo = getRepository('operatingSessions');
   }
 
   /**
@@ -42,11 +43,8 @@ export class CarOrderService {
     // Get current session number if not provided
     let sessionNumber = value.sessionNumber;
     if (!sessionNumber) {
-      const sessions = await dbHelpers.findAll('operatingSessions');
-      const currentSession = sessions[0];
-      if (!currentSession) {
-        throw new ApiError('Cannot generate orders without an active operating session', 404);
-      }
+      const currentSession = await this.sessionRepo.getCurrentSession();
+      throwIfNull(currentSession, 'Cannot generate orders without an active operating session', 404);
       sessionNumber = currentSession.currentSessionNumber;
     }
 
@@ -221,10 +219,8 @@ export class CarOrderService {
    * @returns {Promise<void>}
    */
   async deleteOrder(orderId) {
-    const existingOrder = await dbHelpers.findById('carOrders', orderId);
-    if (!existingOrder) {
-      throw new ApiError('Car order not found', 404);
-    }
+    const existingOrder = await this.carOrderRepo.findByIdOrNull(orderId);
+    throwIfNull(existingOrder, 'Car order not found', 404);
 
     // Prevent deletion of assigned orders
     if (existingOrder.status === 'assigned' || existingOrder.status === 'in-transit') {
@@ -248,9 +244,8 @@ export class CarOrderService {
   async getOrderStats(sessionNumber = null) {
     // Get session number if not provided
     if (!sessionNumber) {
-      const sessions = await dbHelpers.findAll('operatingSessions');
-      const currentSession = sessions[0];
-      if (currentSession) {
+      const currentSession = await this.sessionRepo.getCurrentSession();
+      if (currentSession && !currentSession.isNull) {
         sessionNumber = currentSession.currentSessionNumber;
       }
     }

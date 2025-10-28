@@ -52,11 +52,8 @@ router.post('/',
   // Get current session number if not provided
   let sessionNumber = req.body.sessionNumber;
   if (!sessionNumber) {
-    const sessions = await sessionRepository.findAll();
-    const currentSession = sessions[0];
-    if (!currentSession) {
-      throw new ApiError('Cannot create train without an active operating session', 400);
-    }
+    const currentSession = await sessionRepository.getCurrentSession();
+    throwIfNull(currentSession, 'Cannot create train without an active operating session', 400);
     sessionNumber = currentSession.currentSessionNumber;
   }
 
@@ -85,19 +82,15 @@ router.put('/:id',
 
   // Verify route if being updated
   if (req.body.routeId && req.body.routeId !== existingTrain.routeId) {
-    const route = await routeRepository.findById(req.body.routeId);
-    if (!route) {
-      throw new ApiError(`Route with ID '${req.body.routeId}' does not exist`, 404);
-    }
+    const route = await routeRepository.findByIdOrNull(req.body.routeId);
+    throwIfNull(route, `Route with ID '${req.body.routeId}' does not exist`, 404);
   }
 
   // Verify locomotives if being updated
   if (req.body.locomotiveIds) {
     for (const locoId of req.body.locomotiveIds) {
-      const locomotive = await locomotiveRepository.findById(locoId);
-      if (!locomotive) {
-        throw new ApiError(`Locomotive with ID '${locoId}' does not exist`, 404);
-      }
+      const locomotive = await locomotiveRepository.findByIdOrNull(locoId);
+      throwIfNull(locomotive, `Locomotive with ID '${locoId}' does not exist`, 404);
       if (!locomotive.isInService) {
         throw new ApiError(`Locomotive '${locomotive.reportingMarks}' is not in service`, 400);
       }

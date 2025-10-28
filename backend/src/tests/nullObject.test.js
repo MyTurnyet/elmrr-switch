@@ -4,21 +4,26 @@
  */
 
 import { isNullObject, isPresent } from '../patterns/NullObject.js';
-import { NULL_CAR } from '../patterns/nullObjects/NullCar.js';
-import { NULL_TRAIN } from '../patterns/nullObjects/NullTrain.js';
-import { NULL_INDUSTRY } from '../patterns/nullObjects/NullIndustry.js';
-import { NULL_ROUTE } from '../patterns/nullObjects/NullRoute.js';
-import { NULL_CAR_ORDER } from '../patterns/nullObjects/NullCarOrder.js';
-import { NULL_OPERATING_SESSION } from '../patterns/nullObjects/NullOperatingSession.js';
-import { NULL_LOCOMOTIVE } from '../patterns/nullObjects/NullLocomotive.js';
-import { NULL_STATION } from '../patterns/nullObjects/NullStation.js';
-import { NULL_AAR_TYPE } from '../patterns/nullObjects/NullAarType.js';
+import { 
+  NULL_CAR, 
+  NULL_TRAIN, 
+  NULL_INDUSTRY, 
+  NULL_ROUTE, 
+  NULL_CAR_ORDER, 
+  NULL_OPERATING_SESSION,
+  NULL_LOCOMOTIVE,
+  NULL_STATION,
+  NULL_AAR_TYPE,
+  NULL_BLOCK,
+  NULL_TRACK,
+  NULL_GOOD
+} from '../patterns/nullObjects/index.js';
 import { throwIfNull, getOrDefault, filterNullObjects, allPresent, anyNull } from '../utils/nullObjectHelpers.js';
 import { ApiError } from '../middleware/errorHandler.js';
 
 describe('Null Object Pattern', () => {
   describe('isNullObject', () => {
-    it('should identify null objects', () => {
+    it('should identify all null objects', () => {
       expect(isNullObject(NULL_CAR)).toBe(true);
       expect(isNullObject(NULL_TRAIN)).toBe(true);
       expect(isNullObject(NULL_INDUSTRY)).toBe(true);
@@ -28,6 +33,9 @@ describe('Null Object Pattern', () => {
       expect(isNullObject(NULL_LOCOMOTIVE)).toBe(true);
       expect(isNullObject(NULL_STATION)).toBe(true);
       expect(isNullObject(NULL_AAR_TYPE)).toBe(true);
+      expect(isNullObject(NULL_BLOCK)).toBe(true);
+      expect(isNullObject(NULL_TRACK)).toBe(true);
+      expect(isNullObject(NULL_GOOD)).toBe(true);
     });
 
     it('should not identify regular objects as null objects', () => {

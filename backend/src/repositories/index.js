@@ -13,6 +13,9 @@ import { CarOrderRepository } from './CarOrderRepository.js';
 import { OperatingSessionRepository } from './OperatingSessionRepository.js';
 import { LocomotiveRepository } from './LocomotiveRepository.js';
 import { StationRepository } from './StationRepository.js';
+import { BlockRepository } from './BlockRepository.js';
+import { TrackRepository } from './TrackRepository.js';
+import { GoodRepository } from './GoodRepository.js';
 
 // Repository instances cache
 const repositories = new Map();
@@ -59,12 +62,14 @@ export function getRepository(entityName) {
     case 'stations':
       repository = new StationRepository();
       break;
-    // Entities without specific repositories yet
     case 'blocks':
+      repository = new BlockRepository();
+      break;
     case 'tracks':
+      repository = new TrackRepository();
+      break;
     case 'goods':
-      // Use base repository for entities without specific repositories
-      repository = new BaseRepository(entityName);
+      repository = new GoodRepository();
       break;
     default:
       throw new Error(`Unknown entity: ${entityName}`);
@@ -141,3 +146,6 @@ export { CarOrderRepository } from './CarOrderRepository.js';
 export { OperatingSessionRepository } from './OperatingSessionRepository.js';
 export { LocomotiveRepository } from './LocomotiveRepository.js';
 export { StationRepository } from './StationRepository.js';
+export { BlockRepository } from './BlockRepository.js';
+export { TrackRepository } from './TrackRepository.js';
+export { GoodRepository } from './GoodRepository.js';
