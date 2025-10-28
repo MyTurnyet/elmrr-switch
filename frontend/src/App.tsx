@@ -9,6 +9,9 @@ import CarManagement from './pages/CarManagement';
 import IndustryView from './pages/IndustryView';
 import RouteManagement from './pages/RouteManagement';
 import DataImport from './pages/DataImport';
+import SessionManagement from './pages/SessionManagement';
+import TrainOperations from './pages/TrainOperations';
+import CarOrderManagement from './pages/CarOrderManagement';
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/sessions" element={<SessionManagement />} />
+              <Route path="/trains" element={<TrainOperations />} />
+              <Route path="/orders" element={<CarOrderManagement />} />
               <Route path="/cars" element={<CarManagement />} />
               <Route path="/industries" element={<IndustryView />} />
               <Route path="/routes" element={<RouteManagement />} />

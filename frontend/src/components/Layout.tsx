@@ -14,6 +14,8 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  Divider,
+  ListSubheader,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -23,6 +25,8 @@ import {
   Route as RouteIcon,
   CloudUpload as ImportIcon,
   Train as TrainIcon,
+  CalendarMonth as SessionIcon,
+  Assignment as OrderIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -43,12 +47,30 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     setMobileOpen(!mobileOpen);
   };
 
-  const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-    { text: 'Car Management', icon: <CarIcon />, path: '/cars' },
-    { text: 'Industries', icon: <IndustryIcon />, path: '/industries' },
-    { text: 'Routes', icon: <RouteIcon />, path: '/routes' },
-    { text: 'Data Import', icon: <ImportIcon />, path: '/import' },
+  const menuSections = [
+    {
+      title: null,
+      items: [
+        { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
+      ]
+    },
+    {
+      title: 'Operations',
+      items: [
+        { text: 'Session Management', icon: <SessionIcon />, path: '/sessions' },
+        { text: 'Train Operations', icon: <TrainIcon />, path: '/trains' },
+        { text: 'Car Orders', icon: <OrderIcon />, path: '/orders' },
+      ]
+    },
+    {
+      title: 'Setup',
+      items: [
+        { text: 'Car Management', icon: <CarIcon />, path: '/cars' },
+        { text: 'Industries', icon: <IndustryIcon />, path: '/industries' },
+        { text: 'Routes', icon: <RouteIcon />, path: '/routes' },
+        { text: 'Data Import', icon: <ImportIcon />, path: '/import' },
+      ]
+    }
   ];
 
   const drawer = (
@@ -61,41 +83,55 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </Typography>
         </Box>
       </Toolbar>
-      <List>
-        {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton
-              selected={location.pathname === item.path}
-              onClick={() => {
-                navigate(item.path);
-                if (isMobile) {
-                  setMobileOpen(false);
-                }
-              }}
-              sx={{
-                '&.Mui-selected': {
-                  backgroundColor: theme.palette.primary.light + '20',
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.light + '30',
-                  },
-                },
-              }}
-            >
-              <ListItemIcon sx={{ color: location.pathname === item.path ? theme.palette.primary.main : 'inherit' }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText 
-                primary={item.text} 
-                sx={{ 
-                  '& .MuiListItemText-primary': { 
-                    fontWeight: location.pathname === item.path ? 600 : 400 
-                  } 
-                }} 
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <Divider />
+      {menuSections.map((section, sectionIndex) => (
+        <React.Fragment key={sectionIndex}>
+          <List
+            subheader={
+              section.title ? (
+                <ListSubheader component="div" sx={{ bgcolor: 'transparent', fontWeight: 600 }}>
+                  {section.title}
+                </ListSubheader>
+              ) : undefined
+            }
+          >
+            {section.items.map((item) => (
+              <ListItem key={item.text} disablePadding>
+                <ListItemButton
+                  selected={location.pathname === item.path}
+                  onClick={() => {
+                    navigate(item.path);
+                    if (isMobile) {
+                      setMobileOpen(false);
+                    }
+                  }}
+                  sx={{
+                    '&.Mui-selected': {
+                      backgroundColor: theme.palette.primary.light + '20',
+                      '&:hover': {
+                        backgroundColor: theme.palette.primary.light + '30',
+                      },
+                    },
+                  }}
+                >
+                  <ListItemIcon sx={{ color: location.pathname === item.path ? theme.palette.primary.main : 'inherit' }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary={item.text} 
+                    sx={{ 
+                      '& .MuiListItemText-primary': { 
+                        fontWeight: location.pathname === item.path ? 600 : 400 
+                      } 
+                    }} 
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          {sectionIndex < menuSections.length - 1 && <Divider />}
+        </React.Fragment>
+      ))}
     </div>
   );
 
