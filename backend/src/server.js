@@ -4,6 +4,9 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// Import logger
+import logger from './utils/logger.js';
+
 // Import configuration
 import { 
   config, 
@@ -50,7 +53,10 @@ app.use(cors({
   origin: serverConfig.cors.origin,
   credentials: serverConfig.cors.credentials
 }));
-app.use(morgan(loggingConfig.format));
+
+// HTTP request logging with Winston
+app.use(morgan('combined', { stream: logger.stream }));
+
 app.use(express.json({ limit: apiConfig.bodyLimit }));
 app.use(express.urlencoded({ extended: true, limit: apiConfig.bodyLimit }));
 
@@ -63,7 +69,7 @@ const initializeOperatingSession = async () => {
     const sessions = await dbHelpers.findAll('operatingSessions');
     
     if (sessions.length === 0) {
-      console.log('🎯 Initializing operating session...');
+      logger.info('Initializing operating session...');
       
       const { error, value } = validateOperatingSession({
         currentSessionNumber: 1,
@@ -73,17 +79,17 @@ const initializeOperatingSession = async () => {
       });
 
       if (error) {
-        console.error('❌ Failed to validate initial session:', error.details[0].message);
+        logger.error('Failed to validate initial session', { error: error.details[0].message });
         return;
       }
 
       await dbHelpers.create('operatingSessions', value);
-      console.log('✅ Operating session initialized (Session 1)');
+      logger.info('Operating session initialized', { sessionNumber: 1 });
     } else {
-      console.log(`✅ Operating session found (Session ${sessions[0].currentSessionNumber})`);
+      logger.info('Operating session found', { sessionNumber: sessions[0].currentSessionNumber });
     }
   } catch (error) {
-    console.error('❌ Failed to initialize operating session:', error.message);
+    logger.logError(error, { context: 'initializeOperatingSession' });
   }
 };
 
@@ -139,10 +145,13 @@ app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
 app.listen(serverConfig.port, serverConfig.host, () => {
-  console.log(`🚂 ELMRR Switch Backend running on ${serverConfig.host}:${serverConfig.port}`);
-  console.log(`📊 Health check: http://${serverConfig.host}:${serverConfig.port}/health`);
-  console.log(`🔌 API v1: http://${serverConfig.host}:${serverConfig.port}/api/v1/`);
-  console.log(`🔧 Environment: ${serverConfig.env}`);
-  console.log(`📁 Database path: ${config.database.path}`);
-  console.log(`🔒 CORS origin: ${serverConfig.cors.origin}`);
+  logger.info('🚂 ELMRR Switch Backend started', {
+    host: serverConfig.host,
+    port: serverConfig.port,
+    environment: serverConfig.env,
+    healthCheck: `http://${serverConfig.host}:${serverConfig.port}/health`,
+    apiV1: `http://${serverConfig.host}:${serverConfig.port}/api/v1/`,
+    databasePath: config.database.path,
+    corsOrigin: serverConfig.cors.origin
+  });
 });

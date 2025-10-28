@@ -260,6 +260,17 @@ elmrr-switch/
 5. **Mobile**: Progressive Web App (PWA) support
 
 ## Recent Updates
+- **2025-10-28**: ✅ LOGGING SYSTEM IMPLEMENTED
+  - Implemented Winston logging with automatic file rotation and cleanup
+  - Features: Console logging (dev), file logging (production), structured JSON logs
+  - Self-cleaning: Max 50MB disk usage (5 files × 10MB, auto-rotates)
+  - Configuration: Integrated with existing config system, environment-based
+  - Files: `src/utils/logger.js`, `docs/LOGGING.md`, `docs/LOGGING_QUICK_START.md`
+  - Updated: `server.js`, `errorHandler.js`, `TrainService.js` with logging examples
+  - Dependencies: winston@^3.11.0, winston-daily-rotate-file@^4.7.1 (~500KB)
+  - Testing: All 201 model tests passing, logger disabled in test environment
+  - Zero maintenance: Set it and forget it, automatic cleanup
+
 - **2025-10-28**: ✅ PHASE 2.2 FRONTEND COMPLETE - PROJECT 100% COMPLETE
   - Implemented all 3 Phase 2.2 pages (SessionManagement, TrainOperations, CarOrderManagement)
   - Added comprehensive test coverage (162/162 tests passing)

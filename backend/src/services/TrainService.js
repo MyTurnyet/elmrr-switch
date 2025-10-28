@@ -3,6 +3,7 @@
  * Extracted from routes to improve testability and maintainability
  */
 
+import logger from '../utils/logger.js';
 import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { 
@@ -29,12 +30,19 @@ export class TrainService {
    * @returns {Promise<Object>} Switch list generation result
    */
   async generateSwitchList(trainId) {
+    logger.info('Generating switch list', { trainId });
+    
     // Get train with enriched data
     const train = await this.trainRepo.findByIdOrNull(trainId, { enrich: true });
     throwIfNull(train, 'Train not found', 404);
 
     // Validate train status
     if (train.status !== 'Planned') {
+      logger.warn('Switch list generation failed - invalid status', { 
+        trainId, 
+        trainName: train.name,
+        currentStatus: train.status 
+      });
       throw new ApiError(`Cannot generate switch list for train with status: ${train.status}. Only 'Planned' trains can generate switch lists.`, 400);
     }
 
@@ -47,6 +55,11 @@ export class TrainService {
     // Validate requirements
     const validation = validateSwitchListRequirements(train, route, locomotives.filter(Boolean));
     if (!validation.valid) {
+      logger.warn('Switch list validation failed', { 
+        trainId, 
+        trainName: train.name,
+        errors: validation.errors 
+      });
       throw new ApiError('Cannot generate switch list', 400, validation.errors.join(', '));
     }
 
@@ -54,6 +67,11 @@ export class TrainService {
     const switchListResult = await this._generateSwitchListAlgorithm(train, route);
     
     if (!switchListResult.success) {
+      logger.error('Switch list algorithm failed', { 
+        trainId, 
+        trainName: train.name,
+        message: switchListResult.message 
+      });
       throw new ApiError('Switch list generation failed', 500, switchListResult.message);
     }
 
@@ -75,6 +93,15 @@ export class TrainService {
         assignedTrainId: trainId
       });
     }
+
+    logger.info('Switch list generated successfully', {
+      trainId,
+      trainName: train.name,
+      stationsServed: switchListResult.switchList.stations.length,
+      totalPickups: switchListResult.switchList.totalPickups,
+      totalSetouts: switchListResult.switchList.totalSetouts,
+      assignedCars: switchListResult.assignedCarIds.length
+    });
 
     // Get updated train with enriched data
     const updatedTrain = await this.trainRepo.findById(trainId, { enrich: true });

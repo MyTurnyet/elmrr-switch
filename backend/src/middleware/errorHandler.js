@@ -2,6 +2,8 @@
  * Centralized error handling middleware for ELMRR Switch Backend
  */
 
+import logger from '../utils/logger.js';
+
 /**
  * Async handler wrapper to catch async errors and pass them to error middleware
  * @param {Function} fn - Async route handler function
@@ -31,15 +33,20 @@ export class ApiError extends Error {
  * Should be the last middleware in the chain
  */
 export const globalErrorHandler = (err, req, res, next) => {
-  // Log error details
-  console.error('Error occurred:', {
-    message: err.message,
-    stack: err.stack,
-    url: req.originalUrl,
-    method: req.method,
-    ip: req.ip,
-    userAgent: req.get('User-Agent'),
-    timestamp: new Date().toISOString()
+  // Log error details with Winston
+  logger.error('Error occurred', {
+    error: {
+      name: err.name,
+      message: err.message,
+      stack: err.stack,
+      statusCode: err.statusCode || 500
+    },
+    request: {
+      url: req.originalUrl,
+      method: req.method,
+      ip: req.ip,
+      userAgent: req.get('User-Agent')
+    }
   });
 
   // Default error values
@@ -89,6 +96,14 @@ export const globalErrorHandler = (err, req, res, next) => {
  */
 export const notFoundHandler = (req, res) => {
   const error = new ApiError(`Route ${req.originalUrl} not found`, 404);
+  
+  // Log 404 errors
+  logger.warn('Route not found', {
+    url: req.originalUrl,
+    method: req.method,
+    ip: req.ip
+  });
+  
   res.status(404).json({
     success: false,
     error: error.message,
