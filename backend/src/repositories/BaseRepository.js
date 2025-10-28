@@ -36,13 +36,14 @@ export class BaseRepository {
    * @param {string} id - Document ID
    * @param {Object} options - Query options
    * @param {boolean} options.enrich - Whether to enrich the result
+   * @param {boolean} options.useNullObject - Return null object instead of null
    * @returns {Promise<Object|null>} Document or null if not found
    */
   async findById(id, options = {}) {
     const document = await dbHelpers.findById(this.collectionName, id);
     
     if (!document) {
-      return null;
+      return options.useNullObject ? this.getNullObject() : null;
     }
     
     if (options.enrich) {
@@ -50,6 +51,18 @@ export class BaseRepository {
     }
     
     return document;
+  }
+
+  /**
+   * Find a document by ID or return null object
+   * Convenience method that always returns a null object instead of null
+   * @param {string} id - Document ID
+   * @param {Object} options - Query options
+   * @param {boolean} options.enrich - Whether to enrich the result
+   * @returns {Promise<Object>} Document or null object
+   */
+  async findByIdOrNull(id, options = {}) {
+    return this.findById(id, { ...options, useNullObject: true });
   }
 
   /**
@@ -200,5 +213,15 @@ export class BaseRepository {
       totalDocuments: total,
       lastUpdated: new Date().toISOString()
     };
+  }
+
+  /**
+   * Get the null object for this repository
+   * Override this method in subclasses to provide specific null objects
+   * @returns {Object} Null object instance
+   * @throws {Error} If not implemented in subclass
+   */
+  getNullObject() {
+    throw new Error(`getNullObject() must be implemented in ${this.constructor.name}`);
   }
 }

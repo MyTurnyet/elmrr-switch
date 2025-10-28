@@ -3,6 +3,7 @@
  * Extracted from routes to improve testability and maintainability
  */
 
+import { getRepository } from '../repositories/index.js';
 import { dbHelpers } from '../database/index.js';
 import { 
   validateOperatingSession, 
@@ -13,7 +14,7 @@ import { ApiError } from '../middleware/errorHandler.js';
 
 export class SessionService {
   constructor() {
-    // Service can be extended with repository dependencies if needed
+    this.sessionRepo = getRepository('operatingSessions');
   }
 
   /**

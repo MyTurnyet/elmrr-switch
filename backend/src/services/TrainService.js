@@ -10,6 +10,7 @@ import {
   validateStatusTransition
 } from '../models/train.js';
 import { ApiError } from '../middleware/errorHandler.js';
+import { throwIfNull } from '../utils/nullObjectHelpers.js';
 
 export class TrainService {
   constructor() {
@@ -29,10 +30,8 @@ export class TrainService {
    */
   async generateSwitchList(trainId) {
     // Get train with enriched data
-    const train = await this.trainRepo.findById(trainId, { enrich: true });
-    if (!train) {
-      throw new ApiError('Train not found', 404);
-    }
+    const train = await this.trainRepo.findByIdOrNull(trainId, { enrich: true });
+    throwIfNull(train, 'Train not found', 404);
 
     // Validate train status
     if (train.status !== 'Planned') {
@@ -98,10 +97,8 @@ export class TrainService {
    * @returns {Promise<Object>} Completion result
    */
   async completeTrain(trainId) {
-    const train = await this.trainRepo.findById(trainId);
-    if (!train) {
-      throw new ApiError('Train not found', 404);
-    }
+    const train = await this.trainRepo.findByIdOrNull(trainId);
+    throwIfNull(train, 'Train not found', 404);
 
     if (train.status !== 'In Progress') {
       throw new ApiError(`Cannot complete train with status: ${train.status}. Only 'In Progress' trains can be completed.`, 400);
@@ -159,10 +156,8 @@ export class TrainService {
    * @returns {Promise<Object>} Cancellation result
    */
   async cancelTrain(trainId) {
-    const train = await this.trainRepo.findById(trainId);
-    if (!train) {
-      throw new ApiError('Train not found', 404);
-    }
+    const train = await this.trainRepo.findByIdOrNull(trainId);
+    throwIfNull(train, 'Train not found', 404);
 
     // Cannot cancel completed trains
     if (train.status === 'Completed') {

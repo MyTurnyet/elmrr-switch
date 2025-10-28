@@ -6,6 +6,13 @@
 import { BaseRepository } from './BaseRepository.js';
 import { TrainRepository } from './TrainRepository.js';
 import { AarTypeRepository } from './AarTypeRepository.js';
+import { CarRepository } from './CarRepository.js';
+import { IndustryRepository } from './IndustryRepository.js';
+import { RouteRepository } from './RouteRepository.js';
+import { CarOrderRepository } from './CarOrderRepository.js';
+import { OperatingSessionRepository } from './OperatingSessionRepository.js';
+import { LocomotiveRepository } from './LocomotiveRepository.js';
+import { StationRepository } from './StationRepository.js';
 
 // Repository instances cache
 const repositories = new Map();
@@ -31,18 +38,32 @@ export function getRepository(entityName) {
     case 'aarTypes':
       repository = new AarTypeRepository();
       break;
-    // Add more specific repositories as they are created
     case 'cars':
-    case 'locomotives':
-    case 'stations':
-    case 'routes':
+      repository = new CarRepository();
+      break;
     case 'industries':
+      repository = new IndustryRepository();
+      break;
+    case 'routes':
+      repository = new RouteRepository();
+      break;
+    case 'carOrders':
+      repository = new CarOrderRepository();
+      break;
+    case 'operatingSessions':
+      repository = new OperatingSessionRepository();
+      break;
+    case 'locomotives':
+      repository = new LocomotiveRepository();
+      break;
+    case 'stations':
+      repository = new StationRepository();
+      break;
+    // Entities without specific repositories yet
     case 'blocks':
     case 'tracks':
     case 'goods':
-    case 'carOrders':
-    case 'operatingSessions':
-      // For now, use base repository for entities without specific repositories
+      // Use base repository for entities without specific repositories
       repository = new BaseRepository(entityName);
       break;
     default:
@@ -113,3 +134,10 @@ export async function getAllRepositoryStats() {
 export { BaseRepository } from './BaseRepository.js';
 export { TrainRepository } from './TrainRepository.js';
 export { AarTypeRepository } from './AarTypeRepository.js';
+export { CarRepository } from './CarRepository.js';
+export { IndustryRepository } from './IndustryRepository.js';
+export { RouteRepository } from './RouteRepository.js';
+export { CarOrderRepository } from './CarOrderRepository.js';
+export { OperatingSessionRepository } from './OperatingSessionRepository.js';
+export { LocomotiveRepository } from './LocomotiveRepository.js';
+export { StationRepository } from './StationRepository.js';
