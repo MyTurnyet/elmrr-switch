@@ -320,7 +320,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-canadian-forest-products",
@@ -332,7 +332,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-yard",
@@ -344,7 +344,7 @@
         "all"
       ],
       "isYard": true,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "walla-walla-yard",
@@ -356,7 +356,7 @@
         "all"
       ],
       "isYard": true,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "portland-yard",
@@ -368,7 +368,7 @@
         "all"
       ],
       "isYard": true,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "chicago-yard",
@@ -380,7 +380,7 @@
         "all"
       ],
       "isYard": true,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "spokane-industrial-park",
@@ -392,7 +392,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "echo-printers",
@@ -428,7 +428,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-pacific-elevators",
@@ -440,7 +440,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "edmonton-united-grain-growers",
@@ -452,7 +452,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "walla-grain-elevator",
@@ -464,7 +464,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "cascade-lumber-mill",
@@ -476,7 +476,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "echo-maltby-brewery",
@@ -512,7 +512,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "saskatoon-inland-aggregates",
@@ -524,7 +524,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "seattle-us-plywood-corp",
@@ -536,7 +536,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "interbay-yard",
@@ -548,7 +548,7 @@
         "all"
       ],
       "isYard": true,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "boise-cascade",
@@ -560,7 +560,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "saskatoon-federated-co-operative",
@@ -572,7 +572,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-alberta-wheat-pool",
@@ -584,7 +584,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-pioneer-grain",
@@ -596,7 +596,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "spokane-yard",
@@ -608,7 +608,7 @@
         "all"
       ],
       "isYard": true,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-paper-mill",
@@ -620,7 +620,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "high-bridge-yard",
@@ -644,7 +644,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     },
     {
       "_id": "portland-station",
@@ -656,7 +656,7 @@
         "all"
       ],
       "isYard": false,
-      "isOnLayout": true
+      "isOnLayout": false
     }
   ],
   "cars": [
@@ -2838,7 +2838,11 @@
       "description": "Local freight service between Vancouver BC and Portland OR, serving intermediate stations",
       "originYard": "vancouver-yard",
       "terminationYard": "portland-yard",
-      "stationSequence": ["seattle-wa", "everett-wa", "beaverton-or"]
+      "stationSequence": [
+        "seattle-wa",
+        "everett-wa",
+        "beaverton-or"
+      ]
     },
     {
       "_id": "spokane-chicago-express",
@@ -2854,7 +2858,13 @@
       "description": "Main line service from Seattle through mountain passes to eastern destinations",
       "originYard": "interbay-yard",
       "terminationYard": "walla-walla-yard",
-      "stationSequence": ["everett-wa", "high-bridge-wa", "echo-lake-wa", "spokane-wa", "cascade-id"]
+      "stationSequence": [
+        "everett-wa",
+        "high-bridge-wa",
+        "echo-lake-wa",
+        "spokane-wa",
+        "cascade-id"
+      ]
     }
   ]
 }
