@@ -20,7 +20,6 @@ import type {
   OperatingSession,
   CarOrder,
   SessionSnapshot,
-  CarSnapshot,
   TrainFormData,
   CarOrderGenerationRequest,
   CarOrderGenerationSummary,

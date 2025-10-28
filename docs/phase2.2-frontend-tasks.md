@@ -51,38 +51,36 @@ Implement the frontend UI for Phase 2.2 Train Operations, including operating se
 
 ---
 
-### Task 2: API Service Methods
+### Task 2: API Service Methods ✅ COMPLETE
 **Estimated Time**: 2-3 hours  
+**Actual Time**: 1.5 hours  
 **Priority**: Critical (required for AppContext)
 
 **Subtasks:**
-- [ ] Add `getSessions()` - GET /api/v1/sessions/current
-- [ ] Add `advanceSession()` - POST /api/v1/sessions/advance
-- [ ] Add `rollbackSession()` - POST /api/v1/sessions/rollback
-- [ ] Add `updateSessionDescription()` - PUT /api/v1/sessions/current
-- [ ] Add `getTrains(filters?)` - GET /api/v1/trains
-- [ ] Add `getTrain(id)` - GET /api/v1/trains/:id
-- [ ] Add `createTrain(data)` - POST /api/v1/trains
-- [ ] Add `updateTrain(id, data)` - PUT /api/v1/trains/:id
-- [ ] Add `deleteTrain(id)` - DELETE /api/v1/trains/:id
-- [ ] Add `generateSwitchList(id)` - POST /api/v1/trains/:id/generate-switch-list
-- [ ] Add `completeTrain(id)` - POST /api/v1/trains/:id/complete
-- [ ] Add `cancelTrain(id)` - POST /api/v1/trains/:id/cancel
-- [ ] Add `getCarOrders(filters?)` - GET /api/v1/car-orders
-- [ ] Add `getCarOrder(id)` - GET /api/v1/car-orders/:id
-- [ ] Add `createCarOrder(data)` - POST /api/v1/car-orders
-- [ ] Add `updateCarOrder(id, data)` - PUT /api/v1/car-orders/:id
-- [ ] Add `deleteCarOrder(id)` - DELETE /api/v1/car-orders/:id
-- [ ] Add `generateCarOrders(sessionNumber, force?)` - POST /api/v1/car-orders/generate
+- [x] Update API_BASE_URL to use /api/v1 (versioned endpoints)
+- [x] Add type imports from types/index
+- [x] Add Routes API (5 methods: get, getById, create, update, delete)
+- [x] Add Operating Sessions API (4 methods: getCurrent, advance, rollback, updateDescription)
+- [x] Add Trains API (8 methods: CRUD + generateSwitchList, complete, cancel)
+- [x] Add Car Orders API (6 methods: CRUD + generate)
+- [x] Proper TypeScript typing for all methods
+- [x] Query parameter handling with filters
+- [x] Comprehensive test suite (35 tests)
+- [x] All tests passing (35/35)
+- [x] TypeScript compilation successful
 
 **Acceptance Criteria:**
-- All API methods properly typed with request/response types
-- Error handling consistent with existing API methods
-- Proper use of async/await
-- Query parameter handling for filters
+- ✅ All API methods properly typed with request/response types
+- ✅ Error handling consistent with existing API methods
+- ✅ Proper use of async/await
+- ✅ Query parameter handling for filters
+- ✅ 35 comprehensive API tests covering all methods
+- ✅ Test coverage for success cases, error cases, and edge cases
+- ✅ Mocked fetch for isolated testing
 
-**Files to Modify:**
-- `frontend/src/services/api.ts`
+**Files Modified:**
+- `frontend/src/services/api.ts` (+177 lines, 23 new methods)
+- `frontend/src/services/__tests__/api.trainOperations.test.ts` (new, 35 tests)
 
 ---
 

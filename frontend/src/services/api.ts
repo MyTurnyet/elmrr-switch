@@ -1,6 +1,18 @@
 // API service functions for the Model Railroad Layout Tracking System
 
-const API_BASE_URL = 'http://localhost:3001/api';
+import type {
+  OperatingSession,
+  Train,
+  CarOrder,
+  Route,
+  TrainFormData,
+  CarOrderGenerationRequest,
+  CarOrderGenerationSummary,
+  TrainStatus,
+  CarOrderStatus,
+} from '../types';
+
+const API_BASE_URL = 'http://localhost:3001/api/v1';
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -149,6 +161,171 @@ class ApiService {
   async clearData() {
     return this.request('/import/clear', {
       method: 'POST',
+    });
+  }
+
+  // Routes API
+  async getRoutes() {
+    return this.request<Route[]>('/routes');
+  }
+
+  async getRoute(id: string) {
+    return this.request<Route>(`/routes/${id}`);
+  }
+
+  async createRoute(data: Partial<Route>) {
+    return this.request<Route>('/routes', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateRoute(id: string, data: Partial<Route>) {
+    return this.request<Route>(`/routes/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteRoute(id: string) {
+    return this.request<void>(`/routes/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Operating Sessions API
+  async getCurrentSession() {
+    return this.request<OperatingSession>('/sessions/current');
+  }
+
+  async advanceSession() {
+    return this.request<OperatingSession>('/sessions/advance', {
+      method: 'POST',
+    });
+  }
+
+  async rollbackSession() {
+    return this.request<OperatingSession>('/sessions/rollback', {
+      method: 'POST',
+    });
+  }
+
+  async updateSessionDescription(description: string) {
+    return this.request<OperatingSession>('/sessions/current', {
+      method: 'PUT',
+      body: JSON.stringify({ description }),
+    });
+  }
+
+  // Trains API
+  async getTrains(filters?: {
+    sessionNumber?: number;
+    status?: TrainStatus;
+    routeId?: string;
+    search?: string;
+  }) {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          params.append(key, String(value));
+        }
+      });
+    }
+    const query = params.toString() ? `?${params.toString()}` : '';
+    return this.request<Train[]>(`/trains${query}`);
+  }
+
+  async getTrain(id: string) {
+    return this.request<Train>(`/trains/${id}`);
+  }
+
+  async createTrain(data: TrainFormData) {
+    return this.request<Train>('/trains', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateTrain(id: string, data: Partial<TrainFormData>) {
+    return this.request<Train>(`/trains/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteTrain(id: string) {
+    return this.request<void>(`/trains/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async generateSwitchList(id: string) {
+    return this.request<Train>(`/trains/${id}/generate-switch-list`, {
+      method: 'POST',
+    });
+  }
+
+  async completeTrain(id: string) {
+    return this.request<Train>(`/trains/${id}/complete`, {
+      method: 'POST',
+    });
+  }
+
+  async cancelTrain(id: string) {
+    return this.request<Train>(`/trains/${id}/cancel`, {
+      method: 'POST',
+    });
+  }
+
+  // Car Orders API
+  async getCarOrders(filters?: {
+    industryId?: string;
+    status?: CarOrderStatus;
+    sessionNumber?: number;
+    aarTypeId?: string;
+    search?: string;
+  }) {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          params.append(key, String(value));
+        }
+      });
+    }
+    const query = params.toString() ? `?${params.toString()}` : '';
+    return this.request<CarOrder[]>(`/car-orders${query}`);
+  }
+
+  async getCarOrder(id: string) {
+    return this.request<CarOrder>(`/car-orders/${id}`);
+  }
+
+  async createCarOrder(data: Partial<CarOrder>) {
+    return this.request<CarOrder>('/car-orders', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateCarOrder(id: string, data: Partial<CarOrder>) {
+    return this.request<CarOrder>(`/car-orders/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteCarOrder(id: string) {
+    return this.request<void>(`/car-orders/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async generateCarOrders(request?: CarOrderGenerationRequest) {
+    return this.request<CarOrderGenerationSummary>('/car-orders/generate', {
+      method: 'POST',
+      body: JSON.stringify(request || {}),
     });
   }
 
