@@ -15,7 +15,6 @@ import {
   TextField,
   Divider,
   Paper,
-  Grid,
 } from '@mui/material';
 import {
   PlayArrow,
@@ -143,51 +142,52 @@ const SessionManagement: React.FC = () => {
             <Chip
               label={`Session ${currentSession?.currentSessionNumber || 1}`}
               color="primary"
-              size="large"
-              sx={{ fontSize: '1.1rem', py: 2.5, px: 1 }}
+              sx={{ fontSize: '1.1rem', py: 2.5, px: 1, height: 'auto' }}
             />
           </Box>
 
           <Divider sx={{ my: 2 }} />
 
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Paper variant="outlined" sx={{ p: 2 }}>
-                <Box display="flex" alignItems="center" mb={1}>
-                  <CalendarToday sx={{ mr: 1, color: 'text.secondary' }} />
-                  <Typography variant="subtitle2" color="textSecondary">
-                    Session Date
-                  </Typography>
-                </Box>
-                <Typography variant="body1">
-                  {currentSession?.sessionDate ? formatDate(currentSession.sessionDate) : 'Not set'}
+          <Box 
+            sx={{ 
+              display: 'grid', 
+              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+              gap: 3 
+            }}
+          >
+            <Paper variant="outlined" sx={{ p: 2 }}>
+              <Box display="flex" alignItems="center" mb={1}>
+                <CalendarToday sx={{ mr: 1, color: 'text.secondary' }} />
+                <Typography variant="subtitle2" color="textSecondary">
+                  Session Date
                 </Typography>
-              </Paper>
-            </Grid>
+              </Box>
+              <Typography variant="body1">
+                {currentSession?.sessionDate ? formatDate(currentSession.sessionDate) : 'Not set'}
+              </Typography>
+            </Paper>
 
-            <Grid item xs={12} md={6}>
-              <Paper variant="outlined" sx={{ p: 2 }}>
-                <Box display="flex" alignItems="center" mb={1}>
-                  <Info sx={{ mr: 1, color: 'text.secondary' }} />
-                  <Typography variant="subtitle2" color="textSecondary">
-                    Description
-                  </Typography>
-                </Box>
-                <Box display="flex" alignItems="center" justifyContent="space-between">
-                  <Typography variant="body1" sx={{ flex: 1 }}>
-                    {currentSession?.description || 'No description'}
-                  </Typography>
-                  <Button
-                    size="small"
-                    startIcon={<Edit />}
-                    onClick={handleOpenDescriptionDialog}
-                  >
-                    Edit
-                  </Button>
-                </Box>
-              </Paper>
-            </Grid>
-          </Grid>
+            <Paper variant="outlined" sx={{ p: 2 }}>
+              <Box display="flex" alignItems="center" mb={1}>
+                <Info sx={{ mr: 1, color: 'text.secondary' }} />
+                <Typography variant="subtitle2" color="textSecondary">
+                  Description
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
+                <Typography variant="body1" sx={{ flex: 1 }}>
+                  {currentSession?.description || 'No description'}
+                </Typography>
+                <Button
+                  size="small"
+                  startIcon={<Edit />}
+                  onClick={handleOpenDescriptionDialog}
+                >
+                  Edit
+                </Button>
+              </Box>
+            </Paper>
+          </Box>
 
           <Box mt={3} display="flex" gap={2} flexWrap="wrap">
             <Button

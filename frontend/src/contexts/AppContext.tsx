@@ -280,16 +280,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         apiService.getCurrentSession().catch(() => ({ data: null })), // Session might not exist yet
       ]);
 
-      dispatch({ type: 'SET_CARS', payload: carsResponse.data || [] });
-      dispatch({ type: 'SET_LOCOMOTIVES', payload: locomotivesResponse.data || [] });
-      dispatch({ type: 'SET_INDUSTRIES', payload: industriesResponse.data || [] });
-      dispatch({ type: 'SET_STATIONS', payload: stationsResponse.data || [] });
-      dispatch({ type: 'SET_GOODS', payload: goodsResponse.data || [] });
-      dispatch({ type: 'SET_AAR_TYPES', payload: aarTypesResponse.data || [] });
-      dispatch({ type: 'SET_BLOCKS', payload: blocksResponse.data || [] });
-      dispatch({ type: 'SET_TRACKS', payload: tracksResponse.data || [] });
-      dispatch({ type: 'SET_ROUTES', payload: routesResponse.data || [] });
-      dispatch({ type: 'SET_CURRENT_SESSION', payload: sessionResponse.data || null });
+      dispatch({ type: 'SET_CARS', payload: (carsResponse.data as RollingStock[]) || [] });
+      dispatch({ type: 'SET_LOCOMOTIVES', payload: (locomotivesResponse.data as Locomotive[]) || [] });
+      dispatch({ type: 'SET_INDUSTRIES', payload: (industriesResponse.data as Industry[]) || [] });
+      dispatch({ type: 'SET_STATIONS', payload: (stationsResponse.data as Station[]) || [] });
+      dispatch({ type: 'SET_GOODS', payload: (goodsResponse.data as Goods[]) || [] });
+      dispatch({ type: 'SET_AAR_TYPES', payload: (aarTypesResponse.data as AarType[]) || [] });
+      dispatch({ type: 'SET_BLOCKS', payload: (blocksResponse.data as Block[]) || [] });
+      dispatch({ type: 'SET_TRACKS', payload: (tracksResponse.data as Track[]) || [] });
+      dispatch({ type: 'SET_ROUTES', payload: (routesResponse.data as Route[]) || [] });
+      dispatch({ type: 'SET_CURRENT_SESSION', payload: (sessionResponse.data as OperatingSession | null) || null });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to fetch data' });
     } finally {
@@ -308,7 +308,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       // Refresh data after import
       await fetchData();
 
-      return response.data!;
+      return response.data as ImportResult;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Import failed';
       dispatch({ type: 'SET_ERROR', payload: errorMessage });
@@ -352,8 +352,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const createCar = useCallback(async (data: Partial<RollingStock>): Promise<RollingStock> => {
     try {
       const response = await apiService.createCar(data);
-      dispatch({ type: 'ADD_CAR', payload: response.data! });
-      return response.data!;
+      const car = response.data as RollingStock;
+      dispatch({ type: 'ADD_CAR', payload: car });
+      return car;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to create car' });
       throw error;
@@ -364,7 +365,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const updateCar = useCallback(async (id: string, data: Partial<RollingStock>) => {
     try {
       const response = await apiService.updateCar(id, data);
-      dispatch({ type: 'UPDATE_CAR', payload: response.data! });
+      dispatch({ type: 'UPDATE_CAR', payload: response.data as RollingStock });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update car' });
       throw error;
@@ -386,7 +387,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const moveCar = useCallback(async (carId: string, destinationIndustryId: string) => {
     try {
       const response = await apiService.moveCar(carId, destinationIndustryId);
-      dispatch({ type: 'UPDATE_CAR', payload: response.data! });
+      dispatch({ type: 'UPDATE_CAR', payload: response.data as RollingStock });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to move car' });
       throw error;
@@ -397,8 +398,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const createIndustry = useCallback(async (data: Partial<Industry>): Promise<Industry> => {
     try {
       const response = await apiService.createIndustry(data);
-      dispatch({ type: 'ADD_INDUSTRY', payload: response.data! });
-      return response.data!;
+      const industry = response.data as Industry;
+      dispatch({ type: 'ADD_INDUSTRY', payload: industry });
+      return industry;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to create industry' });
       throw error;
@@ -409,7 +411,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const updateIndustry = useCallback(async (id: string, data: Partial<Industry>) => {
     try {
       const response = await apiService.updateIndustry(id, data);
-      dispatch({ type: 'UPDATE_INDUSTRY', payload: response.data! });
+      dispatch({ type: 'UPDATE_INDUSTRY', payload: response.data as Industry });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update industry' });
       throw error;
@@ -431,8 +433,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const createRoute = useCallback(async (data: Partial<Route>): Promise<Route> => {
     try {
       const response = await apiService.createRoute(data);
-      dispatch({ type: 'ADD_ROUTE', payload: response.data! });
-      return response.data!;
+      const route = response.data as Route;
+      dispatch({ type: 'ADD_ROUTE', payload: route });
+      return route;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to create route' });
       throw error;
@@ -443,7 +446,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const updateRoute = useCallback(async (id: string, data: Partial<Route>) => {
     try {
       const response = await apiService.updateRoute(id, data);
-      dispatch({ type: 'UPDATE_ROUTE', payload: response.data! });
+      dispatch({ type: 'UPDATE_ROUTE', payload: response.data as Route });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update route' });
       throw error;
@@ -468,7 +471,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_SESSION_LOADING', payload: true });
     try {
       const response = await apiService.getCurrentSession();
-      dispatch({ type: 'SET_CURRENT_SESSION', payload: response.data! });
+      dispatch({ type: 'SET_CURRENT_SESSION', payload: response.data as OperatingSession });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to fetch session' });
       throw error;
@@ -482,13 +485,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_SESSION_LOADING', payload: true });
     try {
       const response = await apiService.advanceSession();
-      dispatch({ type: 'SET_CURRENT_SESSION', payload: response.data! });
+      dispatch({ type: 'SET_CURRENT_SESSION', payload: response.data as OperatingSession });
       // Refresh trains and orders after session advance
       await Promise.all([
         apiService.getTrains().then(r => dispatch({ type: 'SET_TRAINS', payload: r.data || [] })),
         apiService.getCarOrders().then(r => dispatch({ type: 'SET_CAR_ORDERS', payload: r.data || [] })),
       ]);
-      return response.data!;
+      return response.data as OperatingSession;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to advance session' });
       throw error;
@@ -502,10 +505,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_SESSION_LOADING', payload: true });
     try {
       const response = await apiService.rollbackSession();
-      dispatch({ type: 'SET_CURRENT_SESSION', payload: response.data! });
+      dispatch({ type: 'SET_CURRENT_SESSION', payload: response.data as OperatingSession });
       // Refresh all data after rollback
       await fetchData();
-      return response.data!;
+      return response.data as OperatingSession;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to rollback session' });
       throw error;
@@ -519,7 +522,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_SESSION_LOADING', payload: true });
     try {
       const response = await apiService.updateSessionDescription(description);
-      dispatch({ type: 'SET_CURRENT_SESSION', payload: response.data! });
+      dispatch({ type: 'SET_CURRENT_SESSION', payload: response.data as OperatingSession });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update session' });
       throw error;
@@ -547,8 +550,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_TRAINS_LOADING', payload: true });
     try {
       const response = await apiService.createTrain(data);
-      dispatch({ type: 'ADD_TRAIN', payload: response.data! });
-      return response.data!;
+      const train = response.data as Train;
+      dispatch({ type: 'ADD_TRAIN', payload: train });
+      return train;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to create train' });
       throw error;
@@ -562,7 +566,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_TRAINS_LOADING', payload: true });
     try {
       const response = await apiService.updateTrain(id, data);
-      dispatch({ type: 'UPDATE_TRAIN', payload: response.data! });
+      dispatch({ type: 'UPDATE_TRAIN', payload: response.data as Train });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update train' });
       throw error;
@@ -590,8 +594,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_TRAINS_LOADING', payload: true });
     try {
       const response = await apiService.generateSwitchList(id);
-      dispatch({ type: 'UPDATE_TRAIN', payload: response.data! });
-      return response.data!;
+      dispatch({ type: 'UPDATE_TRAIN', payload: response.data as Train });
+      return response.data as Train;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to generate switch list' });
       throw error;
@@ -605,11 +609,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_TRAINS_LOADING', payload: true });
     try {
       const response = await apiService.completeTrain(id);
-      dispatch({ type: 'UPDATE_TRAIN', payload: response.data! });
+      dispatch({ type: 'UPDATE_TRAIN', payload: response.data as Train });
       // Refresh car orders after train completion
       const ordersResponse = await apiService.getCarOrders();
       dispatch({ type: 'SET_CAR_ORDERS', payload: ordersResponse.data || [] });
-      return response.data!;
+      return response.data as Train;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to complete train' });
       throw error;
@@ -623,11 +627,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: 'SET_TRAINS_LOADING', payload: true });
     try {
       const response = await apiService.cancelTrain(id);
-      dispatch({ type: 'UPDATE_TRAIN', payload: response.data! });
+      dispatch({ type: 'UPDATE_TRAIN', payload: response.data as Train });
       // Refresh car orders after train cancellation
       const ordersResponse = await apiService.getCarOrders();
       dispatch({ type: 'SET_CAR_ORDERS', payload: ordersResponse.data || [] });
-      return response.data!;
+      return response.data as Train;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to cancel train' });
       throw error;
@@ -658,7 +662,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       // Refresh car orders after generation
       const ordersResponse = await apiService.getCarOrders();
       dispatch({ type: 'SET_CAR_ORDERS', payload: ordersResponse.data || [] });
-      return response.data!;
+      return response.data as CarOrderGenerationSummary;
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to generate car orders' });
       throw error;
