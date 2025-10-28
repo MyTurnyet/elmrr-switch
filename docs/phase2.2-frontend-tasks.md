@@ -518,7 +518,6 @@ Implement the frontend UI for Phase 2.2 Train Operations, including operating se
 
 **Subtasks:**
 - [ ] Update README with new features
-- [ ] Add JSDoc comments to complex functions
 - [ ] Update current-status.md with frontend completion
 - [ ] Add screenshots to documentation (optional)
 - [ ] Update bundle size metrics

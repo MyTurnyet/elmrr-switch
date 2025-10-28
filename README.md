@@ -2,37 +2,65 @@
 
 A comprehensive web-based application for managing model railroad operations, tracking rolling stock, and generating switch lists. Built with modern web technologies for desktop and mobile use.
 
-[![Phase 1 Complete](https://img.shields.io/badge/Phase%201-Complete-success)](docs/IMPLEMENTATION_PLAN.md)
-[![Tests](https://img.shields.io/badge/tests-102%20passing-success)]()
+[![Phase 2.2 Complete](https://img.shields.io/badge/Phase%202.2-Complete-success)](docs/IMPLEMENTATION_PLAN.md)
+[![Backend Tests](https://img.shields.io/badge/backend%20tests-409%20passing-success)]()
+[![Frontend Tests](https://img.shields.io/badge/frontend%20tests-162%20passing-success)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)]()
 
 ## 🚂 Features
 
-### Current (Phase 1 - Complete)
+### ✅ Complete (Phase 1, 2.1 & 2.2)
 
-- **Dashboard**: Overview with quick stats and recent activity
-- **Car Management**: Full CRUD operations for rolling stock
+- **Dashboard**: Overview with train operations integration
+  - Real-time statistics for cars, locomotives, industries, routes
+  - Train operations summary with status breakdown
+  - Car orders tracking with fulfillment rate
+  - Current session display
+  - Quick action buttons for all major functions
+  
+- **Session Management**: Operating session lifecycle
+  - Track current operating session
+  - Advance to next session with state snapshots
+  - Rollback to previous session with full state restoration
+  - Session description editing
+  
+- **Train Operations**: Complete train lifecycle management
+  - Create, edit, and delete trains
+  - Intelligent switch list generation
+  - Car routing with capacity management
+  - Train completion with automatic car movement
+  - Train cancellation with order reversion
+  - Status tracking (Planned → In Progress → Completed/Cancelled)
+  
+- **Car Order Management**: Industry demand and fulfillment
+  - Generate orders based on industry demand configuration
+  - Track order status (Pending → Assigned → Delivered)
+  - Fulfillment rate monitoring
+  - Advanced filtering and search
+  
+- **Route Management**: Complete route configuration
+  - Station sequence builder
+  - Route validation and visualization
+  - Full CRUD operations
+  
+- **Car Management**: Full rolling stock operations
   - Advanced filtering and sorting
   - DataGrid with pagination
   - Manual car movement
   - Duplicate prevention
+  
 - **Industry Management**: Complete industry tracking
+  - Car demand configuration
   - Current car locations
   - Goods tracking (received/to ship)
   - Track capacity monitoring
-  - Full CRUD operations
+  
 - **Data Import/Export**: JSON-based data management
   - Validation and error reporting
   - Clear database functionality
-  - Custom ID preservation for human-readable identifiers
+  - Custom ID preservation
+  
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
-
-### Coming Soon (Phase 2)
-
-- Switch list generation
-- Train operations management
-- Operating session tracking
-- Route management
 
 ## 🛠️ Tech Stack
 
@@ -48,7 +76,13 @@ A comprehensive web-based application for managing model railroad operations, tr
 - **Framework**: Express
 - **Database**: NeDB (file-based NoSQL)
 - **Validation**: Joi
-- **Testing**: Jest (102 tests passing)
+- **Architecture**: Repository Pattern, Service Layer, Middleware
+- **Testing**: Jest (409 tests passing)
+
+### Testing
+- **Backend**: 409 comprehensive tests (100% pass rate)
+- **Frontend**: 162 comprehensive tests (100% pass rate)
+- **Total**: 571 tests ensuring quality and reliability
 
 ## 📋 Prerequisites
 
@@ -96,9 +130,16 @@ Access the application at `http://localhost:5173`
 
 ### Testing
 
-**Backend Tests**
+**Backend Tests** (409 tests)
 ```bash
 cd backend
+npm test                    # Run all tests
+npm test -- --watch         # Run in watch mode
+```
+
+**Frontend Tests** (162 tests)
+```bash
+cd frontend
 npm test                    # Run all tests
 npm test -- --watch         # Run in watch mode
 ```
@@ -149,6 +190,37 @@ elmrr-switch/
 
 ## 🔌 API Endpoints
 
+### Operating Sessions
+- `GET /api/sessions/current` - Get current session
+- `POST /api/sessions/advance` - Advance to next session
+- `POST /api/sessions/rollback` - Rollback to previous session
+- `PUT /api/sessions/current` - Update session description
+
+### Trains
+- `GET /api/trains` - List all trains with filtering
+- `GET /api/trains/:id` - Get train by ID
+- `POST /api/trains` - Create new train
+- `PUT /api/trains/:id` - Update train (Planned only)
+- `DELETE /api/trains/:id` - Delete train (Planned only)
+- `POST /api/trains/:id/generate-switch-list` - Generate switch list
+- `POST /api/trains/:id/complete` - Complete train
+- `POST /api/trains/:id/cancel` - Cancel train
+
+### Car Orders
+- `GET /api/car-orders` - List all orders with filtering
+- `GET /api/car-orders/:id` - Get order by ID
+- `POST /api/car-orders` - Create new order
+- `PUT /api/car-orders/:id` - Update order
+- `DELETE /api/car-orders/:id` - Delete order (Pending only)
+- `POST /api/car-orders/generate` - Generate orders from demand
+
+### Routes
+- `GET /api/routes` - List all routes
+- `GET /api/routes/:id` - Get route by ID
+- `POST /api/routes` - Create new route
+- `PUT /api/routes/:id` - Update route
+- `DELETE /api/routes/:id` - Delete route
+
 ### Cars
 - `GET /api/cars` - List all cars with optional filtering
 - `GET /api/cars/:id` - Get car by ID
@@ -186,13 +258,27 @@ Detailed documentation is available in the `docs/` directory:
 
 ## 🧪 Testing
 
-The backend includes comprehensive test coverage:
-- **102 tests** covering all API routes
-- Unit tests for data validation
-- Integration tests for CRUD operations
-- Import/export functionality tests
+The project includes comprehensive test coverage across both backend and frontend:
 
-Run tests: `cd backend && npm test`
+### Backend (409 tests)
+- Model validation tests
+- API route integration tests
+- Service layer unit tests
+- Repository pattern tests
+- Complex workflow integration tests
+
+### Frontend (162 tests)
+- Component unit tests
+- Page integration tests
+- Context provider tests
+- API service tests
+- User interaction tests
+
+**Total: 571 tests ensuring quality and reliability**
+
+Run tests:
+- Backend: `cd backend && npm test`
+- Frontend: `cd frontend && npm test`
 
 ## 🎯 Key Features Explained
 
@@ -220,16 +306,28 @@ All pages are fully responsive with breakpoints for:
 
 ## 🗺️ Roadmap
 
-### Phase 2 (Next)
-- [ ] Switch list generation
-- [ ] Train operations and management
-- [ ] Operating session tracking
-- [ ] Route management
+### ✅ Phase 1 - COMPLETE
+- [x] Dashboard with statistics
+- [x] Car management (CRUD)
+- [x] Industry management (CRUD)
+- [x] Data import/export system
 
-### Phase 3 (Future)
+### ✅ Phase 2.1 - COMPLETE
+- [x] Route management with station sequences
+
+### ✅ Phase 2.2 - COMPLETE
+- [x] Operating session management
+- [x] Train operations with switch list generation
+- [x] Car order system with demand configuration
+- [x] Complete train lifecycle management
+
+### Phase 3 (Future Enhancements)
 - [ ] Advanced reporting and analytics
 - [ ] Data visualization with charts
-- [ ] Mobile app optimization
+- [ ] Code splitting for performance
+- [ ] E2E tests with Playwright
+- [ ] Real-time updates with WebSockets
+- [ ] Mobile app optimization (PWA)
 - [ ] Integration with DCC systems
 - [ ] JMRI integration
 
@@ -258,6 +356,6 @@ For questions or issues, please open an issue on GitHub.
 
 ---
 
-**Current Status**: Phase 1 Complete ✅ | All core functionality working | Ready for Phase 2 development
+**Current Status**: Phase 2.2 Complete ✅ | Full-stack application production-ready | 571 tests passing
 
-*Last Updated: October 22, 2025*
+*Last Updated: October 28, 2025*
