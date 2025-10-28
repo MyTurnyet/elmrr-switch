@@ -1,10 +1,10 @@
 # Model Railroad Layout Tracking System - Implementation Plan
 
-> **Note**: This is a high-level summary. For detailed implementation steps, see:
-> - [Phase 1 Details](./phase1-details.md)
-> - [Phase 2.1 Routes Details](./phase2.1-routes-details.md)
-> - [Phase 2.2 Train Operations Details](./phase2.2-train-operations-details.md)
-> - [Current Status & Known Issues](./current-status.md)
+> **Note**: This is a high-level summary. For additional details, see:
+> - [Phase 2.2 Backend Details](./phase2.2-train-operations-details.md) - Backend implementation reference
+> - [Frontend Complete Summary](./FRONTEND_COMPLETE.md) - Comprehensive frontend completion report
+> - [Current Status](./current-status.md) - Build status, metrics, and endpoints
+> - [System Specification](./railroad-layout-spec.md) - Original requirements
 
 ## Project Overview
 **Goal**: Build a comprehensive Model Railroad Layout Tracking System as a Single Page Application (SPA) with mobile responsiveness.
@@ -19,8 +19,6 @@
 ## Phase 1: Core Functionality ✅ COMPLETE
 
 **Status**: All Phase 1 success criteria met!
-
-**See [Phase 1 Details](./phase1-details.md) for complete implementation steps.**
 
 ### Summary
 - ✅ Project setup with Vite + React + TypeScript + Material-UI
@@ -121,8 +119,6 @@ elmrr-switch/
 
 **Status**: All Phase 2.1 success criteria met!
 
-**See [Phase 2.1 Routes Details](./phase2.1-routes-details.md) for complete implementation steps.**
-
 ### Summary
 - ✅ Route model with Joi validation (23 tests)
 - ✅ Route CRUD API endpoints with filtering
@@ -145,7 +141,7 @@ elmrr-switch/
 
 **Status**: Backend Complete ✅ | Frontend Complete ✅
 
-**See [Phase 2.2 Train Operations Details](./phase2.2-train-operations-details.md) and [Frontend Tasks](./phase2.2-frontend-tasks.md) for complete implementation steps.**
+**See [Phase 2.2 Backend Details](./phase2.2-train-operations-details.md) and [Frontend Complete Summary](./FRONTEND_COMPLETE.md) for detailed implementation information.**
 
 ### Overview
 Implement complete train operations workflow including operating sessions, car order management, train creation with switch list generation, and session progression with rollback capability.
@@ -327,10 +323,7 @@ elmrr-switch/
 ---
 
 ## Quick Links
-- [Phase 1 Details](./phase1-details.md) - Core functionality implementation
-- [Phase 2.1 Routes Details](./phase2.1-routes-details.md) - Route management implementation  
-- [Phase 2.2 Backend Details](./phase2.2-train-operations-details.md) - Train operations backend (Steps 1-7)
-- [Phase 2.2 Frontend Tasks](./phase2.2-frontend-tasks.md) - Frontend implementation (Tasks 1-10)
+- [Phase 2.2 Backend Details](./phase2.2-train-operations-details.md) - Train operations backend implementation
 - [Frontend Complete Summary](./FRONTEND_COMPLETE.md) - Comprehensive completion report
 - [Current Status](./current-status.md) - Build status, endpoints, metrics
 - [System Specification](./railroad-layout-spec.md) - Original requirements
