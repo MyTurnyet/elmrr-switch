@@ -164,6 +164,32 @@ const CarOrderManagement: React.FC = () => {
       },
     },
     {
+      field: 'goodsDirection',
+      headerName: 'Goods / Direction',
+      width: 180,
+      renderCell: (params) => {
+        const order = params.row as CarOrder;
+        if (!order.goodsId || !order.direction) {
+          return <Typography variant="body2" color="text.secondary">-</Typography>;
+        }
+        const directionColor = order.direction === 'inbound' ? 'primary' : 'secondary';
+        const directionLabel = order.direction === 'inbound' ? '↓ IN' : '↑ OUT';
+        return (
+          <Stack direction="row" spacing={0.5} alignItems="center">
+            <Chip 
+              label={directionLabel} 
+              color={directionColor} 
+              size="small" 
+              sx={{ minWidth: 50 }}
+            />
+            <Typography variant="body2" noWrap>
+              {order.goodsId}
+            </Typography>
+          </Stack>
+        );
+      },
+    },
+    {
       field: 'aarTypeName',
       headerName: 'Car Type',
       width: 120,

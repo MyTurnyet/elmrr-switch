@@ -46,6 +46,7 @@ import {
 import { DataGrid, type GridColDef, type GridRowsProp } from '@mui/x-data-grid';
 import { useApp } from '../contexts/AppContext';
 import type { Industry, RollingStock, Track } from '../types';
+import { CarDemandConfigEditor } from '../components/CarDemandConfigEditor';
 
 interface IndustryFilters {
   search: string;
@@ -84,11 +85,9 @@ const IndustryView: React.FC = () => {
   const [formData, setFormData] = useState<Partial<Industry>>({
     name: '',
     stationId: '',
-    goodsReceived: [],
-    goodsToShip: [],
-    preferredCarTypes: [],
     isYard: false,
     isOnLayout: true,
+    carDemandConfig: [],
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -808,87 +807,15 @@ const IndustryView: React.FC = () => {
               </FormControl>
             </Box>
 
-            <FormControl fullWidth>
-              <InputLabel>Goods Received</InputLabel>
-              <Select
-                multiple
-                value={formData.goodsReceived || []}
-                label="Goods Received"
-                onChange={(e) => setFormData({ ...formData, goodsReceived: e.target.value as string[] })}
-                renderValue={(selected) => (
-                  <Box display="flex" flexWrap="wrap" gap={0.5}>
-                    {(selected as string[]).map((value) => (
-                      <Chip
-                        key={value}
-                        label={goods.find(g => (g.id || g._id) === value)?.name || value}
-                        size="small"
-                      />
-                    ))}
-                  </Box>
-                )}
-              >
-                {goods.map((good) => (
-                  <MenuItem key={good.id || good._id} value={good.id || good._id}>
-                    {good.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl fullWidth>
-              <InputLabel>Goods to Ship</InputLabel>
-              <Select
-                multiple
-                value={formData.goodsToShip || []}
-                label="Goods to Ship"
-                onChange={(e) => setFormData({ ...formData, goodsToShip: e.target.value as string[] })}
-                renderValue={(selected) => (
-                  <Box display="flex" flexWrap="wrap" gap={0.5}>
-                    {(selected as string[]).map((value) => (
-                      <Chip
-                        key={value}
-                        label={goods.find(g => (g.id || g._id) === value)?.name || value}
-                        size="small"
-                      />
-                    ))}
-                  </Box>
-                )}
-              >
-                {goods.map((good) => (
-                  <MenuItem key={good.id || good._id} value={good.id || good._id}>
-                    {good.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl fullWidth>
-              <InputLabel>Preferred Car Types</InputLabel>
-              <Select
-                multiple
-                value={formData.preferredCarTypes || []}
-                label="Preferred Car Types"
-                onChange={(e) => setFormData({ ...formData, preferredCarTypes: e.target.value as string[] })}
-                renderValue={(selected) => (
-                  <Box display="flex" flexWrap="wrap" gap={0.5}>
-                    {(selected as string[]).map((value) => (
-                      <Chip
-                        key={value}
-                        label={aarTypes.find(t => (t.id || t._id) === value)?.name || value}
-                        size="small"
-                      />
-                    ))}
-                  </Box>
-                )}
-              >
-                <MenuItem value="all">All Car Types</MenuItem>
-                {aarTypes.map((type) => (
-                  <MenuItem key={type.id || type._id} value={type.id || type._id}>
-                    {type.name} ({type.initial})
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Divider sx={{ my: 2 }} />
+            
+            <CarDemandConfigEditor
+              value={formData.carDemandConfig || []}
+              onChange={(config) => setFormData({ ...formData, carDemandConfig: config })}
+              goods={goods.map(g => ({ _id: g.id || g._id || '', name: g.name, category: g.category }))}
+              aarTypes={aarTypes.map(t => ({ _id: t.id || t._id || '', code: t.code || t.initial || '', name: t.name }))}
+              disabled={loading}
+            />
           </Stack>
         </DialogContent>
         <DialogActions>
