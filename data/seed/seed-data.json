@@ -2866,5 +2866,125 @@
         "cascade-id"
       ]
     }
+  ],
+  "locomotives": [
+    {
+      "_id": "loco-elmr-3801",
+      "reportingMarks": "ELMR",
+      "reportingNumber": "003801",
+      "model": "GP38-2",
+      "manufacturer": "Atlas",
+      "isDCC": true,
+      "dccAddress": 3801,
+      "homeYard": "high-bridge-yard",
+      "isInService": true,
+      "notes": "Primary road switcher for High Bridge operations"
+    },
+    {
+      "_id": "loco-elmr-901",
+      "reportingMarks": "ELMR",
+      "reportingNumber": "000901",
+      "model": "GP9",
+      "manufacturer": "Bachmann",
+      "isDCC": false,
+      "homeYard": "high-bridge-yard",
+      "isInService": true,
+      "notes": "DC switcher for yard operations"
+    },
+    {
+      "_id": "loco-elmr-4002",
+      "reportingMarks": "ELMR",
+      "reportingNumber": "004002",
+      "model": "SD40-2",
+      "manufacturer": "Atlas",
+      "isDCC": true,
+      "dccAddress": 4002,
+      "homeYard": "interbay-yard",
+      "isInService": true,
+      "notes": "Heavy freight locomotive for mainline service"
+    },
+    {
+      "_id": "loco-sp-4449",
+      "reportingMarks": "SP",
+      "reportingNumber": "004449",
+      "model": "GS-4",
+      "manufacturer": "Kato",
+      "isDCC": true,
+      "dccAddress": 4449,
+      "homeYard": "portland-yard",
+      "isInService": true,
+      "notes": "Southern Pacific Daylight steam locomotive"
+    },
+    {
+      "_id": "loco-bn-2552",
+      "reportingMarks": "BN",
+      "reportingNumber": "002552",
+      "model": "SD40-2",
+      "manufacturer": "Atlas",
+      "isDCC": true,
+      "dccAddress": 2552,
+      "homeYard": "spokane-yard",
+      "isInService": true,
+      "notes": "Burlington Northern road freight"
+    },
+    {
+      "_id": "loco-up-844",
+      "reportingMarks": "UP",
+      "reportingNumber": "000844",
+      "model": "FEF-3",
+      "manufacturer": "Kato",
+      "isDCC": true,
+      "dccAddress": 844,
+      "homeYard": "walla-walla-yard",
+      "isInService": true,
+      "notes": "Union Pacific steam excursion locomotive"
+    },
+    {
+      "_id": "loco-cn-5690",
+      "reportingMarks": "CN",
+      "reportingNumber": "005690",
+      "model": "SD40-2",
+      "manufacturer": "Atlas",
+      "isDCC": true,
+      "dccAddress": 5690,
+      "homeYard": "vancouver-yard",
+      "isInService": true,
+      "notes": "Canadian National mainline freight"
+    },
+    {
+      "_id": "loco-elmr-1205",
+      "reportingMarks": "ELMR",
+      "reportingNumber": "001205",
+      "model": "SW1500",
+      "manufacturer": "Athearn",
+      "isDCC": true,
+      "dccAddress": 1205,
+      "homeYard": "high-bridge-yard",
+      "isInService": true,
+      "notes": "Yard switcher with sound decoder"
+    },
+    {
+      "_id": "loco-milw-261",
+      "reportingMarks": "MILW",
+      "reportingNumber": "000261",
+      "model": "S-3",
+      "manufacturer": "Broadway Limited",
+      "isDCC": true,
+      "dccAddress": 261,
+      "homeYard": "chicago-yard",
+      "isInService": true,
+      "notes": "Milwaukee Road steam locomotive"
+    },
+    {
+      "_id": "loco-elmr-702",
+      "reportingMarks": "ELMR",
+      "reportingNumber": "000702",
+      "model": "GP7",
+      "manufacturer": "Bachmann",
+      "isDCC": false,
+      "homeYard": "portland-yard",
+      "isInService": false,
+      "notes": "Out of service - awaiting decoder installation"
+    }
   ]
 }
