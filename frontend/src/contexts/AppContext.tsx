@@ -3,6 +3,8 @@ import type {
   AppContextType, 
   RollingStock, 
   Locomotive, 
+  LocomotiveStatistics,
+  LocomotiveTrainAssignment,
   Industry, 
   Station, 
   Goods, 
@@ -15,6 +17,7 @@ import type {
   Train,
   CarOrder,
   TrainFormData,
+  LocomotiveFormData,
   CarOrderGenerationRequest,
   CarOrderGenerationSummary,
   TrainStatus,
@@ -39,6 +42,7 @@ interface AppState {
   currentSession: OperatingSession | null;
   trains: Train[];
   carOrders: CarOrder[];
+  locomotiveStatistics: LocomotiveStatistics | null;
   
   // UI state
   loading: boolean;
@@ -80,6 +84,12 @@ type AppAction =
   | { type: 'UPDATE_ROUTE'; payload: Route }
   | { type: 'DELETE_ROUTE'; payload: string }
   
+  // Locomotive operations
+  | { type: 'ADD_LOCOMOTIVE'; payload: Locomotive }
+  | { type: 'UPDATE_LOCOMOTIVE'; payload: Locomotive }
+  | { type: 'DELETE_LOCOMOTIVE'; payload: string }
+  | { type: 'SET_LOCOMOTIVE_STATISTICS'; payload: LocomotiveStatistics | null }
+  
   // Train operations - Session
   | { type: 'SET_SESSION_LOADING'; payload: boolean }
   | { type: 'SET_CURRENT_SESSION'; payload: OperatingSession | null }
@@ -113,6 +123,7 @@ const initialState: AppState = {
   currentSession: null,
   trains: [],
   carOrders: [],
+  locomotiveStatistics: null,
   
   // UI state
   loading: false,
@@ -198,6 +209,27 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         routes: state.routes.filter(route => (route.id || route._id) !== action.payload)
       };
+    
+    // Locomotive operations
+    case 'ADD_LOCOMOTIVE':
+      return {
+        ...state,
+        locomotives: [...state.locomotives, action.payload]
+      };
+    case 'UPDATE_LOCOMOTIVE':
+      return {
+        ...state,
+        locomotives: state.locomotives.map(loco =>
+          (loco.id || loco._id) === (action.payload.id || action.payload._id) ? action.payload : loco
+        )
+      };
+    case 'DELETE_LOCOMOTIVE':
+      return {
+        ...state,
+        locomotives: state.locomotives.filter(loco => (loco.id || loco._id) !== action.payload)
+      };
+    case 'SET_LOCOMOTIVE_STATISTICS':
+      return { ...state, locomotiveStatistics: action.payload };
     
     // Train operations - Session
     case 'SET_SESSION_LOADING':
@@ -464,6 +496,89 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, []);
 
+  // ========== Locomotive Methods ==========
+
+  // Fetch locomotives with optional filters
+  const fetchLocomotives = useCallback(async (filters?: {
+    manufacturer?: string;
+    model?: string;
+    homeYard?: string;
+    isInService?: boolean;
+    isDCC?: boolean;
+    search?: string;
+  }) => {
+    try {
+      const response = await apiService.getLocomotives(filters);
+      dispatch({ type: 'SET_LOCOMOTIVES', payload: (response.data as Locomotive[]) || [] });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to fetch locomotives' });
+      throw error;
+    }
+  }, []);
+
+  // Fetch locomotive statistics
+  const fetchLocomotiveStatistics = useCallback(async () => {
+    try {
+      const response = await apiService.getLocomotiveStatistics();
+      dispatch({ type: 'SET_LOCOMOTIVE_STATISTICS', payload: response.data || null });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to fetch locomotive statistics' });
+      throw error;
+    }
+  }, []);
+
+  // Create locomotive
+  const createLocomotive = useCallback(async (data: LocomotiveFormData): Promise<Locomotive> => {
+    try {
+      const response = await apiService.createLocomotive(data);
+      const locomotive = response.data as Locomotive;
+      dispatch({ type: 'ADD_LOCOMOTIVE', payload: locomotive });
+      // Refresh statistics after creating
+      await fetchLocomotiveStatistics();
+      return locomotive;
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to create locomotive' });
+      throw error;
+    }
+  }, [fetchLocomotiveStatistics]);
+
+  // Update locomotive
+  const updateLocomotive = useCallback(async (id: string, data: Partial<LocomotiveFormData>) => {
+    try {
+      const response = await apiService.updateLocomotive(id, data);
+      dispatch({ type: 'UPDATE_LOCOMOTIVE', payload: response.data as Locomotive });
+      // Refresh statistics after updating
+      await fetchLocomotiveStatistics();
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update locomotive' });
+      throw error;
+    }
+  }, [fetchLocomotiveStatistics]);
+
+  // Delete locomotive
+  const deleteLocomotive = useCallback(async (id: string) => {
+    try {
+      await apiService.deleteLocomotive(id);
+      dispatch({ type: 'DELETE_LOCOMOTIVE', payload: id });
+      // Refresh statistics after deleting
+      await fetchLocomotiveStatistics();
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to delete locomotive' });
+      throw error;
+    }
+  }, [fetchLocomotiveStatistics]);
+
+  // Get locomotive train assignments
+  const getLocomotiveAssignments = useCallback(async (id: string): Promise<LocomotiveTrainAssignment> => {
+    try {
+      const response = await apiService.getLocomotiveAssignments(id);
+      return response.data as LocomotiveTrainAssignment;
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to get locomotive assignments' });
+      throw error;
+    }
+  }, []);
+
   // ========== Train Operations Methods ==========
 
   // Fetch current session
@@ -700,6 +815,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     createRoute,
     updateRoute,
     deleteRoute,
+    // Locomotive operations
+    fetchLocomotives,
+    fetchLocomotiveStatistics,
+    createLocomotive,
+    updateLocomotive,
+    deleteLocomotive,
+    getLocomotiveAssignments,
     // Train operations
     fetchCurrentSession,
     advanceSession,
