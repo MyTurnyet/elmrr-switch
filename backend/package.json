@@ -9,6 +9,7 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "testEnvironment": "node",
+    "setupFilesAfterEnv": ["<rootDir>/src/tests/setup.js"],
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
     },
