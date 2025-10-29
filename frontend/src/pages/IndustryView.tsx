@@ -212,33 +212,18 @@ const IndustryView: React.FC = () => {
       ),
     },
     {
-      field: 'goodsReceived',
-      headerName: 'Goods Received',
-      width: 140,
+      field: 'demandConfig',
+      headerName: 'Demand Config',
+      width: 150,
       renderCell: (params) => {
-        const goodsCount = params.value?.length || 0;
+        const industry = params.row as Industry;
+        const configCount = industry.carDemandConfig?.length || 0;
         return (
           <Chip
             icon={<LocalShipping />}
-            label={`${goodsCount} types`}
+            label={`${configCount} config${configCount !== 1 ? 's' : ''}`}
             size="small"
-            color={goodsCount > 0 ? 'info' : 'default'}
-          />
-        );
-      },
-    },
-    {
-      field: 'goodsToShip',
-      headerName: 'Goods to Ship',
-      width: 140,
-      renderCell: (params) => {
-        const goodsCount = params.value?.length || 0;
-        return (
-          <Chip
-            icon={<LocalShipping />}
-            label={`${goodsCount} types`}
-            size="small"
-            color={goodsCount > 0 ? 'success' : 'default'}
+            color={configCount > 0 ? 'primary' : 'default'}
           />
         );
       },
@@ -297,11 +282,9 @@ const IndustryView: React.FC = () => {
     setFormData({
       name: '',
       stationId: '',
-      goodsReceived: [],
-      goodsToShip: [],
-      preferredCarTypes: [],
       isYard: false,
       isOnLayout: true,
+      carDemandConfig: [],
     });
     setFormErrors({});
     setFormDialogOpen(true);
@@ -321,11 +304,9 @@ const IndustryView: React.FC = () => {
     setFormData({
       name: '',
       stationId: '',
-      goodsReceived: [],
-      goodsToShip: [],
-      preferredCarTypes: [],
       isYard: false,
       isOnLayout: true,
+      carDemandConfig: [],
     });
     setFormErrors({});
   };
@@ -627,68 +608,58 @@ const IndustryView: React.FC = () => {
 
               <Divider />
 
-              {/* Goods Received */}
+              {/* Car Demand Configuration */}
               <Box>
                 <Typography variant="h6" gutterBottom display="flex" alignItems="center" gap={1}>
                   <LocalShipping />
-                  Goods Received ({selectedIndustry.goodsReceived.length})
+                  Car Demand Configuration ({selectedIndustry.carDemandConfig?.length || 0})
                 </Typography>
-                <Box display="flex" gap={1} flexWrap="wrap">
-                  {selectedIndustry.goodsReceived.length > 0 ? (
-                    getGoodsNames(selectedIndustry.goodsReceived).map((goodName, idx) => (
-                      <Chip key={idx} label={goodName} size="small" color="info" />
-                    ))
-                  ) : (
-                    <Typography variant="body2" color="text.secondary">
-                      No goods received
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
-
-              {/* Goods to Ship */}
-              <Box>
-                <Typography variant="h6" gutterBottom display="flex" alignItems="center" gap={1}>
-                  <LocalShipping />
-                  Goods to Ship ({selectedIndustry.goodsToShip.length})
-                </Typography>
-                <Box display="flex" gap={1} flexWrap="wrap">
-                  {selectedIndustry.goodsToShip.length > 0 ? (
-                    getGoodsNames(selectedIndustry.goodsToShip).map((goodName, idx) => (
-                      <Chip key={idx} label={goodName} size="small" color="success" />
-                    ))
-                  ) : (
-                    <Typography variant="body2" color="text.secondary">
-                      No goods to ship
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
-
-              <Divider />
-
-              {/* Preferred Car Types */}
-              <Box>
-                <Typography variant="h6" gutterBottom>
-                  Preferred Car Types ({selectedIndustry.preferredCarTypes.length})
-                </Typography>
-                <Box display="flex" gap={1} flexWrap="wrap">
-                  {selectedIndustry.preferredCarTypes.length > 0 ? (
-                    getCarTypeNames(selectedIndustry.preferredCarTypes).map((typeName, idx) => (
-                      <Chip key={idx} label={typeName} size="small" variant="outlined" />
-                    ))
-                  ) : (
-                    <Typography variant="body2" color="text.secondary">
-                      No preferred car types
-                    </Typography>
-                  )}
-                </Box>
+                {selectedIndustry.carDemandConfig && selectedIndustry.carDemandConfig.length > 0 ? (
+                  <Stack spacing={1}>
+                    {selectedIndustry.carDemandConfig.map((config, idx) => {
+                      const goodName = goods.find(g => (g.id || g._id) === config.goodsId)?.name || config.goodsId;
+                      const directionColor = config.direction === 'inbound' ? 'primary' : 'secondary';
+                      const directionLabel = config.direction === 'inbound' ? '↓ Inbound' : '↑ Outbound';
+                      
+                      return (
+                        <Accordion key={idx}>
+                          <AccordionSummary expandIcon={<ExpandMore />}>
+                            <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+                              <Chip 
+                                label={directionLabel} 
+                                color={directionColor} 
+                                size="small" 
+                              />
+                              <Typography variant="body2" fontWeight="bold">
+                                {goodName}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                • {config.carsPerSession} car(s) every {config.frequency} session(s)
+                              </Typography>
+                            </Stack>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <Typography variant="body2" color="text.secondary">
+                              • Types: {config.compatibleCarTypes.map(id => {
+                                const aarType = aarTypes.find(a => (a.id || a._id) === id);
+                                return aarType?.code || aarType?.initial || id;
+                              }).join(', ')}
+                            </Typography>
+                          </AccordionDetails>
+                        </Accordion>
+                      );
+                    })}
+                  </Stack>
+                ) : (
+                  <Typography variant="body2" color="text.secondary">
+                    No demand configuration
+                  </Typography>
+                )}
               </Box>
 
               {/* Tracks */}
               <Box>
                 <Accordion>
-                  <AccordionSummary expandIcon={<ExpandMore />}>
                     <Typography variant="h6">
                       Tracks ({getTracksForIndustry(selectedIndustry.id || selectedIndustry._id || '').length})
                     </Typography>
