@@ -60,17 +60,68 @@ export interface Goods {
   unloadingTime: number; // In operating sessions
 }
 
+/**
+ * Locomotive entity
+ * Represents a locomotive with DCC configuration and service status
+ */
 export interface Locomotive {
-  id?: string;
-  _id?: string;
-  reportingMarks: string;
-  reportingNumber: string;
-  type: string;
-  color: string;
-  notes?: string;
-  homeYard: string; // Industry ID
-  currentIndustry: string; // Industry ID
-  isInService: boolean;
+  id?: string; // Frontend convenience field
+  _id?: string; // NeDB database ID
+  reportingMarks: string; // 1-10 characters (e.g., "ELMR", "UP", "SP")
+  reportingNumber: string; // Exactly 6 characters (e.g., "003801")
+  model: string; // Model designation (e.g., "GP38-2", "SD40-2")
+  manufacturer: string; // From approved list (Atlas, Kato, Lionel, etc.)
+  isDCC: boolean; // DCC equipped or DC
+  dccAddress?: number; // DCC address (1-9999), required if isDCC=true
+  dccAddressFormatted?: string; // Formatted DCC address with leading zeros
+  homeYard: string; // Industry ID (must be a yard)
+  isInService: boolean; // Service status
+  notes?: string; // Optional notes (max 500 characters)
+  
+  // Enriched fields (from API responses)
+  homeYardDetails?: {
+    _id: string;
+    name: string;
+    stationId: string;
+    isYard: boolean;
+    isOnLayout: boolean;
+  };
+  displayName?: string; // Formatted as "ELMR 003801"
+  fullDesignation?: string; // Same as displayName
+  status?: string; // "In Service" or "Out of Service"
+  dccStatus?: string; // "DCC (3801)" or "DC"
+}
+
+/**
+ * Locomotive statistics
+ * Aggregated data about the locomotive fleet
+ */
+export interface LocomotiveStatistics {
+  total: number;
+  inService: number;
+  outOfService: number;
+  dccEnabled: number;
+  dcOnly: number;
+  byManufacturer: Record<string, number>;
+  byModel: Record<string, number>;
+  byHomeYard: Record<string, number>;
+  availabilityRate: string; // Percentage as string (e.g., "90.0%")
+  dccRate: string; // Percentage as string (e.g., "80.0%")
+}
+
+/**
+ * Train assignment information for a locomotive
+ * Used to check if locomotive can be deleted or set out of service
+ */
+export interface LocomotiveTrainAssignment {
+  isAssigned: boolean;
+  trainCount: number;
+  trains: Array<{
+    _id: string;
+    name: string;
+    status: TrainStatus;
+    sessionNumber: number;
+  }>;
 }
 
 export interface AarType {
@@ -328,6 +379,18 @@ export interface TrainFormData {
   maxCapacity: number;
 }
 
+export interface LocomotiveFormData {
+  reportingMarks: string;
+  reportingNumber: string;
+  model: string;
+  manufacturer: string;
+  isDCC: boolean;
+  dccAddress?: number;
+  homeYard: string;
+  isInService: boolean;
+  notes?: string;
+}
+
 export interface CarOrderGenerationRequest {
   sessionNumber?: number; // If not provided, use current session
   industryIds?: string[]; // If provided, only generate for these industries
@@ -358,6 +421,7 @@ export interface AppContextType {
   currentSession: OperatingSession | null;
   trains: Train[];
   carOrders: CarOrder[];
+  locomotiveStatistics: LocomotiveStatistics | null;
 
   // UI State
   loading: boolean;
@@ -406,4 +470,12 @@ export interface AppContextType {
   fetchCarOrders: (filters?: { industryId?: string; status?: CarOrderStatus; sessionNumber?: number; aarTypeId?: string; search?: string }) => Promise<void>;
   generateCarOrders: (request?: CarOrderGenerationRequest) => Promise<CarOrderGenerationSummary>;
   deleteCarOrder: (id: string) => Promise<void>;
+
+  // Locomotive Actions
+  fetchLocomotives: (filters?: { manufacturer?: string; model?: string; homeYard?: string; isInService?: boolean; isDCC?: boolean; search?: string }) => Promise<void>;
+  fetchLocomotiveStatistics: () => Promise<void>;
+  createLocomotive: (data: LocomotiveFormData) => Promise<Locomotive>;
+  updateLocomotive: (id: string, data: Partial<LocomotiveFormData>) => Promise<void>;
+  deleteLocomotive: (id: string) => Promise<void>;
+  getLocomotiveAssignments: (id: string) => Promise<LocomotiveTrainAssignment>;
 }

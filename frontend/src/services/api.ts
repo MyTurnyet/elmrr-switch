@@ -5,7 +5,11 @@ import type {
   Train,
   CarOrder,
   Route,
+  Locomotive,
+  LocomotiveStatistics,
+  LocomotiveTrainAssignment,
   TrainFormData,
+  LocomotiveFormData,
   CarOrderGenerationRequest,
   CarOrderGenerationSummary,
   TrainStatus,
@@ -326,6 +330,64 @@ class ApiService {
     return this.request<CarOrderGenerationSummary>('/car-orders/generate', {
       method: 'POST',
       body: JSON.stringify(request || {}),
+    });
+  }
+
+  // Locomotives API
+  async getLocomotives(filters?: {
+    manufacturer?: string;
+    model?: string;
+    homeYard?: string;
+    isInService?: boolean;
+    isDCC?: boolean;
+    search?: string;
+    view?: 'list' | 'detail' | 'export';
+  }) {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          params.append(key, String(value));
+        }
+      });
+    }
+    const query = params.toString();
+    return this.request<Locomotive[]>(`/locomotives${query ? `?${query}` : ''}`);
+  }
+
+  async getLocomotiveStatistics() {
+    return this.request<LocomotiveStatistics>('/locomotives/statistics');
+  }
+
+  async getAvailableLocomotives() {
+    return this.request<Locomotive[]>('/locomotives/available');
+  }
+
+  async getLocomotiveById(id: string) {
+    return this.request<Locomotive>(`/locomotives/${id}`);
+  }
+
+  async getLocomotiveAssignments(id: string) {
+    return this.request<LocomotiveTrainAssignment>(`/locomotives/${id}/assignments`);
+  }
+
+  async createLocomotive(data: LocomotiveFormData) {
+    return this.request<Locomotive>('/locomotives', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateLocomotive(id: string, data: Partial<LocomotiveFormData>) {
+    return this.request<Locomotive>(`/locomotives/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteLocomotive(id: string) {
+    return this.request<void>(`/locomotives/${id}`, {
+      method: 'DELETE',
     });
   }
 
