@@ -41,7 +41,6 @@ import {
   Edit,
   ArrowDownward,
   ArrowUpward,
-  LocalShipping,
   Info,
 } from '@mui/icons-material';
 import type { CarDemandConfig } from '../types';
@@ -180,10 +179,6 @@ export const CarDemandConfigEditor: React.FC<CarDemandConfigEditorProps> = ({
     return goods.find(g => g._id === goodsId)?.name || goodsId;
   };
 
-  const getAarTypeName = (aarTypeId: string): string => {
-    const aarType = aarTypes.find(a => a._id === aarTypeId);
-    return aarType ? `${aarType.code} - ${aarType.name}` : aarTypeId;
-  };
 
   const getDirectionIcon = (direction: string) => {
     return direction === 'inbound' ? <ArrowDownward fontSize="small" /> : <ArrowUpward fontSize="small" />;
@@ -295,7 +290,7 @@ export const CarDemandConfigEditor: React.FC<CarDemandConfigEditorProps> = ({
               <InputLabel>Good/Commodity *</InputLabel>
               <Select
                 value={formData.goodsId || ''}
-                onChange={(e) => setFormData({ ...formData, goodsId: e.target.value, errors: { ...formData.errors, goodsId: undefined } })}
+                onChange={(e) => setFormData({ ...formData, goodsId: e.target.value, errors: { ...formData.errors, goodsId: '' } })}
                 label="Good/Commodity *"
               >
                 {goods.map((good) => (
@@ -314,7 +309,7 @@ export const CarDemandConfigEditor: React.FC<CarDemandConfigEditorProps> = ({
               <InputLabel>Direction *</InputLabel>
               <Select
                 value={formData.direction || 'inbound'}
-                onChange={(e) => setFormData({ ...formData, direction: e.target.value as 'inbound' | 'outbound', errors: { ...formData.errors, direction: undefined } })}
+                onChange={(e) => setFormData({ ...formData, direction: e.target.value as 'inbound' | 'outbound', errors: { ...formData.errors, direction: '' } })}
                 label="Direction *"
               >
                 <MenuItem value="inbound">
@@ -344,7 +339,7 @@ export const CarDemandConfigEditor: React.FC<CarDemandConfigEditorProps> = ({
               <Select
                 multiple
                 value={formData.compatibleCarTypes || []}
-                onChange={(e) => setFormData({ ...formData, compatibleCarTypes: e.target.value as string[], errors: { ...formData.errors, compatibleCarTypes: undefined } })}
+                onChange={(e) => setFormData({ ...formData, compatibleCarTypes: e.target.value as string[], errors: { ...formData.errors, compatibleCarTypes: '' } })}
                 label="Compatible Car Types *"
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -379,7 +374,7 @@ export const CarDemandConfigEditor: React.FC<CarDemandConfigEditorProps> = ({
               type="number"
               fullWidth
               value={formData.carsPerSession || 1}
-              onChange={(e) => setFormData({ ...formData, carsPerSession: parseInt(e.target.value) || 1, errors: { ...formData.errors, carsPerSession: undefined } })}
+              onChange={(e) => setFormData({ ...formData, carsPerSession: parseInt(e.target.value) || 1, errors: { ...formData.errors, carsPerSession: '' } })}
               error={!!formData.errors?.carsPerSession}
               helperText={formData.errors?.carsPerSession || 'Number of cars needed per session'}
               inputProps={{ min: 1 }}
@@ -391,7 +386,7 @@ export const CarDemandConfigEditor: React.FC<CarDemandConfigEditorProps> = ({
               type="number"
               fullWidth
               value={formData.frequency || 1}
-              onChange={(e) => setFormData({ ...formData, frequency: parseInt(e.target.value) || 1, errors: { ...formData.errors, frequency: undefined } })}
+              onChange={(e) => setFormData({ ...formData, frequency: parseInt(e.target.value) || 1, errors: { ...formData.errors, frequency: '' } })}
               error={!!formData.errors?.frequency}
               helperText={formData.errors?.frequency || 'Generate orders every N sessions (1 = every session)'}
               inputProps={{ min: 1 }}

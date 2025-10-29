@@ -365,21 +365,6 @@ const IndustryView: React.FC = () => {
     setIndustryToDelete(null);
   };
 
-  // Get goods names for display
-  const getGoodsNames = (goodsIds: string[]): string[] => {
-    return goodsIds.map(id => {
-      const good = goods.find(g => (g.id || g._id) === id);
-      return good ? good.name : id;
-    });
-  };
-
-  // Get car type names
-  const getCarTypeNames = (carTypeIds: string[]): string[] => {
-    return carTypeIds.map(id => {
-      const type = aarTypes.find(t => (t.id || t._id) === id);
-      return type ? type.name : id;
-    });
-  };
 
   if (loading) {
     return (
@@ -642,7 +627,7 @@ const IndustryView: React.FC = () => {
                             <Typography variant="body2" color="text.secondary">
                               • Types: {config.compatibleCarTypes.map(id => {
                                 const aarType = aarTypes.find(a => (a.id || a._id) === id);
-                                return aarType?.code || aarType?.initial || id;
+                                return (aarType as any)?.code || aarType?.initial || id;
                               }).join(', ')}
                             </Typography>
                           </AccordionDetails>
@@ -660,6 +645,7 @@ const IndustryView: React.FC = () => {
               {/* Tracks */}
               <Box>
                 <Accordion>
+                  <AccordionSummary expandIcon={<ExpandMore />}>
                     <Typography variant="h6">
                       Tracks ({getTracksForIndustry(selectedIndustry.id || selectedIndustry._id || '').length})
                     </Typography>
@@ -783,8 +769,8 @@ const IndustryView: React.FC = () => {
             <CarDemandConfigEditor
               value={formData.carDemandConfig || []}
               onChange={(config) => setFormData({ ...formData, carDemandConfig: config })}
-              goods={goods.map(g => ({ _id: g.id || g._id || '', name: g.name, category: g.category }))}
-              aarTypes={aarTypes.map(t => ({ _id: t.id || t._id || '', code: t.code || t.initial || '', name: t.name }))}
+              goods={goods.map(g => ({ _id: g.id || g._id || '', name: g.name, category: (g as any).category || undefined }))}
+              aarTypes={aarTypes.map(t => ({ _id: t.id || t._id || '', code: (t as any).code || t.initial || '', name: t.name }))}
               disabled={loading}
             />
           </Stack>
