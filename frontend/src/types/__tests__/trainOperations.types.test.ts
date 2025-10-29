@@ -75,28 +75,36 @@ describe('TrainOperations Types', () => {
   describe('CarDemandConfig', () => {
     it('should validate correct structure', () => {
       const validConfig: CarDemandConfig = {
-        aarTypeId: 'boxcar',
+        goodsId: 'lumber',
+        direction: 'inbound',
+        compatibleCarTypes: ['boxcar', 'flatcar'],
         carsPerSession: 2,
         frequency: 1,
       };
 
-      expect(validConfig.aarTypeId).toBe('boxcar');
+      expect(validConfig.goodsId).toBe('lumber');
+      expect(validConfig.direction).toBe('inbound');
+      expect(validConfig.compatibleCarTypes).toEqual(['boxcar', 'flatcar']);
       expect(validConfig.carsPerSession).toBe(2);
       expect(validConfig.frequency).toBe(1);
-      expect(typeof validConfig.aarTypeId).toBe('string');
+      expect(typeof validConfig.goodsId).toBe('string');
+      expect(typeof validConfig.direction).toBe('string');
+      expect(Array.isArray(validConfig.compatibleCarTypes)).toBe(true);
       expect(typeof validConfig.carsPerSession).toBe('number');
       expect(typeof validConfig.frequency).toBe('number');
     });
 
     it('should support multiple demand configs', () => {
       const configs: CarDemandConfig[] = [
-        { aarTypeId: 'boxcar', carsPerSession: 2, frequency: 1 },
-        { aarTypeId: 'flatcar', carsPerSession: 1, frequency: 2 },
+        { goodsId: 'lumber', direction: 'inbound', compatibleCarTypes: ['boxcar'], carsPerSession: 2, frequency: 1 },
+        { goodsId: 'coal', direction: 'outbound', compatibleCarTypes: ['flatcar', 'gondola'], carsPerSession: 1, frequency: 2 },
       ];
 
       expect(configs).toHaveLength(2);
-      expect(configs[0].aarTypeId).toBe('boxcar');
-      expect(configs[1].aarTypeId).toBe('flatcar');
+      expect(configs[0].goodsId).toBe('lumber');
+      expect(configs[0].direction).toBe('inbound');
+      expect(configs[1].goodsId).toBe('coal');
+      expect(configs[1].direction).toBe('outbound');
     });
   });
 
@@ -420,6 +428,9 @@ describe('TrainOperations Types', () => {
         _id: 'order123',
         industryId: 'industry456',
         aarTypeId: 'boxcar',
+        goodsId: 'lumber',
+        direction: 'inbound',
+        compatibleCarTypes: ['boxcar', 'flatcar'],
         sessionNumber: 1,
         status: 'pending',
         createdAt: '2025-10-28T14:00:00.000Z',
@@ -428,6 +439,9 @@ describe('TrainOperations Types', () => {
       expect(order._id).toBe('order123');
       expect(order.industryId).toBe('industry456');
       expect(order.aarTypeId).toBe('boxcar');
+      expect(order.goodsId).toBe('lumber');
+      expect(order.direction).toBe('inbound');
+      expect(order.compatibleCarTypes).toEqual(['boxcar', 'flatcar']);
       expect(order.sessionNumber).toBe(1);
       expect(order.status).toBe('pending');
       expect(order.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
@@ -438,6 +452,9 @@ describe('TrainOperations Types', () => {
         _id: 'order123',
         industryId: 'industry456',
         aarTypeId: 'boxcar',
+        goodsId: 'lumber',
+        direction: 'inbound',
+        compatibleCarTypes: ['boxcar'],
         sessionNumber: 1,
         status: 'assigned',
         assignedCarId: 'car789',
@@ -455,6 +472,9 @@ describe('TrainOperations Types', () => {
         _id: 'order123',
         industryId: 'industry456',
         aarTypeId: 'boxcar',
+        goodsId: 'lumber',
+        direction: 'inbound',
+        compatibleCarTypes: ['boxcar'],
         sessionNumber: 1,
         status: 'delivered',
         assignedCarId: 'car789',
@@ -463,6 +483,10 @@ describe('TrainOperations Types', () => {
         industry: {
           _id: 'industry456',
           name: 'Lumber Mill',
+        },
+        goods: {
+          _id: 'lumber',
+          name: 'Lumber',
         },
         aarType: {
           _id: 'boxcar',
@@ -481,6 +505,7 @@ describe('TrainOperations Types', () => {
       };
 
       expect(order.industry?.name).toBe('Lumber Mill');
+      expect(order.goods?.name).toBe('Lumber');
       expect(order.aarType?.name).toBe('Box Car');
       expect(order.assignedCar?.reportingMarks).toBe('UP');
       expect(order.assignedTrain?.name).toBe('Portland Local');
@@ -491,6 +516,9 @@ describe('TrainOperations Types', () => {
       
       statuses.forEach(status => {
         const order: CarOrder = {
+          goodsId: 'lumber',
+          direction: 'inbound',
+          compatibleCarTypes: ['boxcar'],
           _id: 'order123',
           industryId: 'industry456',
           aarTypeId: 'boxcar',
@@ -623,7 +651,17 @@ describe('TrainOperations Types', () => {
           { _id: 'train1', name: 'Train 1', status: 'Completed' },
         ],
         carOrders: [
-          { _id: 'order1', status: 'delivered' },
+          { 
+            _id: 'order1', 
+            industryId: 'ind1',
+            aarTypeId: 'boxcar',
+            goodsId: 'lumber',
+            direction: 'inbound',
+            compatibleCarTypes: ['boxcar'],
+            sessionNumber: 1,
+            status: 'delivered',
+            createdAt: '2025-10-28T14:00:00.000Z',
+          },
         ],
       };
 
@@ -662,6 +700,9 @@ describe('TrainOperations Types', () => {
         _id: 'order1',
         industryId: 'ind1',
         aarTypeId: 'boxcar',
+        goodsId: 'lumber',
+        direction: 'inbound',
+        compatibleCarTypes: ['boxcar'],
         sessionNumber: session.currentSessionNumber,
         status: 'pending',
         createdAt: '2025-10-28T14:00:00.000Z',
