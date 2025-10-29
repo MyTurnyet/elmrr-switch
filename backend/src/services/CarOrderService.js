@@ -297,7 +297,8 @@ export class CarOrderService {
           if (!force) {
             const existingOrders = await dbHelpers.findByQuery('carOrders', {
               industryId: industry._id,
-              aarTypeId: demandConfig.aarTypeId,
+              goodsId: demandConfig.goodsId,
+              direction: demandConfig.direction,
               sessionNumber: sessionNumber,
               status: 'pending'
             });
@@ -308,10 +309,16 @@ export class CarOrderService {
           }
 
           // Create orders based on carsPerSession
+          // Use first compatible car type as primary aarTypeId for backward compatibility
+          const primaryAarType = demandConfig.compatibleCarTypes[0];
+          
           for (let i = 0; i < demandConfig.carsPerSession; i++) {
             ordersToCreate.push({
               industryId: industry._id,
-              aarTypeId: demandConfig.aarTypeId,
+              aarTypeId: primaryAarType, // Primary type for backward compatibility
+              goodsId: demandConfig.goodsId,
+              direction: demandConfig.direction,
+              compatibleCarTypes: demandConfig.compatibleCarTypes,
               sessionNumber: sessionNumber,
               status: 'pending',
               assignedCarId: null,

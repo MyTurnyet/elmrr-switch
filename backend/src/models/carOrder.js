@@ -4,7 +4,10 @@ import Joi from 'joi';
 export const carOrderSchema = Joi.object({
   _id: Joi.string().optional(), // Allow custom _id for seed data imports
   industryId: Joi.string().required().min(1).max(100),
-  aarTypeId: Joi.string().required().min(1).max(50),
+  aarTypeId: Joi.string().required().min(1).max(50), // Kept for backward compatibility, but will use compatibleCarTypes for matching
+  goodsId: Joi.string().required().min(1).max(50), // NEW: What commodity is being moved
+  direction: Joi.string().valid('inbound', 'outbound').required(), // NEW: Direction of shipment
+  compatibleCarTypes: Joi.array().items(Joi.string().min(1).max(50)).min(1).required(), // NEW: Array of acceptable AAR types
   sessionNumber: Joi.number().integer().min(1).required(),
   status: Joi.string().valid('pending', 'assigned', 'in-transit', 'delivered').default('pending'),
   assignedCarId: Joi.string().optional().allow(null).max(100),
@@ -68,8 +71,10 @@ export const validateCarAssignment = (carOrder, car) => {
     errors.push('Car is not in service');
   }
 
-  if (car.carType !== carOrder.aarTypeId) {
-    errors.push(`Car type mismatch: order requires ${carOrder.aarTypeId}, car is ${car.carType}`);
+  // Check if car type matches any of the compatible types
+  const compatibleTypes = carOrder.compatibleCarTypes || [carOrder.aarTypeId]; // Fallback for backward compatibility
+  if (!compatibleTypes.includes(car.carType)) {
+    errors.push(`Car type mismatch: order accepts ${compatibleTypes.join(', ')}, car is ${car.carType}`);
   }
 
   if (carOrder.status !== 'pending') {

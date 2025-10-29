@@ -138,21 +138,31 @@ for multiple compatible AAR types per good.
 
 ## Implementation Steps
 
-### Phase 1: Backend Model & Validation
+### Phase 1: Backend Model & Validation ✅ COMPLETED
 
 1. ✅ Update `carDemandConfigSchema` in `backend/src/models/industry.js`
+   - Added goodsId, direction, compatibleCarTypes fields
+   - Removed aarTypeId (replaced with array)
 2. ✅ Update validation helpers for new schema
+   - Updated duplicate detection to check goods+direction combinations
 3. ✅ Add helper functions for goods/direction queries
+   - getInboundDemand(), getOutboundDemand()
+   - getIndustryGoods(), getCompatibleCarTypesForGood()
 4. ✅ Update industry model tests
+   - All 55 tests passing
+   - Added 13 new tests for helper functions
 5. ✅ Remove deprecated fields from schema
+   - Removed goodsReceived, goodsToShip, preferredCarTypes
 
-### Phase 2: Backend API Updates
+**Commit:** `5729e01` - Phase 1: Enhanced industry model with goods tracking
 
-1. ✅ Update `backend/src/routes/industries.js` for new validation
-2. ✅ Add enrichment for goods and AAR types in responses
-3. ✅ Update industry route tests
-4. ✅ Update car order model with new fields
-5. ✅ Update car order generation logic
+### Phase 2: Backend API Updates 🔄 IN PROGRESS
+
+1. ⏳ Update `backend/src/routes/industries.js` for new validation
+2. ⏳ Add enrichment for goods and AAR types in responses
+3. ⏳ Update industry route tests
+4. ⏳ Update car order model with new fields
+5. ⏳ Update car order generation logic
 
 ### Phase 3: Switch List Algorithm
 
