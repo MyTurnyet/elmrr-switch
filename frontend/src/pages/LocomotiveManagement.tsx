@@ -22,9 +22,7 @@ import {
   FormControlLabel,
   Switch,
   Stack,
-  Grid,
   Tooltip,
-  Divider,
 } from '@mui/material';
 import {
   Add,
@@ -32,9 +30,7 @@ import {
   Delete,
   Search,
   Train,
-  FilterList,
   Visibility,
-  Warning,
 } from '@mui/icons-material';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import { useApp } from '../contexts/AppContext';
@@ -283,7 +279,7 @@ const LocomotiveManagement: React.FC = () => {
     }
   };
 
-  const columns: GridColDef[] = [
+  const columns: GridColDef<Locomotive>[] = [
     {
       field: 'reportingMarks',
       headerName: 'Marks',
@@ -300,7 +296,7 @@ const LocomotiveManagement: React.FC = () => {
       field: 'displayName',
       headerName: 'Designation',
       width: 150,
-      valueGetter: (params) => `${params.row.reportingMarks} ${params.row.reportingNumber}`,
+      valueGetter: (_value, row) => `${row.reportingMarks} ${row.reportingNumber}`,
     },
     {
       field: 'model',
@@ -330,9 +326,9 @@ const LocomotiveManagement: React.FC = () => {
       field: 'homeYard',
       headerName: 'Home Yard',
       width: 150,
-      valueGetter: (params) => {
-        const yard = industries.find((i) => (i._id || i.id) === params.row.homeYard);
-        return yard?.name || params.row.homeYard;
+      valueGetter: (_value, row) => {
+        const yard = industries.find((i) => (i._id || i.id) === row.homeYard);
+        return yard?.name || row.homeYard;
       },
     },
     {
@@ -409,60 +405,52 @@ const LocomotiveManagement: React.FC = () => {
 
       {/* Statistics Cards */}
       {locomotiveStatistics && (
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  Total Locomotives
-                </Typography>
-                <Typography variant="h4">{locomotiveStatistics.total}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  In Service
-                </Typography>
-                <Typography variant="h4" color="success.main">
-                  {locomotiveStatistics.inService}
-                </Typography>
-                <Typography variant="caption" color="textSecondary">
-                  {locomotiveStatistics.availabilityRate} availability
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  DCC Equipped
-                </Typography>
-                <Typography variant="h4" color="primary.main">
-                  {locomotiveStatistics.dccEnabled}
-                </Typography>
-                <Typography variant="caption" color="textSecondary">
-                  {locomotiveStatistics.dccRate} DCC rate
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  Out of Service
-                </Typography>
-                <Typography variant="h4" color="warning.main">
-                  {locomotiveStatistics.outOfService}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, mb: 3 }}>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Total Locomotives
+              </Typography>
+              <Typography variant="h4">{locomotiveStatistics.total}</Typography>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                In Service
+              </Typography>
+              <Typography variant="h4" color="success.main">
+                {locomotiveStatistics.inService}
+              </Typography>
+              <Typography variant="caption" color="textSecondary">
+                {locomotiveStatistics.availabilityRate} availability
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                DCC Equipped
+              </Typography>
+              <Typography variant="h4" color="primary.main">
+                {locomotiveStatistics.dccEnabled}
+              </Typography>
+              <Typography variant="caption" color="textSecondary">
+                {locomotiveStatistics.dccRate} DCC rate
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Out of Service
+              </Typography>
+              <Typography variant="h4" color="warning.main">
+                {locomotiveStatistics.outOfService}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
       )}
 
       {/* Filters */}
@@ -593,177 +581,157 @@ const LocomotiveManagement: React.FC = () => {
           )}
 
           {dialogMode === 'view' && selectedLocomotive ? (
-            <Box sx={{ pt: 2 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography variant="h6">{selectedLocomotive.displayName || `${selectedLocomotive.reportingMarks} ${selectedLocomotive.reportingNumber}`}</Typography>
-                </Grid>
-                <Grid item xs={6}>
+            <Stack spacing={2} sx={{ pt: 2 }}>
+              <Typography variant="h6">{selectedLocomotive.displayName || `${selectedLocomotive.reportingMarks} ${selectedLocomotive.reportingNumber}`}</Typography>
+              <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+                <Box>
                   <Typography variant="body2" color="textSecondary">Model</Typography>
                   <Typography variant="body1">{selectedLocomotive.model}</Typography>
-                </Grid>
-                <Grid item xs={6}>
+                </Box>
+                <Box>
                   <Typography variant="body2" color="textSecondary">Manufacturer</Typography>
                   <Typography variant="body1">{selectedLocomotive.manufacturer}</Typography>
-                </Grid>
-                <Grid item xs={6}>
+                </Box>
+                <Box>
                   <Typography variant="body2" color="textSecondary">DCC Status</Typography>
                   <Typography variant="body1">
                     {selectedLocomotive.isDCC ? `DCC (Address: ${selectedLocomotive.dccAddress})` : 'DC'}
                   </Typography>
-                </Grid>
-                <Grid item xs={6}>
+                </Box>
+                <Box>
                   <Typography variant="body2" color="textSecondary">Service Status</Typography>
                   <Chip
                     label={selectedLocomotive.isInService ? 'In Service' : 'Out of Service'}
                     color={selectedLocomotive.isInService ? 'success' : 'warning'}
                     size="small"
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body2" color="textSecondary">Home Yard</Typography>
-                  <Typography variant="body1">
-                    {selectedLocomotive.homeYardDetails?.name || industries.find(i => (i._id || i.id) === selectedLocomotive.homeYard)?.name || selectedLocomotive.homeYard}
-                  </Typography>
-                </Grid>
-                {selectedLocomotive.notes && (
-                  <Grid item xs={12}>
-                    <Typography variant="body2" color="textSecondary">Notes</Typography>
-                    <Typography variant="body1">{selectedLocomotive.notes}</Typography>
-                  </Grid>
-                )}
-              </Grid>
-            </Box>
+                </Box>
+              </Box>
+              <Box>
+                <Typography variant="body2" color="textSecondary">Home Yard</Typography>
+                <Typography variant="body1">
+                  {selectedLocomotive.homeYardDetails?.name || industries.find(i => (i._id || i.id) === selectedLocomotive.homeYard)?.name || selectedLocomotive.homeYard}
+                </Typography>
+              </Box>
+              {selectedLocomotive.notes && (
+                <Box>
+                  <Typography variant="body2" color="textSecondary">Notes</Typography>
+                  <Typography variant="body1">{selectedLocomotive.notes}</Typography>
+                </Box>
+              )}
+            </Stack>
           ) : (
-            <Box sx={{ pt: 2 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <TextField
-                    label="Reporting Marks"
-                    value={formData.reportingMarks}
-                    onChange={(e) => setFormData({ ...formData, reportingMarks: e.target.value.toUpperCase() })}
-                    error={!!formErrors.reportingMarks}
-                    helperText={formErrors.reportingMarks || 'e.g., ELMR, UP, SP (max 10 chars)'}
-                    fullWidth
-                    required
+            <Stack spacing={2} sx={{ pt: 2 }}>
+              <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+                <TextField
+                  label="Reporting Marks"
+                  value={formData.reportingMarks}
+                  onChange={(e) => setFormData({ ...formData, reportingMarks: e.target.value.toUpperCase() })}
+                  error={!!formErrors.reportingMarks}
+                  helperText={formErrors.reportingMarks || 'e.g., ELMR, UP, SP (max 10 chars)'}
+                  fullWidth
+                  required
+                  disabled={dialogMode === 'view'}
+                  inputProps={{ maxLength: 10 }}
+                />
+                <TextField
+                  label="Reporting Number"
+                  value={formData.reportingNumber}
+                  onChange={(e) => setFormData({ ...formData, reportingNumber: e.target.value })}
+                  error={!!formErrors.reportingNumber}
+                  helperText={formErrors.reportingNumber || 'Exactly 6 digits (e.g., 003801)'}
+                  fullWidth
+                  required
+                  disabled={dialogMode === 'view'}
+                  inputProps={{ maxLength: 6 }}
+                />
+                <TextField
+                  label="Model"
+                  value={formData.model}
+                  onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                  error={!!formErrors.model}
+                  helperText={formErrors.model || 'e.g., GP38-2, SD40-2'}
+                  fullWidth
+                  required
+                  disabled={dialogMode === 'view'}
+                />
+                <FormControl fullWidth required disabled={dialogMode === 'view'}>
+                  <InputLabel>Manufacturer</InputLabel>
+                  <Select
+                    value={formData.manufacturer}
+                    onChange={(e) => setFormData({ ...formData, manufacturer: e.target.value })}
+                    label="Manufacturer"
+                  >
+                    {APPROVED_MANUFACTURERS.map((mfr) => (
+                      <MenuItem key={mfr} value={mfr}>
+                        {mfr}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+              <FormControl fullWidth required disabled={dialogMode === 'view'}>
+                <InputLabel>Home Yard</InputLabel>
+                <Select
+                  value={formData.homeYard}
+                  onChange={(e) => setFormData({ ...formData, homeYard: e.target.value })}
+                  label="Home Yard"
+                  error={!!formErrors.homeYard}
+                >
+                  {yards.map((yard) => (
+                    <MenuItem key={yard._id || yard.id} value={yard._id || yard.id}>
+                      {yard.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formData.isDCC}
+                    onChange={(e) => setFormData({ ...formData, isDCC: e.target.checked })}
                     disabled={dialogMode === 'view'}
-                    inputProps={{ maxLength: 10 }}
                   />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    label="Reporting Number"
-                    value={formData.reportingNumber}
-                    onChange={(e) => setFormData({ ...formData, reportingNumber: e.target.value })}
-                    error={!!formErrors.reportingNumber}
-                    helperText={formErrors.reportingNumber || 'Exactly 6 digits (e.g., 003801)'}
-                    fullWidth
-                    required
-                    disabled={dialogMode === 'view'}
-                    inputProps={{ maxLength: 6 }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    label="Model"
-                    value={formData.model}
-                    onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-                    error={!!formErrors.model}
-                    helperText={formErrors.model || 'e.g., GP38-2, SD40-2'}
-                    fullWidth
-                    required
+                }
+                label="DCC Equipped"
+              />
+              {formData.isDCC && (
+                <TextField
+                  label="DCC Address"
+                  type="number"
+                  value={formData.dccAddress || ''}
+                  onChange={(e) => setFormData({ ...formData, dccAddress: parseInt(e.target.value) || undefined })}
+                  error={!!formErrors.dccAddress}
+                  helperText={formErrors.dccAddress || 'Range: 1-9999'}
+                  fullWidth
+                  required
+                  disabled={dialogMode === 'view'}
+                  inputProps={{ min: 1, max: 9999 }}
+                />
+              )}
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formData.isInService}
+                    onChange={(e) => setFormData({ ...formData, isInService: e.target.checked })}
                     disabled={dialogMode === 'view'}
                   />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormControl fullWidth required disabled={dialogMode === 'view'}>
-                    <InputLabel>Manufacturer</InputLabel>
-                    <Select
-                      value={formData.manufacturer}
-                      onChange={(e) => setFormData({ ...formData, manufacturer: e.target.value })}
-                      label="Manufacturer"
-                    >
-                      {APPROVED_MANUFACTURERS.map((mfr) => (
-                        <MenuItem key={mfr} value={mfr}>
-                          {mfr}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth required disabled={dialogMode === 'view'}>
-                    <InputLabel>Home Yard</InputLabel>
-                    <Select
-                      value={formData.homeYard}
-                      onChange={(e) => setFormData({ ...formData, homeYard: e.target.value })}
-                      label="Home Yard"
-                      error={!!formErrors.homeYard}
-                    >
-                      {yards.map((yard) => (
-                        <MenuItem key={yard._id || yard.id} value={yard._id || yard.id}>
-                          {yard.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={formData.isDCC}
-                        onChange={(e) => setFormData({ ...formData, isDCC: e.target.checked })}
-                        disabled={dialogMode === 'view'}
-                      />
-                    }
-                    label="DCC Equipped"
-                  />
-                </Grid>
-                {formData.isDCC && (
-                  <Grid item xs={12}>
-                    <TextField
-                      label="DCC Address"
-                      type="number"
-                      value={formData.dccAddress || ''}
-                      onChange={(e) => setFormData({ ...formData, dccAddress: parseInt(e.target.value) || undefined })}
-                      error={!!formErrors.dccAddress}
-                      helperText={formErrors.dccAddress || 'Range: 1-9999'}
-                      fullWidth
-                      required
-                      disabled={dialogMode === 'view'}
-                      inputProps={{ min: 1, max: 9999 }}
-                    />
-                  </Grid>
-                )}
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={formData.isInService}
-                        onChange={(e) => setFormData({ ...formData, isInService: e.target.checked })}
-                        disabled={dialogMode === 'view'}
-                      />
-                    }
-                    label="In Service"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    label="Notes"
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    error={!!formErrors.notes}
-                    helperText={formErrors.notes || `${formData.notes.length}/500 characters`}
-                    fullWidth
-                    multiline
-                    rows={3}
-                    disabled={dialogMode === 'view'}
-                    inputProps={{ maxLength: 500 }}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
+                }
+                label="In Service"
+              />
+              <TextField
+                label="Notes"
+                value={formData.notes}
+                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                error={!!formErrors.notes}
+                helperText={formErrors.notes || `${(formData.notes || '').length}/500 characters`}
+                fullWidth
+                multiline
+                rows={3}
+                disabled={dialogMode === 'view'}
+                inputProps={{ maxLength: 500 }}
+              />
+            </Stack>
           )}
         </DialogContent>
         <DialogActions>

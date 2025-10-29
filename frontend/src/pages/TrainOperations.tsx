@@ -568,7 +568,7 @@ const TrainOperations: React.FC = () => {
               >
                 {locomotives.filter(l => l.isInService).map((loco) => (
                   <MenuItem key={loco._id || loco.id} value={loco._id || loco.id}>
-                    {loco.reportingMarks} {loco.reportingNumber} - {loco.type}
+                    {loco.reportingMarks} {loco.reportingNumber} - {loco.model}
                   </MenuItem>
                 ))}
               </Select>
