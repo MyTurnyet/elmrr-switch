@@ -2,7 +2,9 @@ import Joi from 'joi';
 
 // Validation schema for car demand configuration
 export const carDemandConfigSchema = Joi.object({
-  aarTypeId: Joi.string().required().min(1).max(50),
+  goodsId: Joi.string().required().min(1).max(50),
+  direction: Joi.string().valid('inbound', 'outbound').required(),
+  compatibleCarTypes: Joi.array().items(Joi.string().min(1).max(50)).min(1).required(),
   carsPerSession: Joi.number().integer().min(1).required(),
   frequency: Joi.number().integer().min(1).required()
 });
@@ -12,9 +14,6 @@ export const industrySchema = Joi.object({
   _id: Joi.string().optional(), // Allow custom _id for seed data imports
   name: Joi.string().required().min(1).max(100),
   stationId: Joi.string().required(),
-  goodsReceived: Joi.array().items(Joi.string()).default([]),
-  goodsToShip: Joi.array().items(Joi.string()).default([]),
-  preferredCarTypes: Joi.array().items(Joi.string()).default([]),
   isYard: Joi.boolean().default(false),
   isOnLayout: Joi.boolean().default(true),
   carDemandConfig: Joi.array().items(carDemandConfigSchema).default([])
@@ -32,7 +31,7 @@ export const validateCarDemandConfig = (demandConfig) => {
   }
 
   const errors = [];
-  const seenAarTypes = new Set();
+  const seenCombinations = new Set();
 
   demandConfig.forEach((config, index) => {
     const { error } = carDemandConfigSchema.validate(config);
@@ -40,12 +39,13 @@ export const validateCarDemandConfig = (demandConfig) => {
       errors.push(`Demand config ${index}: ${error.details[0].message}`);
     }
 
-    // Check for duplicate AAR types within the same industry
-    if (config.aarTypeId) {
-      if (seenAarTypes.has(config.aarTypeId)) {
-        errors.push(`Duplicate AAR type '${config.aarTypeId}' in demand configuration`);
+    // Check for duplicate (goodsId + direction) combinations within the same industry
+    if (config.goodsId && config.direction) {
+      const key = `${config.goodsId}:${config.direction}`;
+      if (seenCombinations.has(key)) {
+        errors.push(`Duplicate combination of goods '${config.goodsId}' with direction '${config.direction}' in demand configuration`);
       } else {
-        seenAarTypes.add(config.aarTypeId);
+        seenCombinations.add(key);
       }
     }
   });
@@ -87,6 +87,52 @@ export const formatDemandConfig = (demandConfig) => {
   }
 
   return demandConfig.map(config => 
-    `${config.carsPerSession} ${config.aarTypeId}(s) every ${config.frequency} session(s)`
+    `${config.direction}: ${config.carsPerSession} car(s) of ${config.goodsId} (${config.compatibleCarTypes.join('/')}) every ${config.frequency} session(s)`
   ).join(', ');
+};
+
+// Helper function to get inbound demand configurations
+export const getInboundDemand = (demandConfig) => {
+  if (!Array.isArray(demandConfig)) {
+    return [];
+  }
+  return demandConfig.filter(config => config.direction === 'inbound');
+};
+
+// Helper function to get outbound demand configurations
+export const getOutboundDemand = (demandConfig) => {
+  if (!Array.isArray(demandConfig)) {
+    return [];
+  }
+  return demandConfig.filter(config => config.direction === 'outbound');
+};
+
+// Helper function to get all goods handled by an industry
+export const getIndustryGoods = (demandConfig) => {
+  if (!Array.isArray(demandConfig)) {
+    return { inbound: [], outbound: [] };
+  }
+  
+  const inbound = [...new Set(demandConfig
+    .filter(config => config.direction === 'inbound')
+    .map(config => config.goodsId))];
+  
+  const outbound = [...new Set(demandConfig
+    .filter(config => config.direction === 'outbound')
+    .map(config => config.goodsId))];
+  
+  return { inbound, outbound };
+};
+
+// Helper function to get compatible car types for a specific good and direction
+export const getCompatibleCarTypesForGood = (demandConfig, goodsId, direction) => {
+  if (!Array.isArray(demandConfig)) {
+    return [];
+  }
+  
+  const config = demandConfig.find(
+    c => c.goodsId === goodsId && c.direction === direction
+  );
+  
+  return config ? config.compatibleCarTypes : [];
 };

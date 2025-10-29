@@ -9,6 +9,7 @@ import { throwIfNull } from '../utils/nullObjectHelpers.js';
 const router = express.Router();
 const industryRepository = getRepository('industries');
 const aarTypeRepository = getRepository('aarTypes');
+const goodsRepository = getRepository('goods');
 
 // GET /api/industries - Get all industries
 router.get('/', asyncHandler(async (req, res) => {
@@ -43,10 +44,17 @@ router.post('/', asyncHandler(async (req, res) => {
       throw new ApiError('Invalid car demand configuration', 400, demandValidation.errors);
     }
 
-    // Verify all AAR types exist
+    // Verify all goods and AAR types exist
     for (const config of value.carDemandConfig) {
-      const aarType = await aarTypeRepository.findByIdOrNull(config.aarTypeId);
-      throwIfNull(aarType, `AAR type '${config.aarTypeId}' does not exist`, 404);
+      // Validate goodsId exists
+      const good = await goodsRepository.findByIdOrNull(config.goodsId);
+      throwIfNull(good, `Good '${config.goodsId}' does not exist`, 404);
+
+      // Validate all compatible AAR types exist
+      for (const aarTypeId of config.compatibleCarTypes) {
+        const aarType = await aarTypeRepository.findByIdOrNull(aarTypeId);
+        throwIfNull(aarType, `AAR type '${aarTypeId}' does not exist`, 404);
+      }
     }
   }
 
@@ -68,10 +76,17 @@ router.put('/:id', asyncHandler(async (req, res) => {
       throw new ApiError('Invalid car demand configuration', 400, demandValidation.errors);
     }
 
-    // Verify all AAR types exist
+    // Verify all goods and AAR types exist
     for (const config of value.carDemandConfig) {
-      const aarType = await aarTypeRepository.findByIdOrNull(config.aarTypeId);
-      throwIfNull(aarType, `AAR type '${config.aarTypeId}' does not exist`, 404);
+      // Validate goodsId exists
+      const good = await goodsRepository.findByIdOrNull(config.goodsId);
+      throwIfNull(good, `Good '${config.goodsId}' does not exist`, 404);
+
+      // Validate all compatible AAR types exist
+      for (const aarTypeId of config.compatibleCarTypes) {
+        const aarType = await aarTypeRepository.findByIdOrNull(aarTypeId);
+        throwIfNull(aarType, `AAR type '${aarTypeId}' does not exist`, 404);
+      }
     }
   }
 
