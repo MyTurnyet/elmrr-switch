@@ -2,9 +2,11 @@
  * Locomotive Transformer
  * 
  * Transforms locomotive entities between database representation and API responses.
+ * Handles DCC address formatting, field selection, and consistent formatting.
  */
 
 import { BaseTransformer } from './BaseTransformer.js';
+import { formatDccAddress } from '../models/locomotive.js';
 
 export class LocomotiveTransformer extends BaseTransformer {
   /**
@@ -25,10 +27,16 @@ export class LocomotiveTransformer extends BaseTransformer {
     // Base transformation
     const transformed = {
       id: sanitized._id,
-      roadName: sanitized.roadName,
-      roadNumber: sanitized.roadNumber,
+      reportingMarks: sanitized.reportingMarks,
+      reportingNumber: sanitized.reportingNumber,
       model: sanitized.model,
-      isInService: sanitized.isInService
+      manufacturer: sanitized.manufacturer,
+      isDCC: sanitized.isDCC,
+      dccAddress: sanitized.dccAddress,
+      dccAddressFormatted: sanitized.isDCC ? formatDccAddress(sanitized.dccAddress) : null,
+      homeYard: sanitized.homeYard,
+      isInService: sanitized.isInService,
+      notes: sanitized.notes || ''
     };
     
     // View-specific transformations
@@ -51,9 +59,12 @@ export class LocomotiveTransformer extends BaseTransformer {
   _transformForList(locomotive) {
     return {
       id: locomotive.id,
-      roadName: locomotive.roadName,
-      roadNumber: locomotive.roadNumber,
+      reportingMarks: locomotive.reportingMarks,
+      reportingNumber: locomotive.reportingNumber,
       model: locomotive.model,
+      manufacturer: locomotive.manufacturer,
+      isDCC: locomotive.isDCC,
+      dccAddressFormatted: locomotive.dccAddressFormatted,
       isInService: locomotive.isInService
     };
   }
@@ -66,8 +77,10 @@ export class LocomotiveTransformer extends BaseTransformer {
     return {
       ...locomotive,
       // Add computed fields
-      fullDesignation: `${locomotive.roadName} ${locomotive.roadNumber}`,
-      status: locomotive.isInService ? 'In Service' : 'Out of Service'
+      fullDesignation: `${locomotive.reportingMarks} ${locomotive.reportingNumber}`,
+      displayName: `${locomotive.reportingMarks} ${locomotive.reportingNumber}`,
+      status: locomotive.isInService ? 'In Service' : 'Out of Service',
+      dccStatus: locomotive.isDCC ? `DCC (${locomotive.dccAddressFormatted})` : 'DC'
     };
   }
 
@@ -76,13 +89,26 @@ export class LocomotiveTransformer extends BaseTransformer {
    * @private
    */
   _transformForExport(locomotive) {
-    return {
+    const exported = {
       ID: locomotive.id,
-      'Road Name': locomotive.roadName,
-      'Road Number': locomotive.roadNumber,
+      'Reporting Marks': locomotive.reportingMarks,
+      'Reporting Number': locomotive.reportingNumber,
       Model: locomotive.model,
+      Manufacturer: locomotive.manufacturer,
+      'DCC Enabled': locomotive.isDCC ? 'Yes' : 'No',
+      'Home Yard': locomotive.homeYard,
       'In Service': locomotive.isInService ? 'Yes' : 'No'
     };
+    
+    if (locomotive.isDCC && locomotive.dccAddress) {
+      exported['DCC Address'] = locomotive.dccAddressFormatted;
+    }
+    
+    if (locomotive.notes) {
+      exported['Notes'] = locomotive.notes;
+    }
+    
+    return exported;
   }
 
   /**
@@ -94,23 +120,32 @@ export class LocomotiveTransformer extends BaseTransformer {
   static buildFilterQuery(queryParams) {
     const query = {};
     
-    if (queryParams.roadName) {
-      query.roadName = queryParams.roadName;
+    if (queryParams.manufacturer) {
+      query.manufacturer = queryParams.manufacturer;
     }
     
     if (queryParams.model) {
       query.model = queryParams.model;
     }
     
-    if (queryParams.status) {
-      query.isInService = queryParams.status === 'true';
+    if (queryParams.homeYard) {
+      query.homeYard = queryParams.homeYard;
     }
     
-    // Search by road name or number
+    if (queryParams.isInService !== undefined) {
+      query.isInService = queryParams.isInService === 'true' || queryParams.isInService === true;
+    }
+    
+    if (queryParams.isDCC !== undefined) {
+      query.isDCC = queryParams.isDCC === 'true' || queryParams.isDCC === true;
+    }
+    
+    // Search by reporting marks or number
     if (queryParams.search) {
       query.$or = [
-        { roadName: new RegExp(queryParams.search, 'i') },
-        { roadNumber: new RegExp(queryParams.search, 'i') }
+        { reportingMarks: new RegExp(queryParams.search, 'i') },
+        { reportingNumber: new RegExp(queryParams.search, 'i') },
+        { model: new RegExp(queryParams.search, 'i') }
       ];
     }
     
@@ -127,9 +162,11 @@ export class LocomotiveTransformer extends BaseTransformer {
     const total = locomotives.length;
     const inService = locomotives.filter(l => l.isInService).length;
     const outOfService = total - inService;
+    const dccEnabled = locomotives.filter(l => l.isDCC).length;
+    const dcOnly = total - dccEnabled;
     
-    const byRoadName = locomotives.reduce((acc, loco) => {
-      acc[loco.roadName] = (acc[loco.roadName] || 0) + 1;
+    const byManufacturer = locomotives.reduce((acc, loco) => {
+      acc[loco.manufacturer] = (acc[loco.manufacturer] || 0) + 1;
       return acc;
     }, {});
     
@@ -138,13 +175,24 @@ export class LocomotiveTransformer extends BaseTransformer {
       return acc;
     }, {});
     
+    const byHomeYard = locomotives.reduce((acc, loco) => {
+      if (loco.homeYard) {
+        acc[loco.homeYard] = (acc[loco.homeYard] || 0) + 1;
+      }
+      return acc;
+    }, {});
+    
     return {
       total,
       inService,
       outOfService,
-      byRoadName,
+      dccEnabled,
+      dcOnly,
+      byManufacturer,
       byModel,
-      availabilityRate: total > 0 ? ((inService / total) * 100).toFixed(1) + '%' : '0%'
+      byHomeYard,
+      availabilityRate: total > 0 ? ((inService / total) * 100).toFixed(1) + '%' : '0%',
+      dccRate: total > 0 ? ((dccEnabled / total) * 100).toFixed(1) + '%' : '0%'
     };
   }
 }
