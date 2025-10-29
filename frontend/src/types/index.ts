@@ -21,10 +21,12 @@ export interface Station {
 
 /**
  * Car demand configuration for an industry
- * Defines how many cars of a specific type are needed per session
+ * Defines what goods are shipped/received and compatible car types
  */
 export interface CarDemandConfig {
-  aarTypeId: string; // AAR type ID for the car type
+  goodsId: string; // ID of the good/commodity being moved
+  direction: 'inbound' | 'outbound'; // Direction of shipment
+  compatibleCarTypes: string[]; // Array of AAR type IDs that can carry this good
   carsPerSession: number; // Number of cars needed per session (min: 1)
   frequency: number; // How often to generate orders (sessionNumber % frequency === 0)
 }
@@ -34,12 +36,17 @@ export interface Industry {
   _id?: string;
   name: string;
   stationId: string;
-  goodsReceived: string[]; // Array of goods IDs
-  goodsToShip: string[]; // Array of goods IDs
-  preferredCarTypes: string[]; // Array of AAR type IDs
   isYard?: boolean; // Special type: Yard (accepts all car types)
   isOnLayout: boolean;
   carDemandConfig?: CarDemandConfig[]; // Industry demand configuration for car orders
+  
+  // Deprecated fields (kept for backward compatibility during migration)
+  /** @deprecated Use carDemandConfig instead */
+  goodsReceived?: string[];
+  /** @deprecated Use carDemandConfig instead */
+  goodsToShip?: string[];
+  /** @deprecated Use carDemandConfig instead */
+  preferredCarTypes?: string[];
 }
 
 export interface Track {
@@ -270,13 +277,16 @@ export type CarOrderStatus = 'pending' | 'assigned' | 'in-transit' | 'delivered'
 
 /**
  * Car Order entity
- * Represents industry demand for a specific car type
+ * Represents industry demand for a specific good/commodity
  */
 export interface CarOrder {
   id?: string; // Frontend convenience field
   _id?: string; // NeDB database ID
   industryId: string; // Industry requesting the car
-  aarTypeId: string; // Type of car needed
+  aarTypeId: string; // Primary AAR type (for backward compatibility)
+  goodsId: string; // Good/commodity being moved
+  direction: 'inbound' | 'outbound'; // Direction of shipment
+  compatibleCarTypes: string[]; // Array of AAR types that can fulfill this order
   sessionNumber: number; // Session when order was created
   status: CarOrderStatus;
   assignedCarId?: string | null; // Car assigned to fulfill this order
@@ -287,6 +297,11 @@ export interface CarOrder {
   industry?: {
     _id: string;
     name: string;
+  };
+  goods?: {
+    _id: string;
+    name: string;
+    category?: string;
   };
   aarType?: {
     _id: string;
