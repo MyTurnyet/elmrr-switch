@@ -27,6 +27,7 @@ import {
   Train as TrainIcon,
   CalendarMonth as SessionIcon,
   Assignment as OrderIcon,
+  DirectionsRailway as LocomotiveIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -66,6 +67,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       title: 'Setup',
       items: [
         { text: 'Car Management', icon: <CarIcon />, path: '/cars' },
+        { text: 'Locomotive Management', icon: <LocomotiveIcon />, path: '/locomotives' },
         { text: 'Industries', icon: <IndustryIcon />, path: '/industries' },
         { text: 'Routes', icon: <RouteIcon />, path: '/routes' },
         { text: 'Data Import', icon: <ImportIcon />, path: '/import' },

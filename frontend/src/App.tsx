@@ -6,6 +6,7 @@ import { AppProvider } from './contexts/AppContext';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import CarManagement from './pages/CarManagement';
+import LocomotiveManagement from './pages/LocomotiveManagement';
 import IndustryView from './pages/IndustryView';
 import RouteManagement from './pages/RouteManagement';
 import DataImport from './pages/DataImport';
@@ -26,6 +27,7 @@ function App() {
               <Route path="/trains" element={<TrainOperations />} />
               <Route path="/orders" element={<CarOrderManagement />} />
               <Route path="/cars" element={<CarManagement />} />
+              <Route path="/locomotives" element={<LocomotiveManagement />} />
               <Route path="/industries" element={<IndustryView />} />
               <Route path="/routes" element={<RouteManagement />} />
               <Route path="/import" element={<DataImport />} />
