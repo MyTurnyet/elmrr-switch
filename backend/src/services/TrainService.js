@@ -136,13 +136,27 @@ export class TrainService {
     if (train.switchList && train.switchList.stations) {
       for (const station of train.switchList.stations) {
         for (const setout of station.setouts) {
-          await dbHelpers.update('cars', setout.carId, {
+          const carUpdate = {
             currentIndustry: setout.destinationIndustryId,
             sessionsAtCurrentLocation: 0 // Reset counter for moved cars
-          });
+          };
+
+          // Handle currentLoad based on direction
+          if (setout.direction === 'inbound') {
+            // Inbound: Clear currentLoad when delivered (car is being unloaded)
+            carUpdate.currentLoad = null;
+          } else if (setout.direction === 'outbound' && setout.goodsId) {
+            // Outbound: Set currentLoad to goods being shipped
+            carUpdate.currentLoad = setout.goodsId;
+          }
+
+          await dbHelpers.update('cars', setout.carId, carUpdate);
           carUpdates.push({
             carId: setout.carId,
-            newLocation: setout.destinationIndustryId
+            newLocation: setout.destinationIndustryId,
+            goodsId: setout.goodsId,
+            direction: setout.direction,
+            loadAction: setout.direction === 'inbound' ? 'unloaded' : 'loaded'
           });
         }
       }
@@ -294,9 +308,10 @@ export class TrainService {
             break;
           }
 
-          // Find a matching car for this order
+          // Find a matching car for this order using compatibleCarTypes array
+          const compatibleTypes = order.compatibleCarTypes || [order.aarTypeId]; // Fallback for backward compatibility
           const matchingCar = stationCars.find(car =>
-            car.carType === order.aarTypeId &&
+            compatibleTypes.includes(car.carType) &&
             !assignedCarIds.includes(car._id)
           );
 
@@ -312,13 +327,17 @@ export class TrainService {
                 carType: matchingCar.carType,
                 destinationIndustryId: destinationIndustry._id,
                 destinationIndustryName: destinationIndustry.name,
-                carOrderId: order._id
+                carOrderId: order._id,
+                goodsId: order.goodsId, // NEW: Track what goods are being moved
+                direction: order.direction // NEW: Track direction (inbound/outbound)
               });
 
               assignedCarIds.push(matchingCar._id);
               carOrderUpdates.push({
                 orderId: order._id,
-                carId: matchingCar._id
+                carId: matchingCar._id,
+                goodsId: order.goodsId, // NEW: Include goods info
+                direction: order.direction // NEW: Include direction
               });
               currentCarCount++;
               totalPickups++;

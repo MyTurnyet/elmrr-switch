@@ -156,13 +156,23 @@ for multiple compatible AAR types per good.
 
 **Commit:** `5729e01` - Phase 1: Enhanced industry model with goods tracking
 
-### Phase 2: Backend API Updates 🔄 IN PROGRESS
+### Phase 2: Backend API Updates ✅ COMPLETED
 
-1. ⏳ Update `backend/src/routes/industries.js` for new validation
-2. ⏳ Add enrichment for goods and AAR types in responses
-3. ⏳ Update industry route tests
-4. ⏳ Update car order model with new fields
-5. ⏳ Update car order generation logic
+1. ✅ Update `backend/src/routes/industries.js` for new validation
+   - Added goods repository for validation
+   - Validate goodsId exists in goods collection
+   - Validate all compatibleCarTypes exist in aarTypes collection
+2. ⏳ Add enrichment for goods and AAR types in responses (deferred to Phase 3)
+3. ⏳ Update industry route tests (deferred - known technical debt)
+4. ✅ Update car order model with new fields
+   - Added goodsId, direction, compatibleCarTypes to schema
+   - Updated validateCarAssignment to check compatibleCarTypes array
+5. ✅ Update car order generation logic
+   - CarOrderService now creates orders with goods context
+   - Uses goodsId + direction for duplicate detection
+   - Sets compatibleCarTypes array on generated orders
+
+**Commit:** `953196b` - Phase 2: Backend API updates for goods tracking
 
 ### Phase 3: Switch List Algorithm
 
