@@ -191,12 +191,24 @@ for multiple compatible AAR types per good.
 
 **Commit:** `f2f9446` - Phase 3: Switch list algorithm with goods tracking
 
-### Phase 4: Data Migration
+### Phase 4: Data Migration ✅ COMPLETED
 
 1. ✅ Create migration script for existing industries
-2. ✅ Create default "general-freight" good if needed
+   - `migrate-goods-tracking.js` - Migrates database industries
+   - Supports dry-run mode for safe preview
+   - Removes deprecated fields automatically
+2. ✅ Create default "general-merchandise" good if needed
+   - Auto-creates during migration if missing
 3. ✅ Update seed data files
+   - `update-seed-data.js` - Updates seed-data.json
+   - Updated 29 industries with new schema
+   - Added example configs to 3 demonstration industries
+   - Creates backup before updating
 4. ✅ Test migration with production-like data
+   - Seed data successfully updated
+   - Migration scripts tested and working
+
+**Commit:** `2c20cef` - Phase 4: Data migration for goods tracking
 
 ### Phase 5: Frontend Updates
 
