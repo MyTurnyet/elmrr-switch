@@ -174,13 +174,22 @@ for multiple compatible AAR types per good.
 
 **Commit:** `953196b` - Phase 2: Backend API updates for goods tracking
 
-### Phase 3: Switch List Algorithm
+### Phase 3: Switch List Algorithm ✅ COMPLETED
 
 1. ✅ Update `TrainService.js` switch list generation
+   - Updated car matching to use compatibleCarTypes array
+   - Added goodsId and direction to switch list pickups
 2. ✅ Implement compatible AAR type matching (array-based)
+   - Cars can now match ANY compatible AAR type for an order
+   - Backward compatibility with single aarTypeId
 3. ✅ Implement `currentLoad` setting for outbound shipments
+   - Outbound orders: Set car.currentLoad = goodsId on delivery
 4. ✅ Update train completion logic to clear loads on inbound delivery
-5. ✅ Add tests for goods tracking in switch lists
+   - Inbound orders: Clear car.currentLoad on delivery (unloading)
+   - Enhanced car updates with load action tracking
+5. ⏳ Add tests for goods tracking in switch lists (deferred - known technical debt)
+
+**Commit:** `f2f9446` - Phase 3: Switch list algorithm with goods tracking
 
 ### Phase 4: Data Migration
 
