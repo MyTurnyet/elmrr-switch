@@ -73,7 +73,7 @@ export class BaseRepository {
    * @returns {Promise<Array>} Array of matching documents
    */
   async findBy(criteria, options = {}) {
-    const documents = await dbHelpers.findBy(this.collectionName, criteria);
+    const documents = await dbHelpers.findByQuery(this.collectionName, criteria);
     
     if (options.enrich) {
       return await Promise.all(documents.map(doc => this.enrich(doc)));

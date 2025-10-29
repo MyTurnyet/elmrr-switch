@@ -222,7 +222,7 @@ export class LocomotiveRepository extends BaseRepository {
    * @returns {Promise<Object>} Assignment status and train details
    */
   async checkTrainAssignments(locomotiveId) {
-    const activeTrains = await dbHelpers.find('trains', {
+    const activeTrains = await dbHelpers.findByQuery('trains', {
       status: { $in: ['Planned', 'In Progress'] },
       locomotiveIds: locomotiveId
     });
