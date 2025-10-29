@@ -11,6 +11,9 @@ describe('Car Order Model Validation', () => {
   const validOrder = {
     industryId: 'lumber-mill',
     aarTypeId: 'flatcar',
+    goodsId: 'lumber',
+    direction: 'outbound',
+    compatibleCarTypes: ['flatcar', 'centerbeam'],
     sessionNumber: 1,
     status: 'pending',
     assignedCarId: null,
@@ -42,10 +45,43 @@ describe('Car Order Model Validation', () => {
       expect(error.details[0].path).toContain('sessionNumber');
     });
 
+    it('should require goodsId', () => {
+      const { error } = validateCarOrder({ ...validOrder, goodsId: undefined });
+      expect(error).toBeDefined();
+      expect(error.details[0].path).toContain('goodsId');
+    });
+
+    it('should require direction', () => {
+      const { error } = validateCarOrder({ ...validOrder, direction: undefined });
+      expect(error).toBeDefined();
+      expect(error.details[0].path).toContain('direction');
+    });
+
+    it('should validate direction enum values', () => {
+      const { error } = validateCarOrder({ ...validOrder, direction: 'invalid' });
+      expect(error).toBeDefined();
+      expect(error.details[0].message).toContain('inbound');
+    });
+
+    it('should require compatibleCarTypes', () => {
+      const { error } = validateCarOrder({ ...validOrder, compatibleCarTypes: undefined });
+      expect(error).toBeDefined();
+      expect(error.details[0].path).toContain('compatibleCarTypes');
+    });
+
+    it('should require at least one compatible car type', () => {
+      const { error } = validateCarOrder({ ...validOrder, compatibleCarTypes: [] });
+      expect(error).toBeDefined();
+      expect(error.details[0].message).toContain('at least 1');
+    });
+
     it('should default status to pending', () => {
       const { error, value } = validateCarOrder({
         industryId: 'test-industry',
         aarTypeId: 'boxcar',
+        goodsId: 'general-merchandise',
+        direction: 'inbound',
+        compatibleCarTypes: ['boxcar'],
         sessionNumber: 1
       });
       expect(error).toBeUndefined();
@@ -56,6 +92,9 @@ describe('Car Order Model Validation', () => {
       const { error, value } = validateCarOrder({
         industryId: 'test-industry',
         aarTypeId: 'boxcar',
+        goodsId: 'general-merchandise',
+        direction: 'inbound',
+        compatibleCarTypes: ['boxcar'],
         sessionNumber: 1
       });
       expect(error).toBeUndefined();
@@ -276,7 +315,7 @@ describe('Car Order Model Validation', () => {
       const result = validateCarAssignment(mockOrder, wrongTypeCar);
       
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('Car type mismatch: order requires boxcar, car is flatcar');
+      expect(result.errors).toContain('Car type mismatch: order accepts boxcar, car is flatcar');
     });
 
     it('should reject assignment to non-pending order', () => {
