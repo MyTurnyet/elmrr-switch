@@ -314,287 +314,349 @@
       "_id": "everett-weyerhaeuser",
       "name": "Weyerhaeuser",
       "stationId": "everett-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-canadian-forest-products",
       "name": "Canadian Forest Products",
       "stationId": "vancouver-bc",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-yard",
       "name": "Vancouver Yard",
       "stationId": "vancouver-bc",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "walla-walla-yard",
       "name": "Walla Walla Yard",
       "stationId": "walla-walla-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "portland-yard",
       "name": "Portland Yard",
       "stationId": "portland-or",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "chicago-yard",
       "name": "Chicago Yard",
       "stationId": "chicago-il",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "spokane-industrial-park",
       "name": "Industrial Park",
       "stationId": "spokane-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "echo-printers",
       "name": "Printers",
       "stationId": "echo-lake-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": true,
-      "carDemandConfig": []
+      "isOnLayout": true
     },
     {
       "_id": "high-car-shop",
       "name": "Car Shop",
       "stationId": "high-bridge-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": true,
-      "carDemandConfig": []
+      "isOnLayout": true
     },
     {
       "_id": "beaverton-weyerhaeuser",
       "name": "Weyerhaeuser",
       "stationId": "beaverton-or",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-pacific-elevators",
       "name": "Pacific Elevators",
       "stationId": "vancouver-bc",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "edmonton-united-grain-growers",
       "name": "United Grain Growers",
       "stationId": "edmonton-ab",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "walla-grain-elevator",
       "name": "Grain Elevator",
       "stationId": "walla-walla-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": [
-        {
-          "goodsId": "grain",
-          "direction": "inbound",
-          "compatibleCarTypes": [
-            "HM",
-            "HT"
-          ],
-          "carsPerSession": 3,
-          "frequency": 1
-        }
-      ]
+      "isOnLayout": false
     },
     {
       "_id": "cascade-lumber-mill",
       "name": "Lumber Mill",
       "stationId": "cascade-id",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": [
-        {
-          "goodsId": "logs",
-          "direction": "inbound",
-          "compatibleCarTypes": [
-            "GS",
-            "FB",
-            "FBC"
-          ],
-          "carsPerSession": 2,
-          "frequency": 1
-        },
-        {
-          "goodsId": "lumber",
-          "direction": "outbound",
-          "compatibleCarTypes": [
-            "XM",
-            "FBC"
-          ],
-          "carsPerSession": 1,
-          "frequency": 1
-        }
-      ]
+      "isOnLayout": false
     },
     {
       "_id": "echo-maltby-brewery",
       "name": "Maltby Brewery",
       "stationId": "echo-lake-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": true,
-      "carDemandConfig": []
+      "isOnLayout": true
     },
     {
       "_id": "echo-united-recycling",
       "name": "United Recycling",
       "stationId": "echo-lake-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": true,
-      "carDemandConfig": []
+      "isOnLayout": true
     },
     {
       "_id": "seattle-food-distribution",
       "name": "Food Distribution",
       "stationId": "seattle-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": [
-        {
-          "goodsId": "food-products",
-          "direction": "inbound",
-          "compatibleCarTypes": [
-            "XM",
-            "XAP"
-          ],
-          "carsPerSession": 2,
-          "frequency": 2
-        },
-        {
-          "goodsId": "food-products",
-          "direction": "outbound",
-          "compatibleCarTypes": [
-            "XM",
-            "XAP"
-          ],
-          "carsPerSession": 1,
-          "frequency": 2
-        }
-      ]
+      "isOnLayout": false
     },
     {
       "_id": "saskatoon-inland-aggregates",
       "name": "Inland Aggregates",
       "stationId": "saskatoon-sk",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "seattle-us-plywood-corp",
       "name": "U.S. Plywood Corp",
       "stationId": "seattle-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "interbay-yard",
       "name": "Interbay Yard",
       "stationId": "seattle-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "boise-cascade",
       "name": "Boise Cascade",
       "stationId": "cascade-id",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "saskatoon-federated-co-operative",
       "name": "Federated Co-Operative",
       "stationId": "saskatoon-sk",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-alberta-wheat-pool",
       "name": "Alberta Wheat Pool",
       "stationId": "vancouver-bc",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-pioneer-grain",
       "name": "Pioneer Grain",
       "stationId": "vancouver-bc",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "spokane-yard",
       "name": "Spokane Yard",
       "stationId": "spokane-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "vancouver-paper-mill",
       "name": "Paper Mill",
       "stationId": "vancouver-bc",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "high-bridge-yard",
       "name": "High Bridge Yard",
       "stationId": "high-bridge-wa",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": true,
-      "isOnLayout": true,
-      "carDemandConfig": []
+      "isOnLayout": true
     },
     {
       "_id": "chicago-station",
       "name": "Chicago Station",
       "stationId": "chicago-il",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     },
     {
       "_id": "portland-station",
       "name": "Portland Station",
       "stationId": "portland-or",
+      "goodsReceived": [],
+      "goodsToShip": [],
+      "preferredCarTypes": [
+        "all"
+      ],
       "isYard": false,
-      "isOnLayout": false,
-      "carDemandConfig": []
+      "isOnLayout": false
     }
   ],
   "cars": [
