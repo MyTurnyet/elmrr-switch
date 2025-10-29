@@ -125,10 +125,7 @@ class ApiService {
     });
   }
 
-  // Other entities
-  async getLocomotives() {
-    return this.request('/locomotives');
-  }
+  // Other entities (locomotives moved to dedicated section below)
 
   async getStations() {
     return this.request('/stations');
