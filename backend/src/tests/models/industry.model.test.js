@@ -3,16 +3,17 @@ import {
   validateCarDemandConfig,
   calculateTotalDemand,
   getActiveDemandForSession,
-  formatDemandConfig
+  formatDemandConfig,
+  getInboundDemand,
+  getOutboundDemand,
+  getIndustryGoods,
+  getCompatibleCarTypesForGood
 } from '../../models/industry.js';
 
 describe('Industry Model Validation', () => {
   const validIndustry = {
     name: 'Test Industry',
     stationId: 'station1',
-    goodsReceived: [],
-    goodsToShip: [],
-    preferredCarTypes: ['boxcar', 'hopper'],
     isYard: false,
     isOnLayout: true
   };
@@ -37,27 +38,6 @@ describe('Industry Model Validation', () => {
   });
 
   describe('Validation - Default Values', () => {
-    it('should set default empty array for goodsReceived', () => {
-      const industry = { ...validIndustry };
-      delete industry.goodsReceived;
-      const { value } = validateIndustry(industry);
-      expect(value.goodsReceived).toEqual([]);
-    });
-
-    it('should set default empty array for goodsToShip', () => {
-      const industry = { ...validIndustry };
-      delete industry.goodsToShip;
-      const { value } = validateIndustry(industry);
-      expect(value.goodsToShip).toEqual([]);
-    });
-
-    it('should set default empty array for preferredCarTypes', () => {
-      const industry = { ...validIndustry };
-      delete industry.preferredCarTypes;
-      const { value } = validateIndustry(industry);
-      expect(value.preferredCarTypes).toEqual([]);
-    });
-
     it('should set default false for isYard', () => {
       const industry = { ...validIndustry };
       delete industry.isYard;
@@ -89,24 +69,6 @@ describe('Industry Model Validation', () => {
       expect(error).toBeDefined();
       expect(error.details[0].path).toContain('name');
     });
-
-    it('should validate goodsReceived as string array', () => {
-      const { error } = validateIndustry({
-        ...validIndustry,
-        goodsReceived: ['good1', 123] // Invalid: contains non-string
-      });
-      expect(error).toBeDefined();
-      expect(error.details[0].path).toContain('goodsReceived');
-    });
-
-    it('should validate goodsToShip as string array', () => {
-      const { error } = validateIndustry({
-        ...validIndustry,
-        goodsToShip: ['good2', true] // Invalid: contains non-string
-      });
-      expect(error).toBeDefined();
-      expect(error.details[0].path).toContain('goodsToShip');
-    });
   });
 
   describe('Update Validation', () => {
@@ -131,8 +93,8 @@ describe('Industry Model Validation', () => {
 
   describe('Car Demand Configuration', () => {
     const validDemandConfig = [
-      { aarTypeId: 'flatcar', carsPerSession: 2, frequency: 1 },
-      { aarTypeId: 'boxcar', carsPerSession: 1, frequency: 2 }
+      { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN', 'FC'], carsPerSession: 2, frequency: 1 },
+      { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM'], carsPerSession: 1, frequency: 2 }
     ];
 
     it('should validate industry with car demand config', () => {
@@ -153,20 +115,60 @@ describe('Industry Model Validation', () => {
       expect(error).toBeUndefined();
     });
 
-    it('should require aarTypeId in demand config', () => {
+    it('should require goodsId in demand config', () => {
       const industry = {
         ...validIndustry,
-        carDemandConfig: [{ carsPerSession: 2, frequency: 1 }]
+        carDemandConfig: [{ direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 }]
       };
       const { error } = validateIndustry(industry);
       expect(error).toBeDefined();
-      expect(error.details[0].path).toContain('aarTypeId');
+      expect(error.details[0].path).toContain('goodsId');
+    });
+
+    it('should require direction in demand config', () => {
+      const industry = {
+        ...validIndustry,
+        carDemandConfig: [{ goodsId: 'logs', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 }]
+      };
+      const { error } = validateIndustry(industry);
+      expect(error).toBeDefined();
+      expect(error.details[0].path).toContain('direction');
+    });
+
+    it('should validate direction enum values', () => {
+      const industry = {
+        ...validIndustry,
+        carDemandConfig: [{ goodsId: 'logs', direction: 'invalid', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 }]
+      };
+      const { error } = validateIndustry(industry);
+      expect(error).toBeDefined();
+      expect(error.details[0].message).toContain('inbound');
+    });
+
+    it('should require compatibleCarTypes in demand config', () => {
+      const industry = {
+        ...validIndustry,
+        carDemandConfig: [{ goodsId: 'logs', direction: 'inbound', carsPerSession: 2, frequency: 1 }]
+      };
+      const { error } = validateIndustry(industry);
+      expect(error).toBeDefined();
+      expect(error.details[0].path).toContain('compatibleCarTypes');
+    });
+
+    it('should require at least one compatible car type', () => {
+      const industry = {
+        ...validIndustry,
+        carDemandConfig: [{ goodsId: 'logs', direction: 'inbound', compatibleCarTypes: [], carsPerSession: 2, frequency: 1 }]
+      };
+      const { error } = validateIndustry(industry);
+      expect(error).toBeDefined();
+      expect(error.details[0].message).toContain('at least 1');
     });
 
     it('should require carsPerSession in demand config', () => {
       const industry = {
         ...validIndustry,
-        carDemandConfig: [{ aarTypeId: 'flatcar', frequency: 1 }]
+        carDemandConfig: [{ goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], frequency: 1 }]
       };
       const { error } = validateIndustry(industry);
       expect(error).toBeDefined();
@@ -176,7 +178,7 @@ describe('Industry Model Validation', () => {
     it('should require frequency in demand config', () => {
       const industry = {
         ...validIndustry,
-        carDemandConfig: [{ aarTypeId: 'flatcar', carsPerSession: 2 }]
+        carDemandConfig: [{ goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 2 }]
       };
       const { error } = validateIndustry(industry);
       expect(error).toBeDefined();
@@ -186,7 +188,7 @@ describe('Industry Model Validation', () => {
     it('should enforce minimum carsPerSession of 1', () => {
       const industry = {
         ...validIndustry,
-        carDemandConfig: [{ aarTypeId: 'flatcar', carsPerSession: 0, frequency: 1 }]
+        carDemandConfig: [{ goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 0, frequency: 1 }]
       };
       const { error } = validateIndustry(industry);
       expect(error).toBeDefined();
@@ -196,7 +198,7 @@ describe('Industry Model Validation', () => {
     it('should enforce minimum frequency of 1', () => {
       const industry = {
         ...validIndustry,
-        carDemandConfig: [{ aarTypeId: 'flatcar', carsPerSession: 1, frequency: 0 }]
+        carDemandConfig: [{ goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 1, frequency: 0 }]
       };
       const { error } = validateIndustry(industry);
       expect(error).toBeDefined();
@@ -206,7 +208,7 @@ describe('Industry Model Validation', () => {
     it('should enforce integer values for carsPerSession and frequency', () => {
       const industry1 = {
         ...validIndustry,
-        carDemandConfig: [{ aarTypeId: 'flatcar', carsPerSession: 1.5, frequency: 1 }]
+        carDemandConfig: [{ goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 1.5, frequency: 1 }]
       };
       const { error: error1 } = validateIndustry(industry1);
       expect(error1).toBeDefined();
@@ -214,7 +216,7 @@ describe('Industry Model Validation', () => {
 
       const industry2 = {
         ...validIndustry,
-        carDemandConfig: [{ aarTypeId: 'flatcar', carsPerSession: 1, frequency: 2.5 }]
+        carDemandConfig: [{ goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 1, frequency: 2.5 }]
       };
       const { error: error2 } = validateIndustry(industry2);
       expect(error2).toBeDefined();
@@ -225,22 +227,32 @@ describe('Industry Model Validation', () => {
   describe('Car Demand Config Validation Helper', () => {
     it('should validate correct demand configuration', () => {
       const config = [
-        { aarTypeId: 'flatcar', carsPerSession: 2, frequency: 1 },
-        { aarTypeId: 'boxcar', carsPerSession: 1, frequency: 2 }
+        { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN', 'FC'], carsPerSession: 2, frequency: 1 },
+        { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM'], carsPerSession: 1, frequency: 2 }
       ];
       const result = validateCarDemandConfig(config);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual([]);
     });
 
-    it('should detect duplicate AAR types', () => {
+    it('should detect duplicate goods + direction combinations', () => {
       const config = [
-        { aarTypeId: 'flatcar', carsPerSession: 2, frequency: 1 },
-        { aarTypeId: 'flatcar', carsPerSession: 1, frequency: 2 }
+        { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 },
+        { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['FC'], carsPerSession: 1, frequency: 2 }
       ];
       const result = validateCarDemandConfig(config);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain("Duplicate AAR type 'flatcar' in demand configuration");
+      expect(result.errors[0]).toContain("Duplicate combination of goods 'logs' with direction 'inbound'");
+    });
+
+    it('should allow same goods with different directions', () => {
+      const config = [
+        { goodsId: 'coal', direction: 'inbound', compatibleCarTypes: ['HM'], carsPerSession: 2, frequency: 1 },
+        { goodsId: 'coal', direction: 'outbound', compatibleCarTypes: ['HM'], carsPerSession: 1, frequency: 2 }
+      ];
+      const result = validateCarDemandConfig(config);
+      expect(result.valid).toBe(true);
+      expect(result.errors).toEqual([]);
     });
 
     it('should handle non-array input', () => {
@@ -251,8 +263,8 @@ describe('Industry Model Validation', () => {
 
     it('should validate individual config items', () => {
       const config = [
-        { aarTypeId: 'flatcar', carsPerSession: 0, frequency: 1 }, // Invalid: carsPerSession < 1
-        { aarTypeId: 'boxcar', frequency: 2 } // Invalid: missing carsPerSession
+        { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 0, frequency: 1 }, // Invalid: carsPerSession < 1
+        { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM'], frequency: 2 } // Invalid: missing carsPerSession
       ];
       const result = validateCarDemandConfig(config);
       expect(result.valid).toBe(false);
@@ -268,29 +280,29 @@ describe('Industry Model Validation', () => {
 
   describe('Total Demand Calculation', () => {
     const demandConfig = [
-      { aarTypeId: 'flatcar', carsPerSession: 2, frequency: 1 }, // Every session
-      { aarTypeId: 'boxcar', carsPerSession: 3, frequency: 2 },  // Every 2nd session
-      { aarTypeId: 'hopper', carsPerSession: 1, frequency: 3 }   // Every 3rd session
+      { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 }, // Every session
+      { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM'], carsPerSession: 3, frequency: 2 },  // Every 2nd session
+      { goodsId: 'coal', direction: 'inbound', compatibleCarTypes: ['HM'], carsPerSession: 1, frequency: 3 }   // Every 3rd session
     ];
 
     it('should calculate total demand for session 1', () => {
       const total = calculateTotalDemand(demandConfig, 1);
-      expect(total).toBe(2); // Only flatcar (1 % 1 === 0)
+      expect(total).toBe(2); // Only logs (1 % 1 === 0)
     });
 
     it('should calculate total demand for session 2', () => {
       const total = calculateTotalDemand(demandConfig, 2);
-      expect(total).toBe(5); // flatcar (2) + boxcar (3)
+      expect(total).toBe(5); // logs (2) + lumber (3)
     });
 
     it('should calculate total demand for session 3', () => {
       const total = calculateTotalDemand(demandConfig, 3);
-      expect(total).toBe(3); // flatcar (2) + hopper (1)
+      expect(total).toBe(3); // logs (2) + coal (1)
     });
 
     it('should calculate total demand for session 6', () => {
       const total = calculateTotalDemand(demandConfig, 6);
-      expect(total).toBe(6); // All: flatcar (2) + boxcar (3) + hopper (1)
+      expect(total).toBe(6); // All: logs (2) + lumber (3) + coal (1)
     });
 
     it('should handle empty config', () => {
@@ -306,28 +318,28 @@ describe('Industry Model Validation', () => {
 
   describe('Active Demand for Session', () => {
     const demandConfig = [
-      { aarTypeId: 'flatcar', carsPerSession: 2, frequency: 1 },
-      { aarTypeId: 'boxcar', carsPerSession: 3, frequency: 2 },
-      { aarTypeId: 'hopper', carsPerSession: 1, frequency: 3 }
+      { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 },
+      { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM'], carsPerSession: 3, frequency: 2 },
+      { goodsId: 'coal', direction: 'inbound', compatibleCarTypes: ['HM'], carsPerSession: 1, frequency: 3 }
     ];
 
     it('should return active demand for session 1', () => {
       const active = getActiveDemandForSession(demandConfig, 1);
       expect(active).toHaveLength(1);
-      expect(active[0].aarTypeId).toBe('flatcar');
+      expect(active[0].goodsId).toBe('logs');
     });
 
     it('should return active demand for session 2', () => {
       const active = getActiveDemandForSession(demandConfig, 2);
       expect(active).toHaveLength(2);
-      expect(active.map(d => d.aarTypeId)).toContain('flatcar');
-      expect(active.map(d => d.aarTypeId)).toContain('boxcar');
+      expect(active.map(d => d.goodsId)).toContain('logs');
+      expect(active.map(d => d.goodsId)).toContain('lumber');
     });
 
     it('should return active demand for session 6', () => {
       const active = getActiveDemandForSession(demandConfig, 6);
       expect(active).toHaveLength(3);
-      expect(active.map(d => d.aarTypeId)).toEqual(['flatcar', 'boxcar', 'hopper']);
+      expect(active.map(d => d.goodsId)).toEqual(['logs', 'lumber', 'coal']);
     });
 
     it('should handle empty config', () => {
@@ -343,18 +355,18 @@ describe('Industry Model Validation', () => {
 
   describe('Format Demand Config', () => {
     it('should format single demand config', () => {
-      const config = [{ aarTypeId: 'flatcar', carsPerSession: 2, frequency: 1 }];
+      const config = [{ goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN', 'FC'], carsPerSession: 2, frequency: 1 }];
       const formatted = formatDemandConfig(config);
-      expect(formatted).toBe('2 flatcar(s) every 1 session(s)');
+      expect(formatted).toBe('inbound: 2 car(s) of logs (GN/FC) every 1 session(s)');
     });
 
     it('should format multiple demand configs', () => {
       const config = [
-        { aarTypeId: 'flatcar', carsPerSession: 2, frequency: 1 },
-        { aarTypeId: 'boxcar', carsPerSession: 1, frequency: 3 }
+        { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 },
+        { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM'], carsPerSession: 1, frequency: 3 }
       ];
       const formatted = formatDemandConfig(config);
-      expect(formatted).toBe('2 flatcar(s) every 1 session(s), 1 boxcar(s) every 3 session(s)');
+      expect(formatted).toBe('inbound: 2 car(s) of logs (GN) every 1 session(s), outbound: 1 car(s) of lumber (XM) every 3 session(s)');
     });
 
     it('should handle empty config', () => {
@@ -365,6 +377,100 @@ describe('Industry Model Validation', () => {
     it('should handle null config', () => {
       const formatted = formatDemandConfig(null);
       expect(formatted).toBe('No demand configured');
+    });
+  });
+
+  describe('Get Inbound/Outbound Demand', () => {
+    const demandConfig = [
+      { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 },
+      { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM'], carsPerSession: 1, frequency: 2 },
+      { goodsId: 'coal', direction: 'inbound', compatibleCarTypes: ['HM'], carsPerSession: 3, frequency: 1 }
+    ];
+
+    it('should return only inbound demand', () => {
+      const inbound = getInboundDemand(demandConfig);
+      expect(inbound).toHaveLength(2);
+      expect(inbound.map(d => d.goodsId)).toEqual(['logs', 'coal']);
+    });
+
+    it('should return only outbound demand', () => {
+      const outbound = getOutboundDemand(demandConfig);
+      expect(outbound).toHaveLength(1);
+      expect(outbound[0].goodsId).toBe('lumber');
+    });
+
+    it('should handle empty config', () => {
+      expect(getInboundDemand([])).toEqual([]);
+      expect(getOutboundDemand([])).toEqual([]);
+    });
+
+    it('should handle null config', () => {
+      expect(getInboundDemand(null)).toEqual([]);
+      expect(getOutboundDemand(null)).toEqual([]);
+    });
+  });
+
+  describe('Get Industry Goods', () => {
+    const demandConfig = [
+      { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN'], carsPerSession: 2, frequency: 1 },
+      { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM'], carsPerSession: 1, frequency: 2 },
+      { goodsId: 'coal', direction: 'inbound', compatibleCarTypes: ['HM'], carsPerSession: 3, frequency: 1 },
+      { goodsId: 'lumber', direction: 'inbound', compatibleCarTypes: ['XM'], carsPerSession: 1, frequency: 1 }
+    ];
+
+    it('should return unique goods by direction', () => {
+      const goods = getIndustryGoods(demandConfig);
+      expect(goods.inbound).toEqual(['logs', 'coal', 'lumber']);
+      expect(goods.outbound).toEqual(['lumber']);
+    });
+
+    it('should handle empty config', () => {
+      const goods = getIndustryGoods([]);
+      expect(goods.inbound).toEqual([]);
+      expect(goods.outbound).toEqual([]);
+    });
+
+    it('should handle null config', () => {
+      const goods = getIndustryGoods(null);
+      expect(goods.inbound).toEqual([]);
+      expect(goods.outbound).toEqual([]);
+    });
+  });
+
+  describe('Get Compatible Car Types for Good', () => {
+    const demandConfig = [
+      { goodsId: 'logs', direction: 'inbound', compatibleCarTypes: ['GN', 'FC'], carsPerSession: 2, frequency: 1 },
+      { goodsId: 'lumber', direction: 'outbound', compatibleCarTypes: ['XM', 'FCB'], carsPerSession: 1, frequency: 2 }
+    ];
+
+    it('should return compatible car types for specific good and direction', () => {
+      const types = getCompatibleCarTypesForGood(demandConfig, 'logs', 'inbound');
+      expect(types).toEqual(['GN', 'FC']);
+    });
+
+    it('should return different types for different directions', () => {
+      const types = getCompatibleCarTypesForGood(demandConfig, 'lumber', 'outbound');
+      expect(types).toEqual(['XM', 'FCB']);
+    });
+
+    it('should return empty array for non-existent good', () => {
+      const types = getCompatibleCarTypesForGood(demandConfig, 'coal', 'inbound');
+      expect(types).toEqual([]);
+    });
+
+    it('should return empty array for wrong direction', () => {
+      const types = getCompatibleCarTypesForGood(demandConfig, 'logs', 'outbound');
+      expect(types).toEqual([]);
+    });
+
+    it('should handle empty config', () => {
+      const types = getCompatibleCarTypesForGood([], 'logs', 'inbound');
+      expect(types).toEqual([]);
+    });
+
+    it('should handle null config', () => {
+      const types = getCompatibleCarTypesForGood(null, 'logs', 'inbound');
+      expect(types).toEqual([]);
     });
   });
 });
