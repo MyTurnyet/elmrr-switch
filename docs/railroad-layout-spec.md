@@ -35,6 +35,10 @@
 
 - **Locomotives**
   - Properties: ID, reporting marks, reporting number, type, color, notes, home yard, current industry, is in service
+  - Full CRUD operations with validation
+  - Service status tracking (In Service/Out of Service)
+  - Train assignment validation (one locomotive per train)
+  - Home yard assignments for routing
 
 - **Aar Types**
 //These are the designations for car types
@@ -47,7 +51,10 @@
   - Properties: ID, name, route, schedule, status, current cars, locomotives
   - 1-n Locomotives will be chosen manually from a list of locomotives
   - Locomotives can only be assigned to one train at a time
-  - A train will exist only during a single operating session and will be deleted when the session is complete.
+  - A train will exist only during a single operating session and will be deleted when the session is complete
+  - Status workflow: Planned → In Progress → Completed/Cancelled
+  - Switch list generation with intelligent car routing
+  - Capacity management and car assignment
 
 - **Routes**
   - Ordered list of stations
@@ -57,6 +64,16 @@
 
 - **Operating Sessions**
   - Properties: ID, date, description, current session number
+  - Session advancement with state snapshots
+  - Rollback capability with full state restoration
+  - Singleton pattern (one active session)
+  - Automatic car location updates on session advance
+
+- **Car Orders**
+  - Properties: ID, industry ID, AAR type ID, session number, status, assigned car ID, assigned train ID
+  - Status workflow: Pending → Assigned → In Transit → Delivered
+  - Generated from industry demand configuration
+  - Frequency-based demand scheduling
 
 ## 3. User Interface
 
@@ -77,10 +94,19 @@
 - Current cars at each industry
 
 ### 3.4 Train Operations
-- Switch list generation
+- Switch list generation with intelligent routing
 - Train movement tracking
 - Car pickup/setout management
-- Cancel current "in progress" trains
+- Train completion with automatic car movement
+- Cancel current "in progress" trains with order reversion
+- Status tracking (Planned → In Progress → Completed/Cancelled)
+
+### 3.6 Locomotive Management
+- List view of all locomotives with filtering/sorting
+- Locomotive details and current status
+- Service status management (In Service/Out of Service)
+- Home yard assignments
+- Train assignment validation
 
 ### 3.5 Reporting
 - Car movement history
@@ -110,15 +136,16 @@
 - Track progress through operating sessions
 - Advance time with "Next Session" button
 - Update car statuses based on session progression
-- Roll back to previous session ability/cancel current session
-- Add session planning features:
-  - Pre-session car forwarding rules
-  - Industry demand generation
-  - Car distribution balancing
+- Roll back to previous session ability with full state restoration
+- Session planning features:
+  - Industry demand generation with frequency controls
+  - Car order generation based on demand configuration
+  - Automatic car location updates on session advance
+  - State snapshots for rollback capability
 - Session documentation:
   - Session reports
-  Car movement history
-- Performance metrics
+  - Car movement history
+  - Performance metrics
 
 ### 4.3 Data Management
 - Import/export JSON data
@@ -146,7 +173,7 @@
 ### 5.3 Data Storage
 - NeDB collections:
   - cars (with custom _id support for imports)
-  - locomotives
+  - locomotives (with custom _id support for imports)
   - industries (with custom _id support for imports)
   - stations
   - goods
@@ -156,13 +183,17 @@
   - trains
   - routes
   - operatingSessions
+  - carOrders
 - Custom _id fields preserved when provided in import data
 - Human-readable IDs for industries (e.g., "vancouver-yard", "walla-walla-yard")
+- Performance indexes on frequently queried fields
 
 ### 5.4 Testing
-- Unit testing
-- Integration testing
-- End-to-end testing
+- Unit testing (201 model tests)
+- Integration testing (route and workflow tests)
+- Database layer testing (9 tests)
+- Frontend component testing (162 tests)
+- Total: 575 tests with 100% pass rate
 
 ### 5.5 Performance
 - Scaling
@@ -186,21 +217,35 @@
 - Dashboard with stats and quick actions
 - Responsive Material-UI interface
 
-### Phase 2: Operations
-- Switch list generation
-- Train operations
-- Session management
+### Phase 2.1: Route Management ✅ COMPLETE
+- Route creation with station sequences
+- Origin and termination yard validation
+- Route visualization and editing
+
+### Phase 2.2: Train Operations ✅ COMPLETE
+- Operating session management with snapshots
+- Train lifecycle management (Planned → In Progress → Completed/Cancelled)
+- Intelligent switch list generation
+- Car order system with demand configuration
+- Train completion with automatic car movement
+- Session advancement and rollback capabilities
+- Locomotive management with full CRUD operations
 
 ### Phase 3: Enhanced Features
 - Advanced reporting
 - Data visualization
 - Mobile optimization
 
-## 7. Future Enhancements
+## 7. Future Enhancements (Phase 3)
+- Advanced reporting and analytics
+- Data visualization with charts
+- Code splitting for performance optimization
+- E2E tests with Playwright
+- Real-time updates with WebSockets
+- Mobile app optimization (PWA)
 - Integration with DCC systems
 - Multi-user support
 - Cloud synchronization
-- Mobile app
 - Integration with JMRI
 - Support for Car Card Systems
 - Multiple users and layouts

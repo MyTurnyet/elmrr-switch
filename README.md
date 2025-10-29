@@ -3,7 +3,7 @@
 A comprehensive web-based application for managing model railroad operations, tracking rolling stock, and generating switch lists. Built with modern web technologies for desktop and mobile use.
 
 [![Phase 2.2 Complete](https://img.shields.io/badge/Phase%202.2-Complete-success)](docs/IMPLEMENTATION_PLAN.md)
-[![Backend Tests](https://img.shields.io/badge/backend%20tests-409%20passing-success)]()
+[![Backend Tests](https://img.shields.io/badge/backend%20tests-413%20passing-success)]()
 [![Frontend Tests](https://img.shields.io/badge/frontend%20tests-162%20passing-success)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)]()
 
@@ -17,6 +17,14 @@ A comprehensive web-based application for managing model railroad operations, tr
   - Car orders tracking with fulfillment rate
   - Current session display
   - Quick action buttons for all major functions
+  
+- **Locomotive Management**: Complete locomotive roster management
+  - Full CRUD operations for locomotive fleet
+  - Service status tracking (In Service/Out of Service)
+  - Home yard assignments
+  - Current location tracking
+  - Advanced filtering and search
+  - Train assignment validation
   
 - **Session Management**: Operating session lifecycle
   - Track current operating session
@@ -77,12 +85,12 @@ A comprehensive web-based application for managing model railroad operations, tr
 - **Database**: NeDB (file-based NoSQL)
 - **Validation**: Joi
 - **Architecture**: Repository Pattern, Service Layer, Middleware
-- **Testing**: Jest (409 tests passing)
+- **Testing**: Jest (413 tests passing)
 
 ### Testing
-- **Backend**: 409 comprehensive tests (100% pass rate)
+- **Backend**: 413 comprehensive tests (100% pass rate)
 - **Frontend**: 162 comprehensive tests (100% pass rate)
-- **Total**: 571 tests ensuring quality and reliability
+- **Total**: 575 tests ensuring quality and reliability
 
 ## 📋 Prerequisites
 
@@ -130,7 +138,7 @@ Access the application at `http://localhost:5173`
 
 ### Testing
 
-**Backend Tests** (409 tests)
+**Backend Tests** (413 tests)
 ```bash
 cd backend
 npm test                    # Run all tests
@@ -162,6 +170,7 @@ The project includes seed data for quick setup:
    - 13 stations
    - 29 industries (including 7 yards)
    - 217 rolling stock cars
+   - Locomotives (if included in seed data)
 
 ## 📁 Project Structure
 
@@ -241,9 +250,16 @@ elmrr-switch/
 - `GET /api/import/export` - Export all data to JSON
 - `POST /api/import/clear` - Clear all database data
 
+### Locomotives
+- `GET /api/locomotives` - List all locomotives with filtering
+- `GET /api/locomotives/:id` - Get locomotive by ID
+- `POST /api/locomotives` - Create new locomotive
+- `PUT /api/locomotives/:id` - Update locomotive
+- `DELETE /api/locomotives/:id` - Delete locomotive
+- `POST /api/locomotives/:id/toggle-service` - Toggle service status
+
 ### Other Resources
 - `GET /api/stations` - List all stations
-- `GET /api/locomotives` - List all locomotives
 - `GET /api/goods` - List all goods
 - `GET /api/aar-types` - List all AAR car types
 - `GET /api/blocks` - List all blocks
@@ -260,12 +276,13 @@ Detailed documentation is available in the `docs/` directory:
 
 The project includes comprehensive test coverage across both backend and frontend:
 
-### Backend (409 tests)
-- Model validation tests
+### Backend (413 tests)
+- Model validation tests (201 tests)
 - API route integration tests
 - Service layer unit tests
 - Repository pattern tests
 - Complex workflow integration tests
+- Database layer tests (9 tests)
 
 ### Frontend (162 tests)
 - Component unit tests
@@ -274,7 +291,7 @@ The project includes comprehensive test coverage across both backend and fronten
 - API service tests
 - User interaction tests
 
-**Total: 571 tests ensuring quality and reliability**
+**Total: 575 tests ensuring quality and reliability**
 
 Run tests:
 - Backend: `cd backend && npm test`
@@ -356,6 +373,6 @@ For questions or issues, please open an issue on GitHub.
 
 ---
 
-**Current Status**: Phase 2.2 Complete ✅ | Full-stack application production-ready | 571 tests passing
+**Current Status**: Phase 2.2 Complete ✅ | Full-stack application production-ready | 575 tests passing
 
-*Last Updated: October 28, 2025*
+*Last Updated: October 29, 2025*
