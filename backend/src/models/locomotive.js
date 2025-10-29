@@ -7,7 +7,7 @@ const VALID_MANUFACTURERS = ['Atlas', 'Kato', 'Lionel', 'Bachmann', 'Athearn', '
 export const locomotiveSchema = Joi.object({
   _id: Joi.string().optional(), // Allow custom _id for seed data imports
   reportingMarks: Joi.string().required().min(1).max(10),
-  reportingNumber: Joi.string().required().length(6), // Exactly 6 characters
+  reportingNumber: Joi.string().required().min(1).max(6).pattern(/^[0-9]+$/), // 1-6 digits
   model: Joi.string().required().min(1).max(50),
   manufacturer: Joi.string().required().valid(...VALID_MANUFACTURERS),
   isDCC: Joi.boolean().default(true),

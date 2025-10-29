@@ -64,22 +64,29 @@ describe('Locomotive Model Validation', () => {
   });
 
   describe('Schema Validation - Field Constraints', () => {
-    it('should enforce reportingNumber to be exactly 6 characters', () => {
-      const invalidShort = { ...validLocomotive, reportingNumber: '12345' };
-      const { error: errorShort } = validateLocomotive(invalidShort);
-      expect(errorShort).toBeDefined();
-      expect(errorShort.details[0].message).toContain('length must be 6');
+    it('should enforce reportingNumber to be 1-6 digits', () => {
+      const invalidEmpty = { ...validLocomotive, reportingNumber: '' };
+      const { error: errorEmpty } = validateLocomotive(invalidEmpty);
+      expect(errorEmpty).toBeDefined();
 
       const invalidLong = { ...validLocomotive, reportingNumber: '1234567' };
       const { error: errorLong } = validateLocomotive(invalidLong);
       expect(errorLong).toBeDefined();
-      expect(errorLong.details[0].message).toContain('length must be 6');
+
+      const invalidNonNumeric = { ...validLocomotive, reportingNumber: '12A45' };
+      const { error: errorNonNumeric } = validateLocomotive(invalidNonNumeric);
+      expect(errorNonNumeric).toBeDefined();
     });
 
-    it('should accept valid 6-character reportingNumber', () => {
-      const valid = { ...validLocomotive, reportingNumber: '000123' };
-      const { error } = validateLocomotive(valid);
-      expect(error).toBeUndefined();
+    it('should accept valid 1-6 digit reportingNumbers', () => {
+      const valid1 = { ...validLocomotive, reportingNumber: '1' };
+      expect(validateLocomotive(valid1).error).toBeUndefined();
+
+      const valid4 = { ...validLocomotive, reportingNumber: '4567' };
+      expect(validateLocomotive(valid4).error).toBeUndefined();
+
+      const valid6 = { ...validLocomotive, reportingNumber: '000123' };
+      expect(validateLocomotive(valid6).error).toBeUndefined();
     });
 
     it('should enforce reportingMarks max length of 10', () => {

@@ -201,8 +201,8 @@ const LocomotiveManagement: React.FC = () => {
 
     if (!formData.reportingNumber.trim()) {
       errors.reportingNumber = 'Reporting number required';
-    } else if (formData.reportingNumber.length !== 6) {
-      errors.reportingNumber = 'Must be exactly 6 characters';
+    } else if (!/^[0-9]{1,6}$/.test(formData.reportingNumber)) {
+      errors.reportingNumber = 'Must be 1-6 digits';
     }
 
     if (!formData.model.trim()) {
@@ -639,7 +639,7 @@ const LocomotiveManagement: React.FC = () => {
                   value={formData.reportingNumber}
                   onChange={(e) => setFormData({ ...formData, reportingNumber: e.target.value })}
                   error={!!formErrors.reportingNumber}
-                  helperText={formErrors.reportingNumber || 'Exactly 6 digits (e.g., 003801)'}
+                  helperText={formErrors.reportingNumber || '1-6 digits (e.g., 4567 or 003801)'}
                   fullWidth
                   required
                   disabled={dialogMode === 'view'}
